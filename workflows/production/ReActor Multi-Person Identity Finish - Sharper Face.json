@@ -1,0 +1,1257 @@
+{
+  "id": "123b0b89-4909-42b8-9a0c-c3a43de656d9",
+  "revision": 0,
+  "last_node_id": 16,
+  "last_link_id": 15,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "LoadImage",
+      "pos": [
+        -1850,
+        -80
+      ],
+      "size": [
+        410,
+        500
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "COMBO",
+          "widget": {
+            "name": "image"
+          },
+          "link": null
+        },
+        {
+          "name": "upload",
+          "type": "IMAGEUPLOAD",
+          "widget": {
+            "name": "upload"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            8
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "title": "1 — TARGET GROUP PHOTO",
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "reactor_lounge_stage2b_target.png",
+        "image"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "LoadImage",
+      "pos": [
+        -1850,
+        520
+      ],
+      "size": [
+        410,
+        500
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "COMBO",
+          "widget": {
+            "name": "image"
+          },
+          "link": null
+        },
+        {
+          "name": "upload",
+          "type": "IMAGEUPLOAD",
+          "widget": {
+            "name": "upload"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            1
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "title": "2A — GENUINE FRONT REFERENCE",
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "20260815_165446.jpg",
+        "image"
+      ]
+    },
+    {
+      "id": 3,
+      "type": "LoadImage",
+      "pos": [
+        -1380,
+        520
+      ],
+      "size": [
+        410,
+        500
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "COMBO",
+          "widget": {
+            "name": "image"
+          },
+          "link": null
+        },
+        {
+          "name": "upload",
+          "type": "IMAGEUPLOAD",
+          "widget": {
+            "name": "upload"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            2
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "title": "2B — GENUINE ANGLE REFERENCE",
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "20260508_123156.jpg",
+        "image"
+      ]
+    },
+    {
+      "id": 4,
+      "type": "LoadImage",
+      "pos": [
+        -910,
+        520
+      ],
+      "size": [
+        410,
+        500
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "COMBO",
+          "widget": {
+            "name": "image"
+          },
+          "link": null
+        },
+        {
+          "name": "upload",
+          "type": "IMAGEUPLOAD",
+          "widget": {
+            "name": "upload"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            3
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "title": "2C — GENUINE ANGLE REFERENCE",
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "20260818_173106.jpg",
+        "image"
+      ]
+    },
+    {
+      "id": 5,
+      "type": "ReActorBuildFaceModel",
+      "pos": [
+        -1320,
+        -90
+      ],
+      "size": [
+        330,
+        210
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "save_mode",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "save_mode"
+          },
+          "link": null
+        },
+        {
+          "name": "send_only",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "send_only"
+          },
+          "link": null
+        },
+        {
+          "name": "face_model_name",
+          "type": "STRING",
+          "widget": {
+            "name": "face_model_name"
+          },
+          "link": null
+        },
+        {
+          "name": "compute_method",
+          "type": "COMBO",
+          "widget": {
+            "name": "compute_method"
+          },
+          "link": null
+        },
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 1
+        },
+        {
+          "name": "face_models",
+          "type": "FACE_MODEL",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "FACE_MODEL",
+          "type": "FACE_MODEL",
+          "links": [
+            4
+          ]
+        }
+      ],
+      "title": "Build front identity",
+      "properties": {
+        "Node name for S&R": "ReActorBuildFaceModel"
+      },
+      "widgets_values": [
+        false,
+        false,
+        "mitch_front",
+        "Mean"
+      ]
+    },
+    {
+      "id": 6,
+      "type": "ReActorBuildFaceModel",
+      "pos": [
+        -1320,
+        150
+      ],
+      "size": [
+        330,
+        210
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "save_mode",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "save_mode"
+          },
+          "link": null
+        },
+        {
+          "name": "send_only",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "send_only"
+          },
+          "link": null
+        },
+        {
+          "name": "face_model_name",
+          "type": "STRING",
+          "widget": {
+            "name": "face_model_name"
+          },
+          "link": null
+        },
+        {
+          "name": "compute_method",
+          "type": "COMBO",
+          "widget": {
+            "name": "compute_method"
+          },
+          "link": null
+        },
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 2
+        },
+        {
+          "name": "face_models",
+          "type": "FACE_MODEL",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "FACE_MODEL",
+          "type": "FACE_MODEL",
+          "links": [
+            5
+          ]
+        }
+      ],
+      "title": "Build angle identity 1",
+      "properties": {
+        "Node name for S&R": "ReActorBuildFaceModel"
+      },
+      "widgets_values": [
+        false,
+        false,
+        "mitch_angle_1",
+        "Mean"
+      ]
+    },
+    {
+      "id": 7,
+      "type": "ReActorBuildFaceModel",
+      "pos": [
+        -1320,
+        390
+      ],
+      "size": [
+        330,
+        210
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "save_mode",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "save_mode"
+          },
+          "link": null
+        },
+        {
+          "name": "send_only",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "send_only"
+          },
+          "link": null
+        },
+        {
+          "name": "face_model_name",
+          "type": "STRING",
+          "widget": {
+            "name": "face_model_name"
+          },
+          "link": null
+        },
+        {
+          "name": "compute_method",
+          "type": "COMBO",
+          "widget": {
+            "name": "compute_method"
+          },
+          "link": null
+        },
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 3
+        },
+        {
+          "name": "face_models",
+          "type": "FACE_MODEL",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "FACE_MODEL",
+          "type": "FACE_MODEL",
+          "links": [
+            6
+          ]
+        }
+      ],
+      "title": "Build angle identity 2",
+      "properties": {
+        "Node name for S&R": "ReActorBuildFaceModel"
+      },
+      "widgets_values": [
+        false,
+        false,
+        "mitch_angle_2",
+        "Mean"
+      ]
+    },
+    {
+      "id": 8,
+      "type": "ReActorMakeFaceModelBatch",
+      "pos": [
+        -900,
+        -40
+      ],
+      "size": [
+        350,
+        300
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "face_model1",
+          "type": "FACE_MODEL",
+          "link": 4
+        },
+        {
+          "name": "face_model2",
+          "type": "FACE_MODEL",
+          "link": 5
+        },
+        {
+          "name": "face_model3",
+          "type": "FACE_MODEL",
+          "link": 6
+        },
+        {
+          "name": "face_model4",
+          "type": "FACE_MODEL",
+          "link": null
+        },
+        {
+          "name": "face_model5",
+          "type": "FACE_MODEL",
+          "link": null
+        },
+        {
+          "name": "face_model6",
+          "type": "FACE_MODEL",
+          "link": null
+        },
+        {
+          "name": "face_model7",
+          "type": "FACE_MODEL",
+          "link": null
+        },
+        {
+          "name": "face_model8",
+          "type": "FACE_MODEL",
+          "link": null
+        },
+        {
+          "name": "face_model9",
+          "type": "FACE_MODEL",
+          "link": null
+        },
+        {
+          "name": "face_model10",
+          "type": "FACE_MODEL",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "FACE_MODELS",
+          "type": "FACE_MODEL",
+          "links": [
+            7
+          ]
+        }
+      ],
+      "title": "Combine the three genuine references",
+      "properties": {
+        "Node name for S&R": "ReActorMakeFaceModelBatch"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 9,
+      "type": "ReActorBuildFaceModel",
+      "pos": [
+        -480,
+        -40
+      ],
+      "size": [
+        350,
+        220
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "save_mode",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "save_mode"
+          },
+          "link": null
+        },
+        {
+          "name": "send_only",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "send_only"
+          },
+          "link": null
+        },
+        {
+          "name": "face_model_name",
+          "type": "STRING",
+          "widget": {
+            "name": "face_model_name"
+          },
+          "link": null
+        },
+        {
+          "name": "compute_method",
+          "type": "COMBO",
+          "widget": {
+            "name": "compute_method"
+          },
+          "link": null
+        },
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "face_models",
+          "type": "FACE_MODEL",
+          "link": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "FACE_MODEL",
+          "type": "FACE_MODEL",
+          "links": [
+            9
+          ]
+        }
+      ],
+      "title": "3 — BLENDED IDENTITY MODEL",
+      "properties": {
+        "Node name for S&R": "ReActorBuildFaceModel"
+      },
+      "widgets_values": [
+        true,
+        false,
+        "mitch_3ref_mean",
+        "Mean"
+      ]
+    },
+    {
+      "id": 10,
+      "type": "ReActorOptions",
+      "pos": [
+        -450,
+        340
+      ],
+      "size": [
+        390,
+        310
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "input_faces_order",
+          "type": "COMBO",
+          "widget": {
+            "name": "input_faces_order"
+          },
+          "link": null
+        },
+        {
+          "name": "input_faces_index",
+          "type": "STRING",
+          "widget": {
+            "name": "input_faces_index"
+          },
+          "link": null
+        },
+        {
+          "name": "detect_gender_input",
+          "type": "COMBO",
+          "widget": {
+            "name": "detect_gender_input"
+          },
+          "link": null
+        },
+        {
+          "name": "source_faces_order",
+          "type": "COMBO",
+          "widget": {
+            "name": "source_faces_order"
+          },
+          "link": null
+        },
+        {
+          "name": "source_faces_index",
+          "type": "STRING",
+          "widget": {
+            "name": "source_faces_index"
+          },
+          "link": null
+        },
+        {
+          "name": "detect_gender_source",
+          "type": "COMBO",
+          "widget": {
+            "name": "detect_gender_source"
+          },
+          "link": null
+        },
+        {
+          "name": "console_log_level",
+          "type": "COMBO",
+          "widget": {
+            "name": "console_log_level"
+          },
+          "link": null
+        },
+        {
+          "name": "restore_swapped_only",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "restore_swapped_only"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "OPTIONS",
+          "type": "OPTIONS",
+          "links": [
+            10
+          ]
+        }
+      ],
+      "title": "4 — PICK THE PERSON TO REPLACE",
+      "properties": {
+        "Node name for S&R": "ReActorOptions"
+      },
+      "widgets_values": [
+        "left-right",
+        "1",
+        "male",
+        "large-small",
+        "0",
+        "male",
+        2,
+        true
+      ]
+    },
+    {
+      "id": 11,
+      "type": "ReActorFaceSwapOpt",
+      "pos": [
+        40,
+        -50
+      ],
+      "size": [
+        420,
+        430
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "enabled",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "enabled"
+          },
+          "link": null
+        },
+        {
+          "name": "input_image",
+          "type": "IMAGE",
+          "link": 8
+        },
+        {
+          "name": "swap_model",
+          "type": "COMBO",
+          "widget": {
+            "name": "swap_model"
+          },
+          "link": null
+        },
+        {
+          "name": "facedetection",
+          "type": "COMBO",
+          "widget": {
+            "name": "facedetection"
+          },
+          "link": null
+        },
+        {
+          "name": "face_restore_model",
+          "type": "COMBO",
+          "widget": {
+            "name": "face_restore_model"
+          },
+          "link": null
+        },
+        {
+          "name": "face_restore_visibility",
+          "type": "FLOAT",
+          "widget": {
+            "name": "face_restore_visibility"
+          },
+          "link": null
+        },
+        {
+          "name": "codeformer_weight",
+          "type": "FLOAT",
+          "widget": {
+            "name": "codeformer_weight"
+          },
+          "link": null
+        },
+        {
+          "name": "source_image",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "face_model",
+          "type": "FACE_MODEL",
+          "link": 9
+        },
+        {
+          "name": "options",
+          "type": "OPTIONS",
+          "link": 10
+        },
+        {
+          "name": "face_boost",
+          "type": "FACE_BOOST",
+          "link": 11
+        }
+      ],
+      "outputs": [
+        {
+          "name": "SWAPPED_IMAGE",
+          "type": "IMAGE",
+          "links": [
+            12
+          ]
+        },
+        {
+          "name": "FACE_MODEL",
+          "type": "FACE_MODEL",
+          "links": null
+        },
+        {
+          "name": "ORIGINAL_IMAGE",
+          "type": "IMAGE",
+          "links": [
+            13
+          ]
+        }
+      ],
+      "title": "5 — REACTOR IDENTITY FINISH",
+      "properties": {
+        "Node name for S&R": "ReActorFaceSwapOpt"
+      },
+      "widgets_values": [
+        true,
+        "inswapper_128.onnx",
+        "retinaface_resnet50",
+        "none",
+        1,
+        0.5
+      ]
+    },
+    {
+      "id": 15,
+      "type": "ReActorFaceBoost",
+      "pos": [
+        20,
+        430
+      ],
+      "size": [
+        430,
+        260
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "enabled",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "enabled"
+          },
+          "link": null
+        },
+        {
+          "name": "boost_model",
+          "type": "COMBO",
+          "widget": {
+            "name": "boost_model"
+          },
+          "link": null
+        },
+        {
+          "name": "interpolation",
+          "type": "COMBO",
+          "widget": {
+            "name": "interpolation"
+          },
+          "link": null
+        },
+        {
+          "name": "visibility",
+          "type": "FLOAT",
+          "widget": {
+            "name": "visibility"
+          },
+          "link": null
+        },
+        {
+          "name": "codeformer_weight",
+          "type": "FLOAT",
+          "widget": {
+            "name": "codeformer_weight"
+          },
+          "link": null
+        },
+        {
+          "name": "restore_with_main_after",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "restore_with_main_after"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "FACE_BOOST",
+          "type": "FACE_BOOST",
+          "links": [
+            11
+          ]
+        }
+      ],
+      "title": "4B — MILD FACE DETAIL BOOST",
+      "properties": {
+        "Node name for S&R": "ReActorFaceBoost"
+      },
+      "widgets_values": [
+        true,
+        "codeformer-v0.1.0.pth",
+        "Lanczos",
+        0.4,
+        0.9,
+        false
+      ]
+    },
+    {
+      "id": 16,
+      "type": "AlwaysRunImage",
+      "pos": [
+        500,
+        150
+      ],
+      "size": [
+        360,
+        90
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 12
+        }
+      ],
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "links": [
+            14,
+            15
+          ]
+        }
+      ],
+      "title": "5B — ALWAYS SAVE A FRESH OUTPUT",
+      "properties": {
+        "Node name for S&R": "AlwaysRunImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 12,
+      "type": "PreviewImage",
+      "pos": [
+        560,
+        -440
+      ],
+      "size": [
+        450,
+        520
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 13
+        }
+      ],
+      "outputs": [],
+      "title": "ORIGINAL — compare",
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 13,
+      "type": "PreviewImage",
+      "pos": [
+        560,
+        310
+      ],
+      "size": [
+        450,
+        520
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 14
+        }
+      ],
+      "outputs": [],
+      "title": "SHARPER REACTOR RESULT",
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 14,
+      "type": "SaveImage",
+      "pos": [
+        1060,
+        350
+      ],
+      "size": [
+        360,
+        110
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 15
+        },
+        {
+          "name": "filename_prefix",
+          "type": "STRING",
+          "widget": {
+            "name": "filename_prefix"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [],
+      "title": "6 — SAVE RESULT",
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "reactor-multiperson/identity-finished-sharp"
+      ]
+    }
+  ],
+  "links": [
+    [
+      1,
+      2,
+      0,
+      5,
+      4,
+      "IMAGE"
+    ],
+    [
+      2,
+      3,
+      0,
+      6,
+      4,
+      "IMAGE"
+    ],
+    [
+      3,
+      4,
+      0,
+      7,
+      4,
+      "IMAGE"
+    ],
+    [
+      4,
+      5,
+      0,
+      8,
+      0,
+      "FACE_MODEL"
+    ],
+    [
+      5,
+      6,
+      0,
+      8,
+      1,
+      "FACE_MODEL"
+    ],
+    [
+      6,
+      7,
+      0,
+      8,
+      2,
+      "FACE_MODEL"
+    ],
+    [
+      7,
+      8,
+      0,
+      9,
+      5,
+      "FACE_MODEL"
+    ],
+    [
+      8,
+      1,
+      0,
+      11,
+      1,
+      "IMAGE"
+    ],
+    [
+      9,
+      9,
+      0,
+      11,
+      8,
+      "FACE_MODEL"
+    ],
+    [
+      10,
+      10,
+      0,
+      11,
+      9,
+      "OPTIONS"
+    ],
+    [
+      11,
+      15,
+      0,
+      11,
+      10,
+      "FACE_BOOST"
+    ],
+    [
+      12,
+      11,
+      0,
+      16,
+      0,
+      "IMAGE"
+    ],
+    [
+      13,
+      11,
+      2,
+      12,
+      0,
+      "IMAGE"
+    ],
+    [
+      14,
+      16,
+      0,
+      13,
+      0,
+      "IMAGE"
+    ],
+    [
+      15,
+      16,
+      0,
+      14,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "INPUTS — replace target image and genuine references here",
+      "bounding": [
+        -1900,
+        -430,
+        1450,
+        1510
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 2,
+      "title": "IDENTITY MODEL — blends all three real photos",
+      "bounding": [
+        -1380,
+        -170,
+        1300,
+        900
+      ],
+      "color": "#4b8060",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 3,
+      "title": "IMPORTANT: target face index 1 = second face from left",
+      "bounding": [
+        -500,
+        260,
+        980,
+        490
+      ],
+      "color": "#b07b31",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 4,
+      "title": "RESULT — original and identity-finished comparison",
+      "bounding": [
+        0,
+        -430,
+        1470,
+        1260
+      ],
+      "color": "#8a4f7d",
+      "font_size": 24,
+      "flags": {}
+    }
+  ],
+  "config": {
+    "links_ontop": true
+  },
+  "extra": {
+    "ds": {
+      "scale": 0.62,
+      "offset": [
+        850,
+        350
+      ]
+    },
+    "frontendVersion": "1.27.10",
+    "ue_links": [],
+    "links_added_by_ue": []
+  },
+  "version": 0.4
+}

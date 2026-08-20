@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "recorded_on": "2026-08-20",
+  "applications": {
+    "comfyui": {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI",
+      "remote": "https://github.com/Comfy-Org/ComfyUI.git",
+      "revision": "f2270f070a372898ca748299a51dcba5bba0ba53"
+    },
+    "ai_toolkit": {
+      "path": "C:\\projects\\AI-Tools\\ai-toolkit",
+      "runtime_root": "C:\\projects\\AI-Tools\\ai-toolkit\\AI-Toolkit",
+      "python": "C:\\projects\\AI-Tools\\ai-toolkit\\python_embeded\\python.exe",
+      "remote": "https://github.com/ostris/ai-toolkit.git",
+      "revision": "0f788923aef28e3a87fa68cfa15a761d9d499d6c"
+    }
+  },
+  "third_party_custom_nodes": {
+    "ComfyUI-ReActor": {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\custom_nodes\\ComfyUI-ReActor",
+      "remote": "https://github.com/Gourieff/ComfyUI-ReActor.git",
+      "revision": "6ad6b35a4df250d14cb2abf0808c9ffedf59f747"
+    }
+  },
+  "external_models": {
+    "inswapper_128.onnx": {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\insightface\\inswapper_128.onnx",
+      "sha256": "E4A3F08C753CB72D04E10AA0F7DBE3DEEBBF39567D4EAD6DCE08E98AA49E16AF"
+    },
+    "z_image_base": {
+      "model_id": "Tongyi-MAI/Z-Image"
+    },
+    "qwen_image_edit": {
+      "note": "Uses the locally installed Qwen Image Edit 2511 model set referenced by the production workflows."
+    }
+  }
+}

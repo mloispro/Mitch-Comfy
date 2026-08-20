@@ -1,0 +1,31 @@
+# Python and application caches
+__pycache__/
+*.py[cod]
+*.log
+*.tmp
+*.bak
+
+# Machine-local configuration
+custom_nodes/ComfyUI-AIToolkit-Training/settings.json
+config/local-*.json
+local/
+
+# Large/generated artifacts
+models/
+inputs/
+outputs/
+datasets/
+jobs/
+checkpoints/artifacts/
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.onnx
+*.zip
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

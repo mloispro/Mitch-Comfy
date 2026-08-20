@@ -1,0 +1,41 @@
+{
+  "id": "9c29a3e4-bb02-4e63-a3b7-a6dbb63b1c4b",
+  "revision": 0,
+  "last_node_id": 1,
+  "last_link_id": 0,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "AIToolkitTrainGeneratedDataset",
+      "pos": [120, 120],
+      "size": [470, 270],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {"name": "job_id", "type": "STRING", "links": null},
+        {"name": "status", "type": "STRING", "links": null},
+        {"name": "step", "type": "INT", "links": null},
+        {"name": "total_steps", "type": "INT", "links": null},
+        {"name": "info", "type": "STRING", "links": null},
+        {"name": "comfy_lora_name", "type": "STRING", "links": null},
+        {"name": "details_json", "type": "STRING", "links": null}
+      ],
+      "properties": {
+        "Node name for S&R": "AIToolkitTrainGeneratedDataset",
+        "workflow_usage": "Queue once to submit; queue again for progress; after completion, queue once more to publish."
+      },
+      "widgets_values": [],
+      "title": "ONE CLICK: submit / check / publish"
+    }
+  ],
+  "links": [],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {"scale": 1.0, "offset": [0, 0]},
+    "info": "Uses only C:\\projects\\AI-Tools\\ComfyUI\\output\\lora-dataset. Queue once to submit; queue again to check; queue after completion to publish."
+  },
+  "version": 0.4
+}

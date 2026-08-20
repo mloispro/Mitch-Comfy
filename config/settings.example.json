@@ -1,0 +1,12 @@
+{
+  "ai_toolkit_root": "C:\\projects\\AI-Tools\\ai-toolkit\\AI-Toolkit",
+  "ai_toolkit_python": "C:\\projects\\AI-Tools\\ai-toolkit\\python_embeded\\python.exe",
+  "ai_toolkit_api_url": "http://127.0.0.1:8675",
+  "ai_toolkit_auth_env": "AI_TOOLKIT_AUTH",
+  "z_image_model": "Tongyi-MAI/Z-Image",
+  "z_image_arch": "zimage",
+  "generated_dataset_path": "C:\\projects\\AI-Tools\\ComfyUI\\output\\lora-dataset",
+  "generated_dataset_trigger": "zimg_person",
+  "comfy_lora_path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\loras",
+  "publish_subdirectory": "aitk"
+}

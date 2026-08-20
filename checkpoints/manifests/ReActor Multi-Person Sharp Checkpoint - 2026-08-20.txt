@@ -1,0 +1,31 @@
+CHECKPOINT: ReActor Multi-Person Identity Finish - Sharper Face (cache-safe save)
+DATE: 2026-08-20
+
+Workflow:
+ReActor Multi-Person Identity Finish - Sharper Face.json
+SHA256: E8E3A3B387C84BAA944298D73A6B3BC180ECF2F3B72CF608B430FA994A3BDB2D
+
+Always-run image node:
+ComfyUI-AlwaysRunImage\__init__.py
+SHA256: 399FC927FD4C525AC6A82D6FDDB69E274E3AF12D1585B0A0C755818CCE711345
+
+Validated output:
+identity-finished-sharp_00002_.png
+SHA256: 33B88AF6A2F04BE72B78400E309620A37CC109E3503E5E378311CCA3499173AE
+
+Validation:
+- Output subfolder was absent before the test.
+- First run recreated `output\reactor-multiperson` and saved `_00001_`.
+- Second unchanged run used cached face-swap work but still saved `_00002_`.
+- Both deterministic results have matching contents.
+
+Identity settings:
+- Three genuine identity references blended with Mean.
+- Target face order: left-right.
+- Target face index: 1 for the lounge example.
+- ReActor model: inswapper_128.onnx.
+- Face Booster: CodeFormer.
+- Interpolation: Lanczos.
+- Face Booster visibility: 0.40.
+- CodeFormer fidelity weight: 0.90.
+- Main post-swap restoration: disabled.

@@ -1,0 +1,1481 @@
+{
+  "id": "d3a14dc8-4ed2-445e-a32e-bc65ff794784",
+  "revision": 3,
+  "last_node_id": 13,
+  "last_link_id": 21,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "AIToolkitSocialPackSettings",
+      "pos": [
+        40,
+        80
+      ],
+      "size": [
+        520,
+        760
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "lora_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "lora_name"
+          },
+          "link": null
+        },
+        {
+          "name": "trigger_word",
+          "type": "STRING",
+          "widget": {
+            "name": "trigger_word"
+          },
+          "link": null
+        },
+        {
+          "name": "global_style",
+          "type": "STRING",
+          "widget": {
+            "name": "global_style"
+          },
+          "link": null
+        },
+        {
+          "name": "negative_prompt",
+          "type": "STRING",
+          "widget": {
+            "name": "negative_prompt"
+          },
+          "link": null
+        },
+        {
+          "name": "lora_strength",
+          "type": "FLOAT",
+          "widget": {
+            "name": "lora_strength"
+          },
+          "link": null
+        },
+        {
+          "name": "cfg",
+          "type": "FLOAT",
+          "widget": {
+            "name": "cfg"
+          },
+          "link": null
+        },
+        {
+          "name": "model_shift",
+          "type": "FLOAT",
+          "widget": {
+            "name": "model_shift"
+          },
+          "link": null
+        },
+        {
+          "name": "draft_width",
+          "type": "INT",
+          "widget": {
+            "name": "draft_width"
+          },
+          "link": null
+        },
+        {
+          "name": "draft_height",
+          "type": "INT",
+          "widget": {
+            "name": "draft_height"
+          },
+          "link": null
+        },
+        {
+          "name": "draft_steps",
+          "type": "INT",
+          "widget": {
+            "name": "draft_steps"
+          },
+          "link": null
+        },
+        {
+          "name": "final_width",
+          "type": "INT",
+          "widget": {
+            "name": "final_width"
+          },
+          "link": null
+        },
+        {
+          "name": "final_height",
+          "type": "INT",
+          "widget": {
+            "name": "final_height"
+          },
+          "link": null
+        },
+        {
+          "name": "final_steps",
+          "type": "INT",
+          "widget": {
+            "name": "final_steps"
+          },
+          "link": null
+        },
+        {
+          "name": "output_prefix",
+          "type": "STRING",
+          "widget": {
+            "name": "output_prefix"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "settings",
+          "type": "AITK_SOCIAL_CONFIG",
+          "links": [
+            1,
+            2
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "AIToolkitSocialPackSettings"
+      },
+      "widgets_values": [
+        "aitk\\zimg-person-zimage-30faf701af86.safetensors",
+        "zimg_person",
+        "photorealistic candid lifestyle photography, authentic skin texture, natural anatomy, believable smartphone or 35mm camera detail, no text or watermark",
+        "low resolution, blurry, soft focus, CGI, illustration, painting, plastic skin, waxy skin, overprocessed face, beauty filter, deformed anatomy, bad hands, extra fingers, missing fingers, extra limbs, duplicate main subject, two identical men, cloned face, malformed cat, distorted golf club, text, caption, watermark, logo, screenshot, interface, playback controls, white border, blank margin, picture frame, letterboxing",
+        0.9,
+        4,
+        3,
+        576,
+        832,
+        10,
+        832,
+        1216,
+        25,
+        "zimg-social-pack"
+      ],
+      "title": "GLOBAL SETTINGS — LoRA, QUALITY & STYLE"
+    },
+    {
+      "id": 2,
+      "type": "AIToolkitSocialScene",
+      "pos": [
+        620,
+        80
+      ],
+      "size": [
+        500,
+        430
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "scene_name",
+          "type": "STRING",
+          "widget": {
+            "name": "scene_name"
+          },
+          "link": null
+        },
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "widget": {
+            "name": "prompt"
+          },
+          "link": null
+        },
+        {
+          "name": "negative_additions",
+          "type": "STRING",
+          "widget": {
+            "name": "negative_additions"
+          },
+          "link": null
+        },
+        {
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": null
+        },
+        {
+          "name": "reference_preset",
+          "type": "COMBO",
+          "widget": {
+            "name": "reference_preset"
+          },
+          "link": null
+        },
+        {
+          "name": "control_strength",
+          "type": "FLOAT",
+          "widget": {
+            "name": "control_strength"
+          },
+          "link": null
+        },
+        {
+          "name": "enabled",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "enabled"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "scene",
+          "type": "AITK_SOCIAL_SCENE",
+          "links": [
+            3,
+            12
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "AIToolkitSocialScene"
+      },
+      "widgets_values": [
+        "Night Out — warm lounge",
+        "zimg_person, highly realistic candid smartphone photograph of one handsome adult man seated centrally on a curved cognac leather banquette in an upscale amber-lit cocktail lounge, wearing a perfectly fitted dark navy suit and open-collar white shirt, relaxed confident posture, one arm along the seat, three distinct adult friends leaning in around him, two women and one man, everyone social and natural, drinks in hand, warm concealed lighting across a textured orange wall, full-body vertical composition, believable skin texture, mild phone-camera grain, spontaneous nightlife snapshot, the central man is the only person matching zimg_person",
+        "",
+        910462781,
+        "None (prompt only)",
+        0.7,
+        true
+      ],
+      "title": "SCENE 1 — NIGHT OUT A"
+    },
+    {
+      "id": 3,
+      "type": "AIToolkitSocialScene",
+      "pos": [
+        1160,
+        80
+      ],
+      "size": [
+        500,
+        430
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "scene_name",
+          "type": "STRING",
+          "widget": {
+            "name": "scene_name"
+          },
+          "link": null
+        },
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "widget": {
+            "name": "prompt"
+          },
+          "link": null
+        },
+        {
+          "name": "negative_additions",
+          "type": "STRING",
+          "widget": {
+            "name": "negative_additions"
+          },
+          "link": null
+        },
+        {
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": null
+        },
+        {
+          "name": "reference_preset",
+          "type": "COMBO",
+          "widget": {
+            "name": "reference_preset"
+          },
+          "link": null
+        },
+        {
+          "name": "control_strength",
+          "type": "FLOAT",
+          "widget": {
+            "name": "control_strength"
+          },
+          "link": null
+        },
+        {
+          "name": "enabled",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "enabled"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "scene",
+          "type": "AITK_SOCIAL_SCENE",
+          "links": [
+            4,
+            13
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "AIToolkitSocialScene"
+      },
+      "widgets_values": [
+        "Night Out — alternate group",
+        "zimg_person, photorealistic casual nightlife group photo, one handsome adult man centered on a caramel leather lounge sofa wearing a dark tailored suit and pale shirt, relaxed legs apart and hands naturally placed, one Black woman in an elegant black evening dress seated on his left, one Black woman in a warm brown cocktail dress and one clearly distinct Black male friend on his right, four clearly different people, no cropped partial people at either edge, champagne glasses and a low table in foreground, glowing amber wall and indirect strip lights, direct phone flash mixed with warm room light, vertical candid social photo, natural faces and hands, only the central man matches zimg_person",
+        "",
+        1846503927,
+        "None (prompt only)",
+        0.7,
+        true
+      ],
+      "title": "SCENE 2 — NIGHT OUT B"
+    },
+    {
+      "id": 4,
+      "type": "AIToolkitSocialScene",
+      "pos": [
+        1700,
+        80
+      ],
+      "size": [
+        500,
+        430
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "scene_name",
+          "type": "STRING",
+          "widget": {
+            "name": "scene_name"
+          },
+          "link": null
+        },
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "widget": {
+            "name": "prompt"
+          },
+          "link": null
+        },
+        {
+          "name": "negative_additions",
+          "type": "STRING",
+          "widget": {
+            "name": "negative_additions"
+          },
+          "link": null
+        },
+        {
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": null
+        },
+        {
+          "name": "reference_preset",
+          "type": "COMBO",
+          "widget": {
+            "name": "reference_preset"
+          },
+          "link": null
+        },
+        {
+          "name": "control_strength",
+          "type": "FLOAT",
+          "widget": {
+            "name": "control_strength"
+          },
+          "link": null
+        },
+        {
+          "name": "enabled",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "enabled"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "scene",
+          "type": "AITK_SOCIAL_SCENE",
+          "links": [
+            5,
+            14
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "AIToolkitSocialScene"
+      },
+      "widgets_values": [
+        "Cat Lover — Ragdoll",
+        "zimg_person, realistic indoor smartphone portrait of the same adult man standing in a modern neutral living room, black zip hoodie, smiling gently while cradling a large fluffy white-and-gray Ragdoll cat horizontally in both arms, affectionate eye contact with the cat, white curtains and beige sofa behind him, soft evening room light, natural skin and fabric texture, candid unposed vertical photo",
+        "",
+        2837451096,
+        "Cat — Ragdoll pose",
+        0.7,
+        true
+      ],
+      "title": "SCENE 3 — CAT / RAGDOLL"
+    },
+    {
+      "id": 5,
+      "type": "AIToolkitSocialScene",
+      "pos": [
+        620,
+        570
+      ],
+      "size": [
+        500,
+        430
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "scene_name",
+          "type": "STRING",
+          "widget": {
+            "name": "scene_name"
+          },
+          "link": null
+        },
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "widget": {
+            "name": "prompt"
+          },
+          "link": null
+        },
+        {
+          "name": "negative_additions",
+          "type": "STRING",
+          "widget": {
+            "name": "negative_additions"
+          },
+          "link": null
+        },
+        {
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": null
+        },
+        {
+          "name": "reference_preset",
+          "type": "COMBO",
+          "widget": {
+            "name": "reference_preset"
+          },
+          "link": null
+        },
+        {
+          "name": "control_strength",
+          "type": "FLOAT",
+          "widget": {
+            "name": "control_strength"
+          },
+          "link": null
+        },
+        {
+          "name": "enabled",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "enabled"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "scene",
+          "type": "AITK_SOCIAL_SCENE",
+          "links": [
+            6,
+            15
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "AIToolkitSocialScene"
+      },
+      "widgets_values": [
+        "Cat Lover — tabby",
+        "zimg_person, authentic vertical phone photo of the same adult man in a loose black hoodie looking down tenderly at a plump gray-and-white tabby cat held securely against his chest, both hands visible and anatomically correct, quiet modern apartment with cream sofa and pale curtains, soft diffuse interior light, shallow depth of field, natural candid expression, lifelike fur and skin texture",
+        "",
+        396128507,
+        "Cat — tabby pose",
+        0.7,
+        true
+      ],
+      "title": "SCENE 4 — CAT / TABBY"
+    },
+    {
+      "id": 6,
+      "type": "AIToolkitSocialScene",
+      "pos": [
+        1160,
+        570
+      ],
+      "size": [
+        500,
+        430
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "scene_name",
+          "type": "STRING",
+          "widget": {
+            "name": "scene_name"
+          },
+          "link": null
+        },
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "widget": {
+            "name": "prompt"
+          },
+          "link": null
+        },
+        {
+          "name": "negative_additions",
+          "type": "STRING",
+          "widget": {
+            "name": "negative_additions"
+          },
+          "link": null
+        },
+        {
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": null
+        },
+        {
+          "name": "reference_preset",
+          "type": "COMBO",
+          "widget": {
+            "name": "reference_preset"
+          },
+          "link": null
+        },
+        {
+          "name": "control_strength",
+          "type": "FLOAT",
+          "widget": {
+            "name": "control_strength"
+          },
+          "link": null
+        },
+        {
+          "name": "enabled",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "enabled"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "scene",
+          "type": "AITK_SOCIAL_SCENE",
+          "links": [
+            7,
+            16
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "AIToolkitSocialScene"
+      },
+      "widgets_values": [
+        "Golfer",
+        "zimg_person, realistic full-body vertical lifestyle photograph of the same adult man walking toward the camera on a manicured tropical golf course, fitted plain black T-shirt, charcoal tailored golf trousers, white golf glove, carrying one iron casually at his side, relaxed confident stride, vivid green fairway, palm trees and dense tropical landscaping, bright clear daylight, natural proportions, editorial smartphone realism",
+        "",
+        1519374208,
+        "Golf course pose",
+        0.7,
+        true
+      ],
+      "title": "SCENE 5 — GOLFER"
+    },
+    {
+      "id": 7,
+      "type": "AIToolkitSocialScene",
+      "pos": [
+        1700,
+        570
+      ],
+      "size": [
+        500,
+        430
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "scene_name",
+          "type": "STRING",
+          "widget": {
+            "name": "scene_name"
+          },
+          "link": null
+        },
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "widget": {
+            "name": "prompt"
+          },
+          "link": null
+        },
+        {
+          "name": "negative_additions",
+          "type": "STRING",
+          "widget": {
+            "name": "negative_additions"
+          },
+          "link": null
+        },
+        {
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": null
+        },
+        {
+          "name": "reference_preset",
+          "type": "COMBO",
+          "widget": {
+            "name": "reference_preset"
+          },
+          "link": null
+        },
+        {
+          "name": "control_strength",
+          "type": "FLOAT",
+          "widget": {
+            "name": "control_strength"
+          },
+          "link": null
+        },
+        {
+          "name": "enabled",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "enabled"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "scene",
+          "type": "AITK_SOCIAL_SCENE",
+          "links": [
+            8,
+            17
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "AIToolkitSocialScene"
+      },
+      "widgets_values": [
+        "Amalfi balcony",
+        "zimg_person, premium but believable travel portrait of the same adult man standing at a balcony overlook above Positano on the Amalfi Coast, relaxed short-sleeve white linen resort shirt open at the collar, warm friendly smile, one hand resting near the railing, colorful cliffside houses, domed church and blue Mediterranean sea behind him, golden late-afternoon sunlight, natural skin texture, vertical 35mm travel photography",
+        "",
+        2471059683,
+        "Amalfi balcony composition",
+        0.5,
+        true
+      ],
+      "title": "SCENE 6 — AMALFI"
+    },
+    {
+      "id": 8,
+      "type": "AIToolkitSocialScene",
+      "pos": [
+        620,
+        1060
+      ],
+      "size": [
+        500,
+        430
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "scene_name",
+          "type": "STRING",
+          "widget": {
+            "name": "scene_name"
+          },
+          "link": null
+        },
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "widget": {
+            "name": "prompt"
+          },
+          "link": null
+        },
+        {
+          "name": "negative_additions",
+          "type": "STRING",
+          "widget": {
+            "name": "negative_additions"
+          },
+          "link": null
+        },
+        {
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": null
+        },
+        {
+          "name": "reference_preset",
+          "type": "COMBO",
+          "widget": {
+            "name": "reference_preset"
+          },
+          "link": null
+        },
+        {
+          "name": "control_strength",
+          "type": "FLOAT",
+          "widget": {
+            "name": "control_strength"
+          },
+          "link": null
+        },
+        {
+          "name": "enabled",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "enabled"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "scene",
+          "type": "AITK_SOCIAL_SCENE",
+          "links": [
+            9,
+            18
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "AIToolkitSocialScene"
+      },
+      "widgets_values": [
+        "Italian lake boat",
+        "zimg_person, photorealistic vertical vacation photograph of the same adult man sitting casually on the bow of a small luxury motorboat on Lake Como, crisp white linen shirt with sleeves rolled and collar open, tailored white shorts, dark sunglasses, hands resting on the boat rails, turquoise water, elegant villas and steep green mountains behind him, bright soft summer daylight, realistic reflections and anatomy, candid travel photo filling the entire canvas edge-to-edge with no border or blank margin",
+        "",
+        328470519,
+        "Lake boat composition",
+        0.7,
+        true
+      ],
+      "title": "SCENE 7 — LAKE BOAT"
+    },
+    {
+      "id": 9,
+      "type": "AIToolkitSocialScene",
+      "pos": [
+        1160,
+        1060
+      ],
+      "size": [
+        500,
+        430
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "scene_name",
+          "type": "STRING",
+          "widget": {
+            "name": "scene_name"
+          },
+          "link": null
+        },
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "widget": {
+            "name": "prompt"
+          },
+          "link": null
+        },
+        {
+          "name": "negative_additions",
+          "type": "STRING",
+          "widget": {
+            "name": "negative_additions"
+          },
+          "link": null
+        },
+        {
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": null
+        },
+        {
+          "name": "reference_preset",
+          "type": "COMBO",
+          "widget": {
+            "name": "reference_preset"
+          },
+          "link": null
+        },
+        {
+          "name": "control_strength",
+          "type": "FLOAT",
+          "widget": {
+            "name": "control_strength"
+          },
+          "link": null
+        },
+        {
+          "name": "enabled",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "enabled"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "scene",
+          "type": "AITK_SOCIAL_SCENE",
+          "links": [
+            10,
+            19
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "AIToolkitSocialScene"
+      },
+      "widgets_values": [
+        "Elegant restaurant",
+        "zimg_person, sophisticated realistic evening portrait of the same adult man seated at a white-tablecloth table in an elegant intimate restaurant, tailored light-gray double-breasted suit over a black shirt, elbow on table and fingers resting thoughtfully near his chin, warm shaded table lamp illuminating his face, glowing arched doorway and indoor palm behind him, subtle jewelry, cinematic low light but authentic phone-camera texture, vertical composition, natural hand and facial anatomy",
+        "",
+        4702981162,
+        "Restaurant composition",
+        0.7,
+        true
+      ],
+      "title": "SCENE 8 — RESTAURANT"
+    },
+    {
+      "id": 10,
+      "type": "AIToolkitSocialScene",
+      "pos": [
+        1700,
+        1060
+      ],
+      "size": [
+        500,
+        430
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "scene_name",
+          "type": "STRING",
+          "widget": {
+            "name": "scene_name"
+          },
+          "link": null
+        },
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "widget": {
+            "name": "prompt"
+          },
+          "link": null
+        },
+        {
+          "name": "negative_additions",
+          "type": "STRING",
+          "widget": {
+            "name": "negative_additions"
+          },
+          "link": null
+        },
+        {
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": null
+        },
+        {
+          "name": "reference_preset",
+          "type": "COMBO",
+          "widget": {
+            "name": "reference_preset"
+          },
+          "link": null
+        },
+        {
+          "name": "control_strength",
+          "type": "FLOAT",
+          "widget": {
+            "name": "control_strength"
+          },
+          "link": null
+        },
+        {
+          "name": "enabled",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "enabled"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "scene",
+          "type": "AITK_SOCIAL_SCENE",
+          "links": [
+            11,
+            20
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "AIToolkitSocialScene"
+      },
+      "widgets_values": [
+        "City balcony at night",
+        "zimg_person, highly realistic vertical nighttime phone photograph of the same adult man leaning back against a glass high-rise balcony railing, both arms extended naturally along the rail, fitted black short-sleeve button shirt open at the upper chest, dark trousers and understated wristwatch, head turned slightly down and to the side with a calm expression, vast sparkling city skyline far below, direct camera flash on the subject, deep teal-black sky, tasteful film grain, candid social-media nightlife portrait, correct hands and body proportions",
+        "",
+        590174263,
+        "None (prompt only)",
+        0.7,
+        true
+      ],
+      "title": "SCENE 9 — CITY BALCONY"
+    },
+    {
+      "id": 11,
+      "type": "AIToolkitSocialPackDrafts",
+      "pos": [
+        2320,
+        230
+      ],
+      "size": [
+        380,
+        420
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "draft_scope",
+          "type": "COMBO",
+          "widget": {
+            "name": "draft_scope"
+          },
+          "link": null
+        },
+        {
+          "name": "settings",
+          "type": "AITK_SOCIAL_CONFIG",
+          "link": 1
+        },
+        {
+          "name": "scene_1",
+          "type": "AITK_SOCIAL_SCENE",
+          "link": 3
+        },
+        {
+          "name": "scene_2",
+          "type": "AITK_SOCIAL_SCENE",
+          "link": 4
+        },
+        {
+          "name": "scene_3",
+          "type": "AITK_SOCIAL_SCENE",
+          "link": 5
+        },
+        {
+          "name": "scene_4",
+          "type": "AITK_SOCIAL_SCENE",
+          "link": 6
+        },
+        {
+          "name": "scene_5",
+          "type": "AITK_SOCIAL_SCENE",
+          "link": 7
+        },
+        {
+          "name": "scene_6",
+          "type": "AITK_SOCIAL_SCENE",
+          "link": 8
+        },
+        {
+          "name": "scene_7",
+          "type": "AITK_SOCIAL_SCENE",
+          "link": 9
+        },
+        {
+          "name": "scene_8",
+          "type": "AITK_SOCIAL_SCENE",
+          "link": 10
+        },
+        {
+          "name": "scene_9",
+          "type": "AITK_SOCIAL_SCENE",
+          "link": 11
+        }
+      ],
+      "outputs": [
+        {
+          "name": "draft_images",
+          "type": "IMAGE",
+          "links": [
+            21
+          ]
+        },
+        {
+          "name": "draft_folder",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "AIToolkitSocialPackDrafts"
+      },
+      "widgets_values": [
+        "All enabled scenes"
+      ],
+      "title": "STAGE 1 — FAST DRAFTS (QUEUE FIRST)"
+    },
+    {
+      "id": 12,
+      "type": "PreviewImage",
+      "pos": [
+        2750,
+        230
+      ],
+      "size": [
+        520,
+        620
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 21
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": [],
+      "title": "REVIEW ALL 9 DRAFTS HERE"
+    },
+    {
+      "id": 13,
+      "type": "AIToolkitSocialPackFinals",
+      "pos": [
+        2320,
+        940
+      ],
+      "size": [
+        500,
+        500
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "render_final",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "render_final"
+          },
+          "link": null
+        },
+        {
+          "name": "final_scope",
+          "type": "COMBO",
+          "widget": {
+            "name": "final_scope"
+          },
+          "link": null
+        },
+        {
+          "name": "settings",
+          "type": "AITK_SOCIAL_CONFIG",
+          "link": 2
+        },
+        {
+          "name": "scene_1",
+          "type": "AITK_SOCIAL_SCENE",
+          "link": 12
+        },
+        {
+          "name": "scene_2",
+          "type": "AITK_SOCIAL_SCENE",
+          "link": 13
+        },
+        {
+          "name": "scene_3",
+          "type": "AITK_SOCIAL_SCENE",
+          "link": 14
+        },
+        {
+          "name": "scene_4",
+          "type": "AITK_SOCIAL_SCENE",
+          "link": 15
+        },
+        {
+          "name": "scene_5",
+          "type": "AITK_SOCIAL_SCENE",
+          "link": 16
+        },
+        {
+          "name": "scene_6",
+          "type": "AITK_SOCIAL_SCENE",
+          "link": 17
+        },
+        {
+          "name": "scene_7",
+          "type": "AITK_SOCIAL_SCENE",
+          "link": 18
+        },
+        {
+          "name": "scene_8",
+          "type": "AITK_SOCIAL_SCENE",
+          "link": 19
+        },
+        {
+          "name": "scene_9",
+          "type": "AITK_SOCIAL_SCENE",
+          "link": 20
+        }
+      ],
+      "outputs": [
+        {
+          "name": "final_images",
+          "type": "IMAGE",
+          "links": null
+        },
+        {
+          "name": "final_folder",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "AIToolkitSocialPackFinals"
+      },
+      "widgets_values": [
+        false,
+        "All enabled scenes"
+      ],
+      "title": "STAGE 2 — TURN ON ONLY AFTER DRAFTS LOOK GOOD"
+    }
+  ],
+  "links": [
+    [
+      1,
+      1,
+      0,
+      11,
+      1,
+      "AITK_SOCIAL_CONFIG"
+    ],
+    [
+      2,
+      1,
+      0,
+      13,
+      2,
+      "AITK_SOCIAL_CONFIG"
+    ],
+    [
+      3,
+      2,
+      0,
+      11,
+      2,
+      "AITK_SOCIAL_SCENE"
+    ],
+    [
+      4,
+      3,
+      0,
+      11,
+      3,
+      "AITK_SOCIAL_SCENE"
+    ],
+    [
+      5,
+      4,
+      0,
+      11,
+      4,
+      "AITK_SOCIAL_SCENE"
+    ],
+    [
+      6,
+      5,
+      0,
+      11,
+      5,
+      "AITK_SOCIAL_SCENE"
+    ],
+    [
+      7,
+      6,
+      0,
+      11,
+      6,
+      "AITK_SOCIAL_SCENE"
+    ],
+    [
+      8,
+      7,
+      0,
+      11,
+      7,
+      "AITK_SOCIAL_SCENE"
+    ],
+    [
+      9,
+      8,
+      0,
+      11,
+      8,
+      "AITK_SOCIAL_SCENE"
+    ],
+    [
+      10,
+      9,
+      0,
+      11,
+      9,
+      "AITK_SOCIAL_SCENE"
+    ],
+    [
+      11,
+      10,
+      0,
+      11,
+      10,
+      "AITK_SOCIAL_SCENE"
+    ],
+    [
+      12,
+      2,
+      0,
+      13,
+      3,
+      "AITK_SOCIAL_SCENE"
+    ],
+    [
+      13,
+      3,
+      0,
+      13,
+      4,
+      "AITK_SOCIAL_SCENE"
+    ],
+    [
+      14,
+      4,
+      0,
+      13,
+      5,
+      "AITK_SOCIAL_SCENE"
+    ],
+    [
+      15,
+      5,
+      0,
+      13,
+      6,
+      "AITK_SOCIAL_SCENE"
+    ],
+    [
+      16,
+      6,
+      0,
+      13,
+      7,
+      "AITK_SOCIAL_SCENE"
+    ],
+    [
+      17,
+      7,
+      0,
+      13,
+      8,
+      "AITK_SOCIAL_SCENE"
+    ],
+    [
+      18,
+      8,
+      0,
+      13,
+      9,
+      "AITK_SOCIAL_SCENE"
+    ],
+    [
+      19,
+      9,
+      0,
+      13,
+      10,
+      "AITK_SOCIAL_SCENE"
+    ],
+    [
+      20,
+      10,
+      0,
+      13,
+      11,
+      "AITK_SOCIAL_SCENE"
+    ],
+    [
+      21,
+      11,
+      0,
+      12,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "EDIT THESE — GLOBAL SETTINGS + NINE PROMPTS",
+      "bounding": [
+        10,
+        20,
+        2220,
+        1510
+      ],
+      "color": "#3f789e",
+      "font_size": 28,
+      "flags": {}
+    },
+    {
+      "id": 2,
+      "title": "STAGE 1 — QUICK DRAFT / REVIEW",
+      "bounding": [
+        2280,
+        150,
+        1030,
+        740
+      ],
+      "color": "#3f9e62",
+      "font_size": 28,
+      "flags": {}
+    },
+    {
+      "id": 3,
+      "title": "STAGE 2 — FINAL HIGH QUALITY",
+      "bounding": [
+        2280,
+        870,
+        590,
+        620
+      ],
+      "color": "#9e6f3f",
+      "font_size": 28,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.62,
+      "offset": [
+        10,
+        15
+      ]
+    },
+    "info": "Two-stage editable Z-Image LoRA workbench. Draft all nine or one selected scene, edit prompts/settings, then enable Final and render all nine or one scene at full quality."
+  },
+  "version": 0.4
+}
