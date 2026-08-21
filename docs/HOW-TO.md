@@ -15,6 +15,33 @@ The two custom-node folders in this repository are linked directly into ComfyUI.
 
 Third-party custom nodes such as ReActor remain in their own upstream repositories. Their exact revisions are recorded in `config/dependencies.lock.json`.
 
+## Everyday Social Photo Studio workflow
+
+Open `Mitch/production/Social Photo Studio - FLUX Klein`. This is the primary workflow for dating-app and Instagram photos.
+
+1. In **1. ADD 1–4 PHOTOS**, upload at least one clear face. Additional front, left, right, and full-body views improve identity and angle coverage. Keep roles on **Auto** unless classification needs correction.
+2. In **2. DESCRIBE THE PHOTOS**, write a normal-language brief and select:
+   - **Single**, **Dating Pack** (six), or **Instagram Pack** (nine).
+   - **Authentic Phone**, **Professional**, or **35mm Lifestyle**.
+   - **Auto Mix**, **Looking at camera**, or **Candid/action**.
+   - `photo_count = 0` for the mode default, or 1–9 for an explicit count.
+3. Queue once. The generator saves final images, a contact sheet, and `report.json` under `ComfyUI/output/social-photo-studio/<run-id>`.
+
+The workflow automatically rejects clearly mixed-person face references. A full-body reference with no detectable face is treated as unverified soft context and is never used to claim verified body identity.
+
+### Identity finish and optional LoRA
+
+- **Auto** is the default. ReActor/GPEN is kept only when identity improves by at least 0.03 and the number of faces is unchanged.
+- **Native Only** uses FLUX.2 multi-reference identity without a face swap.
+- **Force ReActor** forces a safe targeted finish but still refuses face-count changes or failed targeting.
+- Leave **identity_lora** on **None** for reference-only operation. The installed `mtch35` LoRA is architecture-validated but optional; its trigger remains blank because no reliable trigger exists in its metadata.
+
+### First-time model setup
+
+Run `scripts/setup-social-photo-models.ps1`, restart ComfyUI, then run `scripts/verify.ps1`. The setup script downloads only the official FLUX.2 Klein 4B FP8 diffusion model and FLUX.2 VAE, resumes partial downloads, and verifies exact SHA-256 hashes before installation.
+
+If the primary resolution runs out of VRAM, the failed photo is retried once at the matching 768-pixel short-side resolution and the fallback is recorded in `report.json`.
+
 ## Single-person scene matching
 
 Open `Mitch/production/Qwen + ReActor Single-Person Scene Match` and queue it normally. Both included scenes run in one queue:

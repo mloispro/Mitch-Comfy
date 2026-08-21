@@ -35,6 +35,7 @@ Check-Junction (Join-Path $ComfyRoot "custom_nodes\ComfyUI-AIToolkit-Training") 
 Check-Junction (Join-Path $ComfyRoot "custom_nodes\ComfyUI-AlwaysRunImage") (Join-Path $RepoRoot "custom_nodes\ComfyUI-AlwaysRunImage")
 
 $expectedWorkflows = @(
+    "workflows\production\Social Photo Studio - FLUX Klein.json",
     "workflows\production\Dataset gen - QWEN 2511 - 3-photo.json",
     "workflows\production\ReActor Multi-Person Identity Finish - Sharper Face.json",
     "workflows\production\Qwen + ReActor Single-Person Scene Match.json",
@@ -53,6 +54,23 @@ foreach ($relativePath in $expectedWorkflows) {
     $path = Join-Path $RepoRoot $relativePath
     if (-not (Test-Path -LiteralPath $path)) {
         $errors.Add("Missing tracked workflow: $relativePath")
+    }
+}
+
+$socialWorkflowPath = Join-Path $RepoRoot "workflows\production\Social Photo Studio - FLUX Klein.json"
+if (Test-Path -LiteralPath $socialWorkflowPath) {
+    try {
+        $socialWorkflow = Get-Content -Raw -LiteralPath $socialWorkflowPath | ConvertFrom-Json
+        if ($socialWorkflow.nodes.Count -gt 9) {
+            $errors.Add("Social Photo Studio must remain at or below 9 visible nodes; found $($socialWorkflow.nodes.Count).")
+        }
+        foreach ($requiredNode in @("SocialPhotoSubjectReferences", "SocialPhotoSettings", "SocialPhotoGenerate")) {
+            if ($requiredNode -notin @($socialWorkflow.nodes.type)) {
+                $errors.Add("Social Photo Studio workflow is missing node: $requiredNode")
+            }
+        }
+    } catch {
+        $errors.Add("Social Photo Studio workflow JSON is invalid: $($_.Exception.Message)")
     }
 }
 
@@ -111,8 +129,65 @@ foreach ($model in @(
     }
 }
 
+foreach ($model in @(
+    @{
+        Path = "models\diffusion_models\flux-2-klein-4b-fp8.safetensors"
+        Sha256 = "97ED34FE0567E436200F2FAEE3939B88F2B5D99F8AF2A4DC16532C4245C0CCB6"
+    },
+    @{
+        Path = "models\vae\flux2-vae.safetensors"
+        Sha256 = "D64F3A68E1CC4F9F4E29B6E0DA38A0204FE9A49F2D4053F0EC1FA1CA02F9C4B5"
+    },
+    @{
+        Path = "models\text_encoders\qwen_3_4b_fp8_mixed.safetensors"
+        Sha256 = "72450B19758172C5A7273CF7DE729D1C17E7F434A104A00167624CBA94F68F15"
+    }
+)) {
+    $modelPath = Join-Path $ComfyRoot $model.Path
+    if (-not (Test-Path -LiteralPath $modelPath)) {
+        $errors.Add("Missing Social Photo Studio model: $($model.Path)")
+        continue
+    }
+    $actualHash = (Get-FileHash -LiteralPath $modelPath -Algorithm SHA256).Hash
+    if ($actualHash -ne $model.Sha256) {
+        $errors.Add("Unexpected SHA256 for Social Photo Studio model: $($model.Path)")
+    }
+}
+
+$identityLora = Join-Path $ComfyRoot "models\loras\mtch35-flux2-klein-v4-best.safetensors"
+if (Test-Path -LiteralPath $identityLora) {
+    $identityLoraHash = (Get-FileHash -LiteralPath $identityLora -Algorithm SHA256).Hash
+    if ($identityLoraHash -ne "54841471807F55799C255A244333673FE85542C7050A0B551BEDFF9E86D868F2") {
+        $errors.Add("Optional mtch35 FLUX.2 Klein LoRA has an unexpected SHA256.")
+    }
+}
+
+Push-Location (Join-Path $RepoRoot "custom_nodes\ComfyUI-AIToolkit-Training")
 try {
-    foreach ($nodeName in @("AlwaysRunImage", "AIToolkitTrainGeneratedDataset", "ReActorFaceSwapOpt", "ComfySwitchNode", "EmptySD3LatentImage", "TextEncodeQwenImageEditPlus", "ReActorFaceSimilarity")) {
+    & python -m unittest test_integration.py test_social_photo_core.py
+    if ($LASTEXITCODE -ne 0) {
+        $errors.Add("Python unit tests failed.")
+    }
+} finally {
+    Pop-Location
+}
+
+try {
+    foreach ($nodeName in @(
+        "AlwaysRunImage",
+        "AIToolkitTrainGeneratedDataset",
+        "SocialPhotoSubjectReferences",
+        "SocialPhotoSettings",
+        "SocialPhotoGenerate",
+        "ReActorFaceSwapOpt",
+        "ReActorBuildFaceModel",
+        "Flux2Scheduler",
+        "ReferenceLatent",
+        "ComfySwitchNode",
+        "EmptySD3LatentImage",
+        "TextEncodeQwenImageEditPlus",
+        "ReActorFaceSimilarity"
+    )) {
         $info = Invoke-RestMethod -Uri "$ComfyUrl/object_info/$nodeName" -TimeoutSec 5
         if (-not $info.$nodeName) {
             $errors.Add("ComfyUI did not expose node: $nodeName")
@@ -127,4 +202,4 @@ if ($errors.Count -gt 0) {
     exit 1
 }
 
-Write-Host "Verified repository files, synchronized assets, external model sizes, live directory links, and required ComfyUI nodes."
+Write-Host "Verified workflows, presets, unit tests, synchronized assets, model hashes, live links, and required ComfyUI nodes."

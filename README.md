@@ -13,38 +13,27 @@ The repository is connected to ComfyUI with Windows directory junctions:
 
 Workflow and custom-node files are used in place. Version-controlled scene templates are synchronized into ComfyUI's input folder because its image picker does not follow directory junctions.
 
-## Experimental pose-safe dating pack
+## Social Photo Studio — primary workflow
 
-Open `Mitch/experiments/EXPERIMENTAL - Qwen Identity + Build - 9 Dating Photos` in ComfyUI.
+Open `Mitch/production/Social Photo Studio - FLUX Klein` in ComfyUI. It has five visible nodes and only three steps:
 
-It opens on a green **EASY RUN** panel and contains the nine scenes, three genuine face references, and pose-matched Qwen head references. Leave the defaults alone for a deterministic review run, then click **Run**.
+1. Upload one to four photos of the same consenting adult. A clear face is required; front, left, right, and full-body roles are inferred automatically and can be overridden.
+2. Describe the desired photos. Choose a single photo, six-photo dating pack, or nine-photo Instagram pack; then choose phone, professional, or 35mm style and camera-facing, candid/action, or an automatic mix.
+3. Queue once. Final photos, a contact sheet, and a privacy-safe run report are saved under `ComfyUI\output\social-photo-studio`.
 
-- **CREATE NEW PHOTOS**: `false` uses the approved compositions; `true` regenerates the editable Qwen 2512 scene prompts.
-- **FULL HEAD IDENTITY LOCK**: Qwen Edit 2511 fixes face, skull, hairline, and head shape on solo scenes.
-- **REACTOR FACE FINISH**: uses the proven face model blended from all three genuine photos. Its seven-scene mean similarity improved from 72.02% to 79.35% versus the old angle-specific models.
-- **PHONE CAMERA STRENGTH**: works only when **CREATE NEW PHOTOS** is `true`. `0.00` is off; `0.45` is subtle; `0.65` is the default Samsung look. It cannot affect approved-image mode.
-- **FACE DETAIL**: the workflow now uses the installed `GPEN-BFR-512` restorer at `0.70`. It improved mean genuine-reference similarity by 3.75 points across the eight automatically scoreable scenes versus the preceding CodeFormer finish, while remaining sharp. Use `0.55` for softer restoration or `0.85` for stronger restoration.
+The generator uses FLUX.2 Klein 4B at four steps with multi-reference conditioning. ReActor and GPEN are used only when the result safely improves facial identity. The optional FLUX.2 Klein identity LoRA is off by default; no trigger is guessed when metadata does not provide one.
 
-Eight scenes now use the targeted ReActor-only route. A direct cached-source test improved the ragdoll identity mean from 74.22% to 79.14% and the restaurant from 82.30% to 83.16%, while also removing two slow Qwen branches. Only the tabby scene retains the Qwen full-head stage because it scored better there. This prevents whole-frame editing from moving arms, changing gaze, stretching legs, or altering composition. Outputs are separated under `ComfyUI\output\dating-app-easy-experimental-v8` into `stage1`, the optional tabby `qwen-lock`, and `final` folders. The prior v5 through v7 workflows are preserved outside the ComfyUI browser under `checkpoints/workflows`.
+Run `scripts\setup-social-photo-models.ps1` once before first use, then restart ComfyUI. `scripts\verify.ps1` checks the workflow, presets, unit tests, external model hashes, and live nodes.
 
-`workflows/production` contains only the five stable operational workflows. The two older Z-Image workflows are retained under `workflows/experiments/legacy-z-image`, and the rejected strong-body version is preserved outside ComfyUI's workflow browser under `checkpoints/workflows`.
+Full-body identity is reported conservatively: `reference grounded`, `reference supplied unverified`, or `not supplied`. A plausible generated body is never reported as verified.
 
-## Earlier nine-photo dating pack
+## Preserved benchmarks and legacy workflows
 
-Open `Mitch/production/Qwen 2512 + ReActor - 9 Dating Photos` in ComfyUI.
-
-The workflow opens on a green **START HERE** control panel. Set the two everyday controls there, then click ComfyUI's **Queue Prompt** button.
-
-- Leave **MODE — REGENERATE WITH QWEN 2512** off for the fast, repeatable pack built from the nine approved compositions.
-- Turn that mode on to regenerate all scenes from the nine editable Qwen prompts and seeds.
-- Set **PHONE LOOK — SAMSUNG QWEN 2512 LORA** to `0.00` for the clean Qwen look or start at `0.65` for a natural Samsung-phone look.
-- Queue only one scene's final image node while tuning, then queue the complete workflow when it is approved.
-
-Drafts and identity-finished images are saved separately under `ComfyUI\output\dating-app-pack`.
+The validated Qwen v8 benchmark remains preserved with its 80.81 mean identity score. Large fixed Qwen graphs and the earlier Z-Image workflows remain available for regression testing under `workflows/experiments` and `checkpoints/workflows`; they are no longer the documented everyday path.
 
 ## Everyday workflow
 
-1. Open a workflow under `Mitch/production` or `Mitch/experiments` in ComfyUI.
+1. Open `Mitch/production/Social Photo Studio - FLUX Klein` in ComfyUI.
 2. Edit and save normally in ComfyUI. The Git working tree changes immediately.
 3. Validate the result.
 4. Run `scripts\checkpoint.ps1 -Message "Describe the working change"` to verify and commit it.

@@ -1,0 +1,168 @@
+{
+  "id": "a229b0f6-dc40-4a22-99ad-1c8d9bc1cf61",
+  "revision": 0,
+  "last_node_id": 5,
+  "last_link_id": 4,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "SocialPhotoSubjectReferences",
+      "pos": [-780, 80],
+      "size": [440, 430],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {"name": "reference_1", "type": "COMBO", "widget": {"name": "reference_1"}, "link": null},
+        {"name": "reference_1_role", "type": "COMBO", "widget": {"name": "reference_1_role"}, "link": null},
+        {"name": "reference_2", "type": "COMBO", "widget": {"name": "reference_2"}, "link": null},
+        {"name": "reference_2_role", "type": "COMBO", "widget": {"name": "reference_2_role"}, "link": null},
+        {"name": "reference_3", "type": "COMBO", "widget": {"name": "reference_3"}, "link": null},
+        {"name": "reference_3_role", "type": "COMBO", "widget": {"name": "reference_3_role"}, "link": null},
+        {"name": "reference_4", "type": "COMBO", "widget": {"name": "reference_4"}, "link": null},
+        {"name": "reference_4_role", "type": "COMBO", "widget": {"name": "reference_4_role"}, "link": null}
+      ],
+      "outputs": [
+        {"name": "subject", "type": "SOCIAL_PHOTO_SUBJECT", "links": [1], "slot_index": 0},
+        {"name": "reference_sheet", "type": "IMAGE", "links": [3], "slot_index": 1},
+        {"name": "validation", "type": "STRING", "links": null, "slot_index": 2}
+      ],
+      "title": "1. ADD 1–4 PHOTOS OF THE SAME PERSON",
+      "properties": {"Node name for S&R": "SocialPhotoSubjectReferences", "cnr_id": "ComfyUI-AIToolkit-Training"},
+      "widgets_values": [
+        "mitch-workbench-qwen-id-front.png",
+        "Auto",
+        "[none]",
+        "Auto",
+        "[none]",
+        "Auto",
+        "[none]",
+        "Auto"
+      ],
+      "color": "#1f4f3c",
+      "bgcolor": "#28664d"
+    },
+    {
+      "id": 2,
+      "type": "SocialPhotoSettings",
+      "pos": [-280, 80],
+      "size": [480, 570],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {"name": "mode", "type": "COMBO", "widget": {"name": "mode"}, "link": null},
+        {"name": "brief", "type": "STRING", "widget": {"name": "brief"}, "link": null},
+        {"name": "scene_preset", "type": "COMBO", "widget": {"name": "scene_preset"}, "link": null},
+        {"name": "camera_look", "type": "COMBO", "widget": {"name": "camera_look"}, "link": null},
+        {"name": "camera_relationship", "type": "COMBO", "widget": {"name": "camera_relationship"}, "link": null},
+        {"name": "aspect", "type": "COMBO", "widget": {"name": "aspect"}, "link": null},
+        {"name": "photo_count", "type": "INT", "widget": {"name": "photo_count"}, "link": null},
+        {"name": "seed", "type": "INT", "widget": {"name": "seed"}, "link": null},
+        {"name": "identity_finish", "type": "COMBO", "widget": {"name": "identity_finish"}, "link": null},
+        {"name": "identity_lora", "type": "COMBO", "widget": {"name": "identity_lora"}, "link": null},
+        {"name": "lora_strength", "type": "FLOAT", "widget": {"name": "lora_strength"}, "link": null},
+        {"name": "lora_trigger", "type": "STRING", "widget": {"name": "lora_trigger"}, "link": null},
+        {"name": "save_debug_intermediates", "type": "BOOLEAN", "widget": {"name": "save_debug_intermediates"}, "link": null}
+      ],
+      "outputs": [
+        {"name": "settings", "type": "SOCIAL_PHOTO_SETTINGS", "links": [2], "slot_index": 0},
+        {"name": "summary", "type": "STRING", "links": null, "slot_index": 1}
+      ],
+      "title": "2. DESCRIBE THE PHOTOS — PICK PHONE OR PRO",
+      "properties": {"Node name for S&R": "SocialPhotoSettings", "cnr_id": "ComfyUI-AIToolkit-Training"},
+      "widgets_values": [
+        "Dating Pack",
+        "Warm, confident, approachable, current clothing, believable location and moment.",
+        "Auto Mix",
+        "Authentic Phone",
+        "Auto Mix",
+        "Portrait 2:3",
+        0,
+        8675309,
+        "Auto",
+        "None",
+        0.85,
+        "",
+        false
+      ],
+      "color": "#1d4263",
+      "bgcolor": "#285b85"
+    },
+    {
+      "id": 3,
+      "type": "SocialPhotoGenerate",
+      "pos": [270, 190],
+      "size": [350, 190],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {"name": "subject", "type": "SOCIAL_PHOTO_SUBJECT", "link": 1},
+        {"name": "settings", "type": "SOCIAL_PHOTO_SETTINGS", "link": 2}
+      ],
+      "outputs": [
+        {"name": "final_images", "type": "IMAGE", "links": [4], "slot_index": 0},
+        {"name": "native_images", "type": "IMAGE", "links": null, "slot_index": 1},
+        {"name": "contact_sheet", "type": "IMAGE", "links": null, "slot_index": 2},
+        {"name": "output_folder", "type": "STRING", "links": null, "slot_index": 3},
+        {"name": "report_json", "type": "STRING", "links": null, "slot_index": 4}
+      ],
+      "title": "3. QUEUE ONCE — THE PACK SAVES AUTOMATICALLY",
+      "properties": {"Node name for S&R": "SocialPhotoGenerate", "cnr_id": "ComfyUI-AIToolkit-Training"},
+      "widgets_values": [],
+      "color": "#6a4b12",
+      "bgcolor": "#8b641b"
+    },
+    {
+      "id": 4,
+      "type": "PreviewImage",
+      "pos": [700, 30],
+      "size": [430, 460],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [{"name": "images", "type": "IMAGE", "link": 4}],
+      "outputs": [],
+      "title": "FINAL PHOTOS",
+      "properties": {"Node name for S&R": "PreviewImage", "cnr_id": "comfy-core"},
+      "widgets_values": []
+    },
+    {
+      "id": 5,
+      "type": "PreviewImage",
+      "pos": [-780, 570],
+      "size": [440, 400],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [{"name": "images", "type": "IMAGE", "link": 3}],
+      "outputs": [],
+      "title": "REFERENCE CHECK — ROLES ARE AUTOMATIC",
+      "properties": {"Node name for S&R": "PreviewImage", "cnr_id": "comfy-core"},
+      "widgets_values": []
+    }
+  ],
+  "links": [
+    [1, 1, 0, 3, 0, "SOCIAL_PHOTO_SUBJECT"],
+    [2, 2, 0, 3, 1, "SOCIAL_PHOTO_SETTINGS"],
+    [3, 1, 1, 5, 0, "IMAGE"],
+    [4, 3, 0, 4, 0, "IMAGE"]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "START HERE — ADD REFERENCES, DESCRIBE THE PHOTOS, QUEUE ONCE",
+      "bounding": [-820, 20, 1490, 1010],
+      "color": "#3f789e",
+      "font_size": 30,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {"scale": 0.82, "offset": [900, 80]},
+    "workflowRendererVersion": "LG"
+  },
+  "version": 0.4
+}

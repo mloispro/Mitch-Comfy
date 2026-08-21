@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "packs": {
+    "Dating Pack": [
+      "natural-hero",
+      "smart-casual",
+      "active-hobby",
+      "travel-story",
+      "pet-lifestyle",
+      "night-out"
+    ],
+    "Instagram Pack": [
+      "natural-hero",
+      "coffee-candid",
+      "style-full-body",
+      "active-hobby",
+      "travel-story",
+      "food-social",
+      "pet-lifestyle",
+      "night-out",
+      "close-up-editorial"
+    ]
+  },
+  "scenes": [
+    {
+      "key": "natural-hero",
+      "category": "Natural Candid",
+      "label": "Natural hero portrait",
+      "relationship": "Looking at camera",
+      "subject_position": "Center",
+      "prompt": "a relaxed waist-up portrait outdoors in open shade, approachable expression, simple well-fitted casual clothing, uncluttered real-world background"
+    },
+    {
+      "key": "smart-casual",
+      "category": "Smart Casual",
+      "label": "Smart-casual portrait",
+      "relationship": "Looking at camera",
+      "subject_position": "Center",
+      "prompt": "a believable three-quarter or full-body smart-casual portrait near a modern restaurant or architectural entrance, confident relaxed posture, natural clothing folds"
+    },
+    {
+      "key": "active-hobby",
+      "category": "Hobby/Active",
+      "label": "Active hobby moment",
+      "relationship": "Candid/action",
+      "subject_position": "Center",
+      "prompt": "a genuine lifestyle action photo during an outdoor hobby, caught mid-motion rather than posing, believable equipment, correct hands and body mechanics"
+    },
+    {
+      "key": "travel-story",
+      "category": "Travel",
+      "label": "Travel story",
+      "relationship": "Candid/action",
+      "subject_position": "Center",
+      "prompt": "a spontaneous travel photograph at a visually interesting destination, interacting naturally with the setting, layered depth, no tourist-advertisement staging"
+    },
+    {
+      "key": "pet-lifestyle",
+      "category": "Pet",
+      "label": "Pet or relaxed lifestyle",
+      "relationship": "Candid/action",
+      "subject_position": "Center",
+      "prompt": "a warm candid lifestyle moment with a pet in a comfortable home or neighborhood setting, affectionate natural interaction, anatomically correct hands and animal"
+    },
+    {
+      "key": "night-out",
+      "category": "Night Out",
+      "label": "Social night out",
+      "relationship": "Candid/action",
+      "subject_position": "Center",
+      "prompt": "a lively but believable evening social photo at a stylish lounge or restaurant, the subject clearly identifiable among distinct friends, natural expressions and mixed warm light"
+    },
+    {
+      "key": "coffee-candid",
+      "category": "Natural Candid",
+      "label": "Coffee-shop candid",
+      "relationship": "Candid/action",
+      "subject_position": "Center",
+      "prompt": "a quiet candid moment at an independent coffee shop, looking away while reading or setting down a drink, unstaged posture, believable window light"
+    },
+    {
+      "key": "style-full-body",
+      "category": "Smart Casual",
+      "label": "Full-body style photo",
+      "relationship": "Looking at camera",
+      "subject_position": "Center",
+      "prompt": "a clean full-body street-style photograph, understated coordinated outfit, relaxed stance, realistic proportions and shoes, subtle urban background"
+    },
+    {
+      "key": "food-social",
+      "category": "Natural Candid",
+      "label": "Food and social moment",
+      "relationship": "Candid/action",
+      "subject_position": "Center",
+      "prompt": "a natural social photograph at a local restaurant or outdoor market, engaged with the experience rather than presenting food to the camera, authentic ambient details"
+    },
+    {
+      "key": "close-up-editorial",
+      "category": "Natural Candid",
+      "label": "Close-up editorial portrait",
+      "relationship": "Looking at camera",
+      "subject_position": "Center",
+      "prompt": "a close natural portrait with calm direct eye contact, authentic pores and fine facial texture, simple background, flattering but plausible light"
+    },
+    {
+      "key": "custom",
+      "category": "Custom",
+      "label": "Custom scene",
+      "relationship": "Looking at camera",
+      "subject_position": "Center",
+      "prompt": "a coherent real-world lifestyle photograph matching the user's creative brief"
+    }
+  ]
+}

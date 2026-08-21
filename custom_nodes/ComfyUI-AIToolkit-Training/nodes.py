@@ -21,6 +21,7 @@ from .social_workbench import (
     AIToolkitSocialScene,
 )
 from .identity_lock import AIToolkitIdentityLockSettings, AIToolkitQwenIdentityLock
+from .social_photo_studio import SocialPhotoGenerate, SocialPhotoSettings, SocialPhotoSubjectReferences
 
 
 CATEGORY = "training/AI-Toolkit"
@@ -217,6 +218,9 @@ class AIToolkitPublishCompletedLoRA:
 
 
 NODE_CLASS_MAPPINGS = {
+    "SocialPhotoSubjectReferences": SocialPhotoSubjectReferences,
+    "SocialPhotoSettings": SocialPhotoSettings,
+    "SocialPhotoGenerate": SocialPhotoGenerate,
     "AIToolkitGenerateNinePhotos": AIToolkitGenerateNinePhotos,
     "AIToolkitSocialPackSettings": AIToolkitSocialPackSettings,
     "AIToolkitSocialScene": AIToolkitSocialScene,
@@ -231,13 +235,16 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "AIToolkitGenerateNinePhotos": "AI-Toolkit: Generate 9 Social Photos",
-    "AIToolkitSocialPackSettings": "Social Pack: Global Settings",
-    "AIToolkitSocialScene": "Social Pack: Editable Scene",
-    "AIToolkitSocialPackDrafts": "STAGE 1: Generate Drafts",
-    "AIToolkitSocialPackFinals": "STAGE 2: Render Finals",
-    "AIToolkitIdentityLockSettings": "STAGE 3: Identity Lock Settings",
-    "AIToolkitQwenIdentityLock": "STAGE 3: Qwen Identity Lock",
+    "SocialPhotoSubjectReferences": "Social Photo: 1–4 Subject References",
+    "SocialPhotoSettings": "Social Photo: Prompt & Presets",
+    "SocialPhotoGenerate": "Social Photo: Generate",
+    "AIToolkitGenerateNinePhotos": "[Legacy] Generate 9 Social Photos",
+    "AIToolkitSocialPackSettings": "[Legacy] Social Pack Settings",
+    "AIToolkitSocialScene": "[Legacy] Editable Scene",
+    "AIToolkitSocialPackDrafts": "[Legacy] Generate Drafts",
+    "AIToolkitSocialPackFinals": "[Legacy] Render Finals",
+    "AIToolkitIdentityLockSettings": "[Legacy] Identity Lock Settings",
+    "AIToolkitQwenIdentityLock": "[Legacy] Qwen Identity Lock",
     "AIToolkitTrainGeneratedDataset": "AI-Toolkit: Train Generated Dataset",
     "AIToolkitSubmitZImageTraining": "AI-Toolkit: Submit Z-Image Training",
     "AIToolkitTrainingStatus": "AI-Toolkit: Training Status",

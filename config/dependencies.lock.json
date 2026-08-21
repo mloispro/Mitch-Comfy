@@ -32,6 +32,32 @@
     },
     "qwen_image_edit": {
       "note": "Uses the locally installed Qwen Image Edit 2511 model set referenced by the production workflows."
+    },
+    "flux_2_klein_4b_fp8": {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\diffusion_models\\flux-2-klein-4b-fp8.safetensors",
+      "source": "https://huggingface.co/black-forest-labs/FLUX.2-klein-4b-fp8",
+      "sha256": "97ED34FE0567E436200F2FAEE3939B88F2B5D99F8AF2A4DC16532C4245C0CCB6",
+      "sampling": {
+        "steps": 4,
+        "guidance": 1.0,
+        "sampler": "euler",
+        "scheduler": "Flux2Scheduler"
+      }
+    },
+    "flux_2_vae": {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\vae\\flux2-vae.safetensors",
+      "source": "https://huggingface.co/Comfy-Org/flux2-dev/blob/main/split_files/vae/flux2-vae.safetensors",
+      "sha256": "D64F3A68E1CC4F9F4E29B6E0DA38A0204FE9A49F2D4053F0EC1FA1CA02F9C4B5"
+    },
+    "qwen_3_4b_fp8_mixed": {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\text_encoders\\qwen_3_4b_fp8_mixed.safetensors",
+      "sha256": "72450B19758172C5A7273CF7DE729D1C17E7F434A104A00167624CBA94F68F15",
+      "clip_type": "flux2"
+    },
+    "mtch35_flux2_klein_lora": {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\loras\\mtch35-flux2-klein-v4-best.safetensors",
+      "sha256": "54841471807F55799C255A244333673FE85542C7050A0B551BEDFF9E86D868F2",
+      "note": "Optional identity LoRA. Compatible 4B architecture verified; trigger is intentionally blank because it is absent from embedded metadata."
     }
   }
 }
