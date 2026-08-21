@@ -41,8 +41,10 @@ OOM_RESOLUTIONS = {
 
 LOOK_PROMPTS = {
     "Authentic Phone": (
-        "authentic recent smartphone photo, natural auto-exposure, extremely subtle sensor texture, normal JPEG detail, "
-        "ordinary dynamic range, no beauty filter, no artificial film grain"
+        "ordinary handheld photo from a recent smartphone main camera, natural 26mm-equivalent perspective, moderate "
+        "depth of field with recognizable background context, casual slightly imperfect framing, ambient practical "
+        "light, phone auto-exposure and white balance, restrained computational sharpening, normal JPEG detail, "
+        "authentic skin texture; standard camera mode rather than simulated portrait-mode blur"
     ),
     "Professional": (
         "professional full-frame photograph, intentional composition, controlled natural-looking light, crisp optics, "
@@ -132,6 +134,45 @@ def resolve_scenes(settings: dict[str, Any], registry: dict[str, Any] | None = N
 
 def seed_for(base_seed: int, image_index: int) -> int:
     return (int(base_seed) + 1009 * int(image_index)) & 0xFFFFFFFFFFFFFFFF
+
+
+def identity_route(
+    final_identities: list[float | None],
+    face_reference_count: int,
+    identity_finish: str,
+    identity_lora: str,
+) -> dict[str, Any]:
+    scores = [float(value) for value in final_identities if value is not None]
+    mean_identity = sum(scores) / len(scores) if scores else None
+    minimum_identity = min(scores) if scores else None
+    if identity_lora != "None":
+        status = "lora_in_use"
+        recommendation = "The selected subject LoRA is already in use."
+    elif identity_finish == "Native Only":
+        status = "finish_disabled"
+        recommendation = "Use Auto identity finish before considering LoRA training."
+    elif not scores:
+        status = "identity_not_scored"
+        recommendation = "Use a clearer face reference before considering LoRA training."
+    elif mean_identity >= 0.60 and minimum_identity >= 0.50:
+        status = "reference_only_sufficient"
+        recommendation = "Reference-only identity cleared the target; LoRA training is not recommended."
+    elif face_reference_count < 3:
+        status = "add_reference_angles"
+        recommendation = "Add genuine front and side-angle references before considering LoRA training."
+    else:
+        status = "consider_klein_lora"
+        recommendation = (
+            "Reference-only identity stayed below target across supplied angles; consider a subject-specific "
+            "FLUX.2 Klein 4B LoRA as the last resort."
+        )
+    return {
+        "status": status,
+        "mean_final_identity": mean_identity,
+        "minimum_final_identity": minimum_identity,
+        "face_reference_count": int(face_reference_count),
+        "recommendation": recommendation,
+    }
 
 
 def build_prompt(scene: dict[str, Any], settings: dict[str, Any], body_status: str) -> str:

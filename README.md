@@ -21,7 +21,7 @@ Open `Mitch/production/Social Photo Studio - FLUX Klein` in ComfyUI. It has five
 2. Describe the desired photos. Choose a single photo, six-photo dating pack, or nine-photo Instagram pack; then choose phone, professional, or 35mm style and camera-facing, candid/action, or an automatic mix.
 3. Queue once. Final photos, a contact sheet, and a privacy-safe run report are saved under `ComfyUI\output\social-photo-studio`.
 
-The generator uses FLUX.2 Klein 4B at four steps. It automatically turns each face photo into a compact 640×640 head-and-shoulders identity reference and adds full-body context only to scenes that need proportions. ReActor and a gentle GPEN pass are retained only when identity improves safely; the finished face is blended with native FLUX texture to avoid a pasted or overprocessed look. The optional FLUX.2 Klein identity LoRA is off by default; no trigger is guessed when metadata does not provide one.
+The generator uses FLUX.2 Klein 4B at four steps. It automatically turns each face photo into a compact 640×640 head-and-shoulders identity reference and adds full-body context only to scenes that need proportions. ReActor and a gentle GPEN pass are retained only when identity improves safely; a stronger identity embedding is blended with native FLUX texture to avoid a pasted or overprocessed look. Authentic Phone outputs receive a mild social-upload camera finish that reduces synthetic micro-texture without softening the face. The optional FLUX.2 Klein identity LoRA is off by default; no trigger is guessed when metadata does not provide one.
 
 Run `scripts\setup-social-photo-models.ps1` once before first use, then restart ComfyUI. `scripts\verify.ps1` checks the workflow, presets, unit tests, external model hashes, and live nodes.
 
@@ -31,11 +31,12 @@ Full-body identity is reported conservatively: `reference grounded`, `reference 
 
 The validated Qwen v8 benchmark remains preserved with its 80.81 mean identity score. That historical percentage and the new InsightFace cosine reports are different metrics and should not be compared numerically. Superseded fixed Qwen and Z-Image graphs are hidden from the everyday ComfyUI browser under `checkpoints/legacy-workflows`; versioned Qwen identity experiments remain under `checkpoints/workflows`.
 
-The v2 acceptance tests covered one to four references, phone and professional/action singles, a six-photo reference-only dating pack, and a nine-photo 4:5 Instagram pack using the optional identity LoRA. On the local RTX 3090:
+The v2.1 acceptance tests covered one, two, and four references, camera-facing and action photos, a six-photo reference-only dating pack, and a short optional-LoRA compatibility pack. On the local RTX 3090:
 
-- The one-reference professional action photo completed in 10.3 seconds and improved cosine identity from 0.293 natively to 0.605 after the guarded finish.
-- The six-photo no-LoRA dating pack completed in 60.1 seconds with 6/6 safe finishes, down from 111.7 seconds in v1.
-- The nine-photo LoRA-assisted Instagram pack completed in 81.7 seconds with 9/9 safe finishes, down from 121.9 seconds in v1; mean native/final identity was 0.421/0.676 with the more natural native-texture blend.
+- The one-reference phone action photo completed in 8.8 seconds and improved cosine identity from 0.243 natively to 0.759 after the guarded finish.
+- The two-reference phone portrait completed in 10.6 seconds and improved from 0.180 to 0.763.
+- The six-photo no-LoRA dating pack completed in 59.1 seconds with 6/6 safe finishes and mean native/final identity of 0.227/0.742, down from 111.7 seconds in v1.
+- The optional-LoRA three-photo regression completed in 27.1 seconds at 0.419/0.782 mean native/final identity, but the no-LoRA pack already cleared the quality target.
 
 ## Everyday workflow
 

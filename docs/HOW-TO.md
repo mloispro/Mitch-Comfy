@@ -31,10 +31,12 @@ The workflow automatically rejects clearly mixed-person face references. It crop
 
 ### Identity finish and optional LoRA
 
-- **Auto** is the default. ReActor/GPEN is kept only when identity improves by at least 0.03 and the isolated subject crop stays within pose, position, and scale safety limits. The accepted finish keeps 25% of the native FLUX face texture so pores, expression, and lighting remain photographic. Unchanged background faces are not edited.
+- **Auto** is the default. ReActor/GPEN is kept only when identity improves by at least 0.03 and the isolated subject crop stays within pose, position, and scale safety limits. The stronger identity embedding is balanced by retaining 25% of the native FLUX face texture so pores, expression, and lighting remain photographic. Unchanged background faces are not edited.
 - **Native Only** uses FLUX.2 multi-reference identity without a face swap.
 - **Force ReActor** skips the improvement threshold but still refuses failed targeting or unsafe subject geometry.
 - Leave **identity_lora** on **None** for reference-only operation. The installed `mtch35` LoRA is Mitch-specific, architecture-validated, and optional; never select it for another person. Its trigger remains blank because no reliable trigger exists in its metadata.
+
+Every run reports an `identity_route`. Reference-only generation passes when mean final identity is at least 0.60 and every scored image is at least 0.50. If it misses, the workflow recommends genuine missing angles first; it recommends training a compatible FLUX.2 Klein LoRA only after three usable face angles still fail.
 
 ### First-time model setup
 
@@ -42,7 +44,7 @@ Run `scripts/setup-social-photo-models.ps1`, restart ComfyUI, then run `scripts/
 
 If the primary resolution runs out of VRAM, the failed photo is retried once at the matching 768-pixel short-side resolution and the fallback is recorded in `report.json`.
 
-For the most reliable result, use recent unfiltered photos with visible eyes and hairline. Prefer varied angles over four nearly identical selfies. Use **Authentic Phone** for ordinary dating/IG realism and **Professional** for cleaner optics and controlled light; **Candid/action** changes gaze and pose without requiring a separate workflow.
+For the most reliable result, use recent unfiltered photos with visible eyes and hairline. Prefer varied angles over four nearly identical selfies. Use **Authentic Phone** for ordinary dating/IG realism; it uses main-camera prompting plus a mild resize/JPEG finish to suppress synthetic micro-texture. Use **Professional** for cleaner optics and controlled light. **Candid/action** changes gaze and pose without requiring a separate workflow.
 
 ## Legacy regression archive
 

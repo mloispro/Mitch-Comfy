@@ -8,6 +8,7 @@ from pathlib import Path
 
 from social_photo_core import (
     build_prompt,
+    identity_route,
     load_registry,
     resolve_count,
     resolve_resolution,
@@ -67,12 +68,22 @@ class SocialPhotoCoreTests(unittest.TestCase):
         self.assertEqual(resolve_resolution("Portrait 2:3", fallback=True), (768, 1152))
         self.assertEqual([seed_for(100, index) for index in range(3)], [100, 1109, 2118])
 
+    def test_identity_route_keeps_lora_as_last_resort(self):
+        sufficient = identity_route([0.58, 0.62], 1, "Auto", "None")
+        self.assertEqual(sufficient["status"], "reference_only_sufficient")
+        add_angles = identity_route([0.41, 0.45], 1, "Auto", "None")
+        self.assertEqual(add_angles["status"], "add_reference_angles")
+        uneven = identity_route([0.72, 0.44], 2, "Auto", "None")
+        self.assertEqual(uneven["status"], "add_reference_angles")
+        last_resort = identity_route([0.42, 0.46], 3, "Auto", "None")
+        self.assertEqual(last_resort["status"], "consider_klein_lora")
+
     def test_prompt_merges_identity_camera_scene_body_and_brief(self):
         scene = resolve_scenes(settings(mode="Single"))[0]
         prompt = build_prompt(scene, settings(mode="Single"), "not_supplied")
         for expected in (
             "same consenting adult",
-            "smartphone photo",
+            "smartphone main camera",
             "exact body shape is not established",
             "no visible brand logo",
             "Approachable and current",

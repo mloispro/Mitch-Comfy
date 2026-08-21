@@ -41,6 +41,7 @@ from .social_photo_core import (
     REFERENCE_ROLES,
     SCENE_PRESETS,
     build_prompt,
+    identity_route,
     load_registry,
     resolve_count,
     resolve_resolution,
@@ -65,6 +66,9 @@ FACE_RESTORE_MODEL = "GPEN-BFR-512.onnx"
 FACE_REFERENCE_PIXELS = 640 * 640
 FACE_RESTORE_STRENGTH = 0.30
 FACE_FINISH_BLEND = 0.75
+FACE_MODEL_WEIGHT = "62.5%"
+PHONE_RESAMPLE_SCALE = 0.90
+PHONE_JPEG_QUALITY = 94
 NONE_REFERENCE = "[none]"
 NONE_LORA = "None"
 SAME_PERSON_THRESHOLD = 0.35
@@ -253,6 +257,30 @@ def _resize_output(image: torch.Tensor, width: int, height: int) -> torch.Tensor
     if image.shape[2] == width and image.shape[1] == height:
         return image
     return comfy.utils.common_upscale(image.movedim(-1, 1), width, height, "lanczos", "disabled").movedim(1, -1)
+
+
+def _phone_camera_finish(image: torch.Tensor) -> torch.Tensor:
+    frames = []
+    for frame in image:
+        rgb = np.clip(frame.detach().cpu().numpy() * 255.0, 0, 255).astype(np.uint8)
+        height, width = rgb.shape[:2]
+        small_width = max(1, round(width * PHONE_RESAMPLE_SCALE))
+        small_height = max(1, round(height * PHONE_RESAMPLE_SCALE))
+        small = cv2.resize(
+            rgb,
+            (small_width, small_height),
+            interpolation=cv2.INTER_AREA,
+        )
+        restored = cv2.resize(small, (width, height), interpolation=cv2.INTER_CUBIC)
+        ok, encoded = cv2.imencode(
+            ".jpg",
+            cv2.cvtColor(restored, cv2.COLOR_RGB2BGR),
+            [cv2.IMWRITE_JPEG_QUALITY, PHONE_JPEG_QUALITY],
+        )
+        if ok:
+            restored = cv2.cvtColor(cv2.imdecode(encoded, cv2.IMREAD_COLOR), cv2.COLOR_BGR2RGB)
+        frames.append(_rgb_tensor(restored))
+    return torch.cat(frames, dim=0)
 
 
 class SocialPhotoSubjectReferences:
@@ -556,7 +584,7 @@ class SocialPhotoGenerate:
         # Blend generated geometry with reference identity conservatively so the
         # finish strengthens recognition without stamping on a reference pose.
         _, adaptive_face_model = weight_class().set_weight(
-            crop_tensor, "50%", face_model=face_model
+            crop_tensor, FACE_MODEL_WEIGHT, face_model=face_model
         )
         options = options_class().execute(
             "large-small", "0", "no", "large-small", "0", "no", 0, True
@@ -618,6 +646,7 @@ class SocialPhotoGenerate:
             "candidate_face_count": len(candidate_faces),
             "face_restore_strength": FACE_RESTORE_STRENGTH,
             "face_finish_blend": FACE_FINISH_BLEND,
+            "face_model_weight": FACE_MODEL_WEIGHT,
         }
 
     def generate(self, subject, settings, prompt=None, extra_pnginfo=None):
@@ -700,6 +729,10 @@ class SocialPhotoGenerate:
                         model, clip, vae, scene_reference_latents, scene_prompt, seed, generated_width, generated_height
                     )
 
+                phone_finish_applied = settings["camera_look"] == "Authentic Phone"
+                if phone_finish_applied:
+                    native = _phone_camera_finish(native)
+
                 finish_report = {
                     "accepted": False,
                     "reason": "native_only",
@@ -770,6 +803,11 @@ class SocialPhotoGenerate:
                             "face_reference_pixels": FACE_REFERENCE_PIXELS,
                             "body_reference_applied": body_reference_applied,
                         },
+                        "phone_finish": {
+                            "applied": phone_finish_applied,
+                            "resample_scale": PHONE_RESAMPLE_SCALE if phone_finish_applied else None,
+                            "jpeg_quality": PHONE_JPEG_QUALITY if phone_finish_applied else None,
+                        },
                         "identity_finish": finish_report,
                         "seconds": round(time.perf_counter() - scene_started, 3),
                     }
@@ -791,6 +829,12 @@ class SocialPhotoGenerate:
             extra_pnginfo=extra_pnginfo,
         )
         ui_images.extend(sheet_saved["ui"]["images"])
+        route = identity_route(
+            [item["identity_finish"].get("final_identity") for item in reports],
+            len(subject["face_reference_items"]),
+            settings["identity_finish"],
+            settings["identity_lora"],
+        )
 
         run_report = sanitize_report(
             {
@@ -810,6 +854,7 @@ class SocialPhotoGenerate:
                 "reference_report": subject["reference_report"],
                 "body_status": subject["body_status"],
                 "warnings": subject["warnings"],
+                "identity_route": route,
                 "images": reports,
                 "total_seconds": round(time.perf_counter() - run_started, 3),
             }
@@ -821,7 +866,8 @@ class SocialPhotoGenerate:
         accepted = sum(bool(item["identity_finish"].get("accepted")) for item in reports)
         summary = (
             f"Generated {len(final_images)} photo(s) in {run_report['total_seconds']:.1f}s. "
-            f"Identity finish accepted on {accepted}. Saved to ComfyUI/output/{output_folder}"
+            f"Identity finish accepted on {accepted}. {route['recommendation']} "
+            f"Saved to ComfyUI/output/{output_folder}"
         )
         return {
             "ui": {"images": ui_images, "text": (summary,)},
