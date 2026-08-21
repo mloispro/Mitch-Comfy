@@ -3,7 +3,6 @@ from __future__ import annotations
 import hashlib
 import json
 import math
-import os
 import time
 from datetime import datetime
 from pathlib import Path
@@ -19,7 +18,7 @@ from PIL import Image, ImageDraw, ImageFont, ImageOps
 import comfy.model_management
 import comfy.utils
 import nodes as comfy_nodes
-from comfy_extras.nodes_custom_sampler import CFGGuider, KSamplerSelect, RandomNoise, SamplerCustomAdvanced
+from comfy_extras.nodes_custom_sampler import BasicGuider, KSamplerSelect, RandomNoise, SamplerCustomAdvanced
 from comfy_extras.nodes_flux import EmptyFlux2LatentImage, Flux2Scheduler, FluxKVCache
 
 from .identity_lock import (
@@ -39,7 +38,6 @@ from .social_photo_core import (
     CAMERA_RELATIONSHIPS,
     IDENTITY_FINISHES,
     MODES,
-    NEGATIVE_PROMPT,
     REFERENCE_ROLES,
     SCENE_PRESETS,
     build_prompt,
@@ -64,6 +62,9 @@ VAE_NAME = "flux2-vae.safetensors"
 VAE_SHA256 = "d64f3a68e1cc4f9f4e29b6e0da38a0204fe9a49f2d4053f0ec1fa1ca02f9c4b5"
 SWAP_MODEL = "inswapper_128.onnx"
 FACE_RESTORE_MODEL = "GPEN-BFR-512.onnx"
+FACE_REFERENCE_PIXELS = 640 * 640
+FACE_RESTORE_STRENGTH = 0.30
+FACE_FINISH_BLEND = 0.75
 NONE_REFERENCE = "[none]"
 NONE_LORA = "None"
 SAME_PERSON_THRESHOLD = 0.35
@@ -347,11 +348,6 @@ class SocialPhotoSubjectReferences:
         centroid = np.mean(np.stack(centroid_members), axis=0)
         centroid /= max(float(np.linalg.norm(centroid)), 1e-8)
 
-        face_references = [
-            _head_reference(entry["rgb"], entry["face"])
-            for entry in entries
-            if entry["face"] is not None and entry["role"] != "Full Body"
-        ]
         body_entries = [entry for entry in entries if entry["role"] == "Full Body"]
         if not body_entries:
             body_status = "not_supplied"
@@ -363,6 +359,26 @@ class SocialPhotoSubjectReferences:
 
         priority = {"Front": 0, "General": 1, "Left": 2, "Right": 3, "Full Body": 4}
         entries.sort(key=lambda entry: (priority.get(entry["role"], 5), entry["slot"]))
+        face_reference_items = [
+            {
+                "slot": entry["slot"],
+                "role": entry["role"],
+                "image": _head_reference(entry["rgb"], entry["face"]),
+            }
+            for entry in entries
+            if entry["face"] is not None and entry["role"] != "Full Body"
+        ]
+        face_references = [item["image"] for item in face_reference_items]
+        body_reference_items = [
+            {
+                "slot": entry["slot"],
+                "role": entry["role"],
+                "image": entry["image"],
+                "face_verified": entry["face"] is not None,
+            }
+            for entry in entries
+            if entry["role"] == "Full Body"
+        ]
         labels = [f"Ref {entry['slot']} · {entry['role']}" for entry in entries]
         sheet = _image_contact_sheet([entry["image"] for entry in entries], labels, columns=2)
         report_entries = [
@@ -379,6 +395,8 @@ class SocialPhotoSubjectReferences:
         subject = {
             "references": [entry["image"] for entry in entries],
             "face_references": face_references,
+            "face_reference_items": face_reference_items,
+            "body_reference_items": body_reference_items,
             "centroid": centroid,
             "body_status": body_status,
             "reference_report": report_entries,
@@ -495,12 +513,10 @@ class SocialPhotoGenerate:
     @staticmethod
     def _sample(model, clip, vae, reference_latents, text, seed, width, height):
         positive = comfy_nodes.CLIPTextEncode().encode(clip, text)[0]
-        negative = comfy_nodes.CLIPTextEncode().encode(clip, NEGATIVE_PROMPT)[0]
         positive = SocialPhotoGenerate._condition_with_references(positive, reference_latents)
-        negative = SocialPhotoGenerate._condition_with_references(negative, reference_latents)
         latent = EmptyFlux2LatentImage.execute(width, height, 1)[0]
         noise = RandomNoise.execute(seed)[0]
-        guider = CFGGuider.execute(model, positive, negative, 1.0)[0]
+        guider = BasicGuider.execute(model, positive)[0]
         sampler = KSamplerSelect.execute("euler")[0]
         sigmas = Flux2Scheduler.execute(4, width, height)[0]
         sampled = SamplerCustomAdvanced.execute(noise, guider, sampler, sigmas, latent)[0]
@@ -545,7 +561,9 @@ class SocialPhotoGenerate:
         options = options_class().execute(
             "large-small", "0", "no", "large-small", "0", "no", 0, True
         )[0]
-        boost = boost_class().execute(True, FACE_RESTORE_MODEL, "Lanczos", 0.45, 0.5, False)[0]
+        boost = boost_class().execute(
+            True, FACE_RESTORE_MODEL, "Lanczos", FACE_RESTORE_STRENGTH, 0.5, False
+        )[0]
         candidate = swap_class().execute(
             True,
             crop_tensor,
@@ -559,6 +577,9 @@ class SocialPhotoGenerate:
             face_boost=boost,
         )[0]
         candidate_crop = _tensor_rgb(candidate)
+        candidate_crop = cv2.addWeighted(
+            candidate_crop, FACE_FINISH_BLEND, target_crop, 1.0 - FACE_FINISH_BLEND, 0.0
+        )
         geometry = _crop_geometry_metrics(target_crop, candidate_crop, centroid)
         candidate_rgb, _ = _composite(original_rgb, candidate_crop, target_box, target_mask, feather=12)
         candidate = _rgb_tensor(candidate_rgb)
@@ -595,6 +616,8 @@ class SocialPhotoGenerate:
             "target_left_to_right_index": target_index,
             "native_face_count": len(original_faces),
             "candidate_face_count": len(candidate_faces),
+            "face_restore_strength": FACE_RESTORE_STRENGTH,
+            "face_finish_blend": FACE_FINISH_BLEND,
         }
 
     def generate(self, subject, settings, prompt=None, extra_pnginfo=None):
@@ -626,9 +649,15 @@ class SocialPhotoGenerate:
         clip = comfy_nodes.CLIPLoader().load_clip(CLIP_NAME, "flux2", "default")[0]
         vae = comfy_nodes.VAELoader().load_vae(VAE_NAME)[0]
 
-        reference_latents = [
-            comfy_nodes.VAEEncode().encode(vae, _resize_reference(reference))[0]
-            for reference in subject["references"]
+        face_reference_latents = [
+            comfy_nodes.VAEEncode().encode(
+                vae, _resize_reference(item["image"], target_pixels=FACE_REFERENCE_PIXELS)
+            )[0]
+            for item in subject["face_reference_items"]
+        ]
+        body_reference_latents = [
+            comfy_nodes.VAEEncode().encode(vae, _resize_reference(item["image"]))[0]
+            for item in subject["body_reference_items"]
         ]
         face_model = None
         if settings["identity_finish"] != "Native Only":
@@ -648,11 +677,18 @@ class SocialPhotoGenerate:
                 scene_started = time.perf_counter()
                 generated_width, generated_height = width, height
                 used_oom_fallback = False
-                scene_prompt = build_prompt(scene, settings, subject["body_status"])
+                body_reference_applied = (
+                    bool(body_reference_latents) and bool(scene.get("body_reference"))
+                )
+                scene_body_status = subject["body_status"] if body_reference_applied else "not_supplied"
+                scene_reference_latents = list(face_reference_latents)
+                if body_reference_applied:
+                    scene_reference_latents.extend(body_reference_latents)
+                scene_prompt = build_prompt(scene, settings, scene_body_status)
                 seed = seed_for(settings["seed"], scene["index"])
                 try:
                     native = self._sample(
-                        model, clip, vae, reference_latents, scene_prompt, seed, generated_width, generated_height
+                        model, clip, vae, scene_reference_latents, scene_prompt, seed, generated_width, generated_height
                     )
                 except (torch.cuda.OutOfMemoryError, RuntimeError) as error:
                     if "out of memory" not in str(error).casefold():
@@ -661,7 +697,7 @@ class SocialPhotoGenerate:
                     comfy.model_management.soft_empty_cache()
                     generated_width, generated_height = resolve_resolution(settings["aspect"], fallback=True)
                     native = self._sample(
-                        model, clip, vae, reference_latents, scene_prompt, seed, generated_width, generated_height
+                        model, clip, vae, scene_reference_latents, scene_prompt, seed, generated_width, generated_height
                     )
 
                 finish_report = {
@@ -728,6 +764,12 @@ class SocialPhotoGenerate:
                         "prompt": scene_prompt,
                         "resolution": [generated_width, generated_height],
                         "oom_fallback": used_oom_fallback,
+                        "reference_conditioning": {
+                            "strategy": "curated",
+                            "reference_count": len(scene_reference_latents),
+                            "face_reference_pixels": FACE_REFERENCE_PIXELS,
+                            "body_reference_applied": body_reference_applied,
+                        },
                         "identity_finish": finish_report,
                         "seconds": round(time.perf_counter() - scene_started, 3),
                     }
@@ -763,6 +805,8 @@ class SocialPhotoGenerate:
                     "identity_lora": lora_report,
                     "face_finish": {"swap": SWAP_MODEL, "restorer": FACE_RESTORE_MODEL},
                 },
+                "reference_strategy": "curated",
+                "face_reference_pixels": FACE_REFERENCE_PIXELS,
                 "reference_report": subject["reference_report"],
                 "body_status": subject["body_status"],
                 "warnings": subject["warnings"],

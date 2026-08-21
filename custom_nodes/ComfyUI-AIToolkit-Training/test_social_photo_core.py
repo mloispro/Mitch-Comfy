@@ -41,6 +41,12 @@ def settings(**overrides):
 class SocialPhotoCoreTests(unittest.TestCase):
     def test_registry_and_pack_defaults(self):
         registry = load_registry()
+        self.assertTrue(
+            all(isinstance(scene["body_reference"], bool) for scene in registry["scenes"])
+        )
+        by_key = {scene["key"]: scene for scene in registry["scenes"]}
+        self.assertTrue(by_key["active-hobby"]["body_reference"])
+        self.assertFalse(by_key["night-out"]["body_reference"])
         self.assertEqual(len(resolve_scenes(settings(), registry)), 6)
         self.assertEqual(
             len(resolve_scenes(settings(mode="Instagram Pack", aspect="Instagram 4:5"), registry)),
@@ -68,6 +74,7 @@ class SocialPhotoCoreTests(unittest.TestCase):
             "same consenting adult",
             "smartphone photo",
             "exact body shape is not established",
+            "no visible brand logo",
             "Approachable and current",
             scene["prompt"],
         ):
@@ -81,11 +88,15 @@ class SocialPhotoCoreTests(unittest.TestCase):
         sanitized = sanitize_report(
             {
                 "references": [TensorLike()],
+                "face_reference_items": [{"image": TensorLike()}],
+                "body_reference_items": [{"image": TensorLike()}],
                 "source_path": "private.jpg",
                 "safe": {"hash": "abc", "path_value": Path("C:/private/file.jpg")},
             }
         )
         self.assertNotIn("references", sanitized)
+        self.assertNotIn("face_reference_items", sanitized)
+        self.assertNotIn("body_reference_items", sanitized)
         self.assertNotIn("source_path", sanitized)
         self.assertEqual(sanitized["safe"]["path_value"], "file.jpg")
 

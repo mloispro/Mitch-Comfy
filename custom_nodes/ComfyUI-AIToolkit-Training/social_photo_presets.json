@@ -28,6 +28,7 @@
       "label": "Natural hero portrait",
       "relationship": "Looking at camera",
       "subject_position": "Center",
+      "body_reference": false,
       "prompt": "a relaxed waist-up portrait outdoors in open shade, approachable expression, simple well-fitted casual clothing, uncluttered real-world background"
     },
     {
@@ -36,6 +37,7 @@
       "label": "Smart-casual portrait",
       "relationship": "Looking at camera",
       "subject_position": "Center",
+      "body_reference": true,
       "prompt": "a believable three-quarter or full-body smart-casual portrait near a modern restaurant or architectural entrance, confident relaxed posture, natural clothing folds"
     },
     {
@@ -44,7 +46,8 @@
       "label": "Active hobby moment",
       "relationship": "Candid/action",
       "subject_position": "Center",
-      "prompt": "a genuine lifestyle action photo during an outdoor hobby, caught mid-motion rather than posing, believable equipment, correct hands and body mechanics"
+      "body_reference": true,
+      "prompt": "a genuine mid-stride lifestyle photo while hiking an easy outdoor trail, face unobstructed and large enough to recognize, plain cotton T-shirt and simple khaki hiking shorts without visible marks, relaxed natural hands, credible body mechanics, no complex sporting equipment"
     },
     {
       "key": "travel-story",
@@ -52,7 +55,8 @@
       "label": "Travel story",
       "relationship": "Candid/action",
       "subject_position": "Center",
-      "prompt": "a spontaneous travel photograph at a visually interesting destination, interacting naturally with the setting, layered depth, no tourist-advertisement staging"
+      "body_reference": true,
+      "prompt": "a spontaneous travel photograph while walking or pausing at a visually interesting destination, face clearly visible, hands relaxed at the sides or outside the frame, layered depth, no tourist-advertisement staging"
     },
     {
       "key": "pet-lifestyle",
@@ -60,7 +64,8 @@
       "label": "Pet or relaxed lifestyle",
       "relationship": "Candid/action",
       "subject_position": "Center",
-      "prompt": "a warm candid lifestyle moment with a pet in a comfortable home or neighborhood setting, affectionate natural interaction, anatomically correct hands and animal"
+      "body_reference": false,
+      "prompt": "a warm candid lifestyle moment with a pet resting naturally beside the subject in a comfortable home or neighborhood setting, face clearly visible, gentle interaction, hands unobstructed, anatomically correct animal"
     },
     {
       "key": "night-out",
@@ -68,6 +73,7 @@
       "label": "Social night out",
       "relationship": "Candid/action",
       "subject_position": "Center",
+      "body_reference": false,
       "prompt": "a lively but believable evening social photo at a stylish lounge or restaurant, the subject clearly identifiable among distinct friends, natural expressions and mixed warm light, simple relaxed posture with hands lowered or outside the frame"
     },
     {
@@ -76,7 +82,8 @@
       "label": "Coffee-shop candid",
       "relationship": "Candid/action",
       "subject_position": "Center",
-      "prompt": "a quiet candid moment at an independent coffee shop, looking away while reading or setting down a drink, unstaged posture, believable window light"
+      "body_reference": false,
+      "prompt": "a quiet candid moment seated beside a window at an independent coffee shop, looking away during a natural pause, a simple mug resting on the table, hands relaxed and clearly visible or below the table edge, believable window light"
     },
     {
       "key": "style-full-body",
@@ -84,6 +91,7 @@
       "label": "Full-body style photo",
       "relationship": "Looking at camera",
       "subject_position": "Center",
+      "body_reference": true,
       "prompt": "a clean full-body street-style photograph, understated coordinated outfit, relaxed stance, realistic proportions and shoes, subtle urban background"
     },
     {
@@ -92,7 +100,8 @@
       "label": "Food and social moment",
       "relationship": "Candid/action",
       "subject_position": "Center",
-      "prompt": "a natural social photograph at a local restaurant or outdoor market, engaged with the experience rather than presenting food to the camera, authentic ambient details"
+      "body_reference": false,
+      "prompt": "a natural social photograph while conversing with friends at a local restaurant between courses, face clearly visible, hands relaxed below the frame, food and tableware remain background details, authentic ambient light"
     },
     {
       "key": "close-up-editorial",
@@ -100,6 +109,7 @@
       "label": "Close-up editorial portrait",
       "relationship": "Looking at camera",
       "subject_position": "Center",
+      "body_reference": false,
       "prompt": "a close natural portrait with calm direct eye contact, authentic pores and fine facial texture, simple background, flattering but plausible light"
     },
     {
@@ -108,6 +118,7 @@
       "label": "Custom scene",
       "relationship": "Looking at camera",
       "subject_position": "Center",
+      "body_reference": false,
       "prompt": "a coherent real-world lifestyle photograph matching the user's creative brief"
     }
   ]

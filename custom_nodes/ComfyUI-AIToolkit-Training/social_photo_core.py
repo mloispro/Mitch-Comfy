@@ -54,13 +54,6 @@ LOOK_PROMPTS = {
     ),
 }
 
-NEGATIVE_PROMPT = (
-    "CGI, illustration, painting, waxy skin, plastic skin, beauty filter, excessive skin smoothing, malformed face, "
-    "asymmetric eyes, bad hands, extra fingers, missing fingers, extra limbs, duplicate subject, cloned face, collage, "
-    "split screen, heavy grain, oversharpening, crunchy texture, text, watermark, logo, frame, blank border"
-)
-
-
 def load_registry(path: Path | None = None) -> dict[str, Any]:
     source = path or Path(__file__).with_name("social_photo_presets.json")
     payload = json.loads(source.read_text(encoding="utf-8"))
@@ -70,7 +63,15 @@ def load_registry(path: Path | None = None) -> dict[str, Any]:
     packs = payload.get("packs")
     if not isinstance(scenes, list) or not scenes or not isinstance(packs, dict):
         raise ValueError("Preset registry must contain scenes and packs.")
-    required = {"key", "category", "label", "relationship", "subject_position", "prompt"}
+    required = {
+        "key",
+        "category",
+        "label",
+        "relationship",
+        "subject_position",
+        "body_reference",
+        "prompt",
+    }
     keys: set[str] = set()
     for scene in scenes:
         missing = required.difference(scene)
@@ -78,6 +79,8 @@ def load_registry(path: Path | None = None) -> dict[str, Any]:
             raise ValueError(f"Scene is missing fields: {', '.join(sorted(missing))}")
         if scene["key"] in keys:
             raise ValueError(f"Duplicate scene key: {scene['key']}")
+        if not isinstance(scene["body_reference"], bool):
+            raise ValueError(f"Scene body_reference must be boolean: {scene['key']}")
         keys.add(scene["key"])
     for pack_name, scene_keys in packs.items():
         unknown = set(scene_keys).difference(keys)
@@ -155,7 +158,7 @@ def build_prompt(scene: dict[str, Any], settings: dict[str, Any], body_status: s
         body_instruction + ".",
         LOOK_PROMPTS[settings["camera_look"]] + ".",
         settings.get("brief", "").strip(),
-        "One coherent edge-to-edge photograph, correct anatomy, distinct bystanders, no duplicate of the main subject, no text or watermark.",
+        "One coherent edge-to-edge photograph, correct anatomy, distinct bystanders, no duplicate of the main subject, no visible brand logo, no text or watermark.",
     ]
     return " ".join(part.strip(" ,") for part in parts if part.strip()).strip()
 
@@ -209,7 +212,14 @@ def sanitize_report(value: Any) -> Any:
         return {
             key: sanitize_report(item)
             for key, item in value.items()
-            if key not in {"references", "face_references", "source_path", "absolute_path"}
+            if key not in {
+                "references",
+                "face_references",
+                "face_reference_items",
+                "body_reference_items",
+                "source_path",
+                "absolute_path",
+            }
         }
     if isinstance(value, (list, tuple)):
         return [sanitize_report(item) for item in value]

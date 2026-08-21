@@ -19,7 +19,7 @@ Third-party custom nodes such as ReActor remain in their own upstream repositori
 
 Open `Mitch/production/Social Photo Studio - FLUX Klein`. This is the primary workflow for dating-app and Instagram photos.
 
-1. In **1. ADD 1–4 PHOTOS**, upload at least one clear face. Additional front, left, right, and full-body views improve identity and angle coverage. Keep roles on **Auto** unless classification needs correction.
+1. In **1. ADD 1–4 PHOTOS**, upload at least one clear face. A single frontal photo works; front, left, and right views improve identity across camera angles, and an optional unobstructed full-body view helps proportion-sensitive scenes. Keep roles on **Auto** unless classification needs correction.
 2. In **2. DESCRIBE THE PHOTOS**, write a normal-language brief and select:
    - **Single**, **Dating Pack** (six), or **Instagram Pack** (nine).
    - **Authentic Phone**, **Professional**, or **35mm Lifestyle**.
@@ -27,11 +27,11 @@ Open `Mitch/production/Social Photo Studio - FLUX Klein`. This is the primary wo
    - `photo_count = 0` for the mode default, or 1–9 for an explicit count.
 3. Queue once. The generator saves final images, a contact sheet, and `report.json` under `ComfyUI/output/social-photo-studio/<run-id>`.
 
-The workflow automatically rejects clearly mixed-person face references. A full-body reference with no detectable face is treated as unverified soft context and is never used to claim verified body identity.
+The workflow automatically rejects clearly mixed-person face references. It crops face references to compact 640×640 head-and-shoulders evidence rather than spending compute on irrelevant backgrounds. Full-body context is added only for smart-casual, active, travel, and full-body style scenes. A full-body reference with no detectable face is treated as unverified soft context and is never used to claim verified body identity.
 
 ### Identity finish and optional LoRA
 
-- **Auto** is the default. ReActor/GPEN is kept only when identity improves by at least 0.03 and the isolated subject crop stays within pose, position, and scale safety limits. Unchanged background faces are not edited.
+- **Auto** is the default. ReActor/GPEN is kept only when identity improves by at least 0.03 and the isolated subject crop stays within pose, position, and scale safety limits. The accepted finish keeps 25% of the native FLUX face texture so pores, expression, and lighting remain photographic. Unchanged background faces are not edited.
 - **Native Only** uses FLUX.2 multi-reference identity without a face swap.
 - **Force ReActor** skips the improvement threshold but still refuses failed targeting or unsafe subject geometry.
 - Leave **identity_lora** on **None** for reference-only operation. The installed `mtch35` LoRA is Mitch-specific, architecture-validated, and optional; never select it for another person. Its trigger remains blank because no reliable trigger exists in its metadata.
@@ -41,6 +41,8 @@ The workflow automatically rejects clearly mixed-person face references. A full-
 Run `scripts/setup-social-photo-models.ps1`, restart ComfyUI, then run `scripts/verify.ps1`. The setup script downloads only the official FLUX.2 Klein 4B FP8 diffusion model and FLUX.2 VAE, resumes partial downloads, and verifies exact SHA-256 hashes before installation.
 
 If the primary resolution runs out of VRAM, the failed photo is retried once at the matching 768-pixel short-side resolution and the fallback is recorded in `report.json`.
+
+For the most reliable result, use recent unfiltered photos with visible eyes and hairline. Prefer varied angles over four nearly identical selfies. Use **Authentic Phone** for ordinary dating/IG realism and **Professional** for cleaner optics and controlled light; **Candid/action** changes gaze and pose without requiring a separate workflow.
 
 ## Legacy regression archive
 

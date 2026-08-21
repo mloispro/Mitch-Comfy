@@ -1,5 +1,11 @@
 # ComfyUI AI-Toolkit Training
 
+## Social Photo Studio
+
+`Social Photo Studio - FLUX Klein.json` is the supported everyday dating-app and Instagram generator. Its three functional nodes accept one to four same-person references, a plain-language brief plus a few presets, and produce a single photo or a six-/nine-photo pack in one queue.
+
+The custom node prepares compact face references, applies full-body evidence only to proportion-sensitive scenes, samples FLUX.2 Klein 4B in four steps, and runs a guarded identity finish that preserves native facial texture. Auto mode works without a subject LoRA; a compatible FLUX.2 Klein identity LoRA can be selected for a repeat subject. See [the maintenance guide](../../docs/HOW-TO.md) for normal use and benchmark details.
+
 ## Qwen identity-locked social workflow
 
 `Generate 9 Social Photos - Z-Image LoRA + Qwen Identity Lock.json` keeps the existing editable Z-Image draft/final workbench and adds a separate final-only Qwen Image Edit 2511 identity pass. Stage 3 indexes the 15 successful Qwen angle portraits in `ComfyUI/output/lora-dataset`, scores them against the three genuine photos, and automatically selects exactly one pose-matched portrait for each final. Candidate A edits the complete scene; Candidate B edits an expanded full-head crop. Both are aligned and feathered into the untouched Z-Image final, and Auto mode retains the original unless a candidate safely improves genuine-photo similarity.
