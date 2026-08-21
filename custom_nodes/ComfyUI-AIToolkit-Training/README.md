@@ -2,9 +2,9 @@
 
 ## Social Photo Studio
 
-`Social Photo Studio - FLUX Klein.json` is the supported everyday dating-app and Instagram generator. Its three functional nodes accept one to four same-person references, a plain-language brief plus a few presets, and produce a single photo or a six-/nine-photo pack in one queue.
+`Social Photo Studio - FLUX.2 Klein 9B KV.json` is the supported everyday dating-app and Instagram generator. Its three functional nodes accept one to four same-person references, a plain-language brief plus a few presets, and produce a single photo or a six-/nine-photo pack in one queue.
 
-The custom node prepares compact face references, applies full-body evidence only to proportion-sensitive scenes, samples FLUX.2 Klein 4B in four steps, and runs a guarded identity finish that preserves native facial texture. Authentic Phone adds a mild camera/upload finish. Auto mode works without a subject LoRA and reports whether reference-only identity cleared the target; it requests missing genuine angles before ever recommending a compatible subject LoRA. See [the maintenance guide](../../docs/HOW-TO.md) for normal use and benchmark details.
+The custom node validates same-person inputs, sends every usable face angle through native FLUX.2 `ReferenceLatent` conditioning, applies full-body evidence only to proportion-sensitive scenes, and samples the official Klein 9B KV FP8 model in four Euler steps. The production path has no face swap, restorer, subject LoRA, or synthetic identity fixture. It records an InsightFace diagnostic but requires human likeness review against genuine originals. See [the maintenance guide](../../docs/HOW-TO.md) for normal use and the validated baseline.
 
 ## Qwen identity-locked social workflow
 

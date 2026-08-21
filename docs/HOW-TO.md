@@ -17,7 +17,7 @@ Third-party custom nodes such as ReActor remain in their own upstream repositori
 
 ## Everyday Social Photo Studio workflow
 
-Open `Mitch/production/Social Photo Studio - FLUX Klein`. This is the primary workflow for dating-app and Instagram photos.
+Open `Mitch/production/Social Photo Studio - FLUX.2 Klein 9B KV`. This is the primary workflow for dating-app and Instagram photos.
 
 1. In **1. ADD 1–4 PHOTOS**, upload at least one clear face. A single frontal photo works; front, left, and right views improve identity across camera angles, and an optional unobstructed full-body view helps proportion-sensitive scenes. Keep roles on **Auto** unless classification needs correction.
 2. In **2. DESCRIBE THE PHOTOS**, write a normal-language brief and select:
@@ -27,24 +27,28 @@ Open `Mitch/production/Social Photo Studio - FLUX Klein`. This is the primary wo
    - `photo_count = 0` for the mode default, or 1–9 for an explicit count.
 3. Queue once. The generator saves final images, a contact sheet, and `report.json` under `ComfyUI/output/social-photo-studio/<run-id>`.
 
-The workflow automatically rejects clearly mixed-person face references. It crops face references to compact 640×640 head-and-shoulders evidence rather than spending compute on irrelevant backgrounds. Full-body context is added only for smart-casual, active, travel, and full-body style scenes. A full-body reference with no detectable face is treated as unverified soft context and is never used to claim verified body identity.
+The workflow automatically rejects clearly mixed-person face references. It resizes each reference to roughly 640×640 total pixels while preserving the full image, so facial identity, hair, pose, and useful context remain available without wasting VRAM. Full-body context is added only for smart-casual, active, travel, and full-body style scenes. A full-body reference with no detectable face is treated as unverified soft context and is never used to claim verified body identity.
 
-### Identity finish and optional LoRA
+### Identity fidelity
 
-- **Auto** is the default. ReActor/GPEN is kept only when identity improves by at least 0.03 and the isolated subject crop stays within pose, position, and scale safety limits. The stronger identity embedding is balanced by retaining 25% of the native FLUX face texture so pores, expression, and lighting remain photographic. Unchanged background faces are not edited.
-- **Native Only** uses FLUX.2 multi-reference identity without a face swap.
-- **Force ReActor** skips the improvement threshold but still refuses failed targeting or unsafe subject geometry.
-- Leave **identity_lora** on **None** for reference-only operation. The installed `mtch35` LoRA is Mitch-specific, architecture-validated, and optional; never select it for another person. Its trigger remains blank because no reliable trigger exists in its metadata.
+- FLUX.2 Klein 9B KV receives every usable genuine facial reference natively through `ReferenceLatent`. Multiple views improve its evidence for face angle, hairline, nose, jaw, and eye area; they are explicitly described as the same person and the prompt requires one copy of the main subject.
+- A supplied full-body reference is appended only for a scene that needs build or proportions. The prompt tells the model not to copy the reference pose, clothing, objects, or background.
+- The production path has no face swap, face restorer, subject LoRA, generated identity fixture, or post-generation identity patch. That preserves native facial texture and avoids replacing the result with a generic older face.
+- A LoRA is a last resort only if strong, varied genuine references still fail visual review. The previously tested Klein LoRA is explicitly rejected and is never selected by the workflow.
 
-Every run reports an `identity_route`. Reference-only generation passes when mean final identity is at least 0.60 and every scored image is at least 0.50. If it misses, the workflow recommends genuine missing angles first; it recommends training a compatible FLUX.2 Klein LoRA only after three usable face angles still fail.
+Every run reports an `identity_route`. InsightFace cosine scores are diagnostics, not proof that a photo looks like the subject. Mean similarity of at least 0.60 with every scored image at least 0.50 is reported as `similarity_target_met_unverified`; 0.55–0.60 with no score below 0.50 is reported as near-target visual review. Both require visual comparison with genuine camera originals. If similarity misses, add a current, sharp front view and then different genuine side angles before considering an adapter.
+
+Identity acceptance must use genuine, ungenerated camera originals. Files named `mitch-qwen-id-*` or `mitch-workbench-qwen-id-*` are historical generated fixtures, not photographs of Mitch. The production node and `scripts/smoke-social-photo.ps1` always reject them, and the script requires an explicit first reference.
 
 ### First-time model setup
 
-Run `scripts/setup-social-photo-models.ps1`, restart ComfyUI, then run `scripts/verify.ps1`. The setup script downloads only the official FLUX.2 Klein 4B FP8 diffusion model and FLUX.2 VAE, resumes partial downloads, and verifies exact SHA-256 hashes before installation.
+Run `scripts/setup-social-photo-models.ps1`, restart ComfyUI, then run `scripts/verify.ps1`. The setup script installs only three pinned files required by the primary workflow—the official FLUX.2 Klein 9B KV FP8 model, Qwen3 8B FP8 mixed text encoder, and FLUX.2 VAE—resumes partial downloads, and verifies exact SHA-256 hashes before installation.
+
+The Black Forest Labs 9B KV weights are under the FLUX Non-Commercial License. Review that license before commercial use.
 
 If the primary resolution runs out of VRAM, the failed photo is retried once at the matching 768-pixel short-side resolution and the fallback is recorded in `report.json`.
 
-For the most reliable result, use recent unfiltered photos with visible eyes and hairline. Prefer varied angles over four nearly identical selfies. Use **Authentic Phone** for ordinary dating/IG realism; it uses main-camera prompting plus a mild resize/JPEG finish to suppress synthetic micro-texture. Use **Professional** for cleaner optics and controlled light. **Candid/action** changes gaze and pose without requiring a separate workflow.
+For the most reliable result, use recent unfiltered photos with visible eyes and hairline. One strong front or three-quarter photo is enough to start; add different angles rather than four nearly identical selfies. For full-body or action shots, include one unobstructed body reference and keep the subject framed close enough that the face remains readable. Use **Authentic Phone** for ordinary dating/IG realism, **Professional** for cleaner optics and controlled light, and **Candid/action** to make gaze and pose explicitly camera-unaware without a separate workflow.
 
 ## Legacy regression archive
 

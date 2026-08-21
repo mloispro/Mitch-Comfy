@@ -15,32 +15,29 @@ Workflow and custom-node files are used in place. Version-controlled scene templ
 
 ## Social Photo Studio — primary workflow
 
-Open `Mitch/production/Social Photo Studio - FLUX Klein` in ComfyUI. It has five visible nodes and only three steps:
+Open `Mitch/production/Social Photo Studio - FLUX.2 Klein 9B KV` in ComfyUI. It has five visible nodes and only three steps:
 
 1. Upload one to four photos of the same consenting adult. A clear face is required; front, left, right, and full-body roles are inferred automatically and can be overridden.
 2. Describe the desired photos. Choose a single photo, six-photo dating pack, or nine-photo Instagram pack; then choose phone, professional, or 35mm style and camera-facing, candid/action, or an automatic mix.
 3. Queue once. Final photos, a contact sheet, and a privacy-safe run report are saved under `ComfyUI\output\social-photo-studio`.
 
-The generator uses FLUX.2 Klein 4B at four steps. It automatically turns each face photo into a compact 640×640 head-and-shoulders identity reference and adds full-body context only to scenes that need proportions. ReActor and a gentle GPEN pass are retained only when identity improves safely; a stronger identity embedding is blended with native FLUX texture to avoid a pasted or overprocessed look. Authentic Phone outputs receive a mild social-upload camera finish that reduces synthetic micro-texture without softening the face. The optional FLUX.2 Klein identity LoRA is off by default; no trigger is guessed when metadata does not provide one.
+The generator uses the official FLUX.2 Klein 9B KV FP8 model in its native four-step image-editing path. Every usable genuine face angle is encoded as a native reference; a full-body reference is added only to proportion-sensitive scenes. There is no face swap, restorer, subject LoRA, synthetic identity fixture, or fake phone-photo post-processing in the production path. `FluxKVCache` keeps repeated pack generation fast.
 
 Run `scripts\setup-social-photo-models.ps1` once before first use, then restart ComfyUI. `scripts\verify.ps1` checks the workflow, presets, unit tests, external model hashes, and live nodes.
 
-Full-body identity is reported conservatively: `reference grounded`, `reference supplied unverified`, or `not supplied`. A plausible generated body is never reported as verified.
+Full-body identity is reported conservatively: `reference grounded`, `reference supplied unverified`, or `not supplied`. A plausible generated body is never reported as verified. Automated InsightFace scores are diagnostics only; likeness acceptance is visual and must be against genuine camera originals.
 
-## Preserved benchmarks and legacy workflows
+## Validated baseline and legacy workflows
 
-The validated Qwen v8 benchmark remains preserved with its 80.81 mean identity score. That historical percentage and the new InsightFace cosine reports are different metrics and should not be compared numerically. Superseded fixed Qwen and Z-Image graphs are hidden from the everyday ComfyUI browser under `checkpoints/legacy-workflows`; versioned Qwen identity experiments remain under `checkpoints/workflows`.
+On the local RTX 3090, the restart baseline produced a one-reference 768×1024 phone portrait in about 13 seconds and a four-reference 1024×1536 candid action photo in about 15 seconds. The tested outputs were visually recognizable as Mitch; their InsightFace cosine diagnostics were approximately 0.69 for a three-angle portrait and 0.61 for the tighter four-reference action shot. These are machine-specific proof runs, not a universal benchmark or an automated identity guarantee.
 
-The v2.1 acceptance tests covered one, two, and four references, camera-facing and action photos, a six-photo reference-only dating pack, and a short optional-LoRA compatibility pack. On the local RTX 3090:
+The old Qwen v8 benchmark remains preserved for regression history. Its historical percentage and current InsightFace cosine diagnostics are different metrics and must not be compared numerically. Superseded fixed Qwen and Z-Image graphs remain under `checkpoints/legacy-workflows`; versioned Qwen identity experiments remain under `checkpoints/workflows`.
 
-- The one-reference phone action photo completed in 8.8 seconds and improved cosine identity from 0.243 natively to 0.759 after the guarded finish.
-- The two-reference phone portrait completed in 10.6 seconds and improved from 0.180 to 0.763.
-- The six-photo no-LoRA dating pack completed in 59.1 seconds with 6/6 safe finishes and mean native/final identity of 0.227/0.742, down from 111.7 seconds in v1.
-- The optional-LoRA three-photo regression completed in 27.1 seconds at 0.419/0.782 mean native/final identity, but the no-LoRA pack already cleared the quality target.
+The v2.1 Social Photo Studio numbers are withdrawn. Those runs accidentally used generated `mitch-workbench-qwen-id-*` portraits as identity ground truth, so their speed measurements remain diagnostic only and their identity scores do not measure likeness to Mitch. The production graph now opens with an empty required reference and the Social Photo node excludes/rejects those fixtures. They remain only for legacy workflow archaeology; Social Photo Studio acceptance must use genuine camera originals supplied explicitly at invocation time.
 
 ## Everyday workflow
 
-1. Open `Mitch/production/Social Photo Studio - FLUX Klein` in ComfyUI.
+1. Open `Mitch/production/Social Photo Studio - FLUX.2 Klein 9B KV` in ComfyUI.
 2. Edit and save normally in ComfyUI. The Git working tree changes immediately.
 3. Validate the result.
 4. Run `scripts\checkpoint.ps1 -Message "Describe the working change"` to verify and commit it.

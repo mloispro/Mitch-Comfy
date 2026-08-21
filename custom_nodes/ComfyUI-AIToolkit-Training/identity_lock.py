@@ -910,7 +910,7 @@ class AIToolkitQwenIdentityLock:
         report_path.write_text(json.dumps(status, indent=2, default=float), encoding="utf-8")
         summary_lines = [
             f"Identity Lock: {accepted_count} accepted; {status['kept_original']} original(s) kept.",
-            f"Identity bank: 15 Qwen portraits + 3 genuine scoring photos ({'cached' if cache_hit else 'indexed now'}).",
+            f"Identity bank: 15 generated angle fixtures + 3 genuine camera photos ({'cached' if cache_hit else 'indexed now'}).",
         ]
         for report in reports:
             if report.get("action") == "not_selected":

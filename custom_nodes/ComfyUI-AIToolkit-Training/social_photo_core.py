@@ -1,8 +1,6 @@
 from __future__ import annotations
 
 import json
-import re
-import struct
 from copy import deepcopy
 from pathlib import Path
 from typing import Any
@@ -22,8 +20,15 @@ SCENE_PRESETS = (
 CAMERA_LOOKS = ("Authentic Phone", "Professional", "35mm Lifestyle")
 CAMERA_RELATIONSHIPS = ("Auto Mix", "Looking at camera", "Candid/action")
 ASPECTS = ("Portrait 2:3", "Instagram 4:5", "Square", "Landscape 3:2")
-IDENTITY_FINISHES = ("Auto", "Native Only", "Force ReActor")
 REFERENCE_ROLES = ("Auto", "Front", "Left", "Right", "Full Body", "General", "Ignore")
+KNOWN_SYNTHETIC_IDENTITY_FIXTURES = {
+    "mitch-qwen-id-front.png",
+    "mitch-qwen-id-left.png",
+    "mitch-qwen-id-right.png",
+    "mitch-workbench-qwen-id-front.png",
+    "mitch-workbench-qwen-id-left.png",
+    "mitch-workbench-qwen-id-right.png",
+}
 
 DEFAULT_COUNTS = {"Single": 1, "Dating Pack": 6, "Instagram Pack": 9}
 RESOLUTIONS = {
@@ -41,10 +46,11 @@ OOM_RESOLUTIONS = {
 
 LOOK_PROMPTS = {
     "Authentic Phone": (
-        "ordinary handheld photo from a recent smartphone main camera, natural 26mm-equivalent perspective, moderate "
-        "depth of field with recognizable background context, casual slightly imperfect framing, ambient practical "
+        "ordinary handheld photo from a recent smartphone main camera, natural 26mm-equivalent perspective, deep "
+        "small-sensor all-purpose focus with the subject and environment both legible, a recognizably detailed background, "
+        "casual slightly imperfect framing, ambient practical "
         "light, phone auto-exposure and white balance, restrained computational sharpening, normal JPEG detail, "
-        "authentic skin texture; standard camera mode rather than simulated portrait-mode blur"
+        "authentic skin texture, and standard camera mode"
     ),
     "Professional": (
         "professional full-frame photograph, intentional composition, controlled natural-looking light, crisp optics, "
@@ -55,6 +61,11 @@ LOOK_PROMPTS = {
         "documentary color"
     ),
 }
+
+
+def is_known_synthetic_identity_fixture(filename: str) -> bool:
+    return Path(str(filename)).name.casefold() in KNOWN_SYNTHETIC_IDENTITY_FIXTURES
+
 
 def load_registry(path: Path | None = None) -> dict[str, Any]:
     source = path or Path(__file__).with_name("social_photo_presets.json")
@@ -139,38 +150,41 @@ def seed_for(base_seed: int, image_index: int) -> int:
 def identity_route(
     final_identities: list[float | None],
     face_reference_count: int,
-    identity_finish: str,
-    identity_lora: str,
 ) -> dict[str, Any]:
     scores = [float(value) for value in final_identities if value is not None]
     mean_identity = sum(scores) / len(scores) if scores else None
     minimum_identity = min(scores) if scores else None
-    if identity_lora != "None":
-        status = "lora_in_use"
-        recommendation = "The selected subject LoRA is already in use."
-    elif identity_finish == "Native Only":
-        status = "finish_disabled"
-        recommendation = "Use Auto identity finish before considering LoRA training."
-    elif not scores:
+    if not scores:
         status = "identity_not_scored"
-        recommendation = "Use a clearer face reference before considering LoRA training."
+        recommendation = "Use a clearer current face reference and compare the result visually."
     elif mean_identity >= 0.60 and minimum_identity >= 0.50:
-        status = "reference_only_sufficient"
-        recommendation = "Reference-only identity cleared the target; LoRA training is not recommended."
+        status = "similarity_target_met_unverified"
+        recommendation = (
+            "Automated facial similarity met its diagnostic target, but it cannot approve identity; "
+            "compare the result visually with genuine camera originals."
+        )
+    elif mean_identity >= 0.55 and minimum_identity >= 0.50:
+        status = "similarity_near_target_visual_review"
+        recommendation = (
+            "Automated facial similarity is near its conservative target; judge the likeness visually "
+            "against genuine camera originals before changing the workflow."
+        )
     elif face_reference_count < 3:
         status = "add_reference_angles"
-        recommendation = "Add genuine front and side-angle references before considering LoRA training."
+        recommendation = "Add genuine current front and side-angle references, then compare visually."
     else:
-        status = "consider_klein_lora"
+        status = "dedicated_identity_adapter_needed"
         recommendation = (
-            "Reference-only identity stayed below target across supplied angles; consider a subject-specific "
-            "FLUX.2 Klein 4B LoRA as the last resort."
+            "Native identity stayed below target across supplied angles. Do not reuse the rejected Klein LoRA; "
+            "visually test a model-compatible identity adapter only as a last resort."
         )
     return {
         "status": status,
         "mean_final_identity": mean_identity,
         "minimum_final_identity": minimum_identity,
         "face_reference_count": int(face_reference_count),
+        "visual_approval_required": True,
+        "score_scope": "InsightFace cosine similarity diagnostic; not proof of identity or likeness.",
         "recommendation": recommendation,
     }
 
@@ -182,69 +196,48 @@ def build_prompt(scene: dict[str, Any], settings: dict[str, Any], body_status: s
     gaze = (
         "the subject is looking naturally toward the camera"
         if relationship == "Looking at camera"
-        else "the subject is absorbed in the activity and not deliberately posing for the camera"
+        else (
+            "the subject is clearly not looking at the camera: keep the face readable in three-quarter view, "
+            "but aim both eyes toward the activity outside the lens; use no posed smile or camera-aware stance"
+        )
     )
     body_instruction = {
         "reference_grounded": "match the supplied full-body reference's visible build and proportions",
         "reference_supplied_unverified": "use the supplied full-body image as soft context without claiming exact body identity",
         "not_supplied": "use plausible natural anatomy; exact body shape is not established by the references",
     }[body_status]
-    trigger = settings.get("lora_trigger", "").strip()
+    face_reference_count = max(1, int(settings.get("face_reference_count", 1)))
+    body_picture_number = settings.get("body_reference_picture")
+    if face_reference_count == 1:
+        reference_intro = "Picture 1 is a genuine facial identity reference for the same consenting adult."
+        identity_picture_label = "Picture 1"
+    else:
+        reference_intro = (
+            f"Pictures 1 through {face_reference_count} are genuine facial identity references of the same "
+            "consenting adult across different angles."
+        )
+        identity_picture_label = f"Pictures 1 through {face_reference_count}"
+    body_reference_intro = ""
+    if body_picture_number is not None and body_status != "not_supplied":
+        body_reference_intro = (
+            f"Picture {int(body_picture_number)} establishes only that same person's visible build and proportions; "
+            "do not copy its pose, clothing, objects, or background."
+        )
     parts = [
-        trigger,
-        "Create one photorealistic image of the same consenting adult shown in the identity references.",
-        "Preserve recognizable facial geometry, hairline, age, skin tone, and distinguishing features without beautifying or changing identity.",
+        reference_intro,
+        body_reference_intro,
+        "Create one new photorealistic image of exactly that same person.",
+        f"Use {identity_picture_label} only to identify the main subject; do not copy their backgrounds, poses, clothing, camera angles, crops, or lighting.",
+        f"Match the facial geometry, hairline, skin tone, eye area, nose, mouth, ears, jaw, and distinctive features shown in {identity_picture_label} exactly.",
+        "Preserve the subject's apparent age and face proportions exactly; do not age, de-age, widen, narrow, beautify, or masculinize the face.",
         scene["prompt"],
         gaze + ".",
         body_instruction + ".",
         LOOK_PROMPTS[settings["camera_look"]] + ".",
         settings.get("brief", "").strip(),
-        "One coherent edge-to-edge photograph, correct anatomy, distinct bystanders, no duplicate of the main subject, no visible brand logo, no text or watermark.",
+        "One coherent edge-to-edge photograph, not a collage, exactly one copy of the main subject, correct anatomy, distinct bystanders, no visible brand logo, no text or watermark.",
     ]
     return " ".join(part.strip(" ,") for part in parts if part.strip()).strip()
-
-
-def read_safetensors_header(path: Path) -> dict[str, Any]:
-    with path.open("rb") as handle:
-        raw_length = handle.read(8)
-        if len(raw_length) != 8:
-            raise ValueError("LoRA is not a valid safetensors file.")
-        header_length = struct.unpack("<Q", raw_length)[0]
-        if header_length <= 2 or header_length > 100_000_000:
-            raise ValueError("LoRA safetensors header length is invalid.")
-        try:
-            return json.loads(handle.read(header_length))
-        except (UnicodeDecodeError, json.JSONDecodeError) as error:
-            raise ValueError("LoRA safetensors header is invalid JSON.") from error
-
-
-def validate_klein_4b_lora(path: Path) -> dict[str, Any]:
-    header = read_safetensors_header(path)
-    tensors = {key: value for key, value in header.items() if key != "__metadata__"}
-    if not tensors:
-        raise ValueError("LoRA contains no tensors.")
-    shapes = [value.get("shape", []) for value in tensors.values()]
-    hidden_3072 = any(3072 in shape for shape in shapes)
-    single_blocks = {
-        int(match.group(1))
-        for key in tensors
-        if (match := re.search(r"single_transformer_blocks\.(\d+)", key))
-    }
-    transformer_blocks = {
-        int(match.group(1))
-        for key in tensors
-        if (match := re.search(r"(?<!single_)transformer_blocks\.(\d+)", key))
-    }
-    if not hidden_3072 or not set(range(20)).issubset(single_blocks) or not set(range(5)).issubset(transformer_blocks):
-        raise ValueError("Selected LoRA is not compatible with the FLUX.2 Klein 4B architecture.")
-    metadata = header.get("__metadata__", {})
-    return {
-        "tensor_count": len(tensors),
-        "hidden_size": 3072,
-        "single_blocks": len(single_blocks),
-        "transformer_blocks": len(transformer_blocks),
-        "metadata": {key: metadata[key] for key in ("format",) if key in metadata},
-    }
 
 
 def sanitize_report(value: Any) -> Any:
@@ -256,6 +249,8 @@ def sanitize_report(value: Any) -> Any:
             if key not in {
                 "references",
                 "face_references",
+                "generation_reference",
+                "body_generation_reference",
                 "face_reference_items",
                 "body_reference_items",
                 "source_path",

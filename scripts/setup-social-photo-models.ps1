@@ -42,26 +42,23 @@ function Ensure-Download {
     Write-Host "Installed: $destinationPath"
 }
 
-$diffusionUrl = "https://huggingface.co/black-forest-labs/FLUX.2-klein-4b-fp8/resolve/main/flux-2-klein-4b-fp8.safetensors"
+$diffusionUrl = "https://huggingface.co/black-forest-labs/FLUX.2-klein-9b-kv-fp8/resolve/main/flux-2-klein-9b-kv-fp8.safetensors"
+$textEncoderUrl = "https://huggingface.co/Comfy-Org/flux2-klein-9B/resolve/main/split_files/text_encoders/qwen_3_8b_fp8mixed.safetensors"
 $vaeUrl = "https://huggingface.co/Comfy-Org/flux2-dev/resolve/main/split_files/vae/flux2-vae.safetensors"
 
 Ensure-Download `
     -Url $diffusionUrl `
-    -Destination (Join-Path $ComfyRoot "models\diffusion_models\flux-2-klein-4b-fp8.safetensors") `
-    -Sha256 "97ED34FE0567E436200F2FAEE3939B88F2B5D99F8AF2A4DC16532C4245C0CCB6"
+    -Destination (Join-Path $ComfyRoot "models\diffusion_models\flux-2-klein-9b-kv-fp8.safetensors") `
+    -Sha256 "33F7DA5625A00798349A719742999D3C7DD20C1A7EDA14663922C363640728F1"
+
+Ensure-Download `
+    -Url $textEncoderUrl `
+    -Destination (Join-Path $ComfyRoot "models\text_encoders\qwen_3_8b_fp8mixed.safetensors") `
+    -Sha256 "ABAD16806E0CBABC54E0325D6565847443FE396D5F0BE38BB3CD3FE75A1201D6"
 
 Ensure-Download `
     -Url $vaeUrl `
     -Destination (Join-Path $ComfyRoot "models\vae\flux2-vae.safetensors") `
     -Sha256 "D64F3A68E1CC4F9F4E29B6E0DA38A0204FE9A49F2D4053F0EC1FA1CA02F9C4B5"
 
-$textEncoder = Join-Path $ComfyRoot "models\text_encoders\qwen_3_4b_fp8_mixed.safetensors"
-if (-not (Test-Path -LiteralPath $textEncoder)) {
-    throw "Missing existing text encoder: $textEncoder"
-}
-$textEncoderHash = (Get-FileHash -LiteralPath $textEncoder -Algorithm SHA256).Hash
-if ($textEncoderHash -ne "72450B19758172C5A7273CF7DE729D1C17E7F434A104A00167624CBA94F68F15") {
-    throw "The existing qwen_3_4b_fp8_mixed.safetensors has an unexpected SHA256."
-}
-
-Write-Host "Social Photo Studio models are installed and verified. Restart ComfyUI before generating."
+Write-Host "FLUX.2 Klein 9B KV Social Photo Studio models are installed and verified. Restart ComfyUI before generating."

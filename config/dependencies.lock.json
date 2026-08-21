@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "recorded_on": "2026-08-20",
+  "recorded_on": "2026-08-21",
   "applications": {
     "comfyui": {
       "path": "C:\\projects\\AI-Tools\\ComfyUI",
@@ -23,6 +23,23 @@
     }
   },
   "external_models": {
+    "flux_2_klein_9b_kv_fp8": {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\diffusion_models\\flux-2-klein-9b-kv-fp8.safetensors",
+      "source": "https://huggingface.co/black-forest-labs/FLUX.2-klein-9b-kv-fp8",
+      "sha256": "33F7DA5625A00798349A719742999D3C7DD20C1A7EDA14663922C363640728F1",
+      "sampling": {
+        "steps": 4,
+        "sampler": "euler",
+        "scheduler": "Flux2Scheduler",
+        "kv_cache": true
+      }
+    },
+    "qwen_3_8b_fp8_mixed": {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\text_encoders\\qwen_3_8b_fp8mixed.safetensors",
+      "source": "https://huggingface.co/Comfy-Org/flux2-klein-9B",
+      "sha256": "ABAD16806E0CBABC54E0325D6565847443FE396D5F0BE38BB3CD3FE75A1201D6",
+      "clip_type": "flux2"
+    },
     "inswapper_128.onnx": {
       "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\insightface\\inswapper_128.onnx",
       "sha256": "E4A3F08C753CB72D04E10AA0F7DBE3DEEBBF39567D4EAD6DCE08E98AA49E16AF"
@@ -31,12 +48,36 @@
       "model_id": "Tongyi-MAI/Z-Image"
     },
     "qwen_image_edit": {
-      "note": "Uses the locally installed Qwen Image Edit 2511 model set referenced by the production workflows."
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\diffusion_models\\qwen_image_edit_2511_fp8mixed.safetensors",
+      "source": "https://huggingface.co/Comfy-Org/Qwen-Image-Edit_ComfyUI/blob/main/split_files/diffusion_models/qwen_image_edit_2511_fp8mixed.safetensors",
+      "sha256": "C9FDC158E46D3B61EF75F21AE866CA2FE808BF4A53643120D1C1E87C19280A4E",
+      "note": "Legacy workflow dependency; not used by Social Photo Studio."
+    },
+    "qwen_2_5_vl_7b_fp8_scaled": {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\text_encoders\\qwen_2.5_vl_7b_fp8_scaled.safetensors",
+      "source": "https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/blob/main/split_files/text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors",
+      "sha256": "CB5636D852A0EA6A9075AB1BEF496C0DB7AEF13C02350571E388AEA959C5C0B4"
+    },
+    "qwen_image_vae": {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\vae\\qwen_image_vae.safetensors",
+      "source": "https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI",
+      "sha256": "A70580F0213E67967EE9C95F05BB400E8FB08307E017A924BF3441223E023D1F"
+    },
+    "qwen_image_edit_2511_lightning_4step": {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\loras\\Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors",
+      "source": "https://huggingface.co/lightx2v/Qwen-Image-Lightning",
+      "sha256": "22226E8D05D354BB356627D428809F5AFD7819399B077238A2B70A82883A904F"
+    },
+    "hyperswap_1c_256": {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\hyperswap\\hyperswap_1c_256.onnx",
+      "sha256": "5528C2D76FE9986C99D829278987EF9F3A630CB606DB7628D02B57B330F406A5",
+      "note": "Legacy identity experiment; not used by Social Photo Studio."
     },
     "flux_2_klein_4b_fp8": {
       "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\diffusion_models\\flux-2-klein-4b-fp8.safetensors",
       "source": "https://huggingface.co/black-forest-labs/FLUX.2-klein-4b-fp8",
       "sha256": "97ED34FE0567E436200F2FAEE3939B88F2B5D99F8AF2A4DC16532C4245C0CCB6",
+      "note": "Legacy experiment; production uses the 9B KV model.",
       "sampling": {
         "steps": 4,
         "guidance": 1.0,
@@ -57,7 +98,7 @@
     "mtch35_flux2_klein_lora": {
       "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\loras\\mtch35-flux2-klein-v4-best.safetensors",
       "sha256": "54841471807F55799C255A244333673FE85542C7050A0B551BEDFF9E86D868F2",
-      "note": "Optional identity LoRA. Compatible 4B architecture verified; trigger is intentionally blank because it is absent from embedded metadata."
+      "note": "Rejected legacy identity experiment; not exposed by Social Photo Studio because visual tests produced an older generic subject."
     }
   }
 }

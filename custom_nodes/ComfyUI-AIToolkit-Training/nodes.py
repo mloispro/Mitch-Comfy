@@ -21,6 +21,7 @@ from .social_workbench import (
     AIToolkitSocialScene,
 )
 from .identity_lock import AIToolkitIdentityLockSettings, AIToolkitQwenIdentityLock
+from .klein9b_identity_test import Klein9BKVIdentityProof
 from .social_photo_studio import SocialPhotoGenerate, SocialPhotoSettings, SocialPhotoSubjectReferences
 
 
@@ -218,6 +219,7 @@ class AIToolkitPublishCompletedLoRA:
 
 
 NODE_CLASS_MAPPINGS = {
+    "Klein9BKVIdentityProof": Klein9BKVIdentityProof,
     "SocialPhotoSubjectReferences": SocialPhotoSubjectReferences,
     "SocialPhotoSettings": SocialPhotoSettings,
     "SocialPhotoGenerate": SocialPhotoGenerate,
@@ -235,6 +237,7 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
+    "Klein9BKVIdentityProof": "Proof: FLUX.2 Klein 9B KV Identity",
     "SocialPhotoSubjectReferences": "Social Photo: 1–4 Subject References",
     "SocialPhotoSettings": "Social Photo: Prompt & Presets",
     "SocialPhotoGenerate": "Social Photo: Generate",

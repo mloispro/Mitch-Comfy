@@ -1,6 +1,6 @@
 {
   "id": "a229b0f6-dc40-4a22-99ad-1c8d9bc1cf61",
-  "revision": 0,
+  "revision": 2,
   "last_node_id": 5,
   "last_link_id": 4,
   "nodes": [
@@ -27,10 +27,10 @@
         {"name": "reference_sheet", "type": "IMAGE", "links": [3], "slot_index": 1},
         {"name": "validation", "type": "STRING", "links": null, "slot_index": 2}
       ],
-      "title": "1. ADD 1–4 PHOTOS OF THE SAME PERSON",
+      "title": "1. ADD 1–4 GENUINE PHOTOS OF THE SAME PERSON",
       "properties": {"Node name for S&R": "SocialPhotoSubjectReferences", "cnr_id": "ComfyUI-AIToolkit-Training"},
       "widgets_values": [
-        "mitch-workbench-qwen-id-front.png",
+        "Upload reference 1",
         "Auto",
         "[none]",
         "Auto",
@@ -46,7 +46,7 @@
       "id": 2,
       "type": "SocialPhotoSettings",
       "pos": [-280, 80],
-      "size": [480, 570],
+      "size": [480, 430],
       "flags": {},
       "order": 1,
       "mode": 0,
@@ -58,18 +58,13 @@
         {"name": "camera_relationship", "type": "COMBO", "widget": {"name": "camera_relationship"}, "link": null},
         {"name": "aspect", "type": "COMBO", "widget": {"name": "aspect"}, "link": null},
         {"name": "photo_count", "type": "INT", "widget": {"name": "photo_count"}, "link": null},
-        {"name": "seed", "type": "INT", "widget": {"name": "seed"}, "link": null},
-        {"name": "identity_finish", "type": "COMBO", "widget": {"name": "identity_finish"}, "link": null},
-        {"name": "identity_lora", "type": "COMBO", "widget": {"name": "identity_lora"}, "link": null},
-        {"name": "lora_strength", "type": "FLOAT", "widget": {"name": "lora_strength"}, "link": null},
-        {"name": "lora_trigger", "type": "STRING", "widget": {"name": "lora_trigger"}, "link": null},
-        {"name": "save_debug_intermediates", "type": "BOOLEAN", "widget": {"name": "save_debug_intermediates"}, "link": null}
+        {"name": "seed", "type": "INT", "widget": {"name": "seed"}, "link": null}
       ],
       "outputs": [
         {"name": "settings", "type": "SOCIAL_PHOTO_SETTINGS", "links": [2], "slot_index": 0},
         {"name": "summary", "type": "STRING", "links": null, "slot_index": 1}
       ],
-      "title": "2. DESCRIBE THE PHOTOS — PICK PHONE OR PRO",
+      "title": "2. TYPE A BRIEF — PICK PRESET, PHONE/PRO, AND GAZE",
       "properties": {"Node name for S&R": "SocialPhotoSettings", "cnr_id": "ComfyUI-AIToolkit-Training"},
       "widgets_values": [
         "Dating Pack",
@@ -79,12 +74,7 @@
         "Auto Mix",
         "Portrait 2:3",
         0,
-        8675309,
-        "Auto",
-        "None",
-        0.85,
-        "",
-        false
+        8675309
       ],
       "color": "#1d4263",
       "bgcolor": "#285b85"
@@ -93,7 +83,7 @@
       "id": 3,
       "type": "SocialPhotoGenerate",
       "pos": [270, 190],
-      "size": [350, 190],
+      "size": [370, 190],
       "flags": {},
       "order": 2,
       "mode": 0,
@@ -108,7 +98,7 @@
         {"name": "output_folder", "type": "STRING", "links": null, "slot_index": 3},
         {"name": "report_json", "type": "STRING", "links": null, "slot_index": 4}
       ],
-      "title": "3. QUEUE ONCE — THE PACK SAVES AUTOMATICALLY",
+      "title": "3. QUEUE ONCE — NATIVE 9B KV SAVES THE PACK",
       "properties": {"Node name for S&R": "SocialPhotoGenerate", "cnr_id": "ComfyUI-AIToolkit-Training"},
       "widgets_values": [],
       "color": "#6a4b12",
@@ -152,7 +142,7 @@
   "groups": [
     {
       "id": 1,
-      "title": "START HERE — ADD REFERENCES, DESCRIBE THE PHOTOS, QUEUE ONCE",
+      "title": "START HERE — 1–4 REFERENCES + ONE BRIEF + PRESETS",
       "bounding": [-820, 20, 1490, 1010],
       "color": "#3f789e",
       "font_size": 30,

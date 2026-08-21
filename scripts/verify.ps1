@@ -35,7 +35,7 @@ Check-Junction (Join-Path $ComfyRoot "custom_nodes\ComfyUI-AIToolkit-Training") 
 Check-Junction (Join-Path $ComfyRoot "custom_nodes\ComfyUI-AlwaysRunImage") (Join-Path $RepoRoot "custom_nodes\ComfyUI-AlwaysRunImage")
 
 $expectedWorkflows = @(
-    "workflows\production\Social Photo Studio - FLUX Klein.json",
+    "workflows\production\Social Photo Studio - FLUX.2 Klein 9B KV.json",
     "workflows\production\Dataset gen - QWEN 2511 - 3-photo.json",
     "workflows\production\ReActor Multi-Person Identity Finish - Sharper Face.json",
     "workflows\production\Train Generated Dataset - AI Toolkit.json",
@@ -57,7 +57,7 @@ foreach ($relativePath in $expectedWorkflows) {
     }
 }
 
-$socialWorkflowPath = Join-Path $RepoRoot "workflows\production\Social Photo Studio - FLUX Klein.json"
+$socialWorkflowPath = Join-Path $RepoRoot "workflows\production\Social Photo Studio - FLUX.2 Klein 9B KV.json"
 if (Test-Path -LiteralPath $socialWorkflowPath) {
     try {
         $socialWorkflow = Get-Content -Raw -LiteralPath $socialWorkflowPath | ConvertFrom-Json
@@ -68,6 +68,13 @@ if (Test-Path -LiteralPath $socialWorkflowPath) {
             if ($requiredNode -notin @($socialWorkflow.nodes.type)) {
                 $errors.Add("Social Photo Studio workflow is missing node: $requiredNode")
             }
+        }
+        $subjectNode = @($socialWorkflow.nodes | Where-Object { $_.type -eq "SocialPhotoSubjectReferences" })[0]
+        if ($subjectNode -and $subjectNode.widgets_values[0] -ne "Upload reference 1") {
+            $errors.Add("Social Photo Studio must open with an empty required reference, never a preselected identity image.")
+        }
+        if ((Get-Content -Raw -LiteralPath $socialWorkflowPath) -match "mitch(?:-workbench)?-qwen-id-(front|left|right)") {
+            $errors.Add("Social Photo Studio production workflow contains a generated identity fixture.")
         }
     } catch {
         $errors.Add("Social Photo Studio workflow JSON is invalid: $($_.Exception.Message)")
@@ -111,37 +118,9 @@ foreach ($asset in @(
 }
 
 foreach ($model in @(
-    @{ Path = "models\diffusion_models\qwen_image_2512_fp8_e4m3fn.safetensors"; Size = 20430679144 },
-    @{ Path = "models\loras\Qwen-Image-2512-Lightning-4steps-V1.0-fp32.safetensors"; Size = 1698951104 },
-    @{ Path = "models\loras\samsung_qwen2512.safetensors"; Size = 295146160 },
-    @{ Path = "models\diffusion_models\qwen_image_edit_2511_fp8mixed.safetensors"; Size = 20533762817 },
-    @{ Path = "models\loras\Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors"; Size = 849608296 },
-    @{ Path = "models\text_encoders\qwen_2.5_vl_7b_fp8_scaled.safetensors"; Size = 9384670680 },
-    @{ Path = "models\vae\qwen_image_vae.safetensors"; Size = 253806246 }
-)) {
-    $modelPath = Join-Path $ComfyRoot $model.Path
-    if (-not (Test-Path -LiteralPath $modelPath)) {
-        $errors.Add("Missing required dating-pack model: $($model.Path)")
-        continue
-    }
-    if ((Get-Item -LiteralPath $modelPath).Length -ne $model.Size) {
-        $errors.Add("Unexpected model size: $($model.Path)")
-    }
-}
-
-foreach ($model in @(
-    @{
-        Path = "models\diffusion_models\flux-2-klein-4b-fp8.safetensors"
-        Sha256 = "97ED34FE0567E436200F2FAEE3939B88F2B5D99F8AF2A4DC16532C4245C0CCB6"
-    },
-    @{
-        Path = "models\vae\flux2-vae.safetensors"
-        Sha256 = "D64F3A68E1CC4F9F4E29B6E0DA38A0204FE9A49F2D4053F0EC1FA1CA02F9C4B5"
-    },
-    @{
-        Path = "models\text_encoders\qwen_3_4b_fp8_mixed.safetensors"
-        Sha256 = "72450B19758172C5A7273CF7DE729D1C17E7F434A104A00167624CBA94F68F15"
-    }
+    @{ Path = "models\diffusion_models\flux-2-klein-9b-kv-fp8.safetensors"; Sha256 = "33F7DA5625A00798349A719742999D3C7DD20C1A7EDA14663922C363640728F1" },
+    @{ Path = "models\text_encoders\qwen_3_8b_fp8mixed.safetensors"; Sha256 = "ABAD16806E0CBABC54E0325D6565847443FE396D5F0BE38BB3CD3FE75A1201D6" },
+    @{ Path = "models\vae\flux2-vae.safetensors"; Sha256 = "D64F3A68E1CC4F9F4E29B6E0DA38A0204FE9A49F2D4053F0EC1FA1CA02F9C4B5" }
 )) {
     $modelPath = Join-Path $ComfyRoot $model.Path
     if (-not (Test-Path -LiteralPath $modelPath)) {
@@ -151,28 +130,6 @@ foreach ($model in @(
     $actualHash = (Get-FileHash -LiteralPath $modelPath -Algorithm SHA256).Hash
     if ($actualHash -ne $model.Sha256) {
         $errors.Add("Unexpected SHA256 for Social Photo Studio model: $($model.Path)")
-    }
-}
-
-$identityLora = Join-Path $ComfyRoot "models\loras\mtch35-flux2-klein-v4-best.safetensors"
-if (Test-Path -LiteralPath $identityLora) {
-    $identityLoraHash = (Get-FileHash -LiteralPath $identityLora -Algorithm SHA256).Hash
-    if ($identityLoraHash -ne "54841471807F55799C255A244333673FE85542C7050A0B551BEDFF9E86D868F2") {
-        $errors.Add("Optional mtch35 FLUX.2 Klein LoRA has an unexpected SHA256.")
-    }
-}
-
-foreach ($model in @(
-    @{ Path = "models\insightface\inswapper_128.onnx"; Size = 554253681 },
-    @{ Path = "models\facerestore_models\GPEN-BFR-512.onnx"; Size = 284244491 }
-)) {
-    $modelPath = Join-Path $ComfyRoot $model.Path
-    if (-not (Test-Path -LiteralPath $modelPath)) {
-        $errors.Add("Missing Social Photo Studio identity model: $($model.Path)")
-        continue
-    }
-    if ((Get-Item -LiteralPath $modelPath).Length -ne $model.Size) {
-        $errors.Add("Unexpected identity model size: $($model.Path)")
     }
 }
 
@@ -193,17 +150,8 @@ try {
         "SocialPhotoSubjectReferences",
         "SocialPhotoSettings",
         "SocialPhotoGenerate",
-        "ReActorFaceSwapOpt",
-        "ReActorBuildFaceModel",
-        "ReActorSetWeight",
-        "ReActorOptions",
-        "ReActorFaceBoost",
-        "Flux2Scheduler",
-        "ReferenceLatent",
-        "ComfySwitchNode",
-        "EmptySD3LatentImage",
-        "TextEncodeQwenImageEditPlus",
-        "ReActorFaceSimilarity"
+        "Klein9BKVIdentityProof",
+        "KSampler"
     )) {
         $info = Invoke-RestMethod -Uri "$ComfyUrl/object_info/$nodeName" -TimeoutSec 5
         if (-not $info.$nodeName) {

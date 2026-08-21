@@ -1,23 +1,30 @@
 param(
     [string]$ComfyUrl = "http://127.0.0.1:8188",
-    [string]$Reference1 = "mitch-workbench-qwen-id-front.png",
-    [string]$Reference2 = "mitch-workbench-qwen-id-left.png",
-    [string]$Reference3 = "mitch-workbench-qwen-id-right.png",
+    [Parameter(Mandatory = $true)][string]$Reference1,
+    [string]$Reference2 = "[none]",
+    [string]$Reference3 = "[none]",
     [string]$Reference4 = "[none]",
     [ValidateSet("Auto", "Front", "Left", "Right", "Full Body", "General", "Ignore")][string]$Reference4Role = "Auto",
     [ValidateSet("Single", "Dating Pack", "Instagram Pack")][string]$Mode = "Single",
+    [string]$Brief = "A relaxed, approachable outdoor portrait suitable for a modern dating profile.",
     [ValidateSet("Auto Mix", "Natural Candid", "Smart Casual", "Travel", "Hobby/Active", "Pet", "Night Out", "Custom")][string]$ScenePreset = "Natural Candid",
     [ValidateSet("Authentic Phone", "Professional", "35mm Lifestyle")][string]$CameraLook = "Authentic Phone",
     [ValidateSet("Auto Mix", "Looking at camera", "Candid/action")][string]$CameraRelationship = "Looking at camera",
-    [ValidateSet("Portrait 2:3", "Instagram 4:5", "Square 1:1", "Landscape 3:2")][string]$Aspect = "Portrait 2:3",
+    [ValidateSet("Portrait 2:3", "Instagram 4:5", "Square", "Landscape 3:2")][string]$Aspect = "Portrait 2:3",
     [int]$PhotoCount = 1,
-    [ValidateSet("Native Only", "Auto", "Force ReActor")][string]$IdentityFinish = "Auto",
-    [string]$IdentityLora = "None",
-    [bool]$SaveDebugIntermediates = $false,
+    [long]$Seed = 8675309,
     [int]$TimeoutSeconds = 600
 )
 
 $ErrorActionPreference = "Stop"
+$references = @($Reference1, $Reference2, $Reference3, $Reference4) | Where-Object { $_ -ne "[none]" }
+$knownSyntheticFixture = $references | Where-Object {
+    [IO.Path]::GetFileName($_) -match "^mitch(?:-workbench)?-qwen-id-(front|left|right)\.png$"
+}
+if ($knownSyntheticFixture) {
+    throw "Generated Qwen identity fixtures cannot be used by Social Photo Studio. Pass genuine camera originals."
+}
+
 $prompt = @{
     "1" = @{
         class_type = "SocialPhotoSubjectReferences"
@@ -36,18 +43,13 @@ $prompt = @{
         class_type = "SocialPhotoSettings"
         inputs = @{
             mode = $Mode
-            brief = "A relaxed, approachable outdoor portrait suitable for a modern dating profile."
+            brief = $Brief
             scene_preset = $ScenePreset
             camera_look = $CameraLook
             camera_relationship = $CameraRelationship
             aspect = $Aspect
             photo_count = $PhotoCount
-            seed = 8675309
-            identity_finish = $IdentityFinish
-            identity_lora = $IdentityLora
-            lora_strength = 0.85
-            lora_trigger = ""
-            save_debug_intermediates = $SaveDebugIntermediates
+            seed = $Seed
         }
     }
     "3" = @{
