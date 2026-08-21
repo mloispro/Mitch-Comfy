@@ -36,6 +36,7 @@ def load_settings(path: Path | None = None) -> dict[str, Any]:
         "ai_toolkit_api_url",
         "z_image_model",
         "z_image_arch",
+        "z_image_assistant_lora",
         "generated_dataset_path",
         "generated_dataset_trigger",
         "comfy_lora_path",
@@ -379,6 +380,7 @@ def build_zimage_job_config(
                         "qtype_te": "qfloat8",
                         "low_vram": True,
                         "layer_offloading": False,
+                        "assistant_lora_path": settings["z_image_assistant_lora"],
                     },
                 }
             ],

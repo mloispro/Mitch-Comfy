@@ -60,7 +60,7 @@ class AIToolkitTrainGeneratedDataset:
                 job_name=job_name,
                 dataset=dataset,
                 trigger_word=dataset.trigger_word,
-                steps=3000,
+                steps=1000,
                 learning_rate=0.0001,
                 rank=16,
                 save_every=250,
@@ -88,7 +88,7 @@ class AIToolkitTrainGeneratedDataset:
             "trigger_word": dataset.trigger_word,
             "training_defaults": {
                 "model": settings["z_image_model"],
-                "steps": 3000,
+                "steps": 1000,
                 "rank": 16,
                 "learning_rate": 0.0001,
                 "save_every": 250,
@@ -97,7 +97,7 @@ class AIToolkitTrainGeneratedDataset:
             "comfy_lora_name": lora_name,
         }
         step = int(job.get("step") or 0)
-        total_steps = int(job.get("total_steps") or 3000)
+        total_steps = int(job.get("total_steps") or 1000)
         visible_status = (
             f"{status.upper()} | {job_name}\n"
             f"Step {step:,} / {total_steps:,}\n"

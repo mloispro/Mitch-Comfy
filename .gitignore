@@ -17,6 +17,7 @@ outputs/
 datasets/
 jobs/
 checkpoints/artifacts/
+work/
 *.safetensors
 *.ckpt
 *.pt

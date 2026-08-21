@@ -1,0 +1,3573 @@
+{
+  "id": "64aa8c75-d125-47c6-bcc8-0b442918f15e",
+  "revision": 0,
+  "last_node_id": 62,
+  "last_link_id": 58,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "UNETLoader",
+      "pos": [
+        -3050.0,
+        -1220.0
+      ],
+      "size": [
+        340,
+        82
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "unet_name",
+          "name": "unet_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "unet_name"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "weight_dtype",
+          "name": "weight_dtype",
+          "type": "COMBO",
+          "widget": {
+            "name": "weight_dtype"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "MODEL",
+          "name": "MODEL",
+          "type": "MODEL",
+          "slot_index": 0,
+          "links": [
+            1
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "UNETLoader",
+        "cnr_id": "comfy-core",
+        "ver": "0.3.48",
+        "models": [
+          {
+            "name": "qwen_image_edit_fp8_e4m3fn.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/Qwen-Image-Edit_ComfyUI/resolve/main/split_files/diffusion_models/qwen_image_edit_fp8_e4m3fn.safetensors",
+            "directory": "diffusion_models"
+          }
+        ],
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "ue_properties": {
+          "version": "7.0.1",
+          "widget_ue_connectable": {}
+        }
+      },
+      "widgets_values": [
+        "qwen_image_edit_2511_fp8mixed.safetensors",
+        "fp8_e4m3fn"
+      ],
+      "title": "QWEN EDIT 2511 MODEL"
+    },
+    {
+      "id": 2,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        -2660.0,
+        -1220.0
+      ],
+      "size": [
+        490,
+        82
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "model",
+          "name": "model",
+          "type": "MODEL",
+          "link": 1
+        },
+        {
+          "localized_name": "lora_name",
+          "name": "lora_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "lora_name"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "strength_model",
+          "name": "strength_model",
+          "type": "FLOAT",
+          "widget": {
+            "name": "strength_model"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "MODEL",
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            2
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoraLoaderModelOnly",
+        "cnr_id": "comfy-core",
+        "ver": "0.3.50",
+        "models": [
+          {
+            "name": "Qwen-Image-Lightning-4steps-V1.0.safetensors",
+            "url": "https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Lightning-4steps-V1.0.safetensors",
+            "directory": "loras"
+          }
+        ],
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "ue_properties": {
+          "version": "7.0.1",
+          "widget_ue_connectable": {
+            "lora_name": true,
+            "strength_model": true
+          }
+        }
+      },
+      "widgets_values": [
+        "Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors",
+        1
+      ],
+      "title": "4-STEP LIGHTNING LORA"
+    },
+    {
+      "id": 3,
+      "type": "ModelSamplingAuraFlow",
+      "pos": [
+        -2250.0,
+        -1220.0
+      ],
+      "size": [
+        210,
+        58
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "model",
+          "name": "model",
+          "type": "MODEL",
+          "link": 2
+        },
+        {
+          "localized_name": "shift",
+          "name": "shift",
+          "type": "FLOAT",
+          "widget": {
+            "name": "shift"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "MODEL",
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            21,
+            44
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ModelSamplingAuraFlow",
+        "cnr_id": "comfy-core",
+        "ver": "0.3.48",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "ue_properties": {
+          "version": "7.0.1",
+          "widget_ue_connectable": {}
+        }
+      },
+      "widgets_values": [
+        3.1
+      ],
+      "title": "QWEN MODEL SAMPLING"
+    },
+    {
+      "id": 4,
+      "type": "CLIPLoader",
+      "pos": [
+        -3050.0,
+        -1050.0
+      ],
+      "size": [
+        330,
+        110
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "clip_name",
+          "name": "clip_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "clip_name"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "type",
+          "name": "type",
+          "type": "COMBO",
+          "widget": {
+            "name": "type"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "device",
+          "name": "device",
+          "shape": 7,
+          "type": "COMBO",
+          "widget": {
+            "name": "device"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "CLIP",
+          "name": "CLIP",
+          "type": "CLIP",
+          "slot_index": 0,
+          "links": [
+            3,
+            17,
+            40
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPLoader",
+        "cnr_id": "comfy-core",
+        "ver": "0.3.48",
+        "models": [
+          {
+            "name": "qwen_2.5_vl_7b_fp8_scaled.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors",
+            "directory": "text_encoders"
+          }
+        ],
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "ue_properties": {
+          "version": "7.0.1",
+          "widget_ue_connectable": {}
+        }
+      },
+      "widgets_values": [
+        "qwen_2.5_vl_7b_fp8_scaled.safetensors",
+        "qwen_image",
+        "default"
+      ],
+      "title": "QWEN TEXT ENCODER"
+    },
+    {
+      "id": 5,
+      "type": "VAELoader",
+      "pos": [
+        -3050.0,
+        -880.0
+      ],
+      "size": [
+        330,
+        60
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "vae_name",
+          "name": "vae_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "vae_name"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "VAE",
+          "name": "VAE",
+          "type": "VAE",
+          "slot_index": 0,
+          "links": [
+            18,
+            26,
+            41,
+            49
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoader",
+        "cnr_id": "comfy-core",
+        "ver": "0.3.48",
+        "models": [
+          {
+            "name": "qwen_image_vae.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/vae/qwen_image_vae.safetensors",
+            "directory": "vae"
+          }
+        ],
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "ue_properties": {
+          "version": "7.0.1",
+          "widget_ue_connectable": {}
+        }
+      },
+      "widgets_values": [
+        "qwen_image_vae.safetensors"
+      ],
+      "title": "QWEN VAE"
+    },
+    {
+      "id": 6,
+      "type": "CLIPTextEncode",
+      "pos": [
+        -2650.0,
+        -1010.0
+      ],
+      "size": [
+        360,
+        130
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "clip",
+          "name": "clip",
+          "type": "CLIP",
+          "link": 3
+        },
+        {
+          "localized_name": "text",
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "CONDITIONING",
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "slot_index": 0,
+          "links": [
+            23,
+            46
+          ]
+        }
+      ],
+      "title": "NEGATIVE (LEAVE EMPTY)",
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode",
+        "cnr_id": "comfy-core",
+        "ver": "0.3.48",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "ue_properties": {
+          "version": "7.0.1",
+          "widget_ue_connectable": {}
+        }
+      },
+      "widgets_values": [
+        ""
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 10,
+      "type": "LoadImage",
+      "pos": [
+        -3050.0,
+        -520.0
+      ],
+      "size": [
+        410,
+        500
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "COMBO",
+          "widget": {
+            "name": "image"
+          },
+          "link": null
+        },
+        {
+          "name": "upload",
+          "type": "IMAGEUPLOAD",
+          "widget": {
+            "name": "upload"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            4,
+            11
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "title": "1A — GENUINE FRONT REFERENCE",
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "20260815_165446.jpg",
+        "image"
+      ]
+    },
+    {
+      "id": 11,
+      "type": "LoadImage",
+      "pos": [
+        -3050.0,
+        -150.0
+      ],
+      "size": [
+        410,
+        500
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "COMBO",
+          "widget": {
+            "name": "image"
+          },
+          "link": null
+        },
+        {
+          "name": "upload",
+          "type": "IMAGEUPLOAD",
+          "widget": {
+            "name": "upload"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            5
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "title": "1B — GENUINE ANGLE REFERENCE",
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "20260508_123156.jpg",
+        "image"
+      ]
+    },
+    {
+      "id": 12,
+      "type": "LoadImage",
+      "pos": [
+        -3050.0,
+        220.0
+      ],
+      "size": [
+        410,
+        500
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "COMBO",
+          "widget": {
+            "name": "image"
+          },
+          "link": null
+        },
+        {
+          "name": "upload",
+          "type": "IMAGEUPLOAD",
+          "widget": {
+            "name": "upload"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            6,
+            12
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "title": "1C — GENUINE ANGLE REFERENCE",
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "20260818_173106.jpg",
+        "image"
+      ]
+    },
+    {
+      "id": 13,
+      "type": "ReActorBuildFaceModel",
+      "pos": [
+        -2640.0,
+        -500.0
+      ],
+      "size": [
+        330,
+        210
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "save_mode",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "save_mode"
+          },
+          "link": null
+        },
+        {
+          "name": "send_only",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "send_only"
+          },
+          "link": null
+        },
+        {
+          "name": "face_model_name",
+          "type": "STRING",
+          "widget": {
+            "name": "face_model_name"
+          },
+          "link": null
+        },
+        {
+          "name": "compute_method",
+          "type": "COMBO",
+          "widget": {
+            "name": "compute_method"
+          },
+          "link": null
+        },
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 4
+        },
+        {
+          "name": "face_models",
+          "type": "FACE_MODEL",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "FACE_MODEL",
+          "type": "FACE_MODEL",
+          "links": [
+            7,
+            30
+          ]
+        }
+      ],
+      "title": "BUILD FRONT IDENTITY",
+      "properties": {
+        "Node name for S&R": "ReActorBuildFaceModel"
+      },
+      "widgets_values": [
+        false,
+        false,
+        "mitch_front",
+        "Mean"
+      ]
+    },
+    {
+      "id": 14,
+      "type": "ReActorBuildFaceModel",
+      "pos": [
+        -2640.0,
+        -130.0
+      ],
+      "size": [
+        330,
+        210
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "save_mode",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "save_mode"
+          },
+          "link": null
+        },
+        {
+          "name": "send_only",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "send_only"
+          },
+          "link": null
+        },
+        {
+          "name": "face_model_name",
+          "type": "STRING",
+          "widget": {
+            "name": "face_model_name"
+          },
+          "link": null
+        },
+        {
+          "name": "compute_method",
+          "type": "COMBO",
+          "widget": {
+            "name": "compute_method"
+          },
+          "link": null
+        },
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 5
+        },
+        {
+          "name": "face_models",
+          "type": "FACE_MODEL",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "FACE_MODEL",
+          "type": "FACE_MODEL",
+          "links": [
+            8
+          ]
+        }
+      ],
+      "title": "BUILD ANGLE IDENTITY 1",
+      "properties": {
+        "Node name for S&R": "ReActorBuildFaceModel"
+      },
+      "widgets_values": [
+        false,
+        false,
+        "mitch_angle_1",
+        "Mean"
+      ]
+    },
+    {
+      "id": 15,
+      "type": "ReActorBuildFaceModel",
+      "pos": [
+        -2640.0,
+        240.0
+      ],
+      "size": [
+        330,
+        210
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "save_mode",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "save_mode"
+          },
+          "link": null
+        },
+        {
+          "name": "send_only",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "send_only"
+          },
+          "link": null
+        },
+        {
+          "name": "face_model_name",
+          "type": "STRING",
+          "widget": {
+            "name": "face_model_name"
+          },
+          "link": null
+        },
+        {
+          "name": "compute_method",
+          "type": "COMBO",
+          "widget": {
+            "name": "compute_method"
+          },
+          "link": null
+        },
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 6
+        },
+        {
+          "name": "face_models",
+          "type": "FACE_MODEL",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "FACE_MODEL",
+          "type": "FACE_MODEL",
+          "links": [
+            9,
+            53
+          ]
+        }
+      ],
+      "title": "BUILD ANGLE IDENTITY 2",
+      "properties": {
+        "Node name for S&R": "ReActorBuildFaceModel"
+      },
+      "widgets_values": [
+        false,
+        false,
+        "mitch_angle_2",
+        "Mean"
+      ]
+    },
+    {
+      "id": 16,
+      "type": "ReActorMakeFaceModelBatch",
+      "pos": [
+        -2210.0,
+        -310.0
+      ],
+      "size": [
+        350,
+        300
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "face_model1",
+          "type": "FACE_MODEL",
+          "link": 7
+        },
+        {
+          "name": "face_model2",
+          "type": "FACE_MODEL",
+          "link": 8
+        },
+        {
+          "name": "face_model3",
+          "type": "FACE_MODEL",
+          "link": 9
+        },
+        {
+          "name": "face_model4",
+          "type": "FACE_MODEL",
+          "link": null
+        },
+        {
+          "name": "face_model5",
+          "type": "FACE_MODEL",
+          "link": null
+        },
+        {
+          "name": "face_model6",
+          "type": "FACE_MODEL",
+          "link": null
+        },
+        {
+          "name": "face_model7",
+          "type": "FACE_MODEL",
+          "link": null
+        },
+        {
+          "name": "face_model8",
+          "type": "FACE_MODEL",
+          "link": null
+        },
+        {
+          "name": "face_model9",
+          "type": "FACE_MODEL",
+          "link": null
+        },
+        {
+          "name": "face_model10",
+          "type": "FACE_MODEL",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "FACE_MODELS",
+          "type": "FACE_MODEL",
+          "links": [
+            10
+          ]
+        }
+      ],
+      "title": "COMBINE 3 GENUINE REFERENCES",
+      "properties": {
+        "Node name for S&R": "ReActorMakeFaceModelBatch"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 17,
+      "type": "ReActorBuildFaceModel",
+      "pos": [
+        -1780.0,
+        -310.0
+      ],
+      "size": [
+        350,
+        220
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "save_mode",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "save_mode"
+          },
+          "link": null
+        },
+        {
+          "name": "send_only",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "send_only"
+          },
+          "link": null
+        },
+        {
+          "name": "face_model_name",
+          "type": "STRING",
+          "widget": {
+            "name": "face_model_name"
+          },
+          "link": null
+        },
+        {
+          "name": "compute_method",
+          "type": "COMBO",
+          "widget": {
+            "name": "compute_method"
+          },
+          "link": null
+        },
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "face_models",
+          "type": "FACE_MODEL",
+          "link": 10
+        }
+      ],
+      "outputs": [
+        {
+          "name": "FACE_MODEL",
+          "type": "FACE_MODEL",
+          "links": null
+        }
+      ],
+      "title": "BLENDED 3-PHOTO IDENTITY MODEL",
+      "properties": {
+        "Node name for S&R": "ReActorBuildFaceModel"
+      },
+      "widgets_values": [
+        true,
+        false,
+        "mitch_3ref_mean",
+        "Mean"
+      ]
+    },
+    {
+      "id": 18,
+      "type": "ReActorOptions",
+      "pos": [
+        -1340.0,
+        -310.0
+      ],
+      "size": [
+        390,
+        310
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "input_faces_order",
+          "type": "COMBO",
+          "widget": {
+            "name": "input_faces_order"
+          },
+          "link": null
+        },
+        {
+          "name": "input_faces_index",
+          "type": "STRING",
+          "widget": {
+            "name": "input_faces_index"
+          },
+          "link": null
+        },
+        {
+          "name": "detect_gender_input",
+          "type": "COMBO",
+          "widget": {
+            "name": "detect_gender_input"
+          },
+          "link": null
+        },
+        {
+          "name": "source_faces_order",
+          "type": "COMBO",
+          "widget": {
+            "name": "source_faces_order"
+          },
+          "link": null
+        },
+        {
+          "name": "source_faces_index",
+          "type": "STRING",
+          "widget": {
+            "name": "source_faces_index"
+          },
+          "link": null
+        },
+        {
+          "name": "detect_gender_source",
+          "type": "COMBO",
+          "widget": {
+            "name": "detect_gender_source"
+          },
+          "link": null
+        },
+        {
+          "name": "console_log_level",
+          "type": "COMBO",
+          "widget": {
+            "name": "console_log_level"
+          },
+          "link": null
+        },
+        {
+          "name": "restore_swapped_only",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "restore_swapped_only"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "OPTIONS",
+          "type": "OPTIONS",
+          "links": [
+            31,
+            54
+          ]
+        }
+      ],
+      "title": "SINGLE FACE — REPLACE INDEX 0",
+      "properties": {
+        "Node name for S&R": "ReActorOptions"
+      },
+      "widgets_values": [
+        "left-right",
+        "0",
+        "male",
+        "large-small",
+        "0",
+        "male",
+        2,
+        true
+      ]
+    },
+    {
+      "id": 19,
+      "type": "ReActorFaceBoost",
+      "pos": [
+        -1340.0,
+        80.0
+      ],
+      "size": [
+        430,
+        260
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "enabled",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "enabled"
+          },
+          "link": null
+        },
+        {
+          "name": "boost_model",
+          "type": "COMBO",
+          "widget": {
+            "name": "boost_model"
+          },
+          "link": null
+        },
+        {
+          "name": "interpolation",
+          "type": "COMBO",
+          "widget": {
+            "name": "interpolation"
+          },
+          "link": null
+        },
+        {
+          "name": "visibility",
+          "type": "FLOAT",
+          "widget": {
+            "name": "visibility"
+          },
+          "link": null
+        },
+        {
+          "name": "codeformer_weight",
+          "type": "FLOAT",
+          "widget": {
+            "name": "codeformer_weight"
+          },
+          "link": null
+        },
+        {
+          "name": "restore_with_main_after",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "restore_with_main_after"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "FACE_BOOST",
+          "type": "FACE_BOOST",
+          "links": [
+            32,
+            55
+          ]
+        }
+      ],
+      "title": "MILD SHARPNESS / DETAIL BOOST",
+      "properties": {
+        "Node name for S&R": "ReActorFaceBoost"
+      },
+      "widgets_values": [
+        true,
+        "codeformer-v0.1.0.pth",
+        "Lanczos",
+        0.4,
+        0.9,
+        false
+      ]
+    },
+    {
+      "id": 20,
+      "type": "ImageScaleToTotalPixels",
+      "pos": [
+        -860.0,
+        -470.0
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "image",
+          "name": "image",
+          "type": "IMAGE",
+          "link": 11
+        },
+        {
+          "localized_name": "upscale_method",
+          "name": "upscale_method",
+          "type": "COMBO",
+          "widget": {
+            "name": "upscale_method"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "megapixels",
+          "name": "megapixels",
+          "type": "FLOAT",
+          "widget": {
+            "name": "megapixels"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "resolution_steps",
+          "name": "resolution_steps",
+          "type": "INT",
+          "widget": {
+            "name": "resolution_steps"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "IMAGE",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            20
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageScaleToTotalPixels",
+        "cnr_id": "comfy-core",
+        "ver": "0.3.41",
+        "ue_properties": {
+          "version": "7.0.1",
+          "widget_ue_connectable": {
+            "upscale_method": true,
+            "megapixels": true
+          }
+        }
+      },
+      "widgets_values": [
+        "lanczos",
+        1.0000000000000002,
+        1
+      ],
+      "title": "AMALFI QWEN ID REFERENCE — FRONT"
+    },
+    {
+      "id": 21,
+      "type": "ImageScaleToTotalPixels",
+      "pos": [
+        -860.0,
+        190.0
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "image",
+          "name": "image",
+          "type": "IMAGE",
+          "link": 12
+        },
+        {
+          "localized_name": "upscale_method",
+          "name": "upscale_method",
+          "type": "COMBO",
+          "widget": {
+            "name": "upscale_method"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "megapixels",
+          "name": "megapixels",
+          "type": "FLOAT",
+          "widget": {
+            "name": "megapixels"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "resolution_steps",
+          "name": "resolution_steps",
+          "type": "INT",
+          "widget": {
+            "name": "resolution_steps"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "IMAGE",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            43
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageScaleToTotalPixels",
+        "cnr_id": "comfy-core",
+        "ver": "0.3.41",
+        "ue_properties": {
+          "version": "7.0.1",
+          "widget_ue_connectable": {
+            "upscale_method": true,
+            "megapixels": true
+          }
+        }
+      },
+      "widgets_values": [
+        "lanczos",
+        1.0000000000000002,
+        1
+      ],
+      "title": "NIGHT QWEN ID REFERENCE — ANGLED"
+    },
+    {
+      "id": 30,
+      "type": "LoadImage",
+      "pos": [
+        0.0,
+        -1160.0
+      ],
+      "size": [
+        410,
+        500
+      ],
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "COMBO",
+          "widget": {
+            "name": "image"
+          },
+          "link": null
+        },
+        {
+          "name": "upload",
+          "type": "IMAGEUPLOAD",
+          "widget": {
+            "name": "upload"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            13
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "title": "AMALFI TEMPLATE — EDITABLE INPUT",
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "mitch-workbench-amalfi-balcony-template.png",
+        "image"
+      ]
+    },
+    {
+      "id": 31,
+      "type": "ImageScaleToTotalPixels",
+      "pos": [
+        410.0,
+        -1140.0
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 19,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "image",
+          "name": "image",
+          "type": "IMAGE",
+          "link": 13
+        },
+        {
+          "localized_name": "upscale_method",
+          "name": "upscale_method",
+          "type": "COMBO",
+          "widget": {
+            "name": "upscale_method"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "megapixels",
+          "name": "megapixels",
+          "type": "FLOAT",
+          "widget": {
+            "name": "megapixels"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "resolution_steps",
+          "name": "resolution_steps",
+          "type": "INT",
+          "widget": {
+            "name": "resolution_steps"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "IMAGE",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            14,
+            19
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageScaleToTotalPixels",
+        "cnr_id": "comfy-core",
+        "ver": "0.3.41",
+        "ue_properties": {
+          "version": "7.0.1",
+          "widget_ue_connectable": {
+            "upscale_method": true,
+            "megapixels": true
+          }
+        }
+      },
+      "widgets_values": [
+        "lanczos",
+        2.0,
+        1
+      ],
+      "title": "AMALFI TEMPLATE — 2MP FOR FACE DETAIL"
+    },
+    {
+      "id": 32,
+      "type": "GetImageSize",
+      "pos": [
+        780.0,
+        -1140.0
+      ],
+      "size": [
+        231.37278747558594,
+        136
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 20,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "image",
+          "name": "image",
+          "type": "IMAGE",
+          "link": 14
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "width",
+          "name": "width",
+          "type": "INT",
+          "links": [
+            15
+          ]
+        },
+        {
+          "localized_name": "height",
+          "name": "height",
+          "type": "INT",
+          "links": [
+            16
+          ]
+        },
+        {
+          "localized_name": "batch_size",
+          "name": "batch_size",
+          "type": "INT",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "GetImageSize",
+        "cnr_id": "comfy-core",
+        "ver": "0.3.60",
+        "ue_properties": {
+          "version": "7.0.1",
+          "widget_ue_connectable": {}
+        }
+      },
+      "widgets_values": [],
+      "title": "AMALFI OUTPUT SIZE"
+    },
+    {
+      "id": 33,
+      "type": "EmptyLatentImage",
+      "pos": [
+        780.0,
+        -920.0
+      ],
+      "size": [
+        270,
+        106
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 21,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "width",
+          "name": "width",
+          "type": "INT",
+          "widget": {
+            "name": "width"
+          },
+          "link": 15
+        },
+        {
+          "localized_name": "height",
+          "name": "height",
+          "type": "INT",
+          "widget": {
+            "name": "height"
+          },
+          "link": 16
+        },
+        {
+          "localized_name": "batch_size",
+          "name": "batch_size",
+          "type": "INT",
+          "widget": {
+            "name": "batch_size"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "LATENT",
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            24
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptyLatentImage",
+        "cnr_id": "comfy-core",
+        "ver": "0.3.60",
+        "ue_properties": {
+          "version": "7.0.1",
+          "widget_ue_connectable": {
+            "width": true,
+            "height": true,
+            "batch_size": true
+          }
+        }
+      },
+      "widgets_values": [
+        512,
+        512,
+        1
+      ],
+      "title": "AMALFI LATENT"
+    },
+    {
+      "id": 34,
+      "type": "TextEncodeQwenImageEditPlus",
+      "pos": [
+        1120.0,
+        -1160.0
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 22,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "clip",
+          "name": "clip",
+          "type": "CLIP",
+          "link": 17
+        },
+        {
+          "localized_name": "vae",
+          "name": "vae",
+          "shape": 7,
+          "type": "VAE",
+          "link": 18
+        },
+        {
+          "localized_name": "image1",
+          "name": "image1",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 19
+        },
+        {
+          "localized_name": "image2",
+          "name": "image2",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 20
+        },
+        {
+          "localized_name": "image3",
+          "name": "image3",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "localized_name": "prompt",
+          "name": "prompt",
+          "type": "STRING",
+          "widget": {
+            "name": "prompt"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "CONDITIONING",
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            22
+          ]
+        }
+      ],
+      "title": "AMALFI — EDIT THIS QWEN PROMPT",
+      "properties": {
+        "Node name for S&R": "TextEncodeQwenImageEditPlus",
+        "cnr_id": "comfy-core",
+        "ver": "0.3.60",
+        "ue_properties": {
+          "version": "7.0.1",
+          "widget_ue_connectable": {
+            "prompt": true
+          }
+        }
+      },
+      "widgets_values": [
+        "Picture 1 is the target photograph and must remain the composition. Replace only the sole man in Picture 1 with the same man shown in Picture 2. Preserve Picture 1 exactly: standing pose, body proportions, relaxed smile and gaze, white linen shirt, arms and hands, balcony railing, Positano buildings, coastline, sea, warm sunlight, camera angle, depth of field, and vertical framing. Transfer Picture 2's identity across the complete head: facial structure, forehead, jaw, ears, hairline, and hair. The output must contain exactly one man with one natural face, with no duplicate or blended face. Photorealistic skin texture."
+      ]
+    },
+    {
+      "id": 35,
+      "type": "KSampler",
+      "pos": [
+        1580.0,
+        -1160.0
+      ],
+      "size": [
+        300,
+        474
+      ],
+      "flags": {},
+      "order": 23,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "model",
+          "name": "model",
+          "type": "MODEL",
+          "link": 21
+        },
+        {
+          "localized_name": "positive",
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 22
+        },
+        {
+          "localized_name": "negative",
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 23
+        },
+        {
+          "localized_name": "latent_image",
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 24
+        },
+        {
+          "localized_name": "seed",
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "steps",
+          "name": "steps",
+          "type": "INT",
+          "widget": {
+            "name": "steps"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "cfg",
+          "name": "cfg",
+          "type": "FLOAT",
+          "widget": {
+            "name": "cfg"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "sampler_name",
+          "name": "sampler_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "sampler_name"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "scheduler",
+          "name": "scheduler",
+          "type": "COMBO",
+          "widget": {
+            "name": "scheduler"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "denoise",
+          "name": "denoise",
+          "type": "FLOAT",
+          "widget": {
+            "name": "denoise"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "LATENT",
+          "name": "LATENT",
+          "type": "LATENT",
+          "slot_index": 0,
+          "links": [
+            25
+          ]
+        }
+      ],
+      "title": "AMALFI — QWEN 4-STEP EDIT",
+      "properties": {
+        "Node name for S&R": "KSampler",
+        "cnr_id": "comfy-core",
+        "ver": "0.3.48",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "ue_properties": {
+          "version": "7.0.1",
+          "widget_ue_connectable": {}
+        }
+      },
+      "widgets_values": [
+        771905223104891,
+        "fixed",
+        4,
+        1,
+        "euler",
+        "simple",
+        1
+      ]
+    },
+    {
+      "id": 36,
+      "type": "VAEDecode",
+      "pos": [
+        1940.0,
+        -1120.0
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 24,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "samples",
+          "name": "samples",
+          "type": "LATENT",
+          "link": 25
+        },
+        {
+          "localized_name": "vae",
+          "name": "vae",
+          "type": "VAE",
+          "link": 26
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "IMAGE",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            27,
+            28,
+            29
+          ]
+        }
+      ],
+      "title": "AMALFI — QWEN DECODE",
+      "properties": {
+        "Node name for S&R": "VAEDecode",
+        "cnr_id": "comfy-core",
+        "ver": "0.3.48",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "ue_properties": {
+          "version": "7.0.1",
+          "widget_ue_connectable": {}
+        }
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 37,
+      "type": "PreviewImage",
+      "pos": [
+        2200.0,
+        -1260.0
+      ],
+      "size": [
+        450,
+        520
+      ],
+      "flags": {},
+      "order": 25,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 27
+        }
+      ],
+      "outputs": [],
+      "title": "AMALFI — QWEN DRAFT",
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 38,
+      "type": "SaveImage",
+      "pos": [
+        2200.0,
+        -650.0
+      ],
+      "size": [
+        360,
+        110
+      ],
+      "flags": {},
+      "order": 26,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 28
+        },
+        {
+          "name": "filename_prefix",
+          "type": "STRING",
+          "widget": {
+            "name": "filename_prefix"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [],
+      "title": "SAVE AMALFI QWEN DRAFT",
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "qwen-reactor-single-person/amalfi-qwen-draft"
+      ]
+    },
+    {
+      "id": 39,
+      "type": "ReActorFaceSwapOpt",
+      "pos": [
+        2620.0,
+        -1150.0
+      ],
+      "size": [
+        420,
+        430
+      ],
+      "flags": {},
+      "order": 27,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "enabled",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "enabled"
+          },
+          "link": null
+        },
+        {
+          "name": "input_image",
+          "type": "IMAGE",
+          "link": 29
+        },
+        {
+          "name": "swap_model",
+          "type": "COMBO",
+          "widget": {
+            "name": "swap_model"
+          },
+          "link": null
+        },
+        {
+          "name": "facedetection",
+          "type": "COMBO",
+          "widget": {
+            "name": "facedetection"
+          },
+          "link": null
+        },
+        {
+          "name": "face_restore_model",
+          "type": "COMBO",
+          "widget": {
+            "name": "face_restore_model"
+          },
+          "link": null
+        },
+        {
+          "name": "face_restore_visibility",
+          "type": "FLOAT",
+          "widget": {
+            "name": "face_restore_visibility"
+          },
+          "link": null
+        },
+        {
+          "name": "codeformer_weight",
+          "type": "FLOAT",
+          "widget": {
+            "name": "codeformer_weight"
+          },
+          "link": null
+        },
+        {
+          "name": "source_image",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "face_model",
+          "type": "FACE_MODEL",
+          "link": 30
+        },
+        {
+          "name": "options",
+          "type": "OPTIONS",
+          "link": 31
+        },
+        {
+          "name": "face_boost",
+          "type": "FACE_BOOST",
+          "link": 32
+        }
+      ],
+      "outputs": [
+        {
+          "name": "SWAPPED_IMAGE",
+          "type": "IMAGE",
+          "links": [
+            33
+          ]
+        },
+        {
+          "name": "FACE_MODEL",
+          "type": "FACE_MODEL",
+          "links": null
+        },
+        {
+          "name": "ORIGINAL_IMAGE",
+          "type": "IMAGE",
+          "links": null
+        }
+      ],
+      "title": "AMALFI — FRONT-MATCHED REACTOR FINISH",
+      "properties": {
+        "Node name for S&R": "ReActorFaceSwapOpt"
+      },
+      "widgets_values": [
+        true,
+        "inswapper_128.onnx",
+        "retinaface_resnet50",
+        "none",
+        1,
+        0.5
+      ]
+    },
+    {
+      "id": 40,
+      "type": "AlwaysRunImage",
+      "pos": [
+        3100.0,
+        -1050.0
+      ],
+      "size": [
+        360,
+        90
+      ],
+      "flags": {},
+      "order": 28,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 33
+        }
+      ],
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "links": [
+            34,
+            35
+          ]
+        }
+      ],
+      "title": "AMALFI — ALWAYS PRODUCE OUTPUT",
+      "properties": {
+        "Node name for S&R": "AlwaysRunImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 41,
+      "type": "PreviewImage",
+      "pos": [
+        3500.0,
+        -1260.0
+      ],
+      "size": [
+        450,
+        520
+      ],
+      "flags": {},
+      "order": 29,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 34
+        }
+      ],
+      "outputs": [],
+      "title": "AMALFI — FINAL IDENTITY MATCH",
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 42,
+      "type": "SaveImage",
+      "pos": [
+        3500.0,
+        -650.0
+      ],
+      "size": [
+        360,
+        110
+      ],
+      "flags": {},
+      "order": 30,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 35
+        },
+        {
+          "name": "filename_prefix",
+          "type": "STRING",
+          "widget": {
+            "name": "filename_prefix"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [],
+      "title": "SAVE AMALFI FINAL",
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "qwen-reactor-single-person/amalfi-final"
+      ]
+    },
+    {
+      "id": 50,
+      "type": "LoadImage",
+      "pos": [
+        0.0,
+        1010.0
+      ],
+      "size": [
+        410,
+        500
+      ],
+      "flags": {},
+      "order": 31,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "COMBO",
+          "widget": {
+            "name": "image"
+          },
+          "link": null
+        },
+        {
+          "name": "upload",
+          "type": "IMAGEUPLOAD",
+          "widget": {
+            "name": "upload"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            36
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "title": "NIGHT CITY TEMPLATE — EDITABLE INPUT",
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "mitch-workbench-night-city-balcony-template.png",
+        "image"
+      ]
+    },
+    {
+      "id": 51,
+      "type": "ImageScaleToTotalPixels",
+      "pos": [
+        410.0,
+        1030.0
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 32,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "image",
+          "name": "image",
+          "type": "IMAGE",
+          "link": 36
+        },
+        {
+          "localized_name": "upscale_method",
+          "name": "upscale_method",
+          "type": "COMBO",
+          "widget": {
+            "name": "upscale_method"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "megapixels",
+          "name": "megapixels",
+          "type": "FLOAT",
+          "widget": {
+            "name": "megapixels"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "resolution_steps",
+          "name": "resolution_steps",
+          "type": "INT",
+          "widget": {
+            "name": "resolution_steps"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "IMAGE",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            37,
+            42
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageScaleToTotalPixels",
+        "cnr_id": "comfy-core",
+        "ver": "0.3.41",
+        "ue_properties": {
+          "version": "7.0.1",
+          "widget_ue_connectable": {
+            "upscale_method": true,
+            "megapixels": true
+          }
+        }
+      },
+      "widgets_values": [
+        "lanczos",
+        2.0,
+        1
+      ],
+      "title": "NIGHT TEMPLATE — 2MP FOR FACE DETAIL"
+    },
+    {
+      "id": 52,
+      "type": "GetImageSize",
+      "pos": [
+        780.0,
+        1030.0
+      ],
+      "size": [
+        231.37278747558594,
+        136
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 33,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "image",
+          "name": "image",
+          "type": "IMAGE",
+          "link": 37
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "width",
+          "name": "width",
+          "type": "INT",
+          "links": [
+            38
+          ]
+        },
+        {
+          "localized_name": "height",
+          "name": "height",
+          "type": "INT",
+          "links": [
+            39
+          ]
+        },
+        {
+          "localized_name": "batch_size",
+          "name": "batch_size",
+          "type": "INT",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "GetImageSize",
+        "cnr_id": "comfy-core",
+        "ver": "0.3.60",
+        "ue_properties": {
+          "version": "7.0.1",
+          "widget_ue_connectable": {}
+        }
+      },
+      "widgets_values": [],
+      "title": "NIGHT OUTPUT SIZE"
+    },
+    {
+      "id": 53,
+      "type": "EmptyLatentImage",
+      "pos": [
+        780.0,
+        1250.0
+      ],
+      "size": [
+        270,
+        106
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 34,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "width",
+          "name": "width",
+          "type": "INT",
+          "widget": {
+            "name": "width"
+          },
+          "link": 38
+        },
+        {
+          "localized_name": "height",
+          "name": "height",
+          "type": "INT",
+          "widget": {
+            "name": "height"
+          },
+          "link": 39
+        },
+        {
+          "localized_name": "batch_size",
+          "name": "batch_size",
+          "type": "INT",
+          "widget": {
+            "name": "batch_size"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "LATENT",
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            47
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptyLatentImage",
+        "cnr_id": "comfy-core",
+        "ver": "0.3.60",
+        "ue_properties": {
+          "version": "7.0.1",
+          "widget_ue_connectable": {
+            "width": true,
+            "height": true,
+            "batch_size": true
+          }
+        }
+      },
+      "widgets_values": [
+        512,
+        512,
+        1
+      ],
+      "title": "NIGHT LATENT"
+    },
+    {
+      "id": 54,
+      "type": "TextEncodeQwenImageEditPlus",
+      "pos": [
+        1120.0,
+        1010.0
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 35,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "clip",
+          "name": "clip",
+          "type": "CLIP",
+          "link": 40
+        },
+        {
+          "localized_name": "vae",
+          "name": "vae",
+          "shape": 7,
+          "type": "VAE",
+          "link": 41
+        },
+        {
+          "localized_name": "image1",
+          "name": "image1",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 42
+        },
+        {
+          "localized_name": "image2",
+          "name": "image2",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 43
+        },
+        {
+          "localized_name": "image3",
+          "name": "image3",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "localized_name": "prompt",
+          "name": "prompt",
+          "type": "STRING",
+          "widget": {
+            "name": "prompt"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "CONDITIONING",
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            45
+          ]
+        }
+      ],
+      "title": "NIGHT CITY — EDIT THIS QWEN PROMPT",
+      "properties": {
+        "Node name for S&R": "TextEncodeQwenImageEditPlus",
+        "cnr_id": "comfy-core",
+        "ver": "0.3.60",
+        "ue_properties": {
+          "version": "7.0.1",
+          "widget_ue_connectable": {
+            "prompt": true
+          }
+        }
+      },
+      "widgets_values": [
+        "Picture 1 is the target photograph and must remain the composition. Replace only the sole man in Picture 1 with the same man shown in Picture 2. Preserve Picture 1 exactly: downward three-quarter head angle and gaze, leaning pose, both arms and hands on the railing, black open-collar shirt, black trousers, watch, glass balcony, night skyline, city lights, lighting, camera angle, depth of field, and vertical framing. Transfer Picture 2's identity across the complete head: facial structure, forehead, jaw, ears, hairline, and hair. The output must contain exactly one man with one natural face, with no duplicate or blended face. Photorealistic skin texture."
+      ]
+    },
+    {
+      "id": 55,
+      "type": "KSampler",
+      "pos": [
+        1580.0,
+        1010.0
+      ],
+      "size": [
+        300,
+        474
+      ],
+      "flags": {},
+      "order": 36,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "model",
+          "name": "model",
+          "type": "MODEL",
+          "link": 44
+        },
+        {
+          "localized_name": "positive",
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 45
+        },
+        {
+          "localized_name": "negative",
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 46
+        },
+        {
+          "localized_name": "latent_image",
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 47
+        },
+        {
+          "localized_name": "seed",
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "steps",
+          "name": "steps",
+          "type": "INT",
+          "widget": {
+            "name": "steps"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "cfg",
+          "name": "cfg",
+          "type": "FLOAT",
+          "widget": {
+            "name": "cfg"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "sampler_name",
+          "name": "sampler_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "sampler_name"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "scheduler",
+          "name": "scheduler",
+          "type": "COMBO",
+          "widget": {
+            "name": "scheduler"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "denoise",
+          "name": "denoise",
+          "type": "FLOAT",
+          "widget": {
+            "name": "denoise"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "LATENT",
+          "name": "LATENT",
+          "type": "LATENT",
+          "slot_index": 0,
+          "links": [
+            48
+          ]
+        }
+      ],
+      "title": "NIGHT CITY — QWEN 4-STEP EDIT",
+      "properties": {
+        "Node name for S&R": "KSampler",
+        "cnr_id": "comfy-core",
+        "ver": "0.3.48",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "ue_properties": {
+          "version": "7.0.1",
+          "widget_ue_connectable": {}
+        }
+      },
+      "widgets_values": [
+        884223670519307,
+        "fixed",
+        4,
+        1,
+        "euler",
+        "simple",
+        1
+      ]
+    },
+    {
+      "id": 56,
+      "type": "VAEDecode",
+      "pos": [
+        1940.0,
+        1050.0
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 37,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "samples",
+          "name": "samples",
+          "type": "LATENT",
+          "link": 48
+        },
+        {
+          "localized_name": "vae",
+          "name": "vae",
+          "type": "VAE",
+          "link": 49
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "IMAGE",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            50,
+            51,
+            52
+          ]
+        }
+      ],
+      "title": "NIGHT CITY — QWEN DECODE",
+      "properties": {
+        "Node name for S&R": "VAEDecode",
+        "cnr_id": "comfy-core",
+        "ver": "0.3.48",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "ue_properties": {
+          "version": "7.0.1",
+          "widget_ue_connectable": {}
+        }
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 57,
+      "type": "PreviewImage",
+      "pos": [
+        2200.0,
+        900.0
+      ],
+      "size": [
+        450,
+        520
+      ],
+      "flags": {},
+      "order": 38,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 50
+        }
+      ],
+      "outputs": [],
+      "title": "NIGHT CITY — QWEN DRAFT",
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 58,
+      "type": "SaveImage",
+      "pos": [
+        2200.0,
+        1510.0
+      ],
+      "size": [
+        360,
+        110
+      ],
+      "flags": {},
+      "order": 39,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 51
+        },
+        {
+          "name": "filename_prefix",
+          "type": "STRING",
+          "widget": {
+            "name": "filename_prefix"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [],
+      "title": "SAVE NIGHT QWEN DRAFT",
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "qwen-reactor-single-person/night-city-qwen-draft"
+      ]
+    },
+    {
+      "id": 59,
+      "type": "ReActorFaceSwapOpt",
+      "pos": [
+        2620.0,
+        1020.0
+      ],
+      "size": [
+        420,
+        430
+      ],
+      "flags": {},
+      "order": 40,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "enabled",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "enabled"
+          },
+          "link": null
+        },
+        {
+          "name": "input_image",
+          "type": "IMAGE",
+          "link": 52
+        },
+        {
+          "name": "swap_model",
+          "type": "COMBO",
+          "widget": {
+            "name": "swap_model"
+          },
+          "link": null
+        },
+        {
+          "name": "facedetection",
+          "type": "COMBO",
+          "widget": {
+            "name": "facedetection"
+          },
+          "link": null
+        },
+        {
+          "name": "face_restore_model",
+          "type": "COMBO",
+          "widget": {
+            "name": "face_restore_model"
+          },
+          "link": null
+        },
+        {
+          "name": "face_restore_visibility",
+          "type": "FLOAT",
+          "widget": {
+            "name": "face_restore_visibility"
+          },
+          "link": null
+        },
+        {
+          "name": "codeformer_weight",
+          "type": "FLOAT",
+          "widget": {
+            "name": "codeformer_weight"
+          },
+          "link": null
+        },
+        {
+          "name": "source_image",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "face_model",
+          "type": "FACE_MODEL",
+          "link": 53
+        },
+        {
+          "name": "options",
+          "type": "OPTIONS",
+          "link": 54
+        },
+        {
+          "name": "face_boost",
+          "type": "FACE_BOOST",
+          "link": 55
+        }
+      ],
+      "outputs": [
+        {
+          "name": "SWAPPED_IMAGE",
+          "type": "IMAGE",
+          "links": [
+            56
+          ]
+        },
+        {
+          "name": "FACE_MODEL",
+          "type": "FACE_MODEL",
+          "links": null
+        },
+        {
+          "name": "ORIGINAL_IMAGE",
+          "type": "IMAGE",
+          "links": null
+        }
+      ],
+      "title": "NIGHT CITY — ANGLE-MATCHED REACTOR FINISH",
+      "properties": {
+        "Node name for S&R": "ReActorFaceSwapOpt"
+      },
+      "widgets_values": [
+        true,
+        "inswapper_128.onnx",
+        "retinaface_resnet50",
+        "none",
+        1,
+        0.5
+      ]
+    },
+    {
+      "id": 60,
+      "type": "AlwaysRunImage",
+      "pos": [
+        3100.0,
+        1120.0
+      ],
+      "size": [
+        360,
+        90
+      ],
+      "flags": {},
+      "order": 41,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 56
+        }
+      ],
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "links": [
+            57,
+            58
+          ]
+        }
+      ],
+      "title": "NIGHT CITY — ALWAYS PRODUCE OUTPUT",
+      "properties": {
+        "Node name for S&R": "AlwaysRunImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 61,
+      "type": "PreviewImage",
+      "pos": [
+        3500.0,
+        900.0
+      ],
+      "size": [
+        450,
+        520
+      ],
+      "flags": {},
+      "order": 42,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 57
+        }
+      ],
+      "outputs": [],
+      "title": "NIGHT CITY — FINAL IDENTITY MATCH",
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 62,
+      "type": "SaveImage",
+      "pos": [
+        3500.0,
+        1510.0
+      ],
+      "size": [
+        360,
+        110
+      ],
+      "flags": {},
+      "order": 43,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 58
+        },
+        {
+          "name": "filename_prefix",
+          "type": "STRING",
+          "widget": {
+            "name": "filename_prefix"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [],
+      "title": "SAVE NIGHT CITY FINAL",
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "qwen-reactor-single-person/night-city-final"
+      ]
+    }
+  ],
+  "links": [
+    [
+      1,
+      1,
+      0,
+      2,
+      0,
+      "MODEL"
+    ],
+    [
+      2,
+      2,
+      0,
+      3,
+      0,
+      "MODEL"
+    ],
+    [
+      3,
+      4,
+      0,
+      6,
+      0,
+      "CLIP"
+    ],
+    [
+      4,
+      10,
+      0,
+      13,
+      4,
+      "IMAGE"
+    ],
+    [
+      5,
+      11,
+      0,
+      14,
+      4,
+      "IMAGE"
+    ],
+    [
+      6,
+      12,
+      0,
+      15,
+      4,
+      "IMAGE"
+    ],
+    [
+      7,
+      13,
+      0,
+      16,
+      0,
+      "FACE_MODEL"
+    ],
+    [
+      8,
+      14,
+      0,
+      16,
+      1,
+      "FACE_MODEL"
+    ],
+    [
+      9,
+      15,
+      0,
+      16,
+      2,
+      "FACE_MODEL"
+    ],
+    [
+      10,
+      16,
+      0,
+      17,
+      5,
+      "FACE_MODEL"
+    ],
+    [
+      11,
+      10,
+      0,
+      20,
+      0,
+      "IMAGE"
+    ],
+    [
+      12,
+      12,
+      0,
+      21,
+      0,
+      "IMAGE"
+    ],
+    [
+      13,
+      30,
+      0,
+      31,
+      0,
+      "IMAGE"
+    ],
+    [
+      14,
+      31,
+      0,
+      32,
+      0,
+      "IMAGE"
+    ],
+    [
+      15,
+      32,
+      0,
+      33,
+      0,
+      "INT"
+    ],
+    [
+      16,
+      32,
+      1,
+      33,
+      1,
+      "INT"
+    ],
+    [
+      17,
+      4,
+      0,
+      34,
+      0,
+      "CLIP"
+    ],
+    [
+      18,
+      5,
+      0,
+      34,
+      1,
+      "VAE"
+    ],
+    [
+      19,
+      31,
+      0,
+      34,
+      2,
+      "IMAGE"
+    ],
+    [
+      20,
+      20,
+      0,
+      34,
+      3,
+      "IMAGE"
+    ],
+    [
+      21,
+      3,
+      0,
+      35,
+      0,
+      "MODEL"
+    ],
+    [
+      22,
+      34,
+      0,
+      35,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      23,
+      6,
+      0,
+      35,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      24,
+      33,
+      0,
+      35,
+      3,
+      "LATENT"
+    ],
+    [
+      25,
+      35,
+      0,
+      36,
+      0,
+      "LATENT"
+    ],
+    [
+      26,
+      5,
+      0,
+      36,
+      1,
+      "VAE"
+    ],
+    [
+      27,
+      36,
+      0,
+      37,
+      0,
+      "IMAGE"
+    ],
+    [
+      28,
+      36,
+      0,
+      38,
+      0,
+      "IMAGE"
+    ],
+    [
+      29,
+      36,
+      0,
+      39,
+      1,
+      "IMAGE"
+    ],
+    [
+      30,
+      13,
+      0,
+      39,
+      8,
+      "FACE_MODEL"
+    ],
+    [
+      31,
+      18,
+      0,
+      39,
+      9,
+      "OPTIONS"
+    ],
+    [
+      32,
+      19,
+      0,
+      39,
+      10,
+      "FACE_BOOST"
+    ],
+    [
+      33,
+      39,
+      0,
+      40,
+      0,
+      "IMAGE"
+    ],
+    [
+      34,
+      40,
+      0,
+      41,
+      0,
+      "IMAGE"
+    ],
+    [
+      35,
+      40,
+      0,
+      42,
+      0,
+      "IMAGE"
+    ],
+    [
+      36,
+      50,
+      0,
+      51,
+      0,
+      "IMAGE"
+    ],
+    [
+      37,
+      51,
+      0,
+      52,
+      0,
+      "IMAGE"
+    ],
+    [
+      38,
+      52,
+      0,
+      53,
+      0,
+      "INT"
+    ],
+    [
+      39,
+      52,
+      1,
+      53,
+      1,
+      "INT"
+    ],
+    [
+      40,
+      4,
+      0,
+      54,
+      0,
+      "CLIP"
+    ],
+    [
+      41,
+      5,
+      0,
+      54,
+      1,
+      "VAE"
+    ],
+    [
+      42,
+      51,
+      0,
+      54,
+      2,
+      "IMAGE"
+    ],
+    [
+      43,
+      21,
+      0,
+      54,
+      3,
+      "IMAGE"
+    ],
+    [
+      44,
+      3,
+      0,
+      55,
+      0,
+      "MODEL"
+    ],
+    [
+      45,
+      54,
+      0,
+      55,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      46,
+      6,
+      0,
+      55,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      47,
+      53,
+      0,
+      55,
+      3,
+      "LATENT"
+    ],
+    [
+      48,
+      55,
+      0,
+      56,
+      0,
+      "LATENT"
+    ],
+    [
+      49,
+      5,
+      0,
+      56,
+      1,
+      "VAE"
+    ],
+    [
+      50,
+      56,
+      0,
+      57,
+      0,
+      "IMAGE"
+    ],
+    [
+      51,
+      56,
+      0,
+      58,
+      0,
+      "IMAGE"
+    ],
+    [
+      52,
+      56,
+      0,
+      59,
+      1,
+      "IMAGE"
+    ],
+    [
+      53,
+      15,
+      0,
+      59,
+      8,
+      "FACE_MODEL"
+    ],
+    [
+      54,
+      18,
+      0,
+      59,
+      9,
+      "OPTIONS"
+    ],
+    [
+      55,
+      19,
+      0,
+      59,
+      10,
+      "FACE_BOOST"
+    ],
+    [
+      56,
+      59,
+      0,
+      60,
+      0,
+      "IMAGE"
+    ],
+    [
+      57,
+      60,
+      0,
+      61,
+      0,
+      "IMAGE"
+    ],
+    [
+      58,
+      60,
+      0,
+      62,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "SHARED QWEN IMAGE EDIT 2511 — loaded once",
+      "bounding": [
+        -3120,
+        -1310,
+        2230,
+        560
+      ],
+      "color": "#3f789e",
+      "flags": {}
+    },
+    {
+      "id": 2,
+      "title": "PROVEN 3-PHOTO REACTOR IDENTITY MODEL",
+      "bounding": [
+        -3120,
+        -650,
+        2300,
+        1180
+      ],
+      "color": "#3f789e",
+      "flags": {}
+    },
+    {
+      "id": 3,
+      "title": "SCENE 1 — AMALFI / POSITANO",
+      "bounding": [
+        -70,
+        -1320,
+        4000,
+        1450
+      ],
+      "color": "#8b5e3c",
+      "flags": {}
+    },
+    {
+      "id": 4,
+      "title": "SCENE 2 — NIGHT CITY BALCONY",
+      "bounding": [
+        -70,
+        840,
+        4000,
+        1450
+      ],
+      "color": "#334d66",
+      "flags": {}
+    }
+  ],
+  "config": {
+    "links_ontop": true
+  },
+  "extra": {
+    "ds": {
+      "scale": 0.27,
+      "offset": [
+        930,
+        420
+      ]
+    },
+    "frontendVersion": "1.27.10",
+    "ue_links": [],
+    "links_added_by_ue": []
+  },
+  "version": 0.4
+}

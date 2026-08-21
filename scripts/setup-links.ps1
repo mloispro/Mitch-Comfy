@@ -35,4 +35,12 @@ Ensure-Junction -Path (Join-Path $ComfyRoot "user\default\workflows\Mitch") -Tar
 Ensure-Junction -Path (Join-Path $ComfyRoot "custom_nodes\ComfyUI-AIToolkit-Training") -Target (Join-Path $RepoRoot "custom_nodes\ComfyUI-AIToolkit-Training")
 Ensure-Junction -Path (Join-Path $ComfyRoot "custom_nodes\ComfyUI-AlwaysRunImage") -Target (Join-Path $RepoRoot "custom_nodes\ComfyUI-AlwaysRunImage")
 
+$inputAssetSource = Join-Path $RepoRoot "assets\comfy-input"
+$inputAssetTarget = Join-Path $ComfyRoot "input"
+foreach ($asset in Get-ChildItem -LiteralPath $inputAssetSource -File -Recurse) {
+    $liveName = "mitch-workbench-$($asset.Name)"
+    Copy-Item -LiteralPath $asset.FullName -Destination (Join-Path $inputAssetTarget $liveName) -Force
+    Write-Host "Synced input asset: $liveName"
+}
+
 Write-Host "Links are ready. Restart ComfyUI after custom-node changes."

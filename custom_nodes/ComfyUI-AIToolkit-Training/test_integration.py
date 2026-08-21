@@ -84,14 +84,24 @@ class IntegrationTests(unittest.TestCase):
             (folder / "one.txt").write_text("caption", encoding="utf-8")
             report = validate_dataset(str(folder), "token")
             config = build_zimage_job_config(
-                {"z_image_model": "Tongyi-MAI/Z-Image", "z_image_arch": "zimage"},
+                {
+                    "z_image_model": "Tongyi-MAI/Z-Image-Turbo",
+                    "z_image_arch": "zimage",
+                    "z_image_assistant_lora": (
+                        "ostris/zimage_turbo_training_adapter/"
+                        "zimage_turbo_training_adapter_v2.safetensors"
+                    ),
+                },
                 job_name="unit-test", dataset=report, trigger_word="token", steps=10,
                 learning_rate=0.0001, rank=16, save_every=5,
             )
             process = config["config"]["process"][0]
             self.assertEqual(process["type"], "diffusion_trainer")
             self.assertEqual(process["model"]["arch"], "zimage")
-            self.assertNotIn("assistant_lora_path", process["model"])
+            self.assertEqual(
+                process["model"]["assistant_lora_path"],
+                "ostris/zimage_turbo_training_adapter/zimage_turbo_training_adapter_v2.safetensors",
+            )
             self.assertEqual(process["datasets"][0]["caption_ext"], "txt")
 
     def test_submit_uses_job_and_queue_api(self):
