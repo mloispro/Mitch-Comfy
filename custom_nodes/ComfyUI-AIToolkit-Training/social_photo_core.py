@@ -41,8 +41,8 @@ OOM_RESOLUTIONS = {
 
 LOOK_PROMPTS = {
     "Authentic Phone": (
-        "authentic recent smartphone photo, natural auto-exposure, mild sensor grain, realistic sharpening, "
-        "ordinary dynamic range, no beauty filter"
+        "authentic recent smartphone photo, natural auto-exposure, extremely subtle sensor texture, normal JPEG detail, "
+        "ordinary dynamic range, no beauty filter, no artificial film grain"
     ),
     "Professional": (
         "professional full-frame photograph, intentional composition, controlled natural-looking light, crisp optics, "
@@ -57,7 +57,7 @@ LOOK_PROMPTS = {
 NEGATIVE_PROMPT = (
     "CGI, illustration, painting, waxy skin, plastic skin, beauty filter, excessive skin smoothing, malformed face, "
     "asymmetric eyes, bad hands, extra fingers, missing fingers, extra limbs, duplicate subject, cloned face, collage, "
-    "split screen, text, watermark, logo, frame, blank border"
+    "split screen, heavy grain, oversharpening, crunchy texture, text, watermark, logo, frame, blank border"
 )
 
 

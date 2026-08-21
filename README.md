@@ -29,7 +29,9 @@ Full-body identity is reported conservatively: `reference grounded`, `reference 
 
 ## Preserved benchmarks and legacy workflows
 
-The validated Qwen v8 benchmark remains preserved with its 80.81 mean identity score. Large fixed Qwen graphs and the earlier Z-Image workflows remain available for regression testing under `workflows/experiments` and `checkpoints/workflows`; they are no longer the documented everyday path.
+The validated Qwen v8 benchmark remains preserved with its 80.81 mean identity score. That historical percentage and the new InsightFace cosine reports are different metrics and should not be compared numerically. Superseded fixed Qwen and Z-Image graphs are hidden from the everyday ComfyUI browser under `checkpoints/legacy-workflows`; versioned Qwen identity experiments remain under `checkpoints/workflows`.
+
+The release smoke tests covered one to four references, phone and professional/action singles, a six-photo reference-only dating pack, and a nine-photo 4:5 Instagram pack using the optional identity LoRA. The nine-photo run completed in 121.9 seconds on the local RTX 3090 and improved mean cosine identity from 0.381 natively to 0.713 after the guarded finish.
 
 ## Everyday workflow
 

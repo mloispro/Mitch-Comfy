@@ -22,7 +22,17 @@ import nodes as comfy_nodes
 from comfy_extras.nodes_custom_sampler import CFGGuider, KSamplerSelect, RandomNoise, SamplerCustomAdvanced
 from comfy_extras.nodes_flux import EmptyFlux2LatentImage, Flux2Scheduler, FluxKVCache
 
-from .identity_lock import _cosine, _embedding, _faces, _rgb_tensor, _select_subject, _tensor_rgb, _yaw
+from .identity_lock import (
+    _composite,
+    _cosine,
+    _embedding,
+    _faces,
+    _head_crop,
+    _rgb_tensor,
+    _select_subject,
+    _tensor_rgb,
+    _yaw,
+)
 from .social_photo_core import (
     ASPECTS,
     CAMERA_LOOKS,
@@ -95,6 +105,10 @@ def _lora_choices() -> list[str]:
 def _require_model(folder: str, filename: str, setup_hint: str = "scripts/setup-social-photo-models.ps1") -> Path:
     resolved = folder_paths.get_full_path(folder, filename)
     if resolved is None:
+        conventional = Path(folder_paths.models_dir) / folder / filename
+        if conventional.is_file():
+            resolved = str(conventional)
+    if resolved is None:
         raise RuntimeError(
             f"Social Photo Studio requires {filename}. Run {setup_hint} once, restart ComfyUI, and try again."
         )
@@ -111,6 +125,48 @@ def _sha256(path: Path) -> str:
 
 def _largest_face(faces):
     return max(faces, key=lambda face: float((face.bbox[2] - face.bbox[0]) * (face.bbox[3] - face.bbox[1])))
+
+
+def _crop_geometry_metrics(original_crop: np.ndarray, candidate_crop: np.ndarray, centroid: np.ndarray) -> dict[str, Any]:
+    """Validate the edited subject while tolerating unchanged background faces."""
+    original_faces = _faces(original_crop)
+    candidate_faces = _faces(candidate_crop)
+    if not original_faces or not candidate_faces:
+        return {
+            "valid": False,
+            "reason": "edited_subject_face_missing",
+            "original_face_count": len(original_faces),
+            "candidate_face_count": len(candidate_faces),
+        }
+    original = _largest_face(original_faces)
+    generated = _largest_face(candidate_faces)
+    identity = _cosine(_embedding(generated), centroid)
+    original_identity = _cosine(_embedding(original), centroid)
+    original_pose = np.asarray(getattr(original, "pose", [0.0, 0.0, 0.0]), dtype=np.float32)
+    generated_pose = np.asarray(getattr(generated, "pose", [0.0, 0.0, 0.0]), dtype=np.float32)
+    pose_delta = float(np.linalg.norm(generated_pose - original_pose))
+    original_box = np.asarray(original.bbox, dtype=np.float32)
+    generated_box = np.asarray(generated.bbox, dtype=np.float32)
+    original_center = (original_box[:2] + original_box[2:]) * 0.5
+    generated_center = (generated_box[:2] + generated_box[2:]) * 0.5
+    original_size = np.maximum(original_box[2:] - original_box[:2], 1.0)
+    generated_size = np.maximum(generated_box[2:] - generated_box[:2], 1.0)
+    center_delta = float(np.linalg.norm((generated_center - original_center) / original_size))
+    scale_delta = float(np.max(np.abs(generated_size / original_size - 1.0)))
+    valid = pose_delta <= 24.0 and center_delta <= 0.28 and scale_delta <= 0.38
+    penalty = max(0.0, pose_delta - 7.0) * 0.0025 + center_delta * 0.08 + scale_delta * 0.08
+    return {
+        "valid": bool(valid),
+        "reason": "ok" if valid else "pose_or_geometry_drift",
+        "identity": identity,
+        "original_identity": original_identity,
+        "pose_delta": pose_delta,
+        "center_delta": center_delta,
+        "scale_delta": scale_delta,
+        "selection_score": identity - penalty,
+        "original_face_count": len(original_faces),
+        "candidate_face_count": len(candidate_faces),
+    }
 
 
 def _face_area_ratio(face, rgb: np.ndarray) -> float:
@@ -472,61 +528,82 @@ class SocialPhotoGenerate:
         target, native_identity = _select_subject(original_faces, centroid, original_rgb.shape[1], subject_hint)
         ordered = sorted(original_faces, key=lambda face: float(face.bbox[0]))
         target_index = next(index for index, face in enumerate(ordered) if face is target)
+        target_crop, target_box, target_mask = _head_crop(original_rgb, target, 2.05)
+        crop_tensor = _rgb_tensor(target_crop)
 
         options_class = comfy_nodes.NODE_CLASS_MAPPINGS.get("ReActorOptions")
         boost_class = comfy_nodes.NODE_CLASS_MAPPINGS.get("ReActorFaceBoost")
         swap_class = comfy_nodes.NODE_CLASS_MAPPINGS.get("ReActorFaceSwapOpt")
-        if None in {options_class, boost_class, swap_class}:
+        weight_class = comfy_nodes.NODE_CLASS_MAPPINGS.get("ReActorSetWeight")
+        if None in {options_class, boost_class, swap_class, weight_class}:
             raise RuntimeError("Required ReActor nodes are unavailable. Restart ComfyUI and run verification.")
+        # Blend generated geometry with reference identity conservatively so the
+        # finish strengthens recognition without stamping on a reference pose.
+        _, adaptive_face_model = weight_class().set_weight(
+            crop_tensor, "50%", face_model=face_model
+        )
         options = options_class().execute(
-            "left-right", str(target_index), "no", "large-small", "0", "no", 0, True
+            "large-small", "0", "no", "large-small", "0", "no", 0, True
         )[0]
-        boost = boost_class().execute(True, FACE_RESTORE_MODEL, "Lanczos", 0.70, 0.5, False)[0]
+        boost = boost_class().execute(True, FACE_RESTORE_MODEL, "Lanczos", 0.45, 0.5, False)[0]
         candidate = swap_class().execute(
             True,
-            image,
+            crop_tensor,
             SWAP_MODEL,
             "retinaface_resnet50",
             "none",
             1.0,
             0.5,
-            face_model=face_model,
+            face_model=adaptive_face_model,
             options=options,
             face_boost=boost,
         )[0]
-        candidate_rgb = _tensor_rgb(candidate)
+        candidate_crop = _tensor_rgb(candidate)
+        geometry = _crop_geometry_metrics(target_crop, candidate_crop, centroid)
+        candidate_rgb, _ = _composite(original_rgb, candidate_crop, target_box, target_mask, feather=12)
+        candidate = _rgb_tensor(candidate_rgb)
         candidate_faces = _faces(candidate_rgb)
-        if len(candidate_faces) != len(original_faces):
+        if not candidate_faces:
             return image, {
                 "accepted": False,
-                "reason": "generated_face_count_changed",
+                "reason": "finished_face_not_detected",
                 "native_identity": native_identity,
                 "final_identity": native_identity,
                 "native_face_count": len(original_faces),
-                "candidate_face_count": len(candidate_faces),
+                "candidate_face_count": 0,
             }
         _, candidate_identity = _select_subject(candidate_faces, centroid, candidate_rgb.shape[1], subject_hint)
         improvement = candidate_identity - native_identity
-        accepted = mode == "Force ReActor" or improvement >= IDENTITY_IMPROVEMENT
+        geometry_safe = bool(geometry.get("valid"))
+        accepted = geometry_safe and (mode == "Force ReActor" or improvement >= IDENTITY_IMPROVEMENT)
+        if not geometry_safe:
+            reason = "pose_or_geometry_drift"
+        elif accepted and mode == "Force ReActor":
+            reason = "forced_safe_swap"
+        elif accepted:
+            reason = "identity_improved"
+        else:
+            reason = "no_safe_identity_improvement"
         return (candidate if accepted else image), {
             "accepted": accepted,
-            "reason": "forced_safe_swap" if accepted and mode == "Force ReActor" else (
-                "identity_improved" if accepted else "no_safe_identity_improvement"
-            ),
+            "reason": reason,
             "native_identity": native_identity,
             "candidate_identity": candidate_identity,
             "final_identity": candidate_identity if accepted else native_identity,
             "improvement": improvement,
+            "geometry": geometry,
             "target_left_to_right_index": target_index,
-            "face_count": len(original_faces),
+            "native_face_count": len(original_faces),
+            "candidate_face_count": len(candidate_faces),
         }
 
     def generate(self, subject, settings, prompt=None, extra_pnginfo=None):
         model_path = _require_model("diffusion_models", MODEL_NAME)
         _require_model("text_encoders", CLIP_NAME)
         vae_path = _require_model("vae", VAE_NAME)
-        _require_model("insightface", SWAP_MODEL)
-        _require_model("facerestore_models", FACE_RESTORE_MODEL)
+        if settings["identity_finish"] != "Native Only":
+            _require_model("insightface", SWAP_MODEL)
+            _require_model("facerestore_models", FACE_RESTORE_MODEL)
         scenes = resolve_scenes(settings, load_registry())
         width, height = resolve_resolution(settings["aspect"])
 
@@ -598,6 +675,20 @@ class SocialPhotoGenerate:
                     final, finish_report = self._identity_finish(
                         native, face_model, subject["centroid"], settings["identity_finish"], scene["subject_position"]
                     )
+                else:
+                    native_rgb = _tensor_rgb(native)
+                    native_faces = _faces(native_rgb)
+                    if native_faces:
+                        _, native_identity = _select_subject(
+                            native_faces, subject["centroid"], native_rgb.shape[1], scene["subject_position"]
+                        )
+                        finish_report.update(
+                            {
+                                "native_identity": native_identity,
+                                "final_identity": native_identity,
+                                "face_count": len(native_faces),
+                            }
+                        )
                 native = _resize_output(native, width, height)
                 final = _resize_output(final, width, height)
                 native_images.append(native)

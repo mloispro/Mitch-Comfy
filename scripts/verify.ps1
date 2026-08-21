@@ -38,12 +38,12 @@ $expectedWorkflows = @(
     "workflows\production\Social Photo Studio - FLUX Klein.json",
     "workflows\production\Dataset gen - QWEN 2511 - 3-photo.json",
     "workflows\production\ReActor Multi-Person Identity Finish - Sharper Face.json",
-    "workflows\production\Qwen + ReActor Single-Person Scene Match.json",
-    "workflows\production\Qwen 2512 + ReActor - 9 Dating Photos.json",
     "workflows\production\Train Generated Dataset - AI Toolkit.json",
-    "workflows\experiments\EXPERIMENTAL - Qwen Identity + Build - 9 Dating Photos.json",
-    "workflows\experiments\legacy-z-image\Generate 9 Social Photos - Z-Image LoRA + Qwen Identity Lock.json",
-    "workflows\experiments\legacy-z-image\Generate 9 Social Photos - Z-Image LoRA.json",
+    "checkpoints\legacy-workflows\production\Qwen + ReActor Single-Person Scene Match.json",
+    "checkpoints\legacy-workflows\production\Qwen 2512 + ReActor - 9 Dating Photos.json",
+    "checkpoints\legacy-workflows\experiments\EXPERIMENTAL - Qwen Identity + Build - 9 Dating Photos.json",
+    "checkpoints\legacy-workflows\experiments\legacy-z-image\Generate 9 Social Photos - Z-Image LoRA + Qwen Identity Lock.json",
+    "checkpoints\legacy-workflows\experiments\legacy-z-image\Generate 9 Social Photos - Z-Image LoRA.json",
     "checkpoints\workflows\Qwen Easy Identity + Build - unsafe-body-v3.json",
     "checkpoints\workflows\Qwen Experimental Identity Build v5 - face detail 0.32.json",
     "checkpoints\workflows\Qwen Experimental Identity Build v6 - CodeFormer identity-first.json",
@@ -162,6 +162,20 @@ if (Test-Path -LiteralPath $identityLora) {
     }
 }
 
+foreach ($model in @(
+    @{ Path = "models\insightface\inswapper_128.onnx"; Size = 554253681 },
+    @{ Path = "models\facerestore_models\GPEN-BFR-512.onnx"; Size = 284244491 }
+)) {
+    $modelPath = Join-Path $ComfyRoot $model.Path
+    if (-not (Test-Path -LiteralPath $modelPath)) {
+        $errors.Add("Missing Social Photo Studio identity model: $($model.Path)")
+        continue
+    }
+    if ((Get-Item -LiteralPath $modelPath).Length -ne $model.Size) {
+        $errors.Add("Unexpected identity model size: $($model.Path)")
+    }
+}
+
 Push-Location (Join-Path $RepoRoot "custom_nodes\ComfyUI-AIToolkit-Training")
 try {
     & python -m unittest test_integration.py test_social_photo_core.py
@@ -181,6 +195,9 @@ try {
         "SocialPhotoGenerate",
         "ReActorFaceSwapOpt",
         "ReActorBuildFaceModel",
+        "ReActorSetWeight",
+        "ReActorOptions",
+        "ReActorFaceBoost",
         "Flux2Scheduler",
         "ReferenceLatent",
         "ComfySwitchNode",
