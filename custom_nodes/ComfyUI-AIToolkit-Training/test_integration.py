@@ -7,6 +7,7 @@ from unittest.mock import patch
 from aitk_integration import (
     AIToolkitClient,
     IntegrationError,
+    build_flux2_klein_job_config,
     build_zimage_job_config,
     choose_completed_lora,
     fingerprint_dataset,
@@ -103,6 +104,56 @@ class IntegrationTests(unittest.TestCase):
                 "ostris/zimage_turbo_training_adapter/zimage_turbo_training_adapter_v2.safetensors",
             )
             self.assertEqual(process["datasets"][0]["caption_ext"], "txt")
+
+    def test_flux2_klein_config_is_small_local_and_checkpointed(self):
+        with tempfile.TemporaryDirectory() as temp:
+            folder = Path(temp)
+            (folder / "one.jpg").write_bytes(b"x")
+            (folder / "one.txt").write_text("[trigger], portrait", encoding="utf-8")
+            report = validate_dataset(str(folder), "m1tch_person")
+            config = build_flux2_klein_job_config(
+                job_name="m1tch-klein-v1",
+                dataset=report,
+                trigger_word="m1tch_person",
+                steps=1500,
+                learning_rate=0.00008,
+                rank=16,
+                save_every=250,
+                model_size="9b",
+            )
+            process = config["config"]["process"][0]
+            self.assertEqual(process["model"]["arch"], "flux2_klein_9b")
+            self.assertEqual(
+                process["model"]["name_or_path"],
+                "black-forest-labs/FLUX.2-klein-base-9B",
+            )
+            self.assertEqual(process["network"]["linear"], 16)
+            self.assertEqual(process["save"]["max_step_saves_to_keep"], 6)
+            self.assertTrue(process["train"]["disable_sampling"])
+            self.assertFalse(process["datasets"][0]["flip_x"])
+
+    def test_flux2_klein_config_supports_public_4b_fallback(self):
+        with tempfile.TemporaryDirectory() as temp:
+            folder = Path(temp)
+            (folder / "one.jpg").write_bytes(b"x")
+            (folder / "one.txt").write_text("[trigger], portrait", encoding="utf-8")
+            report = validate_dataset(str(folder), "m1tch_person")
+            config = build_flux2_klein_job_config(
+                job_name="m1tch-klein-4b-v1",
+                dataset=report,
+                trigger_word="m1tch_person",
+                steps=10,
+                learning_rate=0.00008,
+                rank=16,
+                save_every=5,
+                model_size="4b",
+            )
+            process = config["config"]["process"][0]
+            self.assertEqual(process["model"]["arch"], "flux2_klein_4b")
+            self.assertEqual(
+                process["model"]["name_or_path"],
+                "black-forest-labs/FLUX.2-klein-base-4B",
+            )
 
     def test_submit_uses_job_and_queue_api(self):
         settings = {"ai_toolkit_api_url": "http://127.0.0.1:8675"}

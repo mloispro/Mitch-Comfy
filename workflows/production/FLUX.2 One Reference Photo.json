@@ -1,0 +1,62 @@
+{
+  "id": "fe8d1c15-cd55-4c63-8e50-e59722ae19db",
+  "revision": 0,
+  "last_node_id": 2,
+  "last_link_id": 1,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "Flux2OneReferencePhoto",
+      "pos": [-420, 80],
+      "size": [520, 390],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {"name": "face_reference", "type": "COMBO", "widget": {"name": "face_reference"}, "link": null},
+        {"name": "scene_prompt", "type": "STRING", "widget": {"name": "scene_prompt"}, "link": null}
+      ],
+      "outputs": [
+        {"name": "photo", "type": "IMAGE", "links": [1], "slot_index": 0},
+        {"name": "effective_prompt", "type": "STRING", "links": null, "slot_index": 1},
+        {"name": "output_folder", "type": "STRING", "links": null, "slot_index": 2}
+      ],
+      "title": "1. CHOOSE ONE REAL FACE PHOTO — DESCRIBE A NEW SCENE",
+      "properties": {"Node name for S&R": "Flux2OneReferencePhoto", "cnr_id": "ComfyUI-AIToolkit-Training"},
+      "widgets_values": [
+        "Upload one face photo",
+        "A casual waist-up smartphone photo on a shaded city sidewalk in soft afternoon daylight, wearing a fitted navy crew-neck T-shirt, relaxed posture, small natural smile, looking at the camera."
+      ],
+      "color": "#1f4f3c",
+      "bgcolor": "#28664d"
+    },
+    {
+      "id": 2,
+      "type": "PreviewImage",
+      "pos": [180, 80],
+      "size": [520, 610],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [{"name": "images", "type": "IMAGE", "link": 1}],
+      "outputs": [],
+      "title": "2. BEST IDENTITY-CHECKED RESULT",
+      "properties": {"Node name for S&R": "PreviewImage", "cnr_id": "comfy-core"},
+      "widgets_values": []
+    }
+  ],
+  "links": [[1, 1, 0, 2, 0, "IMAGE"]],
+  "groups": [
+    {
+      "id": 1,
+      "title": "ONE FACE PHOTO + ONE PROMPT + ONE RESULT",
+      "bounding": [-460, 20, 1200, 720],
+      "color": "#3f789e",
+      "font_size": 30,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {"ds": {"scale": 0.9, "offset": [550, 80]}, "workflowRendererVersion": "LG"},
+  "version": 0.4
+}

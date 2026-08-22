@@ -35,7 +35,8 @@ Check-Junction (Join-Path $ComfyRoot "custom_nodes\ComfyUI-AIToolkit-Training") 
 Check-Junction (Join-Path $ComfyRoot "custom_nodes\ComfyUI-AlwaysRunImage") (Join-Path $RepoRoot "custom_nodes\ComfyUI-AlwaysRunImage")
 
 $expectedWorkflows = @(
-    "workflows\production\Social Photo Studio - FLUX.2 Klein 9B KV.json",
+    "workflows\production\FLUX.2 One Reference Photo.json",
+    "checkpoints\legacy-workflows\production\Social Photo Studio - FLUX.2 Klein 9B KV (superseded).json",
     "workflows\production\Dataset gen - QWEN 2511 - 3-photo.json",
     "workflows\production\ReActor Multi-Person Identity Finish - Sharper Face.json",
     "workflows\production\Train Generated Dataset - AI Toolkit.json",
@@ -57,27 +58,30 @@ foreach ($relativePath in $expectedWorkflows) {
     }
 }
 
-$socialWorkflowPath = Join-Path $RepoRoot "workflows\production\Social Photo Studio - FLUX.2 Klein 9B KV.json"
-if (Test-Path -LiteralPath $socialWorkflowPath) {
+$oneReferenceWorkflowPath = Join-Path $RepoRoot "workflows\production\FLUX.2 One Reference Photo.json"
+if (Test-Path -LiteralPath $oneReferenceWorkflowPath) {
     try {
-        $socialWorkflow = Get-Content -Raw -LiteralPath $socialWorkflowPath | ConvertFrom-Json
-        if ($socialWorkflow.nodes.Count -gt 9) {
-            $errors.Add("Social Photo Studio must remain at or below 9 visible nodes; found $($socialWorkflow.nodes.Count).")
+        $oneReferenceWorkflow = Get-Content -Raw -LiteralPath $oneReferenceWorkflowPath | ConvertFrom-Json
+        if ($oneReferenceWorkflow.nodes.Count -ne 2) {
+            $errors.Add("FLUX.2 One Reference Photo must contain exactly 2 visible nodes; found $($oneReferenceWorkflow.nodes.Count).")
         }
-        foreach ($requiredNode in @("SocialPhotoSubjectReferences", "SocialPhotoSettings", "SocialPhotoGenerate")) {
-            if ($requiredNode -notin @($socialWorkflow.nodes.type)) {
-                $errors.Add("Social Photo Studio workflow is missing node: $requiredNode")
+        foreach ($requiredNode in @("Flux2OneReferencePhoto", "PreviewImage")) {
+            if ($requiredNode -notin @($oneReferenceWorkflow.nodes.type)) {
+                $errors.Add("FLUX.2 One Reference Photo workflow is missing node: $requiredNode")
             }
         }
-        $subjectNode = @($socialWorkflow.nodes | Where-Object { $_.type -eq "SocialPhotoSubjectReferences" })[0]
-        if ($subjectNode -and $subjectNode.widgets_values[0] -ne "Upload reference 1") {
-            $errors.Add("Social Photo Studio must open with an empty required reference, never a preselected identity image.")
+        $identityNode = @($oneReferenceWorkflow.nodes | Where-Object { $_.type -eq "Flux2OneReferencePhoto" })[0]
+        if ($identityNode -and @($identityNode.inputs).Count -ne 2) {
+            $errors.Add("FLUX.2 One Reference Photo must expose only face_reference and scene_prompt.")
         }
-        if ((Get-Content -Raw -LiteralPath $socialWorkflowPath) -match "mitch(?:-workbench)?-qwen-id-(front|left|right)") {
-            $errors.Add("Social Photo Studio production workflow contains a generated identity fixture.")
+        if ($identityNode -and $identityNode.widgets_values[0] -ne "Upload one face photo") {
+            $errors.Add("FLUX.2 One Reference Photo must open without a preselected identity image.")
+        }
+        if ((Get-Content -Raw -LiteralPath $oneReferenceWorkflowPath) -match "mitch(?:-workbench)?-qwen-id-(front|left|right)") {
+            $errors.Add("FLUX.2 One Reference Photo contains a generated identity fixture.")
         }
     } catch {
-        $errors.Add("Social Photo Studio workflow JSON is invalid: $($_.Exception.Message)")
+        $errors.Add("FLUX.2 One Reference Photo workflow JSON is invalid: $($_.Exception.Message)")
     }
 }
 
@@ -118,18 +122,19 @@ foreach ($asset in @(
 }
 
 foreach ($model in @(
-    @{ Path = "models\diffusion_models\flux-2-klein-9b-kv-fp8.safetensors"; Sha256 = "33F7DA5625A00798349A719742999D3C7DD20C1A7EDA14663922C363640728F1" },
-    @{ Path = "models\text_encoders\qwen_3_8b_fp8mixed.safetensors"; Sha256 = "ABAD16806E0CBABC54E0325D6565847443FE396D5F0BE38BB3CD3FE75A1201D6" },
+    @{ Path = "models\diffusion_models\flux-2-klein-base-4b-fp8.safetensors"; Sha256 = "44BAB3A86FE98B85D21DD2A4729EBDC3AE51FB8A39F76E457E18C724219E6840" },
+    @{ Path = "models\text_encoders\qwen_3_4b_fp8_mixed.safetensors"; Sha256 = "72450B19758172C5A7273CF7DE729D1C17E7F434A104A00167624CBA94F68F15" },
+    @{ Path = "models\loras\aitk\m1tch-flux2-klein-4b-identity-v1-best.safetensors"; Sha256 = "8A7D1477914D0A5262BF219F71F303418130449841CF220226B4E979D7232F87" },
     @{ Path = "models\vae\flux2-vae.safetensors"; Sha256 = "D64F3A68E1CC4F9F4E29B6E0DA38A0204FE9A49F2D4053F0EC1FA1CA02F9C4B5" }
 )) {
     $modelPath = Join-Path $ComfyRoot $model.Path
     if (-not (Test-Path -LiteralPath $modelPath)) {
-        $errors.Add("Missing Social Photo Studio model: $($model.Path)")
+        $errors.Add("Missing FLUX.2 One Reference Photo model: $($model.Path)")
         continue
     }
     $actualHash = (Get-FileHash -LiteralPath $modelPath -Algorithm SHA256).Hash
     if ($actualHash -ne $model.Sha256) {
-        $errors.Add("Unexpected SHA256 for Social Photo Studio model: $($model.Path)")
+        $errors.Add("Unexpected SHA256 for FLUX.2 One Reference Photo model: $($model.Path)")
     }
 }
 
@@ -147,9 +152,8 @@ try {
     foreach ($nodeName in @(
         "AlwaysRunImage",
         "AIToolkitTrainGeneratedDataset",
-        "SocialPhotoSubjectReferences",
-        "SocialPhotoSettings",
-        "SocialPhotoGenerate",
+        "Flux2OneReferencePhoto",
+        "Flux2IdentityLoraExperiment",
         "Klein9BKVIdentityProof",
         "KSampler"
     )) {

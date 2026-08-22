@@ -77,10 +77,22 @@
       "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\diffusion_models\\flux-2-klein-4b-fp8.safetensors",
       "source": "https://huggingface.co/black-forest-labs/FLUX.2-klein-4b-fp8",
       "sha256": "97ED34FE0567E436200F2FAEE3939B88F2B5D99F8AF2A4DC16532C4245C0CCB6",
-      "note": "Legacy experiment; production uses the 9B KV model.",
+      "note": "Legacy distilled-model experiment; production uses the matching Base 4B model and selected identity LoRA.",
       "sampling": {
         "steps": 4,
         "guidance": 1.0,
+        "sampler": "euler",
+        "scheduler": "Flux2Scheduler"
+      }
+    },
+    "flux_2_klein_base_4b_fp8": {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\diffusion_models\\flux-2-klein-base-4b-fp8.safetensors",
+      "source": "https://huggingface.co/black-forest-labs/FLUX.2-klein-base-4b-fp8",
+      "sha256": "44BAB3A86FE98B85D21DD2A4729EBDC3AE51FB8A39F76E457E18C724219E6840",
+      "note": "Production inference base for the selected 4B identity LoRA.",
+      "sampling": {
+        "steps": 20,
+        "guidance": 4.0,
         "sampler": "euler",
         "scheduler": "Flux2Scheduler"
       }
@@ -92,8 +104,26 @@
     },
     "qwen_3_4b_fp8_mixed": {
       "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\text_encoders\\qwen_3_4b_fp8_mixed.safetensors",
+      "source": "https://huggingface.co/Comfy-Org/z_image/blob/main/split_files/text_encoders/qwen_3_4b_fp8_mixed.safetensors",
       "sha256": "72450B19758172C5A7273CF7DE729D1C17E7F434A104A00167624CBA94F68F15",
       "clip_type": "flux2"
+    },
+    "m1tch_flux2_klein_4b_identity_v1_best": {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\loras\\aitk\\m1tch-flux2-klein-4b-identity-v1-best.safetensors",
+      "sha256": "8A7D1477914D0A5262BF219F71F303418130449841CF220226B4E979D7232F87",
+      "training": {
+        "model": "black-forest-labs/FLUX.2-klein-base-4B",
+        "checkpoint_step": 1250,
+        "rank": 16,
+        "learning_rate": 0.00008,
+        "dataset_fingerprint": "9de44d494c11dc3f0a61f44a65fd3ebfd63e7ac51e4c6c2d5f842718d6b97fe9"
+      },
+      "production": {
+        "strength": 0.6,
+        "steps": 20,
+        "guidance": 4.0,
+        "seed": 8675310
+      }
     },
     "mtch35_flux2_klein_lora": {
       "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\loras\\mtch35-flux2-klein-v4-best.safetensors",

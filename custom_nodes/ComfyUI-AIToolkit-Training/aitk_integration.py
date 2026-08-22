@@ -393,6 +393,115 @@ def build_zimage_job_config(
     }
 
 
+def build_flux2_klein_job_config(
+    *,
+    job_name: str,
+    dataset: DatasetReport,
+    trigger_word: str,
+    steps: int,
+    learning_rate: float,
+    rank: int,
+    save_every: int,
+    model_size: str = "9b",
+) -> dict[str, Any]:
+    """Build a local FLUX.2 Klein Base 4B or 9B character-LoRA job.
+
+    The job intentionally disables training-time samples. Checkpoints are evaluated
+    later in ComfyUI against held-out real photos, which is faster and gives us an
+    objective identity score instead of relying on a few fixed sample prompts.
+    """
+    if not SAFE_JOB_NAME.fullmatch(job_name):
+        raise IntegrationError(
+            "job_name must start with a letter or number and contain only letters, numbers, '.', '_' or '-'"
+        )
+    if steps < 1 or save_every < 1 or rank < 1 or learning_rate <= 0:
+        raise IntegrationError("steps, save_every, rank, and learning_rate must be positive")
+    if not trigger_word.strip():
+        raise IntegrationError("trigger_word must not be blank")
+    model_variants = {
+        "4b": ("black-forest-labs/FLUX.2-klein-base-4B", "flux2_klein_4b"),
+        "9b": ("black-forest-labs/FLUX.2-klein-base-9B", "flux2_klein_9b"),
+    }
+    if model_size not in model_variants:
+        raise IntegrationError("model_size must be '4b' or '9b'")
+    model_name, model_arch = model_variants[model_size]
+
+    return {
+        "job": "extension",
+        "config": {
+            "name": job_name,
+            "process": [
+                {
+                    "type": "diffusion_trainer",
+                    "training_folder": "output",
+                    "device": "cuda:0",
+                    "trigger_word": trigger_word.strip(),
+                    "performance_log_every": 10,
+                    "network": {"type": "lora", "linear": rank, "linear_alpha": rank},
+                    "save": {
+                        "dtype": "bf16",
+                        "save_every": save_every,
+                        "max_step_saves_to_keep": max(1, steps // save_every),
+                        "save_format": "safetensors",
+                        "push_to_hub": False,
+                    },
+                    "datasets": [
+                        {
+                            "folder_path": str(dataset.folder),
+                            "caption_ext": "txt",
+                            "caption_dropout_rate": 0.0,
+                            "shuffle_tokens": False,
+                            "cache_latents_to_disk": True,
+                            "resolution": [512, 768, 1024],
+                            "num_repeats": 1,
+                            "flip_x": False,
+                            "flip_y": False,
+                        }
+                    ],
+                    "train": {
+                        "batch_size": 1,
+                        "steps": steps,
+                        "gradient_accumulation": 1,
+                        "train_unet": True,
+                        "train_text_encoder": False,
+                        "gradient_checkpointing": True,
+                        "noise_scheduler": "flowmatch",
+                        "timestep_type": "weighted",
+                        "content_or_style": "balanced",
+                        "optimizer": "adamw8bit",
+                        "optimizer_params": {"weight_decay": 0.0001},
+                        "lr": learning_rate,
+                        "unload_text_encoder": False,
+                        "cache_text_embeddings": True,
+                        "skip_first_sample": True,
+                        "disable_sampling": True,
+                        "dtype": "bf16",
+                        "ema_config": {"use_ema": False, "ema_decay": 0.99},
+                    },
+                    "logging": {"log_every": 1, "use_ui_logger": True},
+                    "model": {
+                        "name_or_path": model_name,
+                        "arch": model_arch,
+                        "dtype": "bf16",
+                        "quantize": True,
+                        "qtype": "qfloat8",
+                        "quantize_te": True,
+                        "qtype_te": "qfloat8",
+                        "low_vram": True,
+                        "layer_offloading": False,
+                        "model_kwargs": {"match_target_res": False},
+                    },
+                }
+            ],
+        },
+        "meta": {
+            "name": "[name]",
+            "version": "1.0",
+            "submitted_by": "Mitch-Comfy-Identity-Rebuild",
+        },
+    }
+
+
 def choose_completed_lora(job: dict[str, Any], files: list[dict[str, Any]]) -> Path:
     if str(job.get("status", "")).lower() != "completed":
         raise IntegrationError(

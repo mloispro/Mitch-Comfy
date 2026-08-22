@@ -22,6 +22,11 @@ from .social_workbench import (
 )
 from .identity_lock import AIToolkitIdentityLockSettings, AIToolkitQwenIdentityLock
 from .klein9b_identity_test import Klein9BKVIdentityProof
+from .one_reference_photo import (
+    Flux2IdentityLoraExperiment,
+    Flux2IdentityStrategyExperiment,
+    Flux2OneReferencePhoto,
+)
 from .social_photo_studio import SocialPhotoGenerate, SocialPhotoSettings, SocialPhotoSubjectReferences
 
 
@@ -219,6 +224,9 @@ class AIToolkitPublishCompletedLoRA:
 
 
 NODE_CLASS_MAPPINGS = {
+    "Flux2OneReferencePhoto": Flux2OneReferencePhoto,
+    "Flux2IdentityStrategyExperiment": Flux2IdentityStrategyExperiment,
+    "Flux2IdentityLoraExperiment": Flux2IdentityLoraExperiment,
     "Klein9BKVIdentityProof": Klein9BKVIdentityProof,
     "SocialPhotoSubjectReferences": SocialPhotoSubjectReferences,
     "SocialPhotoSettings": SocialPhotoSettings,
@@ -237,6 +245,9 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
+    "Flux2OneReferencePhoto": "FLUX.2: One Reference Photo",
+    "Flux2IdentityStrategyExperiment": "[Internal] FLUX.2 Identity Strategy Experiment",
+    "Flux2IdentityLoraExperiment": "[Internal] FLUX.2 Identity LoRA Experiment",
     "Klein9BKVIdentityProof": "Proof: FLUX.2 Klein 9B KV Identity",
     "SocialPhotoSubjectReferences": "Social Photo: 1–4 Subject References",
     "SocialPhotoSettings": "Social Photo: Prompt & Presets",

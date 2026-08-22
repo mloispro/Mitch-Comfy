@@ -15,46 +15,38 @@ The two custom-node folders in this repository are linked directly into ComfyUI.
 
 Third-party custom nodes such as ReActor remain in their own upstream repositories. Their exact revisions are recorded in `config/dependencies.lock.json`.
 
-## Everyday Social Photo Studio workflow
+## Everyday one-reference workflow
 
-Open `Mitch/production/Social Photo Studio - FLUX.2 Klein 9B KV`. This is the primary workflow for dating-app and Instagram photos.
+Open `Mitch/production/FLUX.2 One Reference Photo`. It is the primary dating-app and Instagram photo workflow and deliberately exposes only two choices:
 
-1. In **1. ADD 1–4 PHOTOS**, upload at least one clear face. A single frontal photo works; front, left, and right views improve identity across camera angles, and an optional unobstructed full-body view helps proportion-sensitive scenes. Keep roles on **Auto** unless classification needs correction.
-2. In **2. DESCRIBE THE PHOTOS**, write a normal-language brief and select:
-   - **Single**, **Dating Pack** (six), or **Instagram Pack** (nine).
-   - **Authentic Phone**, **Professional**, or **35mm Lifestyle**.
-   - **Auto Mix**, **Looking at camera**, or **Candid/action**.
-   - `photo_count = 0` for the mode default, or 1–9 for an explicit count.
-3. Queue once. The generator saves final images, a contact sheet, and `report.json` under `ComfyUI/output/social-photo-studio/<run-id>`.
+1. Upload one recent, unfiltered camera photo with a clear face.
+2. Describe the new photo in ordinary language, then queue once.
 
-The workflow automatically rejects clearly mixed-person face references. It resizes each reference to roughly 640×640 total pixels while preserving the full image, so facial identity, hair, pose, and useful context remain available without wasting VRAM. Full-body context is added only for smart-casual, active, travel, and full-body style scenes. A full-body reference with no detectable face is treated as unverified soft context and is never used to claim verified body identity.
+The node derives two identity views from that one upload: the complete photo and an automatic 2x face crop. Both are resized to one megapixel and passed into the official FLUX.2 Klein Base 4B reference-latent path with the locally trained identity LoRA. The prompt supplies phone-versus-professional appearance, camera gaze, pose, clothing, framing, and action; there are no model, sampler, crop, face-swap, or seed controls in the production graph.
 
-### Identity fidelity
+Each candidate is checked locally against the uploaded face. Only a result below the calibrated `0.75` cosine retry threshold triggers one additional attempt, and the better-scoring candidate is returned. The selected score, both attempted seeds when applicable, elapsed time, and settings are written to `ComfyUI/output/flux2-one-reference/<run-id>/report.json`. This score is a drift filter, not proof of identity; compare important results visually with the real person.
 
-- FLUX.2 Klein 9B KV receives every usable genuine facial reference natively through `ReferenceLatent`. Multiple views improve its evidence for face angle, hairline, nose, jaw, and eye area; they are explicitly described as the same person and the prompt requires one copy of the main subject.
-- A supplied full-body reference is appended only for a scene that needs build or proportions. The prompt tells the model not to copy the reference pose, clothing, objects, or background.
-- The production path has no face swap, face restorer, subject LoRA, generated identity fixture, or post-generation identity patch. That preserves native facial texture and avoids replacing the result with a generic older face.
-- A LoRA is a last resort only if strong, varied genuine references still fail visual review. The previously tested Klein LoRA is explicitly rejected and is never selected by the workflow.
+The workflow rejects historical generated identity fixtures. Do not train or evaluate against generated portraits, beauty-filtered images, or photos of another person.
 
-Every run reports an `identity_route`. InsightFace cosine scores are diagnostics, not proof that a photo looks like the subject. Mean similarity of at least 0.60 with every scored image at least 0.50 is reported as `similarity_target_met_unverified`; 0.55–0.60 with no score below 0.50 is reported as near-target visual review. Both require visual comparison with genuine camera originals. If similarity misses, add a current, sharp front view and then different genuine side angles before considering an adapter.
+### Prompt examples
 
-Identity acceptance must use genuine, ungenerated camera originals. Files named `mitch-qwen-id-*` or `mitch-workbench-qwen-id-*` are historical generated fixtures, not photographs of Mitch. The production node and `scripts/smoke-social-photo.ps1` always reject them, and the script requires an explicit first reference.
+- Phone: `A casual waist-up smartphone photo at an outdoor cafe in soft afternoon daylight, navy T-shirt, relaxed posture, small natural smile, looking just past the camera.`
+- Professional: `A natural professional waist-up portrait beside a large loft window, charcoal blazer over a pale blue shirt, looking at the camera, realistic 50mm photograph, restrained retouching.`
+- Candid/action: `A candid smartphone action photo walking along a lakeside path at golden hour, three-quarter profile looking ahead, photographed by a friend, natural stride and slight believable motion.`
+
+The production LoRA is checkpoint 1,250 from the ten-photo local dataset, used at strength `0.6`, 20 Euler steps, and guidance `4.0`. It was selected from all six checkpoints by held-out professional/action scores and visual review, then verified on phone, professional, and action scenes plus alternate action seeds. The final 1,500-step checkpoint was rejected because difficult-angle identity regressed.
 
 ### First-time model setup
 
-Run `scripts/setup-social-photo-models.ps1`, restart ComfyUI, then run `scripts/verify.ps1`. The setup script installs only three pinned files required by the primary workflow—the official FLUX.2 Klein 9B KV FP8 model, Qwen3 8B FP8 mixed text encoder, and FLUX.2 VAE—resumes partial downloads, and verifies exact SHA-256 hashes before installation.
+Run `scripts/setup-one-reference-photo.ps1`, restart ComfyUI, then run `scripts/verify.ps1`. The setup script installs the pinned Base 4B FP8 model, Qwen3 4B FP8 mixed text encoder, and FLUX.2 VAE; it also verifies the private production identity LoRA. The LoRA is not downloaded because it was trained locally from private photos—back it up separately or recreate it with `scripts/flux2-identity-lora.py` and the ignored local dataset.
 
-The Black Forest Labs 9B KV weights are under the FLUX Non-Commercial License. Review that license before commercial use.
+The FLUX.2 Klein Base 4B weights are Apache 2.0. The workflow remains personal and local; generated photos should not be presented deceptively.
 
-If the primary resolution runs out of VRAM, the failed photo is retried once at the matching 768-pixel short-side resolution and the fallback is recorded in `report.json`.
-
-For the most reliable result, use recent unfiltered photos with visible eyes and hairline. One strong front or three-quarter photo is enough to start; add different angles rather than four nearly identical selfies. For full-body or action shots, include one unobstructed body reference and keep the subject framed close enough that the face remains readable. Use **Authentic Phone** for ordinary dating/IG realism, **Professional** for cleaner optics and controlled light, and **Candid/action** to make gaze and pose explicitly camera-unaware without a separate workflow.
+For the most reliable result, use a recent photo with visible eyes, hairline, and natural skin texture. Full-body scenes can be requested from the same face reference, but exact body proportions cannot be inferred from a face-only upload.
 
 ## Legacy regression archive
 
-The old fixed Qwen dating graphs and Z-Image experiments are preserved under `checkpoints/legacy-workflows` and intentionally hidden from the normal ComfyUI workflow browser. The validated Qwen v8 workflow and its 80.81 historical identity benchmark remain under `checkpoints/workflows`. Use these only for regression work; the five-node Social Photo Studio is the supported everyday generator.
-
-Exact body identity still requires a clear, neutral full-body reference with an unobstructed contour. A face-less silhouette can guide composition, but the report labels it `reference_supplied_unverified` rather than claiming verified body identity.
+The superseded five-node Social Photo Studio, old fixed Qwen dating graphs, and Z-Image experiments are preserved under `checkpoints/legacy-workflows` and intentionally hidden from the normal ComfyUI workflow browser. The validated Qwen v8 workflow and its historical benchmark remain under `checkpoints/workflows`. Use them only for regression work.
 
 ## Checkpointing
 

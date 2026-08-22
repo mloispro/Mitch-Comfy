@@ -1,10 +1,10 @@
 # ComfyUI AI-Toolkit Training
 
-## Social Photo Studio
+## FLUX.2 One Reference Photo
 
-`Social Photo Studio - FLUX.2 Klein 9B KV.json` is the supported everyday dating-app and Instagram generator. Its three functional nodes accept one to four same-person references, a plain-language brief plus a few presets, and produce a single photo or a six-/nine-photo pack in one queue.
+`FLUX.2 One Reference Photo.json` is the supported everyday dating-app and Instagram generator. Its only functional node accepts one genuine face photo and a plain-language scene prompt, then returns one locally saved photo.
 
-The custom node validates same-person inputs, sends every usable face angle through native FLUX.2 `ReferenceLatent` conditioning, applies full-body evidence only to proportion-sensitive scenes, and samples the official Klein 9B KV FP8 model in four Euler steps. The production path has no face swap, restorer, subject LoRA, or synthetic identity fixture. It records an InsightFace diagnostic but requires human likeness review against genuine originals. See [the maintenance guide](../../docs/HOW-TO.md) for normal use and the validated baseline.
+The node automatically derives a full-photo identity reference and a 2x face crop, runs the official FLUX.2 Klein Base 4B FP8 model with the selected local identity LoRA for 20 Euler steps, and scores the generated face locally with InsightFace. It retries once only when the first result falls below the calibrated threshold and returns the higher-scoring candidate. The score is useful for ranking and rejecting obvious identity drift, but final likeness still requires visual review against genuine originals. See [the maintenance guide](../../docs/HOW-TO.md) for normal use and the measured baseline.
 
 ## Qwen identity-locked social workflow
 
