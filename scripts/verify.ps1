@@ -85,6 +85,30 @@ if (Test-Path -LiteralPath $oneReferenceWorkflowPath) {
     }
 }
 
+$frozenBaselinesPath = Join-Path $RepoRoot "config\frozen-baselines.json"
+if (-not (Test-Path -LiteralPath $frozenBaselinesPath)) {
+    $errors.Add("Missing frozen baseline registry: config\frozen-baselines.json")
+} else {
+    try {
+        $frozenBaselines = Get-Content -Raw -LiteralPath $frozenBaselinesPath | ConvertFrom-Json
+        foreach ($baseline in @($frozenBaselines.baselines)) {
+            foreach ($artifact in @($baseline.artifacts)) {
+                $artifactPath = Join-Path $RepoRoot $artifact.path
+                if (-not (Test-Path -LiteralPath $artifactPath)) {
+                    $errors.Add("Frozen baseline $($baseline.id) is missing artifact: $($artifact.path)")
+                    continue
+                }
+                $actualHash = (Get-FileHash -LiteralPath $artifactPath -Algorithm SHA256).Hash
+                if ($actualHash -ne $artifact.sha256) {
+                    $errors.Add("Frozen baseline $($baseline.id) changed: $($artifact.path). Build new work beside v1; do not edit the accepted core.")
+                }
+            }
+        }
+    } catch {
+        $errors.Add("Frozen baseline registry is invalid: $($_.Exception.Message)")
+    }
+}
+
 foreach ($asset in @(
     @{ Name = "amalfi-balcony-template.png"; Source = "assets\comfy-input\amalfi-balcony-template.png" },
     @{ Name = "night-city-balcony-template.png"; Source = "assets\comfy-input\night-city-balcony-template.png" },

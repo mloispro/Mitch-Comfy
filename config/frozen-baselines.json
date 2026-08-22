@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "baselines": [
+    {
+      "id": "flux2-one-reference-v1.0.0",
+      "accepted_on": "2026-08-22",
+      "accepted_implementation_commit": "a92c9ca01bd85587f6edb68151e553c7ef2345b3",
+      "git_tag": "flux2-one-reference-v1.0.0",
+      "artifacts": [
+        {
+          "path": "workflows/production/FLUX.2 One Reference Photo.json",
+          "sha256": "CB5BAD60751997EF37F8A5D6DE1215F65CDB83E35F3D7BEB539EFDFFB42AF875"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/one_reference_photo.py",
+          "sha256": "060AFDBE97433C7CB567C74682D4C45F52AC7B81E1CC5F9B4ED6CED4DC54E7CC"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/__init__.py",
+          "sha256": "2933C3C0188913BB3592B2BE5C96592A52BE515150C1F00518E5EA15C67498CA"
+        }
+      ]
+    }
+  ]
+}

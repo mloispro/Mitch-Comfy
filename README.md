@@ -26,6 +26,11 @@ Phone, professional, camera-facing, candid, and action looks are requested direc
 
 The old five-node Social Photo Studio is preserved under `checkpoints/legacy-workflows/production` and is no longer the production recommendation.
 
+Mitch visually accepted this exact v1 baseline on 2026-08-22. It is frozen under the annotated Git tag
+`flux2-one-reference-v1.0.0`; `config/frozen-baselines.json` records exact workflow and identity-core hashes,
+and `scripts/verify.ps1` fails if either changes. New presets and multi-reference work belong in separate
+workflow/node files so the winning one-reference route remains available for direct comparison and rollback.
+
 ## Validated production result
 
 On the local RTX 3090, the production 20-step LoRA path produced 768×1024 images in about 45–46 seconds. Against four held-out genuine photos excluded from training, it scored `0.8714` on the professional portrait, `0.8913` on the phone candid, and `0.8216` on the walking three-quarter-profile action prompt. All calibrated as strong matches. The 30-step quality reference scored `0.9205`, `0.9078`, and `0.8369`, but required about 66 seconds per image.
@@ -37,10 +42,10 @@ Superseded Qwen, Z-Image, face-swap, and multi-node Social Photo graphs remain u
 ## Everyday workflow
 
 1. Open `Mitch/production/FLUX.2 One Reference Photo` in ComfyUI.
-2. Edit and save normally in ComfyUI. The Git working tree changes immediately.
-3. Validate the result.
-4. Run `scripts\checkpoint.ps1 -Message "Describe the working change"` to verify and commit it.
-5. Use an optional tag for important milestones, for example `-Tag "multiperson-sharp-v2"`.
+2. Upload one face photo, enter the scene prompt, and queue it.
+3. Do not edit or overwrite this accepted graph. Build new behavior under `workflows/experiments` with a new node module.
+4. Validate new work against the frozen graph before promoting it.
+5. Run `scripts\checkpoint.ps1 -Message "Describe the working change"` to verify and commit it.
 
 Production filenames stay stable. Git history replaces duplicate files named `v2`, `final`, or `final-final`.
 

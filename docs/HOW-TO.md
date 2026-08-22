@@ -7,6 +7,9 @@
 
 Both appear under the `Mitch` folder in ComfyUI. New or moved files require pressing **Refresh** in the Workflows sidebar. Changes to a workflow that is already open require reopening it.
 
+The accepted workflow is nested at **Workflows → Mitch → production → FLUX.2 One Reference Photo**. It is
+bookmarked on this machine, so it also appears at the top of the Workflows sidebar under **Bookmarks**.
+
 Version-controlled scene templates live under `assets/comfy-input`. Running `scripts/setup-links.ps1` synchronizes them into ComfyUI's input root with `mitch-workbench-` filenames.
 
 ## Custom nodes
@@ -27,6 +30,17 @@ The node derives two identity views from that one upload: the complete photo and
 Each candidate is checked locally against the uploaded face. Only a result below the calibrated `0.75` cosine retry threshold triggers one additional attempt, and the better-scoring candidate is returned. The selected score, both attempted seeds when applicable, elapsed time, and settings are written to `ComfyUI/output/flux2-one-reference/<run-id>/report.json`. This score is a drift filter, not proof of identity; compare important results visually with the real person.
 
 The workflow rejects historical generated identity fixtures. Do not train or evaluate against generated portraits, beauty-filtered images, or photos of another person.
+
+### Frozen v1 baseline
+
+Mitch visually accepted the v1 result on 2026-08-22. The exact graph and identity-core implementation are
+locked in `config/frozen-baselines.json` and tagged `flux2-one-reference-v1.0.0`. Normal verification fails if
+either file drifts. Keep this workflow untouched; add presets, multi-reference support, or UI experiments as
+new files and measure them against v1 before promotion.
+
+The model and private identity LoRA are also checked by SHA-256. Git preserves the small workflow/code files,
+but not the private LoRA, dataset, or reference photos. Keep the LoRA and genuine training set in a separate
+private backup if recovery after a disk failure matters.
 
 ### Prompt examples
 
@@ -79,6 +93,14 @@ git restore --source <commit> -- "workflows/production/Workflow Name.json"
 ```
 
 Then refresh and reopen it in ComfyUI.
+
+Restore the accepted one-reference baseline directly with:
+
+```powershell
+git restore --source flux2-one-reference-v1.0.0 -- "workflows/production/FLUX.2 One Reference Photo.json" "custom_nodes/ComfyUI-AIToolkit-Training/one_reference_photo.py" "custom_nodes/ComfyUI-AIToolkit-Training/__init__.py"
+```
+
+Restart ComfyUI after restoring Python files, then run `scripts/verify.ps1`.
 
 ## External backups
 

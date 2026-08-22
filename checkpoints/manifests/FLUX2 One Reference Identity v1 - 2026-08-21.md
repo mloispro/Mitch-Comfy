@@ -1,5 +1,19 @@
 # FLUX.2 One Reference Identity v1
 
+## Accepted and frozen
+
+Mitch visually accepted this baseline on 2026-08-22: the result looked great and looked like him. This is the
+decisive acceptance signal; the automated scores below remain supporting drift diagnostics.
+
+- Release tag: `flux2-one-reference-v1.0.0`
+- Frozen registry: `config/frozen-baselines.json`
+- Workflow SHA-256: `CB5BAD60751997EF37F8A5D6DE1215F65CDB83E35F3D7BEB539EFDFFB42AF875`
+- Identity-core SHA-256: `060AFDBE97433C7CB567C74682D4C45F52AC7B81E1CC5F9B4ED6CED4DC54E7CC`
+
+`scripts/verify.ps1` rejects accidental changes to the workflow or identity core. Presets, multi-reference
+support, and other experiments must be implemented beside this baseline and compared against it. The private
+LoRA is hash-locked below but is not stored in Git, so it must also have a separate private backup.
+
 ## Production route
 
 - Workflow: `workflows/production/FLUX.2 One Reference Photo.json`
