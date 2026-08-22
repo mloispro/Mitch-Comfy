@@ -1,0 +1,88 @@
+---
+job: extension
+config:
+  name: m1tch-flux2-klein-4b-identity-v2
+  process:
+    - type: diffusion_trainer
+      training_folder: C:\projects\AI-Tools\ai-toolkit\AI-Toolkit\output
+      device: cuda:0
+      trigger_word: M1TCHX9
+      performance_log_every: 10
+      network:
+        type: lora
+        linear: 32
+        linear_alpha: 32
+        conv: 16
+        conv_alpha: 16
+      save:
+        dtype: bf16
+        save_every: 200
+        max_step_saves_to_keep: 9
+        save_format: safetensors
+        push_to_hub: false
+      datasets:
+        - folder_path: C:\projects\AI-Tools\Mitch-Comfy\datasets\flux2-klein-identity-v2\train
+          caption_ext: txt
+          caption_dropout_rate: 0
+          shuffle_tokens: false
+          cache_latents_to_disk: true
+          resolution: [512, 768, 1024]
+          num_repeats: 1
+          flip_x: false
+          flip_y: false
+      train:
+        batch_size: 1
+        steps: 1600
+        gradient_accumulation: 1
+        train_unet: true
+        train_text_encoder: false
+        gradient_checkpointing: true
+        noise_scheduler: flowmatch
+        timestep_type: weighted
+        content_or_style: balanced
+        optimizer: adamw8bit
+        optimizer_params:
+          weight_decay: 0.0001
+        lr: 0.00008
+        unload_text_encoder: false
+        cache_text_embeddings: true
+        skip_first_sample: false
+        disable_sampling: false
+        dtype: bf16
+        ema_config:
+          use_ema: false
+          ema_decay: 0.99
+      model:
+        name_or_path: black-forest-labs/FLUX.2-klein-base-4B
+        arch: flux2_klein_4b
+        dtype: bf16
+        quantize: true
+        qtype: qfloat8
+        quantize_te: true
+        qtype_te: qfloat8
+        low_vram: true
+        layer_offloading: false
+        model_kwargs:
+          match_target_res: false
+      sample:
+        sampler: flowmatch
+        sample_every: 200
+        sample_start_step: 0
+        width: 768
+        height: 1024
+        prompts:
+          - A realistic close portrait photograph of M1TCHX9, an adult man, outdoors in soft daylight, looking at the camera with a relaxed natural smile, navy crew-neck shirt.
+          - A realistic full-body photograph of M1TCHX9, an adult man, standing naturally on a city sidewalk, casual fitted clothing, entire body visible, photographed by a friend.
+          - A realistic left-profile photograph of M1TCHX9, an adult man, seated at an outdoor cafe, neutral expression, natural available light.
+          - A realistic candid action photograph of M1TCHX9, an adult man, walking beside a lake at golden hour, three-quarter view, looking away from the camera.
+        neg: ""
+        seed: 8675310
+        walk_seed: false
+        guidance_scale: 4.0
+        sample_steps: 30
+meta:
+  name: m1tch-flux2-klein-4b-identity-v2
+  version: "2.0"
+  trigger: M1TCHX9
+  dataset: flux2-klein-identity-v2
+  acceptance: LoRA-only fixed-seed samples plus clean held-out multi-photo identity evaluation are mandatory before publication.
