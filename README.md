@@ -35,15 +35,19 @@ workflow/node files so the winning one-reference route remains available for dir
 
 `Mitch/experiments/FLUX.2 Easy Social Photos - 1-4 References` is a separate bookmarked candidate. It accepts
 one clear primary face photo, up to three optional genuine photos of the same person, a scene prompt, and
-three small preset menus for style, framing, and moment/gaze. With one photo it delegates directly to frozen
-v1. With two to four photos it keeps the accepted full-photo + 2x-face-crop generation path, rejects likely
-mixed identities, and uses all detectable uploaded faces to rank/retry the result against a multi-photo
-centroid.
+three small preset menus for style, framing, and moment/gaze. It uses the same private identity LoRA as frozen
+v1 but has its own realism-tuned generation profile: LoRA strength `0.4`, guidance `2.0`, a wider 2.4x face
+crop, and two compact 0.25 MP reference views. A fixed coherence instruction keeps face, hair, neck, body,
+clothing, lighting, edge softness, and camera texture in one rendering instead of over-sharpening the face.
+With two to four photos it rejects likely mixed identities and uses all detectable uploaded faces to rank the
+result against a multi-photo centroid.
 
 Native 2–4-latent experiments were deliberately rejected: they scored only `0.7285–0.7344` and took
-`124.6–164.1` seconds. The final candidate stayed near v1 speed (`46.5–49.2` seconds) and scored `0.8879`
-professional, `0.8896` phone, `0.8233` on the validated action prompt, and `0.7908` on an explicit
-three-quarter no-eye-contact candid. It remains under `experiments` until Mitch visually accepts it.
+`124.6–164.1` seconds. On the exact city scene used to diagnose the artificial face/head, the tuned profile
+improved measured identity from `0.8704` to `0.9112` while reducing runtime from `47.6` to `25.3` seconds.
+A held-out professional scene scored `0.8834` in `28.2` seconds; a four-reference full-body action scene
+scored `0.7511` in `25.9` seconds. It remains under `experiments` until Mitch visually accepts the revised
+face realism across his own prompts.
 
 ## Validated production result
 

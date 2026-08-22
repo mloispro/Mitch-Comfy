@@ -28,7 +28,18 @@ class ReferencePhotoPresetTests(unittest.TestCase):
         result = compose_scene_prompt(
             "At a cafe.", "Prompt decides", "Prompt decides", "Prompt decides"
         )
-        self.assertEqual(result, "At a cafe.")
+        self.assertTrue(result.startswith("At a cafe."))
+        self.assertNotIn("smartphone photograph", result)
+        self.assertIn("one coherent in-camera photograph", result)
+
+    def test_realism_rendering_applies_to_phone_and_professional_presets(self):
+        for style in ("Smartphone — natural", "Professional — natural"):
+            result = compose_scene_prompt(
+                "Beside a window.", style, "Waist-up", "Looking at camera"
+            )
+            self.assertIn("same scene lighting", result)
+            self.assertIn("no local face sharpening", result)
+            self.assertIn("camera grain", result)
 
     def test_phone_action_full_body_preset_is_explicit(self):
         result = compose_scene_prompt(

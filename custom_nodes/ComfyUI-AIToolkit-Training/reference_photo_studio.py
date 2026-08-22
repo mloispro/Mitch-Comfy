@@ -33,6 +33,10 @@ from .reference_photo_presets import (
 OUTPUT_ROOT = "flux2-reference-studio"
 SAME_PERSON_FLOOR = 0.50
 IDENTITY_RETRY_THRESHOLD = 0.75
+CANDIDATE_REFERENCE_STRATEGY = "Full + face crop 2.4x"
+CANDIDATE_REFERENCE_PIXELS = 512 * 512
+CANDIDATE_LORA_STRENGTH = 0.4
+CANDIDATE_GUIDANCE_SCALE = 2.0
 
 
 def _reference_choices(include_none: bool = False) -> list[str]:
@@ -104,14 +108,13 @@ def _prepare_sources(reference_names: list[str]):
             }
         )
 
-    # Preserve the accepted v1 generation path exactly. Additional genuine photos are
-    # identity evidence for consistency checks and candidate ranking, not extra model
-    # latents: controlled tests showed that feeding 2–4 full latents reduced likeness
-    # and doubled/tripled latency on the RTX 3090.
+    # Additional genuine photos are identity evidence for consistency checks and
+    # candidate ranking, not extra model latents: controlled tests showed that feeding
+    # 2–4 full latents reduced likeness and doubled/tripled latency on the RTX 3090.
     latent_images = baseline._strategy_references(
         source_images[0],
-        "Full + face crop 2.0x",
-        baseline.REFERENCE_PIXELS,
+        CANDIDATE_REFERENCE_STRATEGY,
+        CANDIDATE_REFERENCE_PIXELS,
     )
 
     return {
@@ -146,7 +149,7 @@ def _generate_multi_reference(
     model = comfy_nodes.LoraLoaderModelOnly().load_lora_model_only(
         model,
         baseline.PRODUCTION_LORA_NAME,
-        float(baseline.PRODUCTION_LORA_STRENGTH),
+        CANDIDATE_LORA_STRENGTH,
     )[0]
     clip = comfy_nodes.CLIPLoader().load_clip(baseline.CLIP_4B_NAME, "flux2", "default")[0]
     vae = comfy_nodes.VAELoader().load_vae(baseline.VAE_NAME)[0]
@@ -162,7 +165,7 @@ def _generate_multi_reference(
         append=True,
     )
     negative = comfy_nodes.CLIPTextEncode().encode(clip, "")[0]
-    guider = CFGGuider.execute(model, positive, negative, 4.0)[0]
+    guider = CFGGuider.execute(model, positive, negative, CANDIDATE_GUIDANCE_SCALE)[0]
     sampler = KSamplerSelect.execute("euler")[0]
     sigmas = Flux2Scheduler.execute(
         baseline.PRODUCTION_STEPS,
@@ -219,18 +222,20 @@ def _generate_multi_reference(
     output_folder = f"{OUTPUT_ROOT}/{len(reference_names)}-references/{run_stamp}"
     report = {
         "schema_version": 1,
-        "purpose": "frozen_v1_generation_with_multi_photo_identity_verification",
+        "purpose": "realism_tuned_candidate_with_multi_photo_identity_verification",
         "baseline_tag": "flux2-one-reference-v1.0.0",
         "model": baseline.MODEL_4B_BASE_NAME,
         "text_encoder": baseline.CLIP_4B_NAME,
         "vae": baseline.VAE_NAME,
         "lora_name": baseline.PRODUCTION_LORA_NAME,
-        "lora_strength": baseline.PRODUCTION_LORA_STRENGTH,
+        "lora_strength": CANDIDATE_LORA_STRENGTH,
         "source_references": reference_names,
         "source_reference_count": len(reference_names),
         "primary_generation_reference": reference_names[0],
         "model_reference_count": len(reference_latents),
         "derived_primary_face_crop": True,
+        "reference_strategy": CANDIDATE_REFERENCE_STRATEGY,
+        "reference_pixels_each": CANDIDATE_REFERENCE_PIXELS,
         "additional_reference_role": "same-person validation and candidate centroid ranking",
         "detected_identity_sources": prepared["detected_sources"],
         "sources_without_detectable_faces": prepared["missing_face_sources"],
@@ -242,7 +247,7 @@ def _generate_multi_reference(
         "width": baseline.OUTPUT_WIDTH,
         "height": baseline.OUTPUT_HEIGHT,
         "steps": baseline.PRODUCTION_STEPS,
-        "guidance_scale": 4.0,
+        "guidance_scale": CANDIDATE_GUIDANCE_SCALE,
         "sampler": "euler",
         "selected_seed": selected_seed,
         "identity_similarity_to_reference_centroid": round(selected_score, 4),
@@ -263,7 +268,7 @@ def _generate_multi_reference(
 
 
 class Flux2EasySocialPhoto:
-    """Frozen v1 for one reference; minimal native multi-reference extension for two to four."""
+    """Realism-tuned LoRA generator with one to four genuine identity references."""
 
     @classmethod
     def INPUT_TYPES(cls):
@@ -352,7 +357,32 @@ class Flux2EasySocialPhoto:
         composed_scene = compose_scene_prompt(scene_prompt, photo_style, framing, moment)
 
         if len(names) == 1:
-            return baseline.Flux2OneReferencePhoto().generate(names[0], composed_scene)
+            photo, effective_prompt, output_folder, saved = baseline._generate_photo(
+                face_reference=names[0],
+                scene_prompt=composed_scene,
+                seed=baseline.PRODUCTION_SEED,
+                strategy_name=CANDIDATE_REFERENCE_STRATEGY,
+                output_root=OUTPUT_ROOT,
+                reference_pixels=CANDIDATE_REFERENCE_PIXELS,
+                steps=baseline.PRODUCTION_STEPS,
+                refine_pass=False,
+                identity_retry_threshold=IDENTITY_RETRY_THRESHOLD,
+                max_attempts=2,
+                model_name=baseline.MODEL_4B_BASE_NAME,
+                clip_name=baseline.CLIP_4B_NAME,
+                lora_name=baseline.PRODUCTION_LORA_NAME,
+                lora_strength=CANDIDATE_LORA_STRENGTH,
+                use_kv_cache=False,
+                identity_token=baseline.IDENTITY_TOKEN,
+                guidance_scale=CANDIDATE_GUIDANCE_SCALE,
+            )
+            return {
+                "ui": {
+                    "images": saved["ui"]["images"],
+                    "text": (f"Saved photo to ComfyUI/output/{output_folder}",),
+                },
+                "result": (photo, effective_prompt, output_folder),
+            }
 
         photo, effective_prompt, output_folder, saved = _generate_multi_reference(
             reference_names=names,

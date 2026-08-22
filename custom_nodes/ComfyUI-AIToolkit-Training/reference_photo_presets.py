@@ -27,6 +27,13 @@ MOMENTS = {
     "Action": "Natural in-progress action with believable body mechanics and slight motion.",
 }
 
+REALISM_RENDERING = (
+    "Render the entire person as one coherent in-camera photograph: face, hair, neck, arms, "
+    "and clothing share the same scene lighting, white balance, depth of field, edge softness, "
+    "and camera grain. Use natural low-contrast skin microtexture with no local face sharpening "
+    "or etched wrinkles."
+)
+
 
 def selected_reference_names(primary: str, *additional: str) -> list[str]:
     names = [primary, *(name for name in additional if name and name != NO_REFERENCE)]
@@ -59,5 +66,11 @@ def compose_scene_prompt(
         raise ValueError(f"Unknown framing: {framing}")
     if moment not in MOMENTS:
         raise ValueError(f"Unknown moment: {moment}")
-    parts = [scene, PHOTO_STYLES[photo_style], FRAMINGS[framing], MOMENTS[moment]]
+    parts = [
+        scene,
+        PHOTO_STYLES[photo_style],
+        FRAMINGS[framing],
+        MOMENTS[moment],
+        REALISM_RENDERING,
+    ]
     return " ".join(part for part in parts if part)

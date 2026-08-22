@@ -56,7 +56,11 @@ latents scored `0.7344` in `164.1` seconds, both worse than the frozen two-deriv
 
 Choose style, framing, and moment from the short preset menus, then describe only the scene, clothing, and
 activity. Select **Prompt decides** when the prompt already contains detailed camera, framing, or gaze
-instructions. One-photo mode is the frozen v1 generator; multi-photo mode changes validation/ranking only.
+instructions. One- and multi-photo modes share the candidate's realism-tuned profile: the private identity
+LoRA at strength `0.4`, guidance `2.0`, 20 Euler steps, a full reference plus wider 2.4x face crop at 0.25 MP
+each, and a fixed whole-person camera-coherence instruction. The compact references are intentional: the
+exact city A/B improved from `0.8704` identity in `47.6` seconds to `0.9112` in `25.3` seconds while reducing
+the harsh, separately rendered face texture.
 
 ### Prompt examples
 
@@ -64,7 +68,11 @@ instructions. One-photo mode is the frozen v1 generator; multi-photo mode change
 - Professional: `A natural professional waist-up portrait beside a large loft window, charcoal blazer over a pale blue shirt, looking at the camera, realistic 50mm photograph, restrained retouching.`
 - Candid/action: `A candid smartphone action photo walking along a lakeside path at golden hour, three-quarter profile looking ahead, photographed by a friend, natural stride and slight believable motion.`
 
-The production LoRA is checkpoint 1,250 from the ten-photo local dataset, used at strength `0.6`, 20 Euler steps, and guidance `4.0`. It was selected from all six checkpoints by held-out professional/action scores and visual review, then verified on phone, professional, and action scenes plus alternate action seeds. The final 1,500-step checkpoint was rejected because difficult-angle identity regressed.
+The frozen-v1 production LoRA setting is checkpoint 1,250 from the ten-photo local dataset, used at strength
+`0.6`, 20 Euler steps, and guidance `4.0`. The Easy Social Photos candidate reuses that same checkpoint at
+strength `0.4` with guidance `2.0`; this is a generation-profile change, not a different or missing LoRA.
+The checkpoint was selected from all six checkpoints by held-out professional/action scores and visual
+review. The final 1,500-step checkpoint was rejected because difficult-angle identity regressed.
 
 ### First-time model setup
 
