@@ -10,6 +10,10 @@ Both appear under the `Mitch` folder in ComfyUI. New or moved files require pres
 The accepted workflow is nested at **Workflows → Mitch → production → FLUX.2 One Reference Photo**. It is
 bookmarked on this machine, so it also appears at the top of the Workflows sidebar under **Bookmarks**.
 
+The separate candidate is **Workflows → Mitch → experiments → FLUX.2 Easy Social Photos - 1-4 References**
+and is bookmarked too. If a ComfyUI tab stayed open while custom nodes were restarted and shows the candidate
+as missing, open a fresh ComfyUI tab; the live node is installed and verified.
+
 Version-controlled scene templates live under `assets/comfy-input`. Running `scripts/setup-links.ps1` synchronizes them into ComfyUI's input root with `mitch-workbench-` filenames.
 
 ## Custom nodes
@@ -41,6 +45,18 @@ new files and measure them against v1 before promotion.
 The model and private identity LoRA are also checked by SHA-256. Git preserves the small workflow/code files,
 but not the private LoRA, dataset, or reference photos. Keep the LoRA and genuine training set in a separate
 private backup if recovery after a disk failure matters.
+
+### Easy Social Photos candidate
+
+Use the clearest, well-lit face photo as the first reference. Add zero to three more genuine photos only when
+useful; the workflow rejects a detected face that is too dissimilar from the primary. Extra photos validate
+same-person consistency and form the centroid used for output ranking. They are intentionally not all passed
+into FLUX.2: controlled tests found that two/three model latents scored `0.7285` in `124.6` seconds and four
+latents scored `0.7344` in `164.1` seconds, both worse than the frozen two-derived-view route.
+
+Choose style, framing, and moment from the short preset menus, then describe only the scene, clothing, and
+activity. Select **Prompt decides** when the prompt already contains detailed camera, framing, or gaze
+instructions. One-photo mode is the frozen v1 generator; multi-photo mode changes validation/ranking only.
 
 ### Prompt examples
 

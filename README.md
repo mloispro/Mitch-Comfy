@@ -31,6 +31,20 @@ Mitch visually accepted this exact v1 baseline on 2026-08-22. It is frozen under
 and `scripts/verify.ps1` fails if either changes. New presets and multi-reference work belong in separate
 workflow/node files so the winning one-reference route remains available for direct comparison and rollback.
 
+## Easy Social Photos — candidate
+
+`Mitch/experiments/FLUX.2 Easy Social Photos - 1-4 References` is a separate bookmarked candidate. It accepts
+one clear primary face photo, up to three optional genuine photos of the same person, a scene prompt, and
+three small preset menus for style, framing, and moment/gaze. With one photo it delegates directly to frozen
+v1. With two to four photos it keeps the accepted full-photo + 2x-face-crop generation path, rejects likely
+mixed identities, and uses all detectable uploaded faces to rank/retry the result against a multi-photo
+centroid.
+
+Native 2–4-latent experiments were deliberately rejected: they scored only `0.7285–0.7344` and took
+`124.6–164.1` seconds. The final candidate stayed near v1 speed (`46.5–49.2` seconds) and scored `0.8879`
+professional, `0.8896` phone, `0.8233` on the validated action prompt, and `0.7908` on an explicit
+three-quarter no-eye-contact candid. It remains under `experiments` until Mitch visually accepts it.
+
 ## Validated production result
 
 On the local RTX 3090, the production 20-step LoRA path produced 768×1024 images in about 45–46 seconds. Against four held-out genuine photos excluded from training, it scored `0.8714` on the professional portrait, `0.8913` on the phone candid, and `0.8216` on the walking three-quarter-profile action prompt. All calibrated as strong matches. The 30-step quality reference scored `0.9205`, `0.9078`, and `0.8369`, but required about 66 seconds per image.

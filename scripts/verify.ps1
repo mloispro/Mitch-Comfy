@@ -36,6 +36,7 @@ Check-Junction (Join-Path $ComfyRoot "custom_nodes\ComfyUI-AlwaysRunImage") (Joi
 
 $expectedWorkflows = @(
     "workflows\production\FLUX.2 One Reference Photo.json",
+    "workflows\experiments\FLUX.2 Easy Social Photos - 1-4 References.json",
     "checkpoints\legacy-workflows\production\Social Photo Studio - FLUX.2 Klein 9B KV (superseded).json",
     "workflows\production\Dataset gen - QWEN 2511 - 3-photo.json",
     "workflows\production\ReActor Multi-Person Identity Finish - Sharper Face.json",
@@ -109,6 +110,33 @@ if (-not (Test-Path -LiteralPath $frozenBaselinesPath)) {
     }
 }
 
+$easySocialWorkflowPath = Join-Path $RepoRoot "workflows\experiments\FLUX.2 Easy Social Photos - 1-4 References.json"
+if (Test-Path -LiteralPath $easySocialWorkflowPath) {
+    try {
+        $easySocialWorkflow = Get-Content -Raw -LiteralPath $easySocialWorkflowPath | ConvertFrom-Json
+        if ($easySocialWorkflow.nodes.Count -ne 2) {
+            $errors.Add("FLUX.2 Easy Social Photos must contain exactly 2 visible nodes; found $($easySocialWorkflow.nodes.Count).")
+        }
+        foreach ($requiredNode in @("Flux2EasySocialPhoto", "PreviewImage")) {
+            if ($requiredNode -notin @($easySocialWorkflow.nodes.type)) {
+                $errors.Add("FLUX.2 Easy Social Photos is missing node: $requiredNode")
+            }
+        }
+        $easyNode = @($easySocialWorkflow.nodes | Where-Object { $_.type -eq "Flux2EasySocialPhoto" })[0]
+        if ($easyNode -and @($easyNode.inputs).Count -ne 8) {
+            $errors.Add("FLUX.2 Easy Social Photos must expose 4 photo inputs, prompt, style, framing, and moment.")
+        }
+        if ($easyNode -and $easyNode.widgets_values[0] -ne "Upload one face photo") {
+            $errors.Add("FLUX.2 Easy Social Photos must open without a preselected identity image.")
+        }
+        if ($easyNode -and @($easyNode.widgets_values[1..3] | Where-Object { $_ -ne "No additional reference" }).Count -gt 0) {
+            $errors.Add("FLUX.2 Easy Social Photos optional references must open empty.")
+        }
+    } catch {
+        $errors.Add("FLUX.2 Easy Social Photos workflow JSON is invalid: $($_.Exception.Message)")
+    }
+}
+
 foreach ($asset in @(
     @{ Name = "amalfi-balcony-template.png"; Source = "assets\comfy-input\amalfi-balcony-template.png" },
     @{ Name = "night-city-balcony-template.png"; Source = "assets\comfy-input\night-city-balcony-template.png" },
@@ -164,7 +192,7 @@ foreach ($model in @(
 
 Push-Location (Join-Path $RepoRoot "custom_nodes\ComfyUI-AIToolkit-Training")
 try {
-    & python -m unittest test_integration.py test_social_photo_core.py
+    & python -m unittest test_integration.py test_social_photo_core.py test_reference_photo_presets.py
     if ($LASTEXITCODE -ne 0) {
         $errors.Add("Python unit tests failed.")
     }
@@ -176,6 +204,7 @@ try {
     foreach ($nodeName in @(
         "AlwaysRunImage",
         "AIToolkitTrainGeneratedDataset",
+        "Flux2EasySocialPhoto",
         "Flux2OneReferencePhoto",
         "Flux2IdentityLoraExperiment",
         "Klein9BKVIdentityProof",
