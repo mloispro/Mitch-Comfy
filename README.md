@@ -13,7 +13,28 @@ The repository is connected to ComfyUI with Windows directory junctions:
 
 Workflow and custom-node files are used in place. Version-controlled scene templates are synchronized into ComfyUI's input folder because its image picker does not follow directory junctions.
 
-## FLUX.2 One Reference Photo — primary workflow
+## FLUX.2 Easy Social Photos — primary workflow
+
+Open `Mitch/production/FLUX.2 Easy Social Photos - 1-4 References` in ComfyUI. Upload one to four genuine
+photos in any order, describe the new scene, choose phone/professional, framing, and gaze/action, then queue.
+The graph stays at two visible nodes. All face detection, input-quality/angle selection, identity conditioning,
+retry ranking, and saving happen locally.
+
+The node automatically chooses the clearest, most frontal usable face for FLUX.2, rejects likely mixed
+identities, and uses every detected supplied face to rank the result. It intentionally sends only the selected
+photo's full view and derived face crop into the model: direct 2–4-latent tests were both slower and less
+accurate. Ordinary phone, candid, and professional photos use LoRA strength `0.4`, guidance `2.0`, 20 Euler
+steps, and compact 0.25 MP reference views. Action or full-body requests automatically switch to the stronger
+identity profile (`0.6`, guidance `4.0`) without exposing model controls.
+
+Phone and professional passes normally take about 26–28 seconds on the RTX 3090. A second seed runs only when
+the first face fails its calibrated identity gate. The final validation produced a one-reference phone result
+at `0.8161` held-out identity in `26.3` seconds, a four-reference professional result at `0.8463` held-out /
+`0.8777` supplied-reference identity in `26.3` seconds, a candid result at `0.7873` held-out / `0.8125`
+supplied-reference identity, and a head-to-feet action result at `0.7576` supplied-reference identity in
+`28.3` seconds. Identity scores reject drift; they do not measure overall photographic quality.
+
+## FLUX.2 One Reference Photo — frozen rollback baseline
 
 Open `Mitch/production/FLUX.2 One Reference Photo` in ComfyUI. The workflow has two visible nodes:
 
@@ -31,24 +52,6 @@ Mitch visually accepted this exact v1 baseline on 2026-08-22. It is frozen under
 and `scripts/verify.ps1` fails if either changes. New presets and multi-reference work belong in separate
 workflow/node files so the winning one-reference route remains available for direct comparison and rollback.
 
-## Easy Social Photos — candidate
-
-`Mitch/experiments/FLUX.2 Easy Social Photos - 1-4 References` is a separate bookmarked candidate. It accepts
-one clear primary face photo, up to three optional genuine photos of the same person, a scene prompt, and
-three small preset menus for style, framing, and moment/gaze. It uses the same private identity LoRA as frozen
-v1 but has its own realism-tuned generation profile: LoRA strength `0.4`, guidance `2.0`, a wider 2.4x face
-crop, and two compact 0.25 MP reference views. A fixed coherence instruction keeps face, hair, neck, body,
-clothing, lighting, edge softness, and camera texture in one rendering instead of over-sharpening the face.
-With two to four photos it rejects likely mixed identities and uses all detectable uploaded faces to rank the
-result against a multi-photo centroid.
-
-Native 2–4-latent experiments were deliberately rejected: they scored only `0.7285–0.7344` and took
-`124.6–164.1` seconds. On the exact city scene used to diagnose the artificial face/head, the tuned profile
-improved measured identity from `0.8704` to `0.9112` while reducing runtime from `47.6` to `25.3` seconds.
-A held-out professional scene scored `0.8834` in `28.2` seconds; a four-reference full-body action scene
-scored `0.7511` in `25.9` seconds. It remains under `experiments` until Mitch visually accepts the revised
-face realism across his own prompts.
-
 ## Validated production result
 
 On the local RTX 3090, the production 20-step LoRA path produced 768×1024 images in about 45–46 seconds. Against four held-out genuine photos excluded from training, it scored `0.8714` on the professional portrait, `0.8913` on the phone candid, and `0.8216` on the walking three-quarter-profile action prompt. All calibrated as strong matches. The 30-step quality reference scored `0.9205`, `0.9078`, and `0.8369`, but required about 66 seconds per image.
@@ -59,10 +62,10 @@ Superseded Qwen, Z-Image, face-swap, and multi-node Social Photo graphs remain u
 
 ## Everyday workflow
 
-1. Open `Mitch/production/FLUX.2 One Reference Photo` in ComfyUI.
-2. Upload one face photo, enter the scene prompt, and queue it.
-3. Do not edit or overwrite this accepted graph. Build new behavior under `workflows/experiments` with a new node module.
-4. Validate new work against the frozen graph before promoting it.
+1. Open `Mitch/production/FLUX.2 Easy Social Photos - 1-4 References` in ComfyUI.
+2. Upload one to four real photos in any order, enter the scene prompt, choose the three presets, and queue it.
+3. Use `FLUX.2 One Reference Photo` only for rollback or direct frozen-v1 comparison.
+4. Build new behavior under `workflows/experiments` and validate it before promotion.
 5. Run `scripts\checkpoint.ps1 -Message "Describe the working change"` to verify and commit it.
 
 Production filenames stay stable. Git history replaces duplicate files named `v2`, `final`, or `final-final`.

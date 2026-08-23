@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import json
+import math
 import time
 from datetime import datetime
 from pathlib import Path
 
+import cv2
 import folder_paths
 import node_helpers
 import numpy as np
@@ -37,6 +39,9 @@ CANDIDATE_REFERENCE_STRATEGY = "Full + face crop 2.4x"
 CANDIDATE_REFERENCE_PIXELS = 512 * 512
 CANDIDATE_LORA_STRENGTH = 0.4
 CANDIDATE_GUIDANCE_SCALE = 2.0
+ACTION_LORA_STRENGTH = 0.6
+ACTION_GUIDANCE_SCALE = 4.0
+ACTION_RETRY_THRESHOLD = 0.70
 
 
 def _reference_choices(include_none: bool = False) -> list[str]:
@@ -66,45 +71,160 @@ def _normalized_centroid(embeddings: list[np.ndarray]) -> np.ndarray:
     return centroid
 
 
-def _prepare_sources(reference_names: list[str]):
+def _clamp01(value: float) -> float:
+    return max(0.0, min(1.0, float(value)))
+
+
+def _generation_profile(framing: str, moment: str) -> dict:
+    if framing == "Full body" or moment == "Action":
+        return {
+            "name": "action_identity",
+            "lora_strength": ACTION_LORA_STRENGTH,
+            "guidance_scale": ACTION_GUIDANCE_SCALE,
+            "identity_retry_threshold": ACTION_RETRY_THRESHOLD,
+            "reference_strategy": CANDIDATE_REFERENCE_STRATEGY,
+            "reference_pixels": CANDIDATE_REFERENCE_PIXELS,
+        }
+    return {
+        "name": "balanced_realism",
+        "lora_strength": CANDIDATE_LORA_STRENGTH,
+        "guidance_scale": CANDIDATE_GUIDANCE_SCALE,
+        "identity_retry_threshold": IDENTITY_RETRY_THRESHOLD,
+        "reference_strategy": CANDIDATE_REFERENCE_STRATEGY,
+        "reference_pixels": CANDIDATE_REFERENCE_PIXELS,
+    }
+
+
+def _analyze_reference(name: str, image) -> dict:
+    """Measure face usability without changing or uploading the source photo."""
+    rgb = np.clip(image[0].detach().float().cpu().numpy() * 255.0, 0, 255).astype(
+        np.uint8
+    )
+    faces = baseline._face_analyzer().get(cv2.cvtColor(rgb, cv2.COLOR_RGB2BGR))
+    if not faces:
+        raise RuntimeError(f"No face was detected in reference photo {name}.")
+    face = max(
+        faces,
+        key=lambda item: float(
+            (item.bbox[2] - item.bbox[0]) * (item.bbox[3] - item.bbox[1])
+        ),
+    )
+    height, width = rgb.shape[:2]
+    x1, y1, x2, y2 = [float(value) for value in face.bbox]
+    left = max(0, min(width - 1, int(math.floor(x1))))
+    top = max(0, min(height - 1, int(math.floor(y1))))
+    right = max(left + 1, min(width, int(math.ceil(x2))))
+    bottom = max(top + 1, min(height, int(math.ceil(y2))))
+    face_rgb = rgb[top:bottom, left:right]
+    face_gray = cv2.cvtColor(face_rgb, cv2.COLOR_RGB2GRAY)
+
+    sharpness_raw = float(cv2.Laplacian(face_gray, cv2.CV_64F).var())
+    sharpness = _clamp01((math.log1p(sharpness_raw) - 3.7) / 3.0)
+    brightness = float(face_gray.mean()) / 255.0
+    contrast = float(face_gray.std()) / 255.0
+    exposure = math.exp(-((brightness - 0.52) / 0.32) ** 2) * _clamp01(
+        contrast / 0.16
+    )
+
+    bbox_width = max(x2 - x1, 1.0)
+    bbox_height = max(y2 - y1, 1.0)
+    face_scale = math.sqrt((bbox_width * bbox_height) / max(width * height, 1.0))
+    size_score = _clamp01((face_scale - 0.08) / 0.27)
+
+    kps = np.asarray(getattr(face, "kps", []), dtype=np.float32)
+    frontal = 0.5
+    if kps.shape == (5, 2):
+        eye_mid = (kps[0] + kps[1]) * 0.5
+        mouth_mid = (kps[3] + kps[4]) * 0.5
+        eye_distance = max(float(np.linalg.norm(kps[1] - kps[0])), 1.0)
+        nose_offset = abs(float(kps[2][0] - eye_mid[0])) / eye_distance
+        mouth_offset = abs(float(mouth_mid[0] - eye_mid[0])) / eye_distance
+        frontal = math.exp(-2.8 * nose_offset - 1.4 * mouth_offset)
+
+    margins = (
+        max(x1, 0.0) / width,
+        max(y1, 0.0) / height,
+        max(width - x2, 0.0) / width,
+        max(height - y2, 0.0) / height,
+    )
+    context = 1.0 if min(margins) >= 0.025 else 0.55
+    quality_score = context * (
+        0.27 * float(face.det_score)
+        + 0.25 * sharpness
+        + 0.23 * frontal
+        + 0.15 * size_score
+        + 0.10 * exposure
+    )
+
+    embedding = np.asarray(face.normed_embedding, dtype=np.float32)
+    embedding /= max(float(np.linalg.norm(embedding)), 1e-8)
+    return {
+        "reference": name,
+        "embedding": embedding,
+        "face_detection_confidence": float(face.det_score),
+        "quality_score": float(quality_score),
+        "sharpness_score": float(sharpness),
+        "frontal_score": float(frontal),
+        "face_size_score": float(size_score),
+        "exposure_score": float(exposure),
+        "edge_context_score": float(context),
+    }
+
+
+def _prepare_sources(
+    reference_names: list[str], reference_strategy: str, reference_pixels: int
+):
     source_images = [
         comfy_nodes.LoadImage().load_image(name)[0][:1, :, :, :3]
         for name in reference_names
     ]
-    embeddings: list[np.ndarray] = []
-    detected_sources: list[dict] = []
+    observations: list[dict] = []
     missing_face_sources: list[str] = []
 
-    primary_embedding, primary_confidence = baseline._face_embedding(
-        source_images[0], "the primary reference photo"
-    )
-    embeddings.append(primary_embedding)
-    detected_sources.append(
-        {
-            "reference": reference_names[0],
-            "face_detection_confidence": round(primary_confidence, 4),
-            "similarity_to_primary": 1.0,
-        }
-    )
-
-    for name, image in zip(reference_names[1:], source_images[1:]):
+    for index, (name, image) in enumerate(zip(reference_names, source_images)):
         try:
-            embedding, confidence = baseline._face_embedding(image, f"reference photo {name}")
+            observation = _analyze_reference(name, image)
         except RuntimeError:
             missing_face_sources.append(name)
             continue
-        similarity = baseline._cosine_similarity(primary_embedding, embedding)
-        if similarity < SAME_PERSON_FLOOR:
-            raise RuntimeError(
-                f"Reference {name} may show a different person (identity score {similarity:.3f}). "
-                "Remove it or choose another genuine photo of the same subject."
+        observation["source_index"] = index
+        observations.append(observation)
+
+    if not observations:
+        raise RuntimeError("No face was detected in any supplied reference photo.")
+
+    for left_index, left in enumerate(observations):
+        for right in observations[left_index + 1 :]:
+            similarity = baseline._cosine_similarity(
+                left["embedding"], right["embedding"]
             )
-        embeddings.append(embedding)
+            if similarity < SAME_PERSON_FLOOR:
+                raise RuntimeError(
+                    f"References {left['reference']} and {right['reference']} may show different "
+                    f"people (identity score {similarity:.3f}). Remove the incorrect photo."
+                )
+
+    selected = max(observations, key=lambda item: item["quality_score"])
+    embeddings = [item["embedding"] for item in observations]
+    centroid = _normalized_centroid(embeddings)
+    detected_sources: list[dict] = []
+    for item in observations:
         detected_sources.append(
             {
-                "reference": name,
-                "face_detection_confidence": round(confidence, 4),
-                "similarity_to_primary": round(similarity, 4),
+                "reference": item["reference"],
+                "selected_for_generation": item is selected,
+                "face_detection_confidence": round(
+                    item["face_detection_confidence"], 4
+                ),
+                "quality_score": round(item["quality_score"], 4),
+                "sharpness_score": round(item["sharpness_score"], 4),
+                "frontal_score": round(item["frontal_score"], 4),
+                "face_size_score": round(item["face_size_score"], 4),
+                "exposure_score": round(item["exposure_score"], 4),
+                "edge_context_score": round(item["edge_context_score"], 4),
+                "similarity_to_reference_centroid": round(
+                    baseline._cosine_similarity(centroid, item["embedding"]), 4
+                ),
             }
         )
 
@@ -112,15 +232,16 @@ def _prepare_sources(reference_names: list[str]):
     # candidate ranking, not extra model latents: controlled tests showed that feeding
     # 2–4 full latents reduced likeness and doubled/tripled latency on the RTX 3090.
     latent_images = baseline._strategy_references(
-        source_images[0],
-        CANDIDATE_REFERENCE_STRATEGY,
-        CANDIDATE_REFERENCE_PIXELS,
+        source_images[selected["source_index"]],
+        reference_strategy,
+        reference_pixels,
     )
 
     return {
         "source_images": source_images,
         "latent_images": latent_images,
-        "identity_centroid": _normalized_centroid(embeddings),
+        "identity_centroid": centroid,
+        "selected_reference": selected["reference"],
         "detected_sources": detected_sources,
         "missing_face_sources": missing_face_sources,
     }
@@ -138,7 +259,10 @@ def _generate_multi_reference(
     baseline._require_model("vae", baseline.VAE_NAME)
     started = time.perf_counter()
 
-    prepared = _prepare_sources(reference_names)
+    profile = _generation_profile(framing, moment)
+    prepared = _prepare_sources(
+        reference_names, profile["reference_strategy"], profile["reference_pixels"]
+    )
     effective_prompt = baseline._identity_prompt(
         scene_prompt,
         reference_count=2,
@@ -149,7 +273,7 @@ def _generate_multi_reference(
     model = comfy_nodes.LoraLoaderModelOnly().load_lora_model_only(
         model,
         baseline.PRODUCTION_LORA_NAME,
-        CANDIDATE_LORA_STRENGTH,
+        profile["lora_strength"],
     )[0]
     clip = comfy_nodes.CLIPLoader().load_clip(baseline.CLIP_4B_NAME, "flux2", "default")[0]
     vae = comfy_nodes.VAELoader().load_vae(baseline.VAE_NAME)[0]
@@ -165,7 +289,7 @@ def _generate_multi_reference(
         append=True,
     )
     negative = comfy_nodes.CLIPTextEncode().encode(clip, "")[0]
-    guider = CFGGuider.execute(model, positive, negative, CANDIDATE_GUIDANCE_SCALE)[0]
+    guider = CFGGuider.execute(model, positive, negative, profile["guidance_scale"])[0]
     sampler = KSamplerSelect.execute("euler")[0]
     sigmas = Flux2Scheduler.execute(
         baseline.PRODUCTION_STEPS,
@@ -212,7 +336,7 @@ def _generate_multi_reference(
             selected_photo = candidate
             selected_score = similarity
             selected_seed = attempt_seed
-        if similarity >= IDENTITY_RETRY_THRESHOLD:
+        if similarity >= profile["identity_retry_threshold"]:
             break
 
     if selected_photo is None or selected_score < 0:
@@ -228,14 +352,16 @@ def _generate_multi_reference(
         "text_encoder": baseline.CLIP_4B_NAME,
         "vae": baseline.VAE_NAME,
         "lora_name": baseline.PRODUCTION_LORA_NAME,
-        "lora_strength": CANDIDATE_LORA_STRENGTH,
+        "generation_profile": profile["name"],
+        "lora_strength": profile["lora_strength"],
         "source_references": reference_names,
         "source_reference_count": len(reference_names),
-        "primary_generation_reference": reference_names[0],
+        "primary_generation_reference": prepared["selected_reference"],
+        "reference_selection": "automatic local face quality and frontal-angle ranking",
         "model_reference_count": len(reference_latents),
         "derived_primary_face_crop": True,
-        "reference_strategy": CANDIDATE_REFERENCE_STRATEGY,
-        "reference_pixels_each": CANDIDATE_REFERENCE_PIXELS,
+        "reference_strategy": profile["reference_strategy"],
+        "reference_pixels_each": profile["reference_pixels"],
         "additional_reference_role": "same-person validation and candidate centroid ranking",
         "detected_identity_sources": prepared["detected_sources"],
         "sources_without_detectable_faces": prepared["missing_face_sources"],
@@ -247,11 +373,11 @@ def _generate_multi_reference(
         "width": baseline.OUTPUT_WIDTH,
         "height": baseline.OUTPUT_HEIGHT,
         "steps": baseline.PRODUCTION_STEPS,
-        "guidance_scale": CANDIDATE_GUIDANCE_SCALE,
+        "guidance_scale": profile["guidance_scale"],
         "sampler": "euler",
         "selected_seed": selected_seed,
         "identity_similarity_to_reference_centroid": round(selected_score, 4),
-        "identity_retry_threshold": IDENTITY_RETRY_THRESHOLD,
+        "identity_retry_threshold": profile["identity_retry_threshold"],
         "identity_attempts": attempts,
         "seconds": round(time.perf_counter() - started, 3),
         "acceptance": "Compare visually against the subject and frozen one-reference v1.",
@@ -355,26 +481,27 @@ class Flux2EasySocialPhoto:
         if validation is not True:
             raise RuntimeError(validation)
         composed_scene = compose_scene_prompt(scene_prompt, photo_style, framing, moment)
+        profile = _generation_profile(framing, moment)
 
         if len(names) == 1:
             photo, effective_prompt, output_folder, saved = baseline._generate_photo(
                 face_reference=names[0],
                 scene_prompt=composed_scene,
                 seed=baseline.PRODUCTION_SEED,
-                strategy_name=CANDIDATE_REFERENCE_STRATEGY,
+                strategy_name=profile["reference_strategy"],
                 output_root=OUTPUT_ROOT,
-                reference_pixels=CANDIDATE_REFERENCE_PIXELS,
+                reference_pixels=profile["reference_pixels"],
                 steps=baseline.PRODUCTION_STEPS,
                 refine_pass=False,
-                identity_retry_threshold=IDENTITY_RETRY_THRESHOLD,
+                identity_retry_threshold=profile["identity_retry_threshold"],
                 max_attempts=2,
                 model_name=baseline.MODEL_4B_BASE_NAME,
                 clip_name=baseline.CLIP_4B_NAME,
                 lora_name=baseline.PRODUCTION_LORA_NAME,
-                lora_strength=CANDIDATE_LORA_STRENGTH,
+                lora_strength=profile["lora_strength"],
                 use_kv_cache=False,
                 identity_token=baseline.IDENTITY_TOKEN,
-                guidance_scale=CANDIDATE_GUIDANCE_SCALE,
+                guidance_scale=profile["guidance_scale"],
             )
             return {
                 "ui": {

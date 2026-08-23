@@ -36,7 +36,7 @@ Check-Junction (Join-Path $ComfyRoot "custom_nodes\ComfyUI-AlwaysRunImage") (Joi
 
 $expectedWorkflows = @(
     "workflows\production\FLUX.2 One Reference Photo.json",
-    "workflows\experiments\FLUX.2 Easy Social Photos - 1-4 References.json",
+    "workflows\production\FLUX.2 Easy Social Photos - 1-4 References.json",
     "checkpoints\legacy-workflows\production\Social Photo Studio - FLUX.2 Klein 9B KV (superseded).json",
     "workflows\production\Dataset gen - QWEN 2511 - 3-photo.json",
     "workflows\production\ReActor Multi-Person Identity Finish - Sharper Face.json",
@@ -110,7 +110,7 @@ if (-not (Test-Path -LiteralPath $frozenBaselinesPath)) {
     }
 }
 
-$easySocialWorkflowPath = Join-Path $RepoRoot "workflows\experiments\FLUX.2 Easy Social Photos - 1-4 References.json"
+$easySocialWorkflowPath = Join-Path $RepoRoot "workflows\production\FLUX.2 Easy Social Photos - 1-4 References.json"
 if (Test-Path -LiteralPath $easySocialWorkflowPath) {
     try {
         $easySocialWorkflow = Get-Content -Raw -LiteralPath $easySocialWorkflowPath | ConvertFrom-Json

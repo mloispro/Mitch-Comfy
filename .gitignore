@@ -11,6 +11,7 @@ config/local-*.json
 local/
 
 # Large/generated artifacts
+.downloads/
 models/
 inputs/
 outputs/

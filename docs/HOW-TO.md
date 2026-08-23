@@ -7,12 +7,9 @@
 
 Both appear under the `Mitch` folder in ComfyUI. New or moved files require pressing **Refresh** in the Workflows sidebar. Changes to a workflow that is already open require reopening it.
 
-The accepted workflow is nested at **Workflows → Mitch → production → FLUX.2 One Reference Photo**. It is
-bookmarked on this machine, so it also appears at the top of the Workflows sidebar under **Bookmarks**.
-
-The separate candidate is **Workflows → Mitch → experiments → FLUX.2 Easy Social Photos - 1-4 References**
-and is bookmarked too. If a ComfyUI tab stayed open while custom nodes were restarted and shows the candidate
-as missing, open a fresh ComfyUI tab; the live node is installed and verified.
+The normal workflow is **Workflows → Mitch → production → FLUX.2 Easy Social Photos - 1-4 References**.
+The accepted one-reference v1 remains beside it as a frozen rollback/comparison baseline. If a ComfyUI tab
+stayed open while custom nodes were restarted and shows the node as missing, open a fresh tab.
 
 Version-controlled scene templates live under `assets/comfy-input`. Running `scripts/setup-links.ps1` synchronizes them into ComfyUI's input root with `mitch-workbench-` filenames.
 
@@ -22,16 +19,24 @@ The two custom-node folders in this repository are linked directly into ComfyUI.
 
 Third-party custom nodes such as ReActor remain in their own upstream repositories. Their exact revisions are recorded in `config/dependencies.lock.json`.
 
-## Everyday one-reference workflow
+## Everyday social-photo workflow
 
-Open `Mitch/production/FLUX.2 One Reference Photo`. It is the primary dating-app and Instagram photo workflow and deliberately exposes only two choices:
+Open `Mitch/production/FLUX.2 Easy Social Photos - 1-4 References`. It deliberately exposes only the useful choices:
 
-1. Upload one recent, unfiltered camera photo with a clear face.
-2. Describe the new photo in ordinary language, then queue once.
+1. Upload one to four recent, unfiltered camera photos in any order.
+2. Describe the scene and clothing in ordinary language.
+3. Choose phone/professional, framing, and gaze/action, then queue once.
 
-The node derives two identity views from that one upload: the complete photo and an automatic 2x face crop. Both are resized to one megapixel and passed into the official FLUX.2 Klein Base 4B reference-latent path with the locally trained identity LoRA. The prompt supplies phone-versus-professional appearance, camera gaze, pose, clothing, framing, and action; there are no model, sampler, crop, face-swap, or seed controls in the production graph.
+The node selects the best detected source, then derives its complete-photo view and an automatic 2.4x face
+crop. Both are compact 0.25 MP references for the official FLUX.2 Klein Base 4B reference-latent path and the
+local identity LoRA. The prompt supplies phone-versus-professional appearance, camera gaze, pose, clothing,
+framing, and action; there are no model, sampler, crop, face-swap, or seed controls in the graph.
 
-Each candidate is checked locally against the uploaded face. Only a result below the calibrated `0.75` cosine retry threshold triggers one additional attempt, and the better-scoring candidate is returned. The selected score, both attempted seeds when applicable, elapsed time, and settings are written to `ComfyUI/output/flux2-one-reference/<run-id>/report.json`. This score is a drift filter, not proof of identity; compare important results visually with the real person.
+Each candidate is checked locally against the supplied genuine-photo centroid. Balanced scenes retry below
+`0.75`; action/full-body scenes use a calibrated `0.70` floor because the detected output face is smaller.
+The higher-scoring result is returned when a retry occurs. Scores, selection measurements, seeds, elapsed
+time, and settings are written under `ComfyUI/output/flux2-reference-studio/<run-id>/report.json`. This score
+is a drift filter, not proof of identity; compare important results visually with the real person.
 
 The workflow rejects historical generated identity fixtures. Do not train or evaluate against generated portraits, beauty-filtered images, or photos of another person.
 
@@ -46,19 +51,20 @@ The model and private identity LoRA are also checked by SHA-256. Git preserves t
 but not the private LoRA, dataset, or reference photos. Keep the LoRA and genuine training set in a separate
 private backup if recovery after a disk failure matters.
 
-### Easy Social Photos candidate
+### Reference selection and generation profiles
 
-Use the clearest, well-lit face photo as the first reference. Add zero to three more genuine photos only when
-useful; the workflow rejects a detected face that is too dissimilar from the primary. Extra photos validate
-same-person consistency and form the centroid used for output ranking. They are intentionally not all passed
-into FLUX.2: controlled tests found that two/three model latents scored `0.7285` in `124.6` seconds and four
-latents scored `0.7344` in `164.1` seconds, both worse than the frozen two-derived-view route.
+Supply the photos in any order. The workflow detects every usable face, rejects likely mixed identities, and
+ranks face size, sharpness, exposure, detector confidence, edge context, and frontal angle to select the best
+generation source. Extra photos form the identity centroid used for local output ranking. They are not all
+passed into FLUX.2: controlled tests found that two/three model latents scored `0.7285` in `124.6` seconds and
+four latents scored `0.7344` in `164.1` seconds, both worse than the two derived views from one selected photo.
 
 Choose style, framing, and moment from the short preset menus, then describe only the scene, clothing, and
 activity. Select **Prompt decides** when the prompt already contains detailed camera, framing, or gaze
-instructions. One- and multi-photo modes share the candidate's realism-tuned profile: the private identity
-LoRA at strength `0.4`, guidance `2.0`, 20 Euler steps, a full reference plus wider 2.4x face crop at 0.25 MP
-each, and a fixed whole-person camera-coherence instruction. The compact references are intentional: the
+instructions. Phone, candid, and professional modes use the private identity LoRA at strength `0.4`, guidance
+`2.0`, 20 Euler steps, a full reference plus wider 2.4x face crop at 0.25 MP each, and a fixed whole-person
+camera-coherence instruction. Action and full-body modes automatically use strength `0.6` and guidance `4.0`
+to protect small/off-angle faces. The compact references are intentional: the
 exact city A/B improved from `0.8704` identity in `47.6` seconds to `0.9112` in `25.3` seconds while reducing
 the harsh, separately rendered face texture.
 
@@ -69,8 +75,8 @@ the harsh, separately rendered face texture.
 - Candid/action: `A candid smartphone action photo walking along a lakeside path at golden hour, three-quarter profile looking ahead, photographed by a friend, natural stride and slight believable motion.`
 
 The frozen-v1 production LoRA setting is checkpoint 1,250 from the ten-photo local dataset, used at strength
-`0.6`, 20 Euler steps, and guidance `4.0`. The Easy Social Photos candidate reuses that same checkpoint at
-strength `0.4` with guidance `2.0`; this is a generation-profile change, not a different or missing LoRA.
+`0.6`, 20 Euler steps, and guidance `4.0`. Easy Social Photos reuses that same checkpoint and selects between
+its balanced and action profiles automatically; this is not a different or missing LoRA.
 The checkpoint was selected from all six checkpoints by held-out professional/action scores and visual
 review. The final 1,500-step checkpoint was rejected because difficult-angle identity regressed.
 

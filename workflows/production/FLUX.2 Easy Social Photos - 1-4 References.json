@@ -27,7 +27,7 @@
         {"name": "effective_prompt", "type": "STRING", "links": null, "slot_index": 1},
         {"name": "output_folder", "type": "STRING", "links": null, "slot_index": 2}
       ],
-      "title": "1. CLEAREST FACE FIRST — ADD UP TO 3 EXTRA PHOTOS",
+      "title": "1. ADD 1–4 REAL PHOTOS — BEST FACE SELECTED AUTOMATICALLY",
       "properties": {"Node name for S&R": "Flux2EasySocialPhoto", "cnr_id": "ComfyUI-AIToolkit-Training"},
       "widgets_values": [
         "Upload one face photo",

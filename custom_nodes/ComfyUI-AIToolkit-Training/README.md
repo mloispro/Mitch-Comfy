@@ -1,10 +1,18 @@
 # ComfyUI AI-Toolkit Training
 
-## FLUX.2 One Reference Photo
+## FLUX.2 Easy Social Photos
 
-`FLUX.2 One Reference Photo.json` is the supported everyday dating-app and Instagram generator. Its only functional node accepts one genuine face photo and a plain-language scene prompt, then returns one locally saved photo.
+`FLUX.2 Easy Social Photos - 1-4 References.json` is the supported everyday dating-app and Instagram
+generator. Its only functional node accepts genuine photos, a plain-language scene prompt, and three compact
+preset menus, then returns one locally saved photo.
 
-The node automatically derives a full-photo identity reference and a 2x face crop, runs the official FLUX.2 Klein Base 4B FP8 model with the selected local identity LoRA for 20 Euler steps, and scores the generated face locally with InsightFace. It retries once only when the first result falls below the calibrated threshold and returns the higher-scoring candidate. The score is useful for ranking and rejecting obvious identity drift, but final likeness still requires visual review against genuine originals. See [the maintenance guide](../../docs/HOW-TO.md) for normal use and the measured baseline.
+`Flux2EasySocialPhoto` accepts one to four real photos in any order and automatically chooses the best clear,
+frontal source. It derives a full-photo identity reference and a 2.4x face crop, runs FLUX.2 Klein Base 4B
+FP8 with the selected local identity LoRA for 20 Euler steps, and scores the result locally against all usable
+supplied faces. Phone/pro/candid and action/full-body requests select separate hidden profiles. It retries once
+only below the calibrated identity threshold and returns the higher-scoring result. The smaller frozen
+`Flux2OneReferencePhoto` node remains available for rollback comparison. See
+[the maintenance guide](../../docs/HOW-TO.md) for normal use and measured results.
 
 ## Qwen identity-locked social workflow
 
