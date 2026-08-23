@@ -2,17 +2,21 @@
 
 ## FLUX.2 Easy Social Photos
 
-`FLUX.2 Easy Social Photos - 1-4 References.json` is the supported everyday dating-app and Instagram
+`FLUX.2 Easy Social Photos v1.0.3 - 1-4 References.json` is the supported everyday dating-app and Instagram
 generator. Its only functional node accepts genuine photos, a plain-language scene prompt, and three compact
 preset menus, then returns one locally saved photo.
 
-`Flux2EasySocialPhoto` accepts one to four real photos in any order and automatically chooses the best clear,
+`Flux2EasySocialPhotoV103` accepts one to four real photos in any order and automatically chooses the best clear,
 frontal source. It derives a full-photo identity reference and a 2.4x face crop, runs FLUX.2 Klein Base 4B
 FP8 with the selected local identity LoRA for 20 Euler steps, and scores the result locally against all usable
 supplied faces. Phone/pro/candid and action/full-body requests select separate hidden profiles. It retries once
 only below the calibrated identity threshold and returns the higher-scoring result. The smaller frozen
 `Flux2OneReferencePhoto` node remains available for rollback comparison. See
 [the maintenance guide](../../docs/HOW-TO.md) for normal use and measured results.
+
+The optional slight phone-lens haze style uses the clean-phone generation prompt followed by a deterministic,
+highlight-driven optical pass. It adds no model invocation and leaves spatial face detail intact. The normal
+smartphone and professional styles bypass that pass.
 
 ## Qwen identity-locked social workflow
 

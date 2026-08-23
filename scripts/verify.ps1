@@ -37,6 +37,7 @@ Check-Junction (Join-Path $ComfyRoot "custom_nodes\ComfyUI-AlwaysRunImage") (Joi
 $expectedWorkflows = @(
     "workflows\production\FLUX.2 One Reference Photo.json",
     "workflows\production\FLUX.2 Easy Social Photos - 1-4 References.json",
+    "workflows\production\FLUX.2 Easy Social Photos v1.0.3 - 1-4 References.json",
     "checkpoints\legacy-workflows\production\Social Photo Studio - FLUX.2 Klein 9B KV (superseded).json",
     "workflows\production\Dataset gen - QWEN 2511 - 3-photo.json",
     "workflows\production\ReActor Multi-Person Identity Finish - Sharper Face.json",
@@ -113,19 +114,19 @@ if (-not (Test-Path -LiteralPath $frozenBaselinesPath)) {
     }
 }
 
-$easySocialWorkflowPath = Join-Path $RepoRoot "workflows\production\FLUX.2 Easy Social Photos - 1-4 References.json"
+$easySocialWorkflowPath = Join-Path $RepoRoot "workflows\production\FLUX.2 Easy Social Photos v1.0.3 - 1-4 References.json"
 if (Test-Path -LiteralPath $easySocialWorkflowPath) {
     try {
         $easySocialWorkflow = Get-Content -Raw -LiteralPath $easySocialWorkflowPath | ConvertFrom-Json
         if ($easySocialWorkflow.nodes.Count -ne 2) {
             $errors.Add("FLUX.2 Easy Social Photos must contain exactly 2 visible nodes; found $($easySocialWorkflow.nodes.Count).")
         }
-        foreach ($requiredNode in @("Flux2EasySocialPhoto", "PreviewImage")) {
+        foreach ($requiredNode in @("Flux2EasySocialPhotoV103", "PreviewImage")) {
             if ($requiredNode -notin @($easySocialWorkflow.nodes.type)) {
                 $errors.Add("FLUX.2 Easy Social Photos is missing node: $requiredNode")
             }
         }
-        $easyNode = @($easySocialWorkflow.nodes | Where-Object { $_.type -eq "Flux2EasySocialPhoto" })[0]
+        $easyNode = @($easySocialWorkflow.nodes | Where-Object { $_.type -eq "Flux2EasySocialPhotoV103" })[0]
         if ($easyNode -and @($easyNode.inputs).Count -ne 8) {
             $errors.Add("FLUX.2 Easy Social Photos must expose 4 photo inputs, prompt, style, framing, and moment.")
         }
@@ -208,7 +209,7 @@ foreach ($model in @(
 
 Push-Location (Join-Path $RepoRoot "custom_nodes\ComfyUI-AIToolkit-Training")
 try {
-    & python -m unittest test_integration.py test_social_photo_core.py test_reference_photo_presets.py
+    & python -m unittest test_integration.py test_social_photo_core.py test_reference_photo_presets.py test_phone_lens_optics.py
     if ($LASTEXITCODE -ne 0) {
         $errors.Add("Python unit tests failed.")
     }
@@ -221,6 +222,7 @@ try {
         "AlwaysRunImage",
         "AIToolkitTrainGeneratedDataset",
         "Flux2EasySocialPhoto",
+        "Flux2EasySocialPhotoV103",
         "Flux2OneReferencePhoto",
         "Flux2IdentityLoraExperiment",
         "Klein9BKVIdentityProof",
@@ -231,8 +233,8 @@ try {
             $errors.Add("ComfyUI did not expose node: $nodeName")
         }
     }
-    $easyInfo = Invoke-RestMethod -Uri "$ComfyUrl/object_info/Flux2EasySocialPhoto" -TimeoutSec 5
-    $livePhotoStyles = @($easyInfo.Flux2EasySocialPhoto.input.required.photo_style[0])
+    $easyInfo = Invoke-RestMethod -Uri "$ComfyUrl/object_info/Flux2EasySocialPhotoV103" -TimeoutSec 5
+    $livePhotoStyles = @($easyInfo.Flux2EasySocialPhotoV103.input.required.photo_style[0])
     if ("Smartphone — slight lens haze" -notin $livePhotoStyles) {
         $errors.Add("Live FLUX.2 Easy Social Photos is missing the slight phone-lens haze preset.")
     }

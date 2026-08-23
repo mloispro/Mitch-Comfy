@@ -15,6 +15,7 @@ local/
 models/
 inputs/
 outputs/
+comparisons/
 datasets/
 jobs/
 checkpoints/artifacts/

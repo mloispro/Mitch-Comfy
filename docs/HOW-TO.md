@@ -7,7 +7,7 @@
 
 Both appear under the `Mitch` folder in ComfyUI. New or moved files require pressing **Refresh** in the Workflows sidebar. Changes to a workflow that is already open require reopening it.
 
-The normal workflow is **Workflows → Mitch → production → FLUX.2 Easy Social Photos - 1-4 References**.
+The normal workflow is **Workflows → Mitch → production → FLUX.2 Easy Social Photos v1.0.3 - 1-4 References**.
 The accepted one-reference v1 remains beside it as a frozen rollback/comparison baseline. If a ComfyUI tab
 stayed open while custom nodes were restarted and shows the node as missing, open a fresh tab.
 
@@ -21,7 +21,7 @@ Third-party custom nodes such as ReActor remain in their own upstream repositori
 
 ## Everyday social-photo workflow
 
-Open `Mitch/production/FLUX.2 Easy Social Photos - 1-4 References`. It deliberately exposes only the useful choices:
+Open `Mitch/production/FLUX.2 Easy Social Photos v1.0.3 - 1-4 References`. It deliberately exposes only the useful choices:
 
 1. Upload one to four recent, unfiltered camera photos in any order.
 2. Describe the scene and clothing in ordinary language.
@@ -38,18 +38,17 @@ one white balance, shadow direction, edge softness, and sensor response while re
 redness, pigmentation, stubble, vellus hair, pores, and ordinary marks. This replaced the overly smooth v1.0.0
 wording; no face refiner or local sharpening pass is used.
 
-`Smartphone — slight lens haze` is the optional lived-in phone-lens look. Near a bright window or sun it asks
-for uneven veiling glare across the optical path, slightly lifted blacks, compressed contrast, sensor noise,
-and restrained compression while preserving facial microtexture. It is intentionally not a global white
-overlay or beauty filter. The hidden midpoint identity profile (`0.5`, guidance `3.0`) keeps this softer capture
-from losing likeness. Use `Smartphone — natural` for a cleaner modern phone and `Professional — natural` for
-clearer regular-camera optics.
+`Smartphone — slight lens haze` is the optional lived-in phone-lens look. v1.0.3 first generates the clean
+smartphone image, then applies deterministic highlight-driven scatter: a restrained frame-wide veil plus
+stronger lift near windows, lamps, and sun. It does not blur image pixels, rerender the face, alter composition,
+or invoke another model. The hidden midpoint identity profile (`0.5`, guidance `3.0`) protects likeness before
+the optical pass. Use `Smartphone — natural` for a clean modern phone; it bypasses this processing completely.
 
 Each candidate is checked locally against the supplied genuine-photo centroid. Balanced scenes retry below
 `0.75`; action/full-body scenes use a calibrated `0.70` floor because the detected output face is smaller.
 The higher-scoring result is returned when a retry occurs. Scores, selection measurements, seeds, elapsed
 time, and settings are written under
-`ComfyUI/output/flux2-reference-studio/<reference-count>-references/<run-id>/report.json`. This score
+`ComfyUI/output/flux2-reference-studio-v103/<reference-count>-references/<run-id>/report.json`. This score
 is a drift filter, not proof of identity; compare important results visually with the real person.
 
 The workflow rejects historical generated identity fixtures. Do not train or evaluate against generated portraits, beauty-filtered images, or photos of another person.
@@ -95,8 +94,8 @@ its balanced and action profiles automatically; this is not a different or missi
 The checkpoint was selected from all six checkpoints by held-out professional/action scores and visual
 review. The final 1,500-step checkpoint was rejected because difficult-angle identity regressed.
 
-Easy Social Photos v1.0.2 is frozen separately under `flux2-easy-social-v1.0.2`. The v1.0.0 and v1.0.1 tags
-remain available for exact rollback, while the active registry hashes protect the phone-lens production files.
+Easy Social Photos v1.0.3 is the active workflow. v1.0.2 remains frozen separately under
+`flux2-easy-social-v1.0.2`; earlier tags remain available for exact rollback.
 
 ### First-time model setup
 

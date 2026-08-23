@@ -28,6 +28,7 @@ from .one_reference_photo import (
     Flux2OneReferencePhoto,
 )
 from .reference_photo_studio import Flux2EasySocialPhoto
+from .reference_photo_studio_v103 import Flux2EasySocialPhotoV103
 from .social_photo_studio import SocialPhotoGenerate, SocialPhotoSettings, SocialPhotoSubjectReferences
 
 
@@ -227,6 +228,7 @@ class AIToolkitPublishCompletedLoRA:
 NODE_CLASS_MAPPINGS = {
     "Flux2OneReferencePhoto": Flux2OneReferencePhoto,
     "Flux2EasySocialPhoto": Flux2EasySocialPhoto,
+    "Flux2EasySocialPhotoV103": Flux2EasySocialPhotoV103,
     "Flux2IdentityStrategyExperiment": Flux2IdentityStrategyExperiment,
     "Flux2IdentityLoraExperiment": Flux2IdentityLoraExperiment,
     "Klein9BKVIdentityProof": Klein9BKVIdentityProof,
@@ -249,6 +251,7 @@ NODE_CLASS_MAPPINGS = {
 NODE_DISPLAY_NAME_MAPPINGS = {
     "Flux2OneReferencePhoto": "FLUX.2: One Reference Photo",
     "Flux2EasySocialPhoto": "FLUX.2: Easy Social Photo (1–4 References)",
+    "Flux2EasySocialPhotoV103": "FLUX.2: Easy Social Photo v1.0.3 (1–4 References)",
     "Flux2IdentityStrategyExperiment": "[Internal] FLUX.2 Identity Strategy Experiment",
     "Flux2IdentityLoraExperiment": "[Internal] FLUX.2 Identity LoRA Experiment",
     "Klein9BKVIdentityProof": "Proof: FLUX.2 Klein 9B KV Identity",

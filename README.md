@@ -15,7 +15,7 @@ Workflow and custom-node files are used in place. Version-controlled scene templ
 
 ## FLUX.2 Easy Social Photos — primary workflow
 
-Open `Mitch/production/FLUX.2 Easy Social Photos - 1-4 References` in ComfyUI. Upload one to four genuine
+Open `Mitch/production/FLUX.2 Easy Social Photos v1.0.3 - 1-4 References` in ComfyUI. Upload one to four genuine
 photos in any order, describe the new scene, choose clean phone / slight phone-lens haze / professional,
 framing, and gaze/action, then queue.
 The graph stays at two visible nodes. All face detection, input-quality/angle selection, identity conditioning,
@@ -37,11 +37,12 @@ result, `0.8827` against the supplied centroid for professional, `0.7985` for a 
 the close/waist-up results fell inside the genuine-photo comparison range. Scores rank identity and flag
 texture extremes; the subject's visual judgment remains authoritative.
 
-Use `Smartphone — slight lens haze` when the photo should have the faint washed film seen in ordinary phone
-captures near a bright window or sun. It models uneven optical veiling glare, a lifted black point, compressed
-contrast, sensor noise, and restrained compression—not a flat white overlay. The validated car test retained
-`0.8308` identity in one `36.6`-second pass, with skin texture and contrast inside the real-photo comparison
-range. `Smartphone — natural` stays cleaner; `Professional — natural` uses the regular-camera look.
+Use `Smartphone — slight lens haze` when the photo should have the washed film seen through an everyday
+handled phone lens near a window or sun. v1.0.3 generates the same clean smartphone base, then applies a
+deterministic highlight-driven optical scatter in under a second. It lifts blacks and compresses contrast more
+near bright sources without blurring the face, changing composition, or running another AI model. The final
+car-window test scored `0.8921` identity in `35.4` seconds; its mean luminance moved from `0.33944` to `0.38369`
+and contrast from `0.25728` to `0.24452`. `Smartphone — natural` bypasses the optics pass and remains unchanged.
 
 ## FLUX.2 One Reference Photo — frozen rollback baseline
 
@@ -71,10 +72,10 @@ Superseded Qwen, Z-Image, face-swap, and multi-node Social Photo graphs remain u
 
 ## Everyday workflow
 
-1. Open `Mitch/production/FLUX.2 Easy Social Photos - 1-4 References` in ComfyUI.
+1. Open `Mitch/production/FLUX.2 Easy Social Photos v1.0.3 - 1-4 References` in ComfyUI.
 2. Upload one to four real photos in any order, enter the scene prompt, choose the three presets, and queue it.
 3. Use `FLUX.2 One Reference Photo` only for rollback or direct frozen-v1 comparison. Easy Social Photos
-   v1.0.2 is separately frozen under `flux2-easy-social-v1.0.2` after its phone-lens validation.
+   v1.0.2 remains frozen under `flux2-easy-social-v1.0.2` for exact rollback.
 4. Build new behavior under `workflows/experiments` and validate it before promotion.
 5. Run `scripts\checkpoint.ps1 -Message "Describe the working change"` to verify and commit it.
 

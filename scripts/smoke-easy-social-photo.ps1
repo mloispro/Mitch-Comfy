@@ -17,7 +17,7 @@ param(
 $ErrorActionPreference = "Stop"
 $workflow = @{
     "1" = @{
-        class_type = "Flux2EasySocialPhoto"
+        class_type = "Flux2EasySocialPhotoV103"
         inputs = @{
             face_reference = $Reference1
             reference_2 = $Reference2
