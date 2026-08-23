@@ -1,0 +1,80 @@
+{
+  "id": "0ced1945-d010-4a56-af74-cb6d22bf750b",
+  "revision": 1,
+  "last_node_id": 2,
+  "last_link_id": 1,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "Flux2EasySocialPhotoV104",
+      "pos": [-500, 40],
+      "size": [580, 660],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {"name": "face_reference", "type": "COMBO", "widget": {"name": "face_reference"}, "link": null},
+        {"name": "reference_2", "type": "COMBO", "widget": {"name": "reference_2"}, "link": null},
+        {"name": "reference_3", "type": "COMBO", "widget": {"name": "reference_3"}, "link": null},
+        {"name": "reference_4", "type": "COMBO", "widget": {"name": "reference_4"}, "link": null},
+        {"name": "scene_prompt", "type": "STRING", "widget": {"name": "scene_prompt"}, "link": null},
+        {"name": "photo_style", "type": "COMBO", "widget": {"name": "photo_style"}, "link": null},
+        {"name": "framing", "type": "COMBO", "widget": {"name": "framing"}, "link": null},
+        {"name": "moment", "type": "COMBO", "widget": {"name": "moment"}, "link": null}
+      ],
+      "outputs": [
+        {"name": "photo", "type": "IMAGE", "links": [1], "slot_index": 0},
+        {"name": "effective_prompt", "type": "STRING", "links": null, "slot_index": 1},
+        {"name": "output_folder", "type": "STRING", "links": null, "slot_index": 2}
+      ],
+      "title": "1. ADD 1–4 REAL PHOTOS — DESCRIBE ANY SCENE",
+      "properties": {
+        "Node name for S&R": "Flux2EasySocialPhotoV104",
+        "cnr_id": "ComfyUI-AIToolkit-Training"
+      },
+      "widgets_values": [
+        "Upload one face photo",
+        "No additional reference",
+        "No additional reference",
+        "No additional reference",
+        "Walking along a neighborhood sidewalk in soft late-afternoon light, wearing a fitted navy crew-neck T-shirt and dark jeans, relaxed and comfortable.",
+        "Smartphone — natural",
+        "Waist-up",
+        "Looking at camera"
+      ],
+      "color": "#174d52",
+      "bgcolor": "#20666d"
+    },
+    {
+      "id": 2,
+      "type": "PreviewImage",
+      "pos": [160, 40],
+      "size": [540, 660],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [{"name": "images", "type": "IMAGE", "link": 1}],
+      "outputs": [],
+      "title": "2. IDENTITY-GATED RESULT",
+      "properties": {
+        "Node name for S&R": "PreviewImage",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": []
+    }
+  ],
+  "links": [[1, 1, 0, 2, 0, "IMAGE"]],
+  "groups": [
+    {
+      "id": 1,
+      "title": "EASY SOCIAL PHOTO v1.0.4 — AUTOMATIC FAST / COMPLEX SCENE ROUTING",
+      "bounding": [-540, -20, 1280, 760],
+      "color": "#3f789e",
+      "font_size": 28,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {"ds": {"scale": 0.86, "offset": [560, 80]}},
+  "version": 0.4
+}

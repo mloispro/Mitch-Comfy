@@ -38,6 +38,7 @@ $expectedWorkflows = @(
     "workflows\production\FLUX.2 One Reference Photo.json",
     "workflows\production\FLUX.2 Easy Social Photos - 1-4 References.json",
     "workflows\production\FLUX.2 Easy Social Photos v1.0.3 - 1-4 References.json",
+    "workflows\production\FLUX.2 Easy Social Photos v1.0.4 - Auto Scene Routing.json",
     "checkpoints\legacy-workflows\production\Social Photo Studio - FLUX.2 Klein 9B KV (superseded).json",
     "workflows\production\Dataset gen - QWEN 2511 - 3-photo.json",
     "workflows\production\ReActor Multi-Person Identity Finish - Sharper Face.json",
@@ -154,6 +155,36 @@ if (Test-Path -LiteralPath $easySocialNodePath) {
     }
 }
 
+$routedSocialWorkflowPath = Join-Path $RepoRoot "workflows\production\FLUX.2 Easy Social Photos v1.0.4 - Auto Scene Routing.json"
+if (Test-Path -LiteralPath $routedSocialWorkflowPath) {
+    try {
+        $routedSocialWorkflow = Get-Content -Raw -LiteralPath $routedSocialWorkflowPath | ConvertFrom-Json
+        if ($routedSocialWorkflow.nodes.Count -ne 2) {
+            $errors.Add("FLUX.2 Easy Social Photos v1.0.4 must contain exactly 2 visible nodes; found $($routedSocialWorkflow.nodes.Count).")
+        }
+        foreach ($requiredNode in @("Flux2EasySocialPhotoV104", "PreviewImage")) {
+            if ($requiredNode -notin @($routedSocialWorkflow.nodes.type)) {
+                $errors.Add("FLUX.2 Easy Social Photos v1.0.4 is missing node: $requiredNode")
+            }
+        }
+        $routedNode = @($routedSocialWorkflow.nodes | Where-Object { $_.type -eq "Flux2EasySocialPhotoV104" })[0]
+        if ($routedNode -and @($routedNode.inputs).Count -ne 8) {
+            $errors.Add("FLUX.2 Easy Social Photos v1.0.4 must expose only 4 photo inputs, prompt, style, framing, and moment.")
+        }
+        if ($routedNode -and $routedNode.widgets_values[0] -ne "Upload one face photo") {
+            $errors.Add("FLUX.2 Easy Social Photos v1.0.4 must open without a preselected identity image.")
+        }
+        if ($routedNode -and @($routedNode.widgets_values[1..3] | Where-Object { $_ -ne "No additional reference" }).Count -gt 0) {
+            $errors.Add("FLUX.2 Easy Social Photos v1.0.4 optional references must open empty.")
+        }
+        if ((Get-Content -Raw -LiteralPath $routedSocialWorkflowPath) -match "quality gate|scene-checked") {
+            $errors.Add("FLUX.2 Easy Social Photos v1.0.4 must not claim an automatic visual quality gate.")
+        }
+    } catch {
+        $errors.Add("FLUX.2 Easy Social Photos v1.0.4 workflow JSON is invalid: $($_.Exception.Message)")
+    }
+}
+
 foreach ($asset in @(
     @{ Name = "amalfi-balcony-template.png"; Source = "assets\comfy-input\amalfi-balcony-template.png" },
     @{ Name = "night-city-balcony-template.png"; Source = "assets\comfy-input\night-city-balcony-template.png" },
@@ -191,7 +222,9 @@ foreach ($asset in @(
 }
 
 foreach ($model in @(
+    @{ Path = "models\diffusion_models\flux-2-klein-9b-kv-fp8.safetensors"; Sha256 = "33F7DA5625A00798349A719742999D3C7DD20C1A7EDA14663922C363640728F1" },
     @{ Path = "models\diffusion_models\flux-2-klein-base-4b-fp8.safetensors"; Sha256 = "44BAB3A86FE98B85D21DD2A4729EBDC3AE51FB8A39F76E457E18C724219E6840" },
+    @{ Path = "models\text_encoders\qwen_3_8b_fp8mixed.safetensors"; Sha256 = "ABAD16806E0CBABC54E0325D6565847443FE396D5F0BE38BB3CD3FE75A1201D6" },
     @{ Path = "models\text_encoders\qwen_3_4b_fp8_mixed.safetensors"; Sha256 = "72450B19758172C5A7273CF7DE729D1C17E7F434A104A00167624CBA94F68F15" },
     @{ Path = "models\loras\aitk\m1tch-flux2-klein-4b-identity-v1-best.safetensors"; Sha256 = "8A7D1477914D0A5262BF219F71F303418130449841CF220226B4E979D7232F87" },
     @{ Path = "models\vae\flux2-vae.safetensors"; Sha256 = "D64F3A68E1CC4F9F4E29B6E0DA38A0204FE9A49F2D4053F0EC1FA1CA02F9C4B5" }
@@ -209,7 +242,7 @@ foreach ($model in @(
 
 Push-Location (Join-Path $RepoRoot "custom_nodes\ComfyUI-AIToolkit-Training")
 try {
-    & python -m unittest test_integration.py test_social_photo_core.py test_reference_photo_presets.py test_phone_lens_optics.py
+    & python -m unittest test_integration.py test_social_photo_core.py test_reference_photo_presets.py test_phone_lens_optics.py test_scene_quality.py
     if ($LASTEXITCODE -ne 0) {
         $errors.Add("Python unit tests failed.")
     }
@@ -223,6 +256,7 @@ try {
         "AIToolkitTrainGeneratedDataset",
         "Flux2EasySocialPhoto",
         "Flux2EasySocialPhotoV103",
+        "Flux2EasySocialPhotoV104",
         "Flux2OneReferencePhoto",
         "Flux2IdentityLoraExperiment",
         "Klein9BKVIdentityProof",
@@ -233,8 +267,8 @@ try {
             $errors.Add("ComfyUI did not expose node: $nodeName")
         }
     }
-    $easyInfo = Invoke-RestMethod -Uri "$ComfyUrl/object_info/Flux2EasySocialPhotoV103" -TimeoutSec 5
-    $livePhotoStyles = @($easyInfo.Flux2EasySocialPhotoV103.input.required.photo_style[0])
+    $easyInfo = Invoke-RestMethod -Uri "$ComfyUrl/object_info/Flux2EasySocialPhotoV104" -TimeoutSec 5
+    $livePhotoStyles = @($easyInfo.Flux2EasySocialPhotoV104.input.required.photo_style[0])
     if ("Smartphone — slight lens haze" -notin $livePhotoStyles) {
         $errors.Add("Live FLUX.2 Easy Social Photos is missing the slight phone-lens haze preset.")
     }

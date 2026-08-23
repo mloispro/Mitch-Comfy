@@ -7,7 +7,7 @@
 
 Both appear under the `Mitch` folder in ComfyUI. New or moved files require pressing **Refresh** in the Workflows sidebar. Changes to a workflow that is already open require reopening it.
 
-The normal workflow is **Workflows → Mitch → production → FLUX.2 Easy Social Photos v1.0.3 - 1-4 References**.
+The normal workflow is **Workflows → Mitch → production → FLUX.2 Easy Social Photos v1.0.4 - Auto Scene Routing**.
 The accepted one-reference v1 remains beside it as a frozen rollback/comparison baseline. If a ComfyUI tab
 stayed open while custom nodes were restarted and shows the node as missing, open a fresh tab.
 
@@ -21,7 +21,7 @@ Third-party custom nodes such as ReActor remain in their own upstream repositori
 
 ## Everyday social-photo workflow
 
-Open `Mitch/production/FLUX.2 Easy Social Photos v1.0.3 - 1-4 References`. It deliberately exposes only the useful choices:
+Open `Mitch/production/FLUX.2 Easy Social Photos v1.0.4 - Auto Scene Routing`. It deliberately exposes only the useful choices:
 
 1. Upload one to four recent, unfiltered camera photos in any order.
 2. Describe the scene and clothing in ordinary language.
@@ -33,12 +33,19 @@ crop. Both are compact 0.25 MP references for the official FLUX.2 Klein Base 4B 
 local identity LoRA. The prompt supplies phone-versus-professional appearance, camera gaze, pose, clothing,
 framing, and action; there are no model, sampler, crop, face-swap, or seed controls in the graph.
 
+The same node automatically adds compact context rules for cars, traffic, crowds, groups, reflections, action,
+held objects, and signage. Ordinary prompts run directly through the 4B identity LoRA. Dense background people,
+groups, reflections, and combined crowd/traffic prompts automatically use a four-step 9B scene-layout pass,
+remove the layout subject's identity, reduce the layout to `384×576` structural evidence, and re-render the full
+photo with the 4B identity LoRA. This route is a full generative render, not face swapping or pixel compositing.
+Typical RTX 3090 times are about 36–38 seconds for the fast route and about one minute for the complex route.
+
 Generation is `896×1344`. The built-in natural-skin instruction keeps face, ears, neck, arms, and hands under
 one white balance, shadow direction, edge softness, and sensor response while requesting subtle nonuniform
 redness, pigmentation, stubble, vellus hair, pores, and ordinary marks. This replaced the overly smooth v1.0.0
 wording; no face refiner or local sharpening pass is used.
 
-`Smartphone — slight lens haze` is the optional lived-in phone-lens look. v1.0.3 first generates the clean
+`Smartphone — slight lens haze` is the optional lived-in phone-lens look. v1.0.4 first generates the clean
 smartphone image, then applies deterministic highlight-driven scatter: a restrained frame-wide veil plus
 stronger lift near windows, lamps, and sun. It does not blur image pixels, rerender the face, alter composition,
 or invoke another model. The hidden midpoint identity profile (`0.5`, guidance `3.0`) protects likeness before
@@ -48,7 +55,8 @@ Each candidate is checked locally against the supplied genuine-photo centroid. B
 `0.75`; action/full-body scenes use a calibrated `0.70` floor because the detected output face is smaller.
 The higher-scoring result is returned when a retry occurs. Scores, selection measurements, seeds, elapsed
 time, and settings are written under
-`ComfyUI/output/flux2-reference-studio-v103/<reference-count>-references/<run-id>/report.json`. This score
+`ComfyUI/output/flux2-reference-studio-v104/<reference-count>-references/<run-id>/report.json`. The report also
+records the inferred contexts, chosen fast/complex route, per-stage timing, and any automatic fallback. This score
 is a drift filter, not proof of identity; compare important results visually with the real person.
 
 The workflow rejects historical generated identity fixtures. Do not train or evaluate against generated portraits, beauty-filtered images, or photos of another person.
@@ -94,12 +102,17 @@ its balanced and action profiles automatically; this is not a different or missi
 The checkpoint was selected from all six checkpoints by held-out professional/action scores and visual
 review. The final 1,500-step checkpoint was rejected because difficult-angle identity regressed.
 
-Easy Social Photos v1.0.3 is the active workflow. v1.0.2 remains frozen separately under
-`flux2-easy-social-v1.0.2`; earlier tags remain available for exact rollback.
+Easy Social Photos v1.0.4 is the active candidate workflow. The accepted v1.0.3 remains hash-frozen beside it
+for rollback and direct A/B comparison; earlier tags remain available for exact rollback.
 
 ### First-time model setup
 
-Run `scripts/setup-one-reference-photo.ps1`, restart ComfyUI, then run `scripts/verify.ps1`. The setup script installs the pinned Base 4B FP8 model, Qwen3 4B FP8 mixed text encoder, and FLUX.2 VAE; it also verifies the private production identity LoRA. The LoRA is not downloaded because it was trained locally from private photos—back it up separately or recreate it with `scripts/flux2-identity-lora.py` and the ignored local dataset.
+Run `scripts/setup-one-reference-photo.ps1` and `scripts/setup-social-photo-models.ps1`, restart ComfyUI, then
+run `scripts/verify.ps1`. The first setup installs the pinned Base 4B FP8 model, Qwen3 4B FP8 mixed text encoder,
+and FLUX.2 VAE and verifies the private production identity LoRA. The second installs the pinned 9B KV FP8 model
+and Qwen3 8B FP8 mixed encoder used only by automatic complex routing. The LoRA is not downloaded because it was
+trained locally from private photos—back it up separately or recreate it with `scripts/flux2-identity-lora.py`
+and the ignored local dataset.
 
 The FLUX.2 Klein Base 4B weights are Apache 2.0. The workflow remains personal and local; generated photos should not be presented deceptively.
 

@@ -15,30 +15,42 @@ Workflow and custom-node files are used in place. Version-controlled scene templ
 
 ## FLUX.2 Easy Social Photos — primary workflow
 
-Open `Mitch/production/FLUX.2 Easy Social Photos v1.0.3 - 1-4 References` in ComfyUI. Upload one to four genuine
+Open `Mitch/production/FLUX.2 Easy Social Photos v1.0.4 - Auto Scene Routing` in ComfyUI. Upload one to four genuine
 photos in any order, describe the new scene, choose clean phone / slight phone-lens haze / professional,
 framing, and gaze/action, then queue.
 The graph stays at two visible nodes. All face detection, input-quality/angle selection, identity conditioning,
-retry ranking, and saving happen locally.
+scene routing, retry ranking, and saving happen locally.
 
 The node automatically chooses the clearest, most frontal usable face for FLUX.2, rejects likely mixed
 identities, and uses every detected supplied face to rank the result. It intentionally sends only the selected
-photo's full view and derived face crop into the model: direct 2–4-latent tests were both slower and less
-accurate. Every reference count now uses the same small generation path at `896×1344`, with a hidden stronger
-identity profile for one-photo, candid, action, and full-body requests. Camera-facing multi-photo scenes retain
-the lighter profile. There is no face swap, refiner, or second model pass.
+photo's full view and derived face crop into the identity model: direct 2–4-identity-latent tests were both slower
+and less accurate. Every reference count uses the same `896×1344` output and hidden stronger identity profiles
+for one-photo, candid, action, and full-body requests. There is no face swap or refiner.
 
-The realism fix is primary-generation conditioning plus enough face pixels: unretouched spatially varied skin,
+v1.0.4 automatically infers car, traffic, crowd, group, reflection, action, held-object, and signage contexts and
+adds compact preventive scene rules. Ordinary scenes use the fast Base 4B + identity LoRA route. Dense crowds,
+groups, reflections, and combined crowd/traffic scenes use a four-step 9B KV layout pass, erase the layout
+subject's identity, reduce that layout to low-resolution structural evidence, and re-render the entire image with
+the 4B identity LoRA and genuine references. This is a full generative re-render, not a pasted face or pixel
+composite, and requires no extra user setting.
+
+The realism fix remains primary-generation conditioning plus enough face pixels: unretouched spatially varied skin,
 coherent face/neck/body lighting, and no separate facial sharpening. Typical successful passes take about
-35–38 seconds on the RTX 3090; a second deterministic seed runs only when the local identity gate rejects the
-first. Final production validation scored `0.7996` against three other genuine photos for a one-reference phone
+35–38 seconds on the RTX 3090 for the fast route; a second deterministic seed runs only when the local identity
+gate rejects the first. Complex routing is about one minute. Final production validation scored `0.7996` against three other genuine photos for a one-reference phone
 result, `0.8827` against the supplied centroid for professional, `0.7985` for a clear off-camera candid, and
 `0.7230` for a head-to-feet action result whose face was only 103 pixels wide. Local texture measurements for
 the close/waist-up results fell inside the genuine-photo comparison range. Scores rank identity and flag
 texture extremes; the subject's visual judgment remains authoritative.
 
+The v1.0.4 car regression used the fast route in `36.0` seconds, scored `0.8406`, and kept the headrest visibly
+offset with readable supports. The dense street regression automatically used the complex route in `59.2`
+seconds, scored `0.8946`, and produced varied background clothing, mostly profile/rear-view extras, and coherent
+parked traffic. Qwen3-VL 4B and Qwen3.5 4B local critics were explicitly rejected after both falsely passed the
+known bad car/headrest image; the workflow does not add their latency or claim an automatic visual quality gate.
+
 Use `Smartphone — slight lens haze` when the photo should have the washed film seen through an everyday
-handled phone lens near a window or sun. v1.0.3 generates the same clean smartphone base, then applies a
+handled phone lens near a window or sun. v1.0.4 generates the same clean smartphone base, then applies a
 deterministic highlight-driven optical scatter in under a second. It lifts blacks and compresses contrast more
 near bright sources without blurring the face, changing composition, or running another AI model. The final
 car-window test scored `0.8921` identity in `35.4` seconds; its mean luminance moved from `0.33944` to `0.38369`
@@ -72,10 +84,10 @@ Superseded Qwen, Z-Image, face-swap, and multi-node Social Photo graphs remain u
 
 ## Everyday workflow
 
-1. Open `Mitch/production/FLUX.2 Easy Social Photos v1.0.3 - 1-4 References` in ComfyUI.
+1. Open `Mitch/production/FLUX.2 Easy Social Photos v1.0.4 - Auto Scene Routing` in ComfyUI.
 2. Upload one to four real photos in any order, enter the scene prompt, choose the three presets, and queue it.
-3. Use `FLUX.2 One Reference Photo` only for rollback or direct frozen-v1 comparison. Easy Social Photos
-   v1.0.2 remains frozen under `flux2-easy-social-v1.0.2` for exact rollback.
+3. Use Easy Social Photos v1.0.3 or `FLUX.2 One Reference Photo` for rollback/direct comparison. The accepted
+   v1.0.3 core remains hash-frozen and unchanged while v1.0.4 is visually evaluated.
 4. Build new behavior under `workflows/experiments` and validate it before promotion.
 5. Run `scripts\checkpoint.ps1 -Message "Describe the working change"` to verify and commit it.
 
@@ -93,3 +105,4 @@ Production filenames stay stable. Git history replaces duplicate files named `v2
 Tracked manifests record important external revisions and hashes without copying large files into Git.
 
 See [docs/HOW-TO.md](docs/HOW-TO.md) for restoration and maintenance details.
+See [docs/scene-routing-v1.0.4-evaluation.md](docs/scene-routing-v1.0.4-evaluation.md) for the accepted/rejected scene tests.
