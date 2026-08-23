@@ -43,6 +43,13 @@ _GENERATION_GUARDRAILS = {
         "scale, occlusion, and contact; no background edge emerges from the subject. Use one viewpoint, light, depth, and "
         "sensor texture. Prefer a few clear, naturally irregular background elements over dense filler."
     ),
+    "background_detail": (
+        "Render a recognizable, materially detailed environment from foreground through midground and the major distance "
+        "structures, including ordinary wear, seams, foliage, architecture, vehicles, and small irregular clutter where "
+        "appropriate. Use realistic moderate-to-deep focus: distance may soften slightly but must retain coherent edges, "
+        "texture, and structure. Never hide the setting with portrait-mode blur, fake bokeh, smeared shapes, foggy filler, "
+        "or a featureless color wash unless the user explicitly requests shallow focus."
+    ),
     "car_interior": (
         "Make the subject's car seat, the camera seat, and the cabin layout obvious. Put the subject's headrest offset "
         "behind one shoulder, separated from the head, with its seatback and two supports readable. Keep every other seat, "
@@ -117,7 +124,7 @@ def build_scene_contract(
     if not cleaned_prompt:
         raise ValueError("Describe the new photo you want to create.")
     contexts = infer_scene_contexts(cleaned_prompt, moment)
-    rules = ["universal", *contexts]
+    rules = ["universal", "background_detail", *contexts]
     return {
         "schema_version": 1,
         "user_scene": cleaned_prompt,

@@ -40,6 +40,12 @@ remove the layout subject's identity, reduce the layout to `384×576` structural
 photo with the 4B identity LoRA. This route is a full generative render, not face swapping or pixel compositing.
 Typical RTX 3090 times are about 36–38 seconds for the fast route and about one minute for the complex route.
 
+Detailed backgrounds are a global v1.0.4 rule on both routes. The setting should remain recognizable from the
+foreground through the major distance structures, with real materials, surface wear, seams, foliage, vehicles,
+architecture, and naturally irregular clutter as appropriate. The default is realistic moderate-to-deep focus:
+normal distance softening is allowed, but portrait-mode cutout blur, fake bokeh, smeared filler, and featureless
+color washes are not. A prompt that explicitly asks for shallow focus is the only exception.
+
 Generation is `896×1344`. The built-in natural-skin instruction keeps face, ears, neck, arms, and hands under
 one white balance, shadow direction, edge softness, and sensor response while requesting subtle nonuniform
 redness, pigmentation, stubble, vellus hair, pores, and ordinary marks. This replaced the overly smooth v1.0.0
@@ -48,7 +54,7 @@ wording; no face refiner or local sharpening pass is used.
 `Smartphone — slight lens haze` is the optional lived-in phone-lens look. v1.0.4 first generates the clean
 smartphone image, then applies deterministic highlight-driven scatter: a restrained frame-wide veil plus
 stronger lift near windows, lamps, and sun. It does not blur image pixels, rerender the face, alter composition,
-or invoke another model. The hidden midpoint identity profile (`0.5`, guidance `3.0`) protects likeness before
+remove background detail, or invoke another model. The hidden midpoint identity profile (`0.5`, guidance `3.0`) protects likeness before
 the optical pass. Use `Smartphone — natural` for a clean modern phone; it bypasses this processing completely.
 
 Each candidate is checked locally against the supplied genuine-photo centroid. Balanced scenes retry below

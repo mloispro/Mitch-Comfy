@@ -48,6 +48,20 @@ class SceneQualityTests(unittest.TestCase):
         self.assertNotIn("crowd", contract["contexts"])
         self.assertEqual(contract["rules"][0], "universal")
 
+    def test_detailed_background_is_required_for_every_scene(self):
+        contract = build_scene_contract(
+            "Natural portrait beside a lake",
+            "Professional — natural",
+            "Waist-up",
+            "Looking at camera",
+        )
+        guarded = apply_scene_guardrails("base prompt", contract)
+        self.assertEqual(contract["rules"][:2], ["universal", "background_detail"])
+        self.assertIn("materially detailed environment", guarded)
+        self.assertIn("moderate-to-deep focus", guarded)
+        self.assertIn("portrait-mode blur", guarded)
+        self.assertIn("featureless color wash", guarded)
+
     def test_crowd_contract_prevents_coordinated_color_and_duplicates(self):
         contract = build_scene_contract(
             "Walking on a busy city street with pedestrians behind me",

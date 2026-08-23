@@ -92,7 +92,9 @@ def _final_identity_prompt(composed_scene: str, contract: dict) -> str:
         "person. The trained identity token is m1tchperson. Render the central person as unmistakably the exact m1tchperson "
         "identity shown in Pictures 2 and 3, preserving current apparent age, facial proportions, eyes, eyebrows, nose, "
         "mouth, ears, jaw, hairline, hair color, and natural unretouched skin. Re-render the entire frame as one in-camera "
-        "capture; never paste, swap, smooth, sharpen, or relight the face separately. "
+        "capture; never paste, swap, smooth, sharpen, or relight the face separately. Preserve the scene layout's "
+        "recognizable environmental detail and rebuild it in realistic moderate-to-deep focus rather than blurring it to "
+        "conceal errors. "
         f"Requested result: {guarded}"
     )
 

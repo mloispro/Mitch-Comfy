@@ -34,6 +34,12 @@ subject's identity, reduce that layout to low-resolution structural evidence, an
 the 4B identity LoRA and genuine references. This is a full generative re-render, not a pasted face or pixel
 composite, and requires no extra user setting.
 
+Every v1.0.4 route treats the environment as real photographic content rather than backdrop filler. It asks for
+recognizable foreground, midground, and major distance structure with material texture, ordinary wear, and small
+irregular detail under realistic moderate-to-deep focus. Distance can soften naturally, but portrait-mode cutout
+blur, fake bokeh, smeared scenery, and featureless color washes are rejected unless shallow focus is explicitly
+requested. Phone-lens haze changes contrast and light scatter only; it never replaces scene detail.
+
 The realism fix remains primary-generation conditioning plus enough face pixels: unretouched spatially varied skin,
 coherent face/neck/body lighting, and no separate facial sharpening. Typical successful passes take about
 35–38 seconds on the RTX 3090 for the fast route; a second deterministic seed runs only when the local identity
@@ -48,6 +54,11 @@ offset with readable supports. The dense street regression automatically used th
 seconds, scored `0.8946`, and produced varied background clothing, mostly profile/rear-view extras, and coherent
 parked traffic. Qwen3-VL 4B and Qwen3.5 4B local critics were explicitly rejected after both falsely passed the
 known bad car/headrest image; the workflow does not add their latency or claim an automatic visual quality gate.
+
+The global background-detail regression passed on both routes. A professional bookstore scene used the complex
+route in `51.0` seconds with `0.9035` identity while retaining brick courses, trim, shelves, bicycles, pavement,
+foliage, vehicles, and separate background people. A clean-phone garden-shop scene used the direct route in
+`35.1` seconds with `0.7654` identity and kept bricks, wood, pots, plants, cobbles, and distant buildings legible.
 
 Use `Smartphone — slight lens haze` when the photo should have the washed film seen through an everyday
 handled phone lens near a window or sun. v1.0.4 generates the same clean smartphone base, then applies a

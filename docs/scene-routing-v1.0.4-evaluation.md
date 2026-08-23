@@ -12,6 +12,12 @@ The node infers scene contexts from the ordinary prompt and selected moment. It 
 for car interiors, traffic, crowds, background extras, requested groups, reflections, action, held objects, and
 signage. Simple scenes stay on the direct Base 4B + identity LoRA path.
 
+Both routes also receive one global background-fidelity contract. Foreground, midground, and the major distance
+structures must remain recognizable and materially detailed under moderate-to-deep focus. Natural distance
+softening is permitted, but portrait-mode cutout blur, fake bokeh, smeared scenery, foggy filler, and featureless
+color washes are prohibited unless the user explicitly requests shallow focus. Deterministic phone-lens haze
+modifies light scatter and contrast after selection without blurring pixels or discarding scene detail.
+
 Prompts containing background crowds, requested groups, reflections, or combined crowd/traffic use an automatic
 complex route:
 
@@ -36,6 +42,8 @@ This is not a face swap, masked pixel composite, SDXL refiner, or local VLM appr
 | Full-resolution 9B anchor + 4B identity | two stage | about 64 s | 0.9038 | Rejected: visible head graft/halo |
 | Low-resolution identity-erased anchor experiment | two stage | about 64 s | 0.9105 | Accepted architecture: integrated head and preserved scene structure |
 | Final integrated dense street | automatic complex | 59.2 s | 0.8946 | One identity pass; varied extras and coherent parked traffic |
+| Detailed bookstore, professional | automatic complex | 51.0 s | 0.9035 | Brick, trim, shelves, bicycles, pavement, foliage, vehicles, and separate extras remain legible |
+| Detailed garden shop, phone | direct 4B | 35.1 s | 0.7654 | Brick, wood, pots, plants, cobbles, and distant buildings remain legible without bokeh |
 
 The final output report records the route, inferred contexts, model stages, anchor identity-removal bounds, seeds,
 timings, reference analysis, identity threshold/status, and phone-optics metrics.

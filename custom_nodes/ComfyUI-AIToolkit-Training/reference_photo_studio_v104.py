@@ -249,8 +249,10 @@ def _generate_v104(
             "reflections, and combined crowd/traffic prompts first use native 9B KV for scene layout, remove the layout "
             "subject's identity, reduce the layout to low-resolution structural evidence, and then re-render the entire "
             "photo with the 4B identity LoRA and genuine references. This is generative re-rendering, not face swap or "
-            "pixel compositing. Phone haze runs only after identity selection. Tested local VLM critics and an SDXL refiner "
-            "are deliberately excluded. Final subject and scene review remains authoritative."
+            "pixel compositing. Every route requires a recognizable, materially detailed environment under realistic "
+            "moderate-to-deep focus instead of default portrait blur. Phone haze runs only after identity selection and "
+            "does not blur scene detail. Tested local VLM critics and an SDXL refiner are deliberately excluded. Final "
+            "subject and scene review remains authoritative."
         ),
     }
     saved = studio.comfy_nodes.SaveImage().save_images(
