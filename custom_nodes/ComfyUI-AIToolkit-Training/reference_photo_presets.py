@@ -9,6 +9,17 @@ PHOTO_STYLES = {
         "perspective, mostly deep focus, gentle computational exposure, slight sensor noise and "
         "compression. No portrait-mode blur, fake bokeh, excessive HDR, or beauty processing."
     ),
+    "Smartphone — slight lens haze": (
+        "Casual smartphone photograph from an ordinary recent camera: moderate wide-angle perspective, "
+        "mostly deep focus, slight sensor noise, and restrained compression. When a bright window or sun "
+        "is in or near the frame, show a clearly perceptible but gentle thin veiling film across most of the "
+        "frame plus localized glare from stray light on an everyday handled phone lens. Its density is uneven "
+        "and strongest near the light source, with a slightly lifted black point and gently compressed contrast; "
+        "black clothing still looks black. Fine skin variation, stubble, pores, and normal scene detail remain "
+        "visible through the optical wash. Not fog, bloom, milkiness, a white overlay, a beauty filter, a flat "
+        "uniform wash, "
+        "overexposure, portrait-mode blur, or HDR sharpening."
+    ),
     "Professional — natural": (
         "Natural professional photograph with soft lens transitions, restrained retouching, "
         "realistic skin texture, and subtle camera grain."

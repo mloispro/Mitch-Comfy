@@ -231,6 +231,11 @@ try {
             $errors.Add("ComfyUI did not expose node: $nodeName")
         }
     }
+    $easyInfo = Invoke-RestMethod -Uri "$ComfyUrl/object_info/Flux2EasySocialPhoto" -TimeoutSec 5
+    $livePhotoStyles = @($easyInfo.Flux2EasySocialPhoto.input.required.photo_style[0])
+    if ("Smartphone — slight lens haze" -notin $livePhotoStyles) {
+        $errors.Add("Live FLUX.2 Easy Social Photos is missing the slight phone-lens haze preset.")
+    }
 } catch {
     $errors.Add("Could not verify the running ComfyUI API: $($_.Exception.Message)")
 }

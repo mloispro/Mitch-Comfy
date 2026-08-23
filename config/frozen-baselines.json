@@ -44,7 +44,8 @@
     },
     {
       "id": "flux2-easy-social-v1.0.1",
-      "active": true,
+      "active": false,
+      "superseded_by": "flux2-easy-social-v1.0.2",
       "accepted_on": "2026-08-22",
       "git_tag": "flux2-easy-social-v1.0.1",
       "artifacts": [
@@ -59,6 +60,26 @@
         {
           "path": "custom_nodes/ComfyUI-AIToolkit-Training/reference_photo_presets.py",
           "sha256": "0685E79A75541915BB1E40D094880A2C8ABF52CDCE50F89A382946DA44CF8F2D"
+        }
+      ]
+    },
+    {
+      "id": "flux2-easy-social-v1.0.2",
+      "active": true,
+      "accepted_on": "2026-08-22",
+      "git_tag": "flux2-easy-social-v1.0.2",
+      "artifacts": [
+        {
+          "path": "workflows/production/FLUX.2 Easy Social Photos - 1-4 References.json",
+          "sha256": "3944358DA1C5A8034193F727E02340B7E94C8D17DD3851C8361ADE1310062331"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/reference_photo_studio.py",
+          "sha256": "F7C0B71CD1D1745F2B20A6467EFC94C0B1C834A87C183FBDA0852866C5861165"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/reference_photo_presets.py",
+          "sha256": "1131893D1F03D70B3F18A82D27A36A77B48593B4833E716B7F5DB0AFBD6D66A3"
         }
       ]
     }

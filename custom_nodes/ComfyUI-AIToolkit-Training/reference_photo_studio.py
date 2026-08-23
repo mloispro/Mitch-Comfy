@@ -44,6 +44,8 @@ CANDIDATE_GUIDANCE_SCALE = 2.0
 ACTION_LORA_STRENGTH = 0.6
 ACTION_GUIDANCE_SCALE = 4.0
 ACTION_RETRY_THRESHOLD = 0.70
+PHONE_LENS_LORA_STRENGTH = 0.5
+PHONE_LENS_GUIDANCE_SCALE = 3.0
 
 
 def _reference_choices(include_none: bool = False) -> list[str]:
@@ -77,7 +79,9 @@ def _clamp01(value: float) -> float:
     return max(0.0, min(1.0, float(value)))
 
 
-def _generation_profile(framing: str, moment: str, reference_count: int) -> dict:
+def _generation_profile(
+    framing: str, moment: str, reference_count: int, photo_style: str
+) -> dict:
     if framing == "Full body" or moment == "Action":
         return {
             "name": "action_identity",
@@ -92,6 +96,15 @@ def _generation_profile(framing: str, moment: str, reference_count: int) -> dict
             "name": "candid_identity",
             "lora_strength": ACTION_LORA_STRENGTH,
             "guidance_scale": ACTION_GUIDANCE_SCALE,
+            "identity_retry_threshold": IDENTITY_RETRY_THRESHOLD,
+            "reference_strategy": CANDIDATE_REFERENCE_STRATEGY,
+            "reference_pixels": CANDIDATE_REFERENCE_PIXELS,
+        }
+    if photo_style == "Smartphone — slight lens haze":
+        return {
+            "name": "phone_lens_identity",
+            "lora_strength": PHONE_LENS_LORA_STRENGTH,
+            "guidance_scale": PHONE_LENS_GUIDANCE_SCALE,
             "identity_retry_threshold": IDENTITY_RETRY_THRESHOLD,
             "reference_strategy": CANDIDATE_REFERENCE_STRATEGY,
             "reference_pixels": CANDIDATE_REFERENCE_PIXELS,
@@ -279,7 +292,9 @@ def _generate_reference_studio(
     baseline._require_model("vae", baseline.VAE_NAME)
     started = time.perf_counter()
 
-    profile = _generation_profile(framing, moment, len(reference_names))
+    profile = _generation_profile(
+        framing, moment, len(reference_names), photo_style
+    )
     prepared = _prepare_sources(
         reference_names, profile["reference_strategy"], profile["reference_pixels"]
     )
@@ -368,7 +383,7 @@ def _generate_reference_studio(
     report = {
         "schema_version": 2,
         "purpose": "natural_skin_social_photo_with_one_to_four_reference_identity_verification",
-        "baseline_tag": "flux2-easy-social-v1.0.1",
+        "baseline_tag": "flux2-easy-social-v1.0.2",
         "model": baseline.MODEL_4B_BASE_NAME,
         "text_encoder": baseline.CLIP_4B_NAME,
         "vae": baseline.VAE_NAME,

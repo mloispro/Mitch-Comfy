@@ -25,7 +25,8 @@ Open `Mitch/production/FLUX.2 Easy Social Photos - 1-4 References`. It deliberat
 
 1. Upload one to four recent, unfiltered camera photos in any order.
 2. Describe the scene and clothing in ordinary language.
-3. Choose phone/professional, framing, and gaze/action, then queue once.
+3. Choose clean phone, slight phone-lens haze, or professional camera; then choose framing and gaze/action and
+   queue once.
 
 The node selects the best detected source, then derives its complete-photo view and an automatic 2.4x face
 crop. Both are compact 0.25 MP references for the official FLUX.2 Klein Base 4B reference-latent path and the
@@ -36,6 +37,13 @@ Generation is `896×1344`. The built-in natural-skin instruction keeps face, ear
 one white balance, shadow direction, edge softness, and sensor response while requesting subtle nonuniform
 redness, pigmentation, stubble, vellus hair, pores, and ordinary marks. This replaced the overly smooth v1.0.0
 wording; no face refiner or local sharpening pass is used.
+
+`Smartphone — slight lens haze` is the optional lived-in phone-lens look. Near a bright window or sun it asks
+for uneven veiling glare across the optical path, slightly lifted blacks, compressed contrast, sensor noise,
+and restrained compression while preserving facial microtexture. It is intentionally not a global white
+overlay or beauty filter. The hidden midpoint identity profile (`0.5`, guidance `3.0`) keeps this softer capture
+from losing likeness. Use `Smartphone — natural` for a cleaner modern phone and `Professional — natural` for
+clearer regular-camera optics.
 
 Each candidate is checked locally against the supplied genuine-photo centroid. Balanced scenes retry below
 `0.75`; action/full-body scenes use a calibrated `0.70` floor because the detected output face is smaller.
@@ -87,8 +95,8 @@ its balanced and action profiles automatically; this is not a different or missi
 The checkpoint was selected from all six checkpoints by held-out professional/action scores and visual
 review. The final 1,500-step checkpoint was rejected because difficult-angle identity regressed.
 
-Easy Social Photos v1.0.1 is frozen separately under `flux2-easy-social-v1.0.1`. The previous v1.0.0 tag remains
-available for exact rollback, while the active registry hashes protect the natural-skin production files.
+Easy Social Photos v1.0.2 is frozen separately under `flux2-easy-social-v1.0.2`. The v1.0.0 and v1.0.1 tags
+remain available for exact rollback, while the active registry hashes protect the phone-lens production files.
 
 ### First-time model setup
 

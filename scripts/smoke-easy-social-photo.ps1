@@ -5,7 +5,7 @@ param(
     [string]$Reference3 = "No additional reference",
     [string]$Reference4 = "No additional reference",
     [string]$ScenePrompt = "Walking along a lively city sidewalk in soft late-afternoon light, wearing a fitted navy crew-neck T-shirt and dark jeans, relaxed and comfortable.",
-    [ValidateSet("Smartphone — natural", "Professional — natural", "Prompt decides")]
+    [ValidateSet("Smartphone — natural", "Smartphone — slight lens haze", "Professional — natural", "Prompt decides")]
     [string]$PhotoStyle = "Smartphone — natural",
     [ValidateSet("Prompt decides", "Head and shoulders", "Waist-up", "Full body")]
     [string]$Framing = "Waist-up",

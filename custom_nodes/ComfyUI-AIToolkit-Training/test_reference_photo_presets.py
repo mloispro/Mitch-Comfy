@@ -33,7 +33,11 @@ class ReferencePhotoPresetTests(unittest.TestCase):
         self.assertIn("one continuous in-camera subject", result)
 
     def test_realism_rendering_applies_to_phone_and_professional_presets(self):
-        for style in ("Smartphone — natural", "Professional — natural"):
+        for style in (
+            "Smartphone — natural",
+            "Smartphone — slight lens haze",
+            "Professional — natural",
+        ):
             result = compose_scene_prompt(
                 "Beside a window.", style, "Waist-up", "Looking at camera"
             )
@@ -41,6 +45,19 @@ class ReferencePhotoPresetTests(unittest.TestCase):
             self.assertIn("three-dimensional lighting", result)
             self.assertIn("without deepening wrinkles", result)
             self.assertIn("sensor grain", result)
+
+    def test_phone_lens_haze_is_optical_and_keeps_skin_detail(self):
+        result = compose_scene_prompt(
+            "Inside a parked car beside a bright window.",
+            "Smartphone — slight lens haze",
+            "Waist-up",
+            "Looking at camera",
+        )
+        self.assertIn("thin veiling film across most of the frame", result)
+        self.assertIn("slightly lifted black point", result)
+        self.assertIn("Fine skin variation", result)
+        self.assertIn("Not fog, bloom", result)
+        self.assertIn("flat uniform wash", result)
 
     def test_realism_rendering_requests_specific_subtle_skin_variation(self):
         result = compose_scene_prompt(
