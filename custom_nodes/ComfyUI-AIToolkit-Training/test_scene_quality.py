@@ -57,10 +57,56 @@ class SceneQualityTests(unittest.TestCase):
         )
         guarded = apply_scene_guardrails("base prompt", contract)
         self.assertEqual(contract["rules"][:2], ["universal", "background_detail"])
-        self.assertIn("materially detailed environment", guarded)
-        self.assertIn("moderate-to-deep focus", guarded)
-        self.assertIn("portrait-mode blur", guarded)
+        self.assertIn("environment recognizable", guarded)
+        self.assertIn("Focus must follow distance", guarded)
+        self.assertIn("every depth plane equally sharp", guarded)
         self.assertIn("featureless color wash", guarded)
+        self.assertIn("35–50mm", contract["camera_model"])
+        self.assertIn("one physical exposure", contract["single_capture_rule"])
+        self.assertIn("no halo", guarded)
+
+    def test_architecture_behind_subject_does_not_imply_background_people(self):
+        contract = build_scene_contract(
+            "Behind him are old brick storefronts with planters and trees",
+            "Professional — natural",
+            "Waist-up",
+            "Looking at camera",
+        )
+        self.assertNotIn("background_people", contract["contexts"])
+        self.assertFalse(requires_complex_route(contract))
+
+    def test_small_number_of_people_get_identity_isolation_and_complex_route(self):
+        contract = build_scene_contract(
+            "Two adults occupy separate tables behind him outside a cafe",
+            "Smartphone — natural",
+            "Waist-up",
+            "Candid / looking away",
+        )
+        self.assertIn("background_people", contract["contexts"])
+        self.assertTrue(requires_complex_route(contract))
+        guarded = apply_scene_guardrails("base prompt", contract)
+        self.assertIn("Only the main subject is m1tchperson", guarded)
+        self.assertIn("continuous readable head-and-body silhouette", guarded)
+
+    def test_cafe_location_alone_does_not_force_complex_route(self):
+        quiet = build_scene_contract(
+            "Sitting at a cafe table with two adults at separate tables",
+            "Smartphone — natural",
+            "Waist-up",
+            "Candid / looking away",
+        )
+        self.assertNotIn("crowd", quiet["contexts"])
+        self.assertTrue(requires_complex_route(quiet))
+
+        busy = build_scene_contract(
+            "Sitting at a busy cafe with patrons behind him",
+            "Smartphone — natural",
+            "Waist-up",
+            "Candid / looking away",
+        )
+        self.assertIn("crowd", busy["contexts"])
+        self.assertIn("background_people", busy["contexts"])
+        self.assertTrue(requires_complex_route(busy))
 
     def test_crowd_contract_prevents_coordinated_color_and_duplicates(self):
         contract = build_scene_contract(

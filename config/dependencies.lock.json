@@ -22,6 +22,10 @@
       "revision": "6ad6b35a4df250d14cb2abf0808c9ffedf59f747"
     }
   },
+  "runtime_python_packages": {
+    "ultralytics": "8.4.76",
+    "rembg": "2.0.69"
+  },
   "external_models": {
     "flux_2_klein_9b_kv_fp8": {
       "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\diffusion_models\\flux-2-klein-9b-kv-fp8.safetensors",
@@ -45,7 +49,34 @@
       "sha256": "E4A3F08C753CB72D04E10AA0F7DBE3DEEBBF39567D4EAD6DCE08E98AA49E16AF"
     },
     "z_image_base": {
-      "model_id": "Tongyi-MAI/Z-Image"
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\diffusion_models\\z_image_bf16.safetensors",
+      "source": "https://huggingface.co/Comfy-Org/z_image/blob/main/split_files/diffusion_models/z_image_bf16.safetensors",
+      "sha256": "996A67D3FF666946B1C25CBC16D1B1918B6CC0AC166309E23FE3B3D830263DEE",
+      "note": "Production deep-focus layout model for v1.0.4 complex scenes.",
+      "sampling": {
+        "steps": 25,
+        "guidance": 4.0,
+        "sampler": "res_multistep",
+        "scheduler": "simple",
+        "sampling_shift": 3.0
+      }
+    },
+    "z_image_vae": {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\vae\\ae.safetensors",
+      "source": "https://huggingface.co/Comfy-Org/z_image/blob/main/split_files/vae/ae.safetensors",
+      "sha256": "AFC8E28272CD15DB3919BACDB6918CE9C1ED22E96CB12C4D5ED0FBA823529E38"
+    },
+    "scene_count_yolo11n": {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\ultralytics\\bbox\\yolo11n.pt",
+      "source": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n.pt",
+      "sha256": "0EBBC80D4A7680D14987A577CD21342B65ECFD94632BD9A8DA63AE6417644EE1",
+      "note": "Local people/vehicle count gate only; not a generative or VLM critic."
+    },
+    "main_subject_segmentation": {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\rembg\\u2net_human_seg.onnx",
+      "source": "https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2net_human_seg.onnx",
+      "sha256": "01EB6A29A5C4D8EDB30B56ADAD9BB3A2A0535338E480724A213E0ACFD2D1C73C",
+      "note": "Selects the layout person overlapping the main detected face for masked identity generation."
     },
     "qwen_image_edit": {
       "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\diffusion_models\\qwen_image_edit_2511_fp8mixed.safetensors",

@@ -222,12 +222,14 @@ foreach ($asset in @(
 }
 
 foreach ($model in @(
-    @{ Path = "models\diffusion_models\flux-2-klein-9b-kv-fp8.safetensors"; Sha256 = "33F7DA5625A00798349A719742999D3C7DD20C1A7EDA14663922C363640728F1" },
+    @{ Path = "models\diffusion_models\z_image_bf16.safetensors"; Sha256 = "996A67D3FF666946B1C25CBC16D1B1918B6CC0AC166309E23FE3B3D830263DEE" },
     @{ Path = "models\diffusion_models\flux-2-klein-base-4b-fp8.safetensors"; Sha256 = "44BAB3A86FE98B85D21DD2A4729EBDC3AE51FB8A39F76E457E18C724219E6840" },
-    @{ Path = "models\text_encoders\qwen_3_8b_fp8mixed.safetensors"; Sha256 = "ABAD16806E0CBABC54E0325D6565847443FE396D5F0BE38BB3CD3FE75A1201D6" },
     @{ Path = "models\text_encoders\qwen_3_4b_fp8_mixed.safetensors"; Sha256 = "72450B19758172C5A7273CF7DE729D1C17E7F434A104A00167624CBA94F68F15" },
     @{ Path = "models\loras\aitk\m1tch-flux2-klein-4b-identity-v1-best.safetensors"; Sha256 = "8A7D1477914D0A5262BF219F71F303418130449841CF220226B4E979D7232F87" },
-    @{ Path = "models\vae\flux2-vae.safetensors"; Sha256 = "D64F3A68E1CC4F9F4E29B6E0DA38A0204FE9A49F2D4053F0EC1FA1CA02F9C4B5" }
+    @{ Path = "models\vae\flux2-vae.safetensors"; Sha256 = "D64F3A68E1CC4F9F4E29B6E0DA38A0204FE9A49F2D4053F0EC1FA1CA02F9C4B5" },
+    @{ Path = "models\vae\ae.safetensors"; Sha256 = "AFC8E28272CD15DB3919BACDB6918CE9C1ED22E96CB12C4D5ED0FBA823529E38" },
+    @{ Path = "models\ultralytics\bbox\yolo11n.pt"; Sha256 = "0EBBC80D4A7680D14987A577CD21342B65ECFD94632BD9A8DA63AE6417644EE1" },
+    @{ Path = "models\rembg\u2net_human_seg.onnx"; Sha256 = "01EB6A29A5C4D8EDB30B56ADAD9BB3A2A0535338E480724A213E0ACFD2D1C73C" }
 )) {
     $modelPath = Join-Path $ComfyRoot $model.Path
     if (-not (Test-Path -LiteralPath $modelPath)) {
@@ -240,9 +242,19 @@ foreach ($model in @(
     }
 }
 
+$comfyPython = Join-Path $ComfyRoot ".venv\Scripts\python.exe"
+if (-not (Test-Path -LiteralPath $comfyPython)) {
+    $errors.Add("Missing ComfyUI Python runtime: $comfyPython")
+} else {
+    & $comfyPython -c "import importlib.metadata as m; assert m.version('ultralytics') == '8.4.76'; assert m.version('rembg') == '2.0.69'"
+    if ($LASTEXITCODE -ne 0) {
+        $errors.Add("ComfyUI requires ultralytics 8.4.76 and rembg 2.0.69 for v1.0.4 complex routing.")
+    }
+}
+
 Push-Location (Join-Path $RepoRoot "custom_nodes\ComfyUI-AIToolkit-Training")
 try {
-    & python -m unittest test_integration.py test_social_photo_core.py test_reference_photo_presets.py test_phone_lens_optics.py test_scene_quality.py
+    & python -m unittest test_integration.py test_social_photo_core.py test_reference_photo_presets.py test_phone_lens_optics.py test_scene_quality.py test_identity_scope.py test_scene_crop.py test_scene_constraints.py test_scene_objects.py test_camera_finish.py
     if ($LASTEXITCODE -ne 0) {
         $errors.Add("Python unit tests failed.")
     }

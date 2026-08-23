@@ -34,11 +34,14 @@ local identity LoRA. The prompt supplies phone-versus-professional appearance, c
 framing, and action; there are no model, sampler, crop, face-swap, or seed controls in the graph.
 
 The same node automatically adds compact context rules for cars, traffic, crowds, groups, reflections, action,
-held objects, and signage. Ordinary prompts run directly through the 4B identity LoRA. Dense background people,
-groups, reflections, and combined crowd/traffic prompts automatically use a four-step 9B scene-layout pass,
-remove the layout subject's identity, reduce the layout to `384×576` structural evidence, and re-render the full
-photo with the 4B identity LoRA. This route is a full generative render, not face swapping or pixel compositing.
-Typical RTX 3090 times are about 36–38 seconds for the fast route and about one minute for the complex route.
+held objects, and signage. Ordinary solo prompts run directly through the 4B identity LoRA. Secondary people,
+groups, and reflections automatically use a 25-step Z-Image Base scene pass. Explicit human/vehicle counts are
+checked by local YOLO and can trigger a different layout seed. A face-aware crop plus local human segmentation
+selects the main layout subject; the wrong layout face is obscured, and a tiny structural reference is retained.
+FLUX.2 Base 4B plus the identity LoRA then regenerates only the masked main subject while leaving the unmasked
+scene pixels untouched. There is no face-swap overlay. Typical RTX 3090 times are about 36–38 seconds for the
+fast route, `105.4` seconds for the first validated complex café scene, and `40.4` seconds when its deterministic
+layout is already in the local cache.
 
 Detailed backgrounds are a global v1.0.4 rule on both routes. The setting should remain recognizable from the
 foreground through the major distance structures, with real materials, surface wear, seams, foliage, vehicles,
@@ -51,18 +54,22 @@ one white balance, shadow direction, edge softness, and sensor response while re
 redness, pigmentation, stubble, vellus hair, pores, and ordinary marks. This replaced the overly smooth v1.0.0
 wording; no face refiner or local sharpening pass is used.
 
-`Smartphone — slight lens haze` is the optional lived-in phone-lens look. v1.0.4 first generates the clean
-smartphone image, then applies deterministic highlight-driven scatter: a restrained frame-wide veil plus
+All smartphone results receive a restrained deterministic finish: slightly reduced saturation/contrast,
+sub-pixel optical softening, very light luminance noise, and quality-95 compression. It costs no model pass and
+keeps scene structure readable. `Smartphone — slight lens haze` is the optional lived-in phone-lens look. v1.0.4
+then applies deterministic highlight-driven scatter: a restrained frame-wide veil plus
 stronger lift near windows, lamps, and sun. It does not blur image pixels, rerender the face, alter composition,
 remove background detail, or invoke another model. The hidden midpoint identity profile (`0.5`, guidance `3.0`) protects likeness before
-the optical pass. Use `Smartphone — natural` for a clean modern phone; it bypasses this processing completely.
+the optical pass. Use `Smartphone — natural` for a clean modern phone without the extra haze.
 
 Each candidate is checked locally against the supplied genuine-photo centroid. Balanced scenes retry below
 `0.75`; action/full-body scenes use a calibrated `0.70` floor because the detected output face is smaller.
 The higher-scoring result is returned when a retry occurs. Scores, selection measurements, seeds, elapsed
 time, and settings are written under
 `ComfyUI/output/flux2-reference-studio-v104/<reference-count>-references/<run-id>/report.json`. The report also
-records the inferred contexts, chosen fast/complex route, per-stage timing, and any automatic fallback. This score
+records the inferred contexts, chosen fast/complex route, per-stage timing, object-count targets/detections,
+subject-mask area, and scene-cache status. Complex scenes never fall back to the known full-frame identity route;
+a failed complex layout surfaces as a failure rather than returning cloned bystanders. This score
 is a drift filter, not proof of identity; compare important results visually with the real person.
 
 The workflow rejects historical generated identity fixtures. Do not train or evaluate against generated portraits, beauty-filtered images, or photos of another person.
@@ -115,8 +122,9 @@ for rollback and direct A/B comparison; earlier tags remain available for exact 
 
 Run `scripts/setup-one-reference-photo.ps1` and `scripts/setup-social-photo-models.ps1`, restart ComfyUI, then
 run `scripts/verify.ps1`. The first setup installs the pinned Base 4B FP8 model, Qwen3 4B FP8 mixed text encoder,
-and FLUX.2 VAE and verifies the private production identity LoRA. The second installs the pinned 9B KV FP8 model
-and Qwen3 8B FP8 mixed encoder used only by automatic complex routing. The LoRA is not downloaded because it was
+and FLUX.2 VAE and verifies the private production identity LoRA. The second installs Z-Image Base, its VAE, the
+same Qwen3 4B encoder, YOLO11n count detector, and U2Net human segmenter used only by automatic complex routing.
+The LoRA is not downloaded because it was
 trained locally from private photos—back it up separately or recreate it with `scripts/flux2-identity-lora.py`
 and the ignored local dataset.
 

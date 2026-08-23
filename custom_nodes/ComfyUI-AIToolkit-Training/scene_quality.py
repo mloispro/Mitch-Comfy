@@ -13,10 +13,14 @@ _CONTEXT_PATTERNS = {
         r"\b(street|road|traffic|intersection|crosswalk|sidewalk|city block|parking lot|driving|drive)\b",
     ),
     "crowd": (
-        r"\b(crowd|group|friends|bystanders|pedestrians|busy|lively|party|festival|audience|patrons|people behind|restaurant|cafe|bar)\b",
+        r"\b(crowd|bystanders|pedestrians|busy|lively|party|festival|audience|patrons|people behind)\b",
     ),
     "background_people": (
-        r"\b(crowd|bystanders|pedestrians|busy|lively|audience|patrons|people behind|behind (him|her|them)|in the background)\b",
+        r"\b(crowd|bystanders|pedestrians|busy|lively|audience|patrons|people behind|in the background)\b",
+        r"\b(one|two|three|four|1|2|3|4)\s+(adult|adults|person|people|man|men|woman|women)\b.{0,80}\b(behind|background|middle distance|separate tables|secondary)\b",
+        r"\b(behind|background|middle distance|separate tables|secondary)\b.{0,80}\b(one|two|three|four|1|2|3|4)\s+(adult|adults|person|people|man|men|woman|women)\b",
+        r"\b(people|person|man|woman|men|women|friends|pedestrians|bystanders)\b.{0,32}\bbehind (him|her|them|me|the subject)\b",
+        r"\bbehind (him|her|them|me|the subject)\b.{0,32}\b(people|person|man|woman|men|women|friends|pedestrians|bystanders)\b",
     ),
     "group_photo": (
         r"\b(group photo|group of|friends together|with friends|family photo|team photo)\b",
@@ -44,11 +48,11 @@ _GENERATION_GUARDRAILS = {
         "sensor texture. Prefer a few clear, naturally irregular background elements over dense filler."
     ),
     "background_detail": (
-        "Render a recognizable, materially detailed environment from foreground through midground and the major distance "
-        "structures, including ordinary wear, seams, foliage, architecture, vehicles, and small irregular clutter where "
-        "appropriate. Use realistic moderate-to-deep focus: distance may soften slightly but must retain coherent edges, "
-        "texture, and structure. Never hide the setting with portrait-mode blur, fake bokeh, smeared shapes, foggy filler, "
-        "or a featureless color wash unless the user explicitly requests shallow focus."
+        "Make the environment recognizable and geometrically coherent, preserving believable large and medium structures, "
+        "material transitions, supports, and perspective rather than inventing decorative micro-detail. Focus must follow "
+        "distance: the subject plane is naturally crisp, the midground has slightly lower microcontrast and resolution, "
+        "and the far distance is gently softer but still structurally readable. Never make every depth plane equally sharp, "
+        "hide the setting in fake bokeh, smear it into filler, or use a featureless color wash unless shallow focus is requested."
     ),
     "car_interior": (
         "Make the subject's car seat, the camera seat, and the cabin layout obvious. Put the subject's headrest offset "
@@ -66,8 +70,11 @@ _GENERATION_GUARDRAILS = {
         "cool blue or purple outfit besides the subject. Never repeat a face, garment, pose, or spacing interval."
     ),
     "background_people": (
-        "Show only four to seven separated background people at staggered depths, mostly in side or rear view and occupied "
-        "with different activities. Do not form a front-facing row, procession, audience, or evenly spaced line behind the subject."
+        "Honor an explicitly requested small count; otherwise show only one to three secondary people. Keep each person "
+        "laterally separated from the main subject with one continuous readable head-and-body silhouette, mostly in side or "
+        "rear view and occupied with a different activity. Only the main subject is m1tchperson: every secondary person has "
+        "a clearly different face, hair, build, age, and outfit. Never repeat the subject's identity, place a partial person "
+        "directly behind the subject, or form a front-facing row."
     ),
     "group_photo": (
         "For the requested group, keep each person individually recognizable in a different outfit and pose, with uneven "
@@ -92,6 +99,36 @@ _GENERATION_GUARDRAILS = {
 }
 
 
+_CAMERA_GUARDRAILS = {
+    "Smartphone — natural": (
+        "Camera model: one ordinary recent smartphone 1x rear main camera, roughly 24–28mm equivalent, standard Photo mode, "
+        "with genuinely deep optical focus and no portrait segmentation. The subject and midground remain clearly resolved; "
+        "distant architecture and vehicles are only gently softer and retain readable shapes and material structure. Do not "
+        "simulate a large-aperture portrait lens or dissolve the environment into bokeh."
+    ),
+    "Professional — natural": (
+        "Camera model: one environmental-portrait camera using a plausible 35–50mm lens around f/5.6–f/8, with the eyes at "
+        "the focus plane and a gradual physical falloff through the setting. Do not combine a telephoto-looking subject with "
+        "a wide-angle background or use creamy portrait bokeh to conceal scene errors."
+    ),
+    "Prompt decides": (
+        "Use the single physically plausible lens, subject distance, aperture, and focus behavior requested by the user; if "
+        "none is specified, use a natural environmental-photo lens with gradual distance-dependent focus falloff."
+    ),
+}
+
+
+_SINGLE_CAPTURE_RULE = (
+    "The whole frame comes from one physical exposure: one projection and vanishing geometry, focus distance, aperture, "
+    "motion behavior, exposure, white balance, sharpening response, sensor grain, and compression. Subject and environment "
+    "must share those optics. Hair, shoulders, and clothing meet the scene with ordinary in-camera occlusion and matching "
+    "edge softness—no halo, pasted cutout, depth-mask boundary, or separately sharpened layer. Keep natural skin variation "
+    "subtle and sparse; do not cover the face or arms with repeated dark spots, sores, scratches, or high-contrast marks. "
+    "Unless the user explicitly requests a selfie, the camera is held by someone else and the subject never extends an arm "
+    "toward the lens or appears to hold the camera."
+)
+
+
 def _normalized_text(*parts: str) -> str:
     return " ".join(" ".join(str(part).strip().lower().split()) for part in parts if part)
 
@@ -106,7 +143,7 @@ def infer_scene_contexts(scene_prompt: str, moment: str = "") -> list[str]:
         contexts.append("action")
     if "group_photo" in contexts and "background_people" in contexts:
         explicit_background = re.search(
-            r"\b(crowd|bystanders|pedestrians|audience|patrons|people behind|behind (him|her|them)|in the background)\b",
+            r"\b(crowd|bystanders|pedestrians|audience|patrons|people behind|in the background)\b",
             text,
         )
         if not explicit_background:
@@ -125,6 +162,9 @@ def build_scene_contract(
         raise ValueError("Describe the new photo you want to create.")
     contexts = infer_scene_contexts(cleaned_prompt, moment)
     rules = ["universal", "background_detail", *contexts]
+    camera_guardrail = _CAMERA_GUARDRAILS.get(
+        photo_style, _CAMERA_GUARDRAILS["Prompt decides"]
+    )
     return {
         "schema_version": 1,
         "user_scene": cleaned_prompt,
@@ -133,7 +173,11 @@ def build_scene_contract(
         "moment": moment,
         "contexts": contexts,
         "rules": rules,
-        "generation_guardrails": [_GENERATION_GUARDRAILS[name] for name in rules],
+        "camera_model": camera_guardrail,
+        "single_capture_rule": _SINGLE_CAPTURE_RULE,
+        "generation_guardrails": [
+            _GENERATION_GUARDRAILS[name] for name in rules
+        ] + [camera_guardrail, _SINGLE_CAPTURE_RULE],
     }
 
 
@@ -146,4 +190,6 @@ def requires_complex_route(contract: dict[str, Any]) -> bool:
     contexts = set(contract.get("contexts", []))
     if contexts.intersection({"background_people", "group_photo", "reflection"}):
         return True
-    return {"traffic", "crowd"}.issubset(contexts)
+    return "crowd" in contexts and bool(
+        contexts.intersection({"background_people", "traffic"})
+    )

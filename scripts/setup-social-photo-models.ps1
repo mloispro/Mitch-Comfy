@@ -42,23 +42,44 @@ function Ensure-Download {
     Write-Host "Installed: $destinationPath"
 }
 
-$diffusionUrl = "https://huggingface.co/black-forest-labs/FLUX.2-klein-9b-kv-fp8/resolve/main/flux-2-klein-9b-kv-fp8.safetensors"
-$textEncoderUrl = "https://huggingface.co/Comfy-Org/flux2-klein-9B/resolve/main/split_files/text_encoders/qwen_3_8b_fp8mixed.safetensors"
-$vaeUrl = "https://huggingface.co/Comfy-Org/flux2-dev/resolve/main/split_files/vae/flux2-vae.safetensors"
+$diffusionUrl = "https://huggingface.co/Comfy-Org/z_image/resolve/main/split_files/diffusion_models/z_image_bf16.safetensors"
+$textEncoderUrl = "https://huggingface.co/Comfy-Org/z_image/resolve/main/split_files/text_encoders/qwen_3_4b_fp8_mixed.safetensors"
+$vaeUrl = "https://huggingface.co/Comfy-Org/z_image/resolve/main/split_files/vae/ae.safetensors"
+$detectorUrl = "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n.pt"
+$segmenterUrl = "https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2net_human_seg.onnx"
 
 Ensure-Download `
     -Url $diffusionUrl `
-    -Destination (Join-Path $ComfyRoot "models\diffusion_models\flux-2-klein-9b-kv-fp8.safetensors") `
-    -Sha256 "33F7DA5625A00798349A719742999D3C7DD20C1A7EDA14663922C363640728F1"
+    -Destination (Join-Path $ComfyRoot "models\diffusion_models\z_image_bf16.safetensors") `
+    -Sha256 "996A67D3FF666946B1C25CBC16D1B1918B6CC0AC166309E23FE3B3D830263DEE"
 
 Ensure-Download `
     -Url $textEncoderUrl `
-    -Destination (Join-Path $ComfyRoot "models\text_encoders\qwen_3_8b_fp8mixed.safetensors") `
-    -Sha256 "ABAD16806E0CBABC54E0325D6565847443FE396D5F0BE38BB3CD3FE75A1201D6"
+    -Destination (Join-Path $ComfyRoot "models\text_encoders\qwen_3_4b_fp8_mixed.safetensors") `
+    -Sha256 "72450B19758172C5A7273CF7DE729D1C17E7F434A104A00167624CBA94F68F15"
 
 Ensure-Download `
     -Url $vaeUrl `
-    -Destination (Join-Path $ComfyRoot "models\vae\flux2-vae.safetensors") `
-    -Sha256 "D64F3A68E1CC4F9F4E29B6E0DA38A0204FE9A49F2D4053F0EC1FA1CA02F9C4B5"
+    -Destination (Join-Path $ComfyRoot "models\vae\ae.safetensors") `
+    -Sha256 "AFC8E28272CD15DB3919BACDB6918CE9C1ED22E96CB12C4D5ED0FBA823529E38"
 
-Write-Host "FLUX.2 Klein 9B KV Social Photo Studio models are installed and verified. Restart ComfyUI before generating."
+Ensure-Download `
+    -Url $detectorUrl `
+    -Destination (Join-Path $ComfyRoot "models\ultralytics\bbox\yolo11n.pt") `
+    -Sha256 "0EBBC80D4A7680D14987A577CD21342B65ECFD94632BD9A8DA63AE6417644EE1"
+
+Ensure-Download `
+    -Url $segmenterUrl `
+    -Destination (Join-Path $ComfyRoot "models\rembg\u2net_human_seg.onnx") `
+    -Sha256 "01EB6A29A5C4D8EDB30B56ADAD9BB3A2A0535338E480724A213E0ACFD2D1C73C"
+
+$comfyPython = Join-Path $ComfyRoot ".venv\Scripts\python.exe"
+if (-not (Test-Path -LiteralPath $comfyPython)) {
+    throw "Missing ComfyUI Python runtime: $comfyPython"
+}
+& $comfyPython -c "import importlib.metadata as m; assert m.version('ultralytics') == '8.4.76'; assert m.version('rembg') == '2.0.69'"
+if ($LASTEXITCODE -ne 0) {
+    throw "ComfyUI requires ultralytics 8.4.76 and rembg 2.0.69 for v1.0.4 complex routing."
+}
+
+Write-Host "Z-Image scene, object-count, and main-subject isolation models are installed and verified. Restart ComfyUI before generating."

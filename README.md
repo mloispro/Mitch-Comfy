@@ -28,11 +28,12 @@ and less accurate. Every reference count uses the same `896×1344` output and hi
 for one-photo, candid, action, and full-body requests. There is no face swap or refiner.
 
 v1.0.4 automatically infers car, traffic, crowd, group, reflection, action, held-object, and signage contexts and
-adds compact preventive scene rules. Ordinary scenes use the fast Base 4B + identity LoRA route. Dense crowds,
-groups, reflections, and combined crowd/traffic scenes use a four-step 9B KV layout pass, erase the layout
-subject's identity, reduce that layout to low-resolution structural evidence, and re-render the entire image with
-the 4B identity LoRA and genuine references. This is a full generative re-render, not a pasted face or pixel
-composite, and requires no extra user setting.
+adds compact preventive scene rules. Ordinary solo scenes use the fast Base 4B + identity LoRA route. Prompts with
+secondary people, groups, or reflections use Z-Image Base for a deep-focus scene first. A local YOLO detector
+checks explicit people/vehicle counts and can retry layout seeds; a face-aware crop and local human segmentation
+then isolate the main subject. FLUX.2 Base 4B plus the identity LoRA regenerates only that masked subject while
+leaving the accepted people, vehicles, furniture, architecture, and depth structure untouched. The graph still
+requires no extra user control and never uses a face-swap overlay.
 
 Every v1.0.4 route treats the environment as real photographic content rather than backdrop filler. It asks for
 recognizable foreground, midground, and major distance structure with material texture, ordinary wear, and small
@@ -43,29 +44,34 @@ requested. Phone-lens haze changes contrast and light scatter only; it never rep
 The realism fix remains primary-generation conditioning plus enough face pixels: unretouched spatially varied skin,
 coherent face/neck/body lighting, and no separate facial sharpening. Typical successful passes take about
 35–38 seconds on the RTX 3090 for the fast route; a second deterministic seed runs only when the local identity
-gate rejects the first. Complex routing is about one minute. Final production validation scored `0.7996` against three other genuine photos for a one-reference phone
+gate rejects the first. A new complex scene took `105.4` seconds in the final café regression; its locally cached
+layout reran in `40.4` seconds. Final production validation scored `0.7996` against three other genuine photos for a one-reference phone
 result, `0.8827` against the supplied centroid for professional, `0.7985` for a clear off-camera candid, and
 `0.7230` for a head-to-feet action result whose face was only 103 pixels wide. Local texture measurements for
 the close/waist-up results fell inside the genuine-photo comparison range. Scores rank identity and flag
 texture extremes; the subject's visual judgment remains authoritative.
 
-The v1.0.4 car regression used the fast route in `36.0` seconds, scored `0.8406`, and kept the headrest visibly
-offset with readable supports. The dense street regression automatically used the complex route in `59.2`
-seconds, scored `0.8946`, and produced varied background clothing, mostly profile/rear-view extras, and coherent
-parked traffic. Qwen3-VL 4B and Qwen3.5 4B local critics were explicitly rejected after both falsely passed the
-known bad car/headrest image; the workflow does not add their latency or claim an automatic visual quality gate.
+The final constrained café regression automatically used the complex route in `105.4` seconds, scored `0.7946`,
+and passed the local detector target of exactly three people and two vehicles. The two bystanders differ in age,
+sex, clothing, pose, and spacing; both parked cars share the same curb direction; the main-subject mask covers
+`28.4%` of the frame; and the first identity seed passed. The object detector validates requested counts only—it
+does not claim to certify photographic truth. Qwen3-VL 4B and Qwen3.5 4B critics remain excluded after falsely
+passing known defects.
 
-The global background-detail regression passed on both routes. A professional bookstore scene used the complex
-route in `51.0` seconds with `0.9035` identity while retaining brick courses, trim, shelves, bicycles, pavement,
-foliage, vehicles, and separate background people. A clean-phone garden-shop scene used the direct route in
-`35.1` seconds with `0.7654` identity and kept bricks, wood, pots, plants, cobbles, and distant buildings legible.
+The global background-detail regression passed on both routes. A solo professional bookstore scene correctly
+stayed on the direct route, completed in `37.6` seconds at `0.7656` identity, and showed gradual physical focus
+falloff instead of uniformly sharp scenery or fake bokeh. The constrained café test retained readable masonry,
+pavement, furniture, two distinct bystanders, and two coherent parked cars while the identity pass changed only
+the segmented foreground subject.
 
-Use `Smartphone — slight lens haze` when the photo should have the washed film seen through an everyday
-handled phone lens near a window or sun. v1.0.4 generates the same clean smartphone base, then applies a
+Every smartphone result receives a restrained, deterministic zero-model-pass finish that slightly reduces the
+synthetic saturation/local crispness and unifies subject and scene with mild sensor noise and quality-95 phone
+compression while retaining structural detail. Use `Smartphone — slight lens haze` when the photo should also
+have the washed film seen through an everyday handled phone lens near a window or sun. v1.0.4 generates the same clean smartphone base, then applies a
 deterministic highlight-driven optical scatter in under a second. It lifts blacks and compresses contrast more
 near bright sources without blurring the face, changing composition, or running another AI model. The final
 car-window test scored `0.8921` identity in `35.4` seconds; its mean luminance moved from `0.33944` to `0.38369`
-and contrast from `0.25728` to `0.24452`. `Smartphone — natural` bypasses the optics pass and remains unchanged.
+and contrast from `0.25728` to `0.24452` before the shared phone finish.
 
 ## FLUX.2 One Reference Photo — frozen rollback baseline
 

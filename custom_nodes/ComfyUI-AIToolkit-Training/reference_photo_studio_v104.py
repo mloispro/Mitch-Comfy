@@ -8,7 +8,9 @@ from pathlib import Path
 import folder_paths
 
 from . import reference_photo_studio as studio
+from .camera_finish import apply_natural_phone_finish
 from .complex_scene_route import generate_complex_candidate
+from .identity_scope import build_multi_person_identity_prompt
 from .reference_photo_presets import compose_scene_prompt, selected_reference_names
 from .reference_photo_studio_v103 import HAZE_STYLE, _apply_haze_to_tensor
 from .scene_quality import (
@@ -21,18 +23,28 @@ from .scene_quality import (
 OUTPUT_ROOT = "flux2-reference-studio-v104"
 
 
+def _direct_identity_prompt(guarded_scene: str, contract: dict) -> str:
+    if "background_people" not in set(contract.get("contexts", [])):
+        return studio.baseline._identity_prompt(
+            guarded_scene,
+            reference_count=2,
+            identity_token=studio.baseline.IDENTITY_TOKEN,
+        )
+    return build_multi_person_identity_prompt(
+        guarded_scene,
+        studio.baseline.IDENTITY_TOKEN,
+    )
+
+
 def _generate_direct_candidate(
     prepared: dict,
     guarded_scene: str,
     profile: dict,
     moment: str,
+    contract: dict,
 ) -> dict:
     started = time.perf_counter()
-    effective_prompt = studio.baseline._identity_prompt(
-        guarded_scene,
-        reference_count=2,
-        identity_token=studio.baseline.IDENTITY_TOKEN,
-    )
+    effective_prompt = _direct_identity_prompt(guarded_scene, contract)
     model = studio.comfy_nodes.UNETLoader().load_unet(
         studio.baseline.MODEL_4B_BASE_NAME, "default"
     )[0]
@@ -164,20 +176,13 @@ def _generate_v104(
     complex_requested = requires_complex_route(contract)
     route_error = ""
     if complex_requested:
-        try:
-            candidate = generate_complex_candidate(
-                prepared, generation_scene, contract, profile
-            )
-            generation_route = "complex_scene_9b_layout_plus_4b_identity"
-        except Exception as exc:
-            route_error = str(exc)
-            candidate = _generate_direct_candidate(
-                prepared, guarded_scene, profile, moment
-            )
-            generation_route = "direct_4b_fallback_after_complex_route_error"
+        candidate = generate_complex_candidate(
+            prepared, generation_scene, contract, profile
+        )
+        generation_route = "complex_deep_focus_layout_plus_masked_4b_identity"
     else:
         candidate = _generate_direct_candidate(
-            prepared, guarded_scene, profile, moment
+            prepared, guarded_scene, profile, moment, contract
         )
         generation_route = "direct_4b_identity"
 
@@ -187,11 +192,14 @@ def _generate_v104(
         "method": "none",
         "extra_model_passes": 0,
     }
+    if generation_photo_style == "Smartphone — natural":
+        selected_photo, optical_processing = apply_natural_phone_finish(selected_photo)
     if requested_photo_style == HAZE_STYLE:
         selected_photo, haze_metrics = _apply_haze_to_tensor(selected_photo)
         optical_processing = {
             "applied": True,
-            "method": "deterministic_highlight_driven_phone_lens_scatter",
+            "method": "restrained_phone_finish_plus_highlight_driven_lens_scatter",
+            "phone_finish": optical_processing,
             **haze_metrics,
         }
 
@@ -246,13 +254,14 @@ def _generate_v104(
         "seconds": round(time.perf_counter() - started, 3),
         "acceptance": (
             "The same simple controls automatically route ordinary photos through the fast 4B LoRA path. Crowds, groups, "
-            "reflections, and combined crowd/traffic prompts first use native 9B KV for scene layout, remove the layout "
-            "subject's identity, reduce the layout to low-resolution structural evidence, and then re-render the entire "
-            "photo with the 4B identity LoRA and genuine references. This is generative re-rendering, not face swap or "
-            "pixel compositing. Every route requires a recognizable, materially detailed environment under realistic "
-            "moderate-to-deep focus instead of default portrait blur. Phone haze runs only after identity selection and "
-            "does not blur scene detail. Tested local VLM critics and an SDXL refiner are deliberately excluded. Final "
-            "subject and scene review remains authoritative."
+            "reflections, and combined crowd/traffic prompts first build a coherent deep-focus Z-Image Base scene, promote "
+            "the detected main layout subject with a deterministic framing-aware crop, and isolate that subject with local "
+            "human segmentation. FLUX.2 Base 4B plus the selected identity LoRA then regenerates only that masked subject; "
+            "the unmasked people, vehicles, architecture, furniture, and depth structure remain owned by the scene model. "
+            "This is subject-region latent generation, not a face-swap overlay. Every route requires a recognizable, "
+            "materially detailed environment under realistic moderate-to-deep focus instead of default portrait blur. "
+            "Phone haze runs only after identity selection and does not blur scene detail. Tested local VLM critics and an "
+            "SDXL refiner are deliberately excluded. Final subject and scene review remains authoritative."
         ),
     }
     saved = studio.comfy_nodes.SaveImage().save_images(

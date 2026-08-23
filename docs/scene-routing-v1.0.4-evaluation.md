@@ -2,64 +2,72 @@
 
 ## Goal
 
-Reduce obvious background-generation tells without adding controls to the two-node social-photo workflow or
-weakening the accepted 4B identity LoRA path. The motivating failures were a headrest visually fused behind the
-subject, repeated cool-colored crowd clothing/faces, and ambiguous traffic orientation.
+Make the whole social photo believable—not only the face—without adding controls to the two-node workflow or
+changing the accepted v1.0.3 rollback. The motivating failures were a fused car headrest, repeated identities and
+shirt colors, wrong-way/repeated cars, uniformly artificial background sharpness, fake bokeh, and a foreground
+person that looked composited into a separately rendered scene.
 
 ## Shipped design
 
-The node infers scene contexts from the ordinary prompt and selected moment. It composes only the relevant rules
-for car interiors, traffic, crowds, background extras, requested groups, reflections, action, held objects, and
-signage. Simple scenes stay on the direct Base 4B + identity LoRA path.
+The node infers scene contexts from the ordinary prompt and selected moment. Every route receives one physical
+camera/lens contract, gradual distance-dependent focus, coherent supports/occlusion, healthy unretouched skin,
+and explicit bans on cutout halos and selfie arms unless a selfie is requested.
 
-Both routes also receive one global background-fidelity contract. Foreground, midground, and the major distance
-structures must remain recognizable and materially detailed under moderate-to-deep focus. Natural distance
-softening is permitted, but portrait-mode cutout blur, fake bokeh, smeared scenery, foggy filler, and featureless
-color washes are prohibited unless the user explicitly requests shallow focus. Deterministic phone-lens haze
-modifies light scatter and contrast after selection without blurring pixels or discarding scene detail.
+Ordinary solo scenes stay on the validated FLUX.2 Klein Base 4B plus identity-LoRA route. Scenes containing
+secondary people, groups, or reflections use the following hidden complex route:
 
-Prompts containing background crowds, requested groups, reflections, or combined crowd/traffic use an automatic
-complex route:
+1. Z-Image Base creates an `896×1344` deep-focus scene with a generic main subject. Hard count instructions and a
+   layered composition map keep secondary people, the curb, requested vehicles, and architecture in separate
+   depth zones. Parked vehicles in one curb row share one legal direction.
+2. Local YOLO11n counts visible people and vehicles. If an explicit count is missed, the route can try another
+   deterministic layout seed and records every attempt. This is a narrow object-count gate, not a claim that a
+   detector can certify realism.
+3. InsightFace finds the largest layout face. A framing-aware crop promotes a small layout subject but leaves an
+   already-close subject alone.
+4. Local U2Net human segmentation selects only the connected person overlapping that face. Implausibly small or
+   frame-filling masks are rejected during layout selection.
+5. The layout face is strongly obscured and reduced to a tiny `192×288` structural reference. FLUX.2 Base 4B plus
+   the selected identity LoRA regenerates only the masked main subject from the genuine full-photo/face references.
+   Unmasked bystanders, vehicles, furniture, buildings, and depth geometry remain owned by the accepted layout.
+6. InsightFace ranks identity seeds. Smartphone presets receive a restrained zero-model-pass finish that slightly
+   reduces synthetic saturation/crispness and adds mild sensor/compression coherence. Optional phone haze follows.
 
-1. FLUX.2 Klein 9B KV FP8 creates a four-step scene layout using one automatically selected genuine reference for
-   approximate body proportions.
-2. The largest layout face is detected locally and strongly pixelated/blurred with a feathered head mask so its
-   wrong identity cannot dominate the final pass.
-3. The layout is reduced to `384×576` structural evidence.
-4. FLUX.2 Klein Base 4B re-renders the entire `896×1344` photograph with the trained identity LoRA, the selected
-   genuine full reference, and its derived face crop.
-5. The existing identity gate ranks/retries before optional deterministic phone-lens optics.
-
-This is not a face swap, masked pixel composite, SDXL refiner, or local VLM approval gate.
+Complex-scene failures never fall back to the known unsafe full-frame identity route. The layout cache is keyed by
+the complete prompt, models, dimensions, sampling settings, and seed; identical reruns reuse only an exact
+deterministic scene and still run identity evaluation.
 
 ## Controlled results on RTX 3090
 
-| Test | Route | Time | Identity score | Result |
+| Test | Route | Time | Identity | Result |
 | --- | --- | ---: | ---: | --- |
-| Car/headrest regression | direct 4B | 36.0 s | 0.8406 | Headrest offset from head with seatback/supports readable; one pass |
-| Dense street before routing | direct 4B | 36.8 s | 0.8316 | Rejected: front-facing row, repeated cool shirts/faces |
-| 9B scene-only proof | native 9B KV | 21.8 s | 0.5302 | Scene improved; rejected identity |
-| Full-resolution 9B anchor + 4B identity | two stage | about 64 s | 0.9038 | Rejected: visible head graft/halo |
-| Low-resolution identity-erased anchor experiment | two stage | about 64 s | 0.9105 | Accepted architecture: integrated head and preserved scene structure |
-| Final integrated dense street | automatic complex | 59.2 s | 0.8946 | One identity pass; varied extras and coherent parked traffic |
-| Detailed bookstore, professional | automatic complex | 51.0 s | 0.9035 | Brick, trim, shelves, bicycles, pavement, foliage, vehicles, and separate extras remain legible |
-| Detailed garden shop, phone | direct 4B | 35.1 s | 0.7654 | Brick, wood, pots, plants, cobbles, and distant buildings remain legible without bokeh |
+| Solo professional bookstore after lens-contract fix | direct 4B | 37.6 s | 0.7656 | Gradual depth falloff; no uniform hyper-sharp backdrop |
+| Direct multi-person regression | direct 4B | about 37 s | high main face | Rejected: LoRA cloned the subject into bystanders |
+| FLUX.2 9B KV layout + masked identity | two stage | about 90 s | usable | Rejected: malformed/headless extras and repeated cars already existed in layout |
+| Qwen Image 2512 four-step layout | scene proof | about 15 s | n/a | Coherent extras, but persistent shallow-focus/bokeh background |
+| Z-Image Base scene proof | scene proof | about 60 s | n/a | First materially detailed deep-focus environment with coherent furniture/people |
+| Detector-gated café before final traffic direction rule | complex | 143.1 s | 0.6882 | Counts passed, but identity weak and arm marks exaggerated |
+| Final new café construction | complex | 105.4 s | **0.7946** | Passed exactly 3 people/2 cars, distinct bystanders, same-direction cars, 28.4% subject mask, first identity seed |
+| Identical cached café rerun | complex/cache | **40.4 s** | **0.7946** | Count gate and identity passed with exact deterministic layout reuse |
 
-The final output report records the route, inferred contexts, model stages, anchor identity-removal bounds, seeds,
-timings, reference analysis, identity threshold/status, and phone-optics metrics.
+The final accepted test is
+`ComfyUI/output/flux2-reference-studio-v104/4-references/20260823-042038-606256/photo_00001_.png`.
+Its report records exact object boxes/confidences, count targets, mask bounds/area, layout/identity settings, cache
+status, identity score, timing, and phone-finish parameters.
 
 ## Rejected approaches
 
-- Prompt rules alone improved the car but did not make the 4B model reliable on dense crowds.
-- Qwen3-VL 4B falsely accepted the known car defect at about `85/100` and hallucinated evidence.
-- Qwen3.5 4B also falsely accepted it at `92/100` after about 44 seconds. It was more latency, not a trustworthy gate.
-- A full-resolution 9B layout reference copied pixels too literally and produced a composited-looking head after identity correction.
-- The native 9B output had much better scene logic but unacceptable identity drift without the 4B LoRA pass.
-- An SDXL refiner cannot reason about which headrest, vehicle direction, or repeated person is wrong and adds another
-  model family, so it remains excluded.
+- Prompt rules alone cannot localize a full-frame identity LoRA; bystanders inherited the main identity.
+- FLUX.2 9B KV improved some layouts but produced malformed extras and repeated vehicles on the hard café test.
+- Qwen Image generated people/occlusions quickly, but repeated attempts kept a large-camera shallow-focus signature.
+- Z-Image Turbo obeyed close framing quickly but also returned to shallow background blur.
+- Qwen-to-Z-Image ControlNet introduced visible edge-map/HDR artifacts.
+- A Z-Image focus edit oversharpened the frame rather than creating physical depth.
+- Qwen3-VL 4B and Qwen3.5 4B critics falsely accepted known defects and hallucinated evidence.
+- An SDXL refiner cannot reason about identity scope, person counts, headrests, or traffic direction and is excluded.
 
 ## Limits
 
-No local metric proves that a generated scene is real. The identity score is a drift filter, not visual proof, and
-the scene router prevents or reduces known failure modes rather than certifying every background. Final review by
-the subject remains authoritative. v1.0.3 is unchanged and remains the exact rollback baseline.
+YOLO validates requested people/vehicle counts, not anatomy, traffic law, or photographic truth. InsightFace is an
+identity-drift filter, not proof of identity, and off-angle faces can score lower. Novel prompts can still require a
+layout retry or final human rejection. The frozen v1.0.3 workflow remains unchanged for exact rollback and direct
+comparison.
