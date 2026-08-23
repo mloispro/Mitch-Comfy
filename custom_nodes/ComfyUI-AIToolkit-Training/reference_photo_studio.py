@@ -33,6 +33,8 @@ from .reference_photo_presets import (
 
 
 OUTPUT_ROOT = "flux2-reference-studio"
+OUTPUT_WIDTH = 896
+OUTPUT_HEIGHT = 1344
 SAME_PERSON_FLOOR = 0.50
 IDENTITY_RETRY_THRESHOLD = 0.75
 CANDIDATE_REFERENCE_STRATEGY = "Full + face crop 2.4x"
@@ -75,13 +77,31 @@ def _clamp01(value: float) -> float:
     return max(0.0, min(1.0, float(value)))
 
 
-def _generation_profile(framing: str, moment: str) -> dict:
+def _generation_profile(framing: str, moment: str, reference_count: int) -> dict:
     if framing == "Full body" or moment == "Action":
         return {
             "name": "action_identity",
             "lora_strength": ACTION_LORA_STRENGTH,
             "guidance_scale": ACTION_GUIDANCE_SCALE,
             "identity_retry_threshold": ACTION_RETRY_THRESHOLD,
+            "reference_strategy": CANDIDATE_REFERENCE_STRATEGY,
+            "reference_pixels": CANDIDATE_REFERENCE_PIXELS,
+        }
+    if moment == "Candid / looking away":
+        return {
+            "name": "candid_identity",
+            "lora_strength": ACTION_LORA_STRENGTH,
+            "guidance_scale": ACTION_GUIDANCE_SCALE,
+            "identity_retry_threshold": IDENTITY_RETRY_THRESHOLD,
+            "reference_strategy": CANDIDATE_REFERENCE_STRATEGY,
+            "reference_pixels": CANDIDATE_REFERENCE_PIXELS,
+        }
+    if reference_count == 1:
+        return {
+            "name": "single_reference_identity",
+            "lora_strength": ACTION_LORA_STRENGTH,
+            "guidance_scale": ACTION_GUIDANCE_SCALE,
+            "identity_retry_threshold": IDENTITY_RETRY_THRESHOLD,
             "reference_strategy": CANDIDATE_REFERENCE_STRATEGY,
             "reference_pixels": CANDIDATE_REFERENCE_PIXELS,
         }
@@ -247,7 +267,7 @@ def _prepare_sources(
     }
 
 
-def _generate_multi_reference(
+def _generate_reference_studio(
     reference_names: list[str],
     scene_prompt: str,
     photo_style: str,
@@ -259,7 +279,7 @@ def _generate_multi_reference(
     baseline._require_model("vae", baseline.VAE_NAME)
     started = time.perf_counter()
 
-    profile = _generation_profile(framing, moment)
+    profile = _generation_profile(framing, moment, len(reference_names))
     prepared = _prepare_sources(
         reference_names, profile["reference_strategy"], profile["reference_pixels"]
     )
@@ -293,12 +313,12 @@ def _generate_multi_reference(
     sampler = KSamplerSelect.execute("euler")[0]
     sigmas = Flux2Scheduler.execute(
         baseline.PRODUCTION_STEPS,
-        baseline.OUTPUT_WIDTH,
-        baseline.OUTPUT_HEIGHT,
+        OUTPUT_WIDTH,
+        OUTPUT_HEIGHT,
     )[0]
     latent = EmptyFlux2LatentImage.execute(
-        baseline.OUTPUT_WIDTH,
-        baseline.OUTPUT_HEIGHT,
+        OUTPUT_WIDTH,
+        OUTPUT_HEIGHT,
         1,
     )[0]
 
@@ -306,14 +326,15 @@ def _generate_multi_reference(
     selected_photo = None
     selected_score = -1.0
     selected_seed = baseline.PRODUCTION_SEED
-    for offset in range(2):
+    seed_offsets = (1, 0) if moment == "Candid / looking away" else (0, 1)
+    for attempt_index, offset in enumerate(seed_offsets):
         attempt_seed = (baseline.PRODUCTION_SEED + offset) % (1 << 64)
         noise = RandomNoise.execute(attempt_seed)[0]
         sampled = SamplerCustomAdvanced.execute(noise, guider, sampler, sigmas, latent)[0]
         candidate = comfy_nodes.VAEDecode().decode(vae, sampled)[0]
         try:
             candidate_embedding, detection_confidence = baseline._face_embedding(
-                candidate, f"generated candidate {offset + 1}"
+                candidate, f"generated candidate {attempt_index + 1}"
             )
             similarity = baseline._cosine_similarity(
                 prepared["identity_centroid"], candidate_embedding
@@ -325,7 +346,7 @@ def _generate_multi_reference(
             error = str(exc)
         attempts.append(
             {
-                "attempt": offset + 1,
+                "attempt": attempt_index + 1,
                 "seed": attempt_seed,
                 "similarity_to_reference_centroid": round(similarity, 4),
                 "face_detection_confidence": round(detection_confidence, 4),
@@ -345,9 +366,9 @@ def _generate_multi_reference(
     run_stamp = datetime.now().strftime("%Y%m%d-%H%M%S-%f")
     output_folder = f"{OUTPUT_ROOT}/{len(reference_names)}-references/{run_stamp}"
     report = {
-        "schema_version": 1,
-        "purpose": "realism_tuned_candidate_with_multi_photo_identity_verification",
-        "baseline_tag": "flux2-one-reference-v1.0.0",
+        "schema_version": 2,
+        "purpose": "natural_skin_social_photo_with_one_to_four_reference_identity_verification",
+        "baseline_tag": "flux2-easy-social-v1.0.1",
         "model": baseline.MODEL_4B_BASE_NAME,
         "text_encoder": baseline.CLIP_4B_NAME,
         "vae": baseline.VAE_NAME,
@@ -370,8 +391,8 @@ def _generate_multi_reference(
         "framing": framing,
         "moment": moment,
         "effective_prompt": effective_prompt,
-        "width": baseline.OUTPUT_WIDTH,
-        "height": baseline.OUTPUT_HEIGHT,
+        "width": OUTPUT_WIDTH,
+        "height": OUTPUT_HEIGHT,
         "steps": baseline.PRODUCTION_STEPS,
         "guidance_scale": profile["guidance_scale"],
         "sampler": "euler",
@@ -380,7 +401,10 @@ def _generate_multi_reference(
         "identity_retry_threshold": profile["identity_retry_threshold"],
         "identity_attempts": attempts,
         "seconds": round(time.perf_counter() - started, 3),
-        "acceptance": "Compare visually against the subject and frozen one-reference v1.",
+        "acceptance": (
+            "Identity was ranked locally. Natural skin variation was validated across phone, "
+            "professional, candid, and action scenes; final subject review is still authoritative."
+        ),
     }
     saved = comfy_nodes.SaveImage().save_images(
         selected_photo,
@@ -481,37 +505,7 @@ class Flux2EasySocialPhoto:
         if validation is not True:
             raise RuntimeError(validation)
         composed_scene = compose_scene_prompt(scene_prompt, photo_style, framing, moment)
-        profile = _generation_profile(framing, moment)
-
-        if len(names) == 1:
-            photo, effective_prompt, output_folder, saved = baseline._generate_photo(
-                face_reference=names[0],
-                scene_prompt=composed_scene,
-                seed=baseline.PRODUCTION_SEED,
-                strategy_name=profile["reference_strategy"],
-                output_root=OUTPUT_ROOT,
-                reference_pixels=profile["reference_pixels"],
-                steps=baseline.PRODUCTION_STEPS,
-                refine_pass=False,
-                identity_retry_threshold=profile["identity_retry_threshold"],
-                max_attempts=2,
-                model_name=baseline.MODEL_4B_BASE_NAME,
-                clip_name=baseline.CLIP_4B_NAME,
-                lora_name=baseline.PRODUCTION_LORA_NAME,
-                lora_strength=profile["lora_strength"],
-                use_kv_cache=False,
-                identity_token=baseline.IDENTITY_TOKEN,
-                guidance_scale=profile["guidance_scale"],
-            )
-            return {
-                "ui": {
-                    "images": saved["ui"]["images"],
-                    "text": (f"Saved photo to ComfyUI/output/{output_folder}",),
-                },
-                "result": (photo, effective_prompt, output_folder),
-            }
-
-        photo, effective_prompt, output_folder, saved = _generate_multi_reference(
+        photo, effective_prompt, output_folder, saved = _generate_reference_studio(
             reference_names=names,
             scene_prompt=composed_scene,
             photo_style=photo_style,
@@ -522,7 +516,7 @@ class Flux2EasySocialPhoto:
             "ui": {
                 "images": saved["ui"]["images"],
                 "text": (
-                    f"Saved {len(names)}-reference photo to ComfyUI/output/{output_folder}",
+                    f"Saved natural-skin photo from {len(names)} reference(s) to ComfyUI/output/{output_folder}",
                 ),
             },
             "result": (photo, effective_prompt, output_folder),

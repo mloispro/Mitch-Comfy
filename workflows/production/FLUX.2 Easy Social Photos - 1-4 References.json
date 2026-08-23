@@ -52,7 +52,7 @@
       "mode": 0,
       "inputs": [{"name": "images", "type": "IMAGE", "link": 1}],
       "outputs": [],
-      "title": "2. REALISM + IDENTITY-CHECKED RESULT",
+      "title": "2. NATURAL SKIN + IDENTITY-CHECKED RESULT",
       "properties": {"Node name for S&R": "PreviewImage", "cnr_id": "comfy-core"},
       "widgets_values": []
     }
@@ -61,7 +61,7 @@
   "groups": [
     {
       "id": 1,
-      "title": "EASY SOCIAL PHOTO — REALISM-TUNED IDENTITY LoRA",
+      "title": "EASY SOCIAL PHOTO — NATURAL SKIN + IDENTITY LOCK",
       "bounding": [-540, -20, 1280, 760],
       "color": "#3f789e",
       "font_size": 28,

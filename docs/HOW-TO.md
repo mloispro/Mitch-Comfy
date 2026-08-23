@@ -32,10 +32,16 @@ crop. Both are compact 0.25 MP references for the official FLUX.2 Klein Base 4B 
 local identity LoRA. The prompt supplies phone-versus-professional appearance, camera gaze, pose, clothing,
 framing, and action; there are no model, sampler, crop, face-swap, or seed controls in the graph.
 
+Generation is `896×1344`. The built-in natural-skin instruction keeps face, ears, neck, arms, and hands under
+one white balance, shadow direction, edge softness, and sensor response while requesting subtle nonuniform
+redness, pigmentation, stubble, vellus hair, pores, and ordinary marks. This replaced the overly smooth v1.0.0
+wording; no face refiner or local sharpening pass is used.
+
 Each candidate is checked locally against the supplied genuine-photo centroid. Balanced scenes retry below
 `0.75`; action/full-body scenes use a calibrated `0.70` floor because the detected output face is smaller.
 The higher-scoring result is returned when a retry occurs. Scores, selection measurements, seeds, elapsed
-time, and settings are written under `ComfyUI/output/flux2-reference-studio/<run-id>/report.json`. This score
+time, and settings are written under
+`ComfyUI/output/flux2-reference-studio/<reference-count>-references/<run-id>/report.json`. This score
 is a drift filter, not proof of identity; compare important results visually with the real person.
 
 The workflow rejects historical generated identity fixtures. Do not train or evaluate against generated portraits, beauty-filtered images, or photos of another person.
@@ -61,10 +67,11 @@ four latents scored `0.7344` in `164.1` seconds, both worse than the two derived
 
 Choose style, framing, and moment from the short preset menus, then describe only the scene, clothing, and
 activity. Select **Prompt decides** when the prompt already contains detailed camera, framing, or gaze
-instructions. Phone, candid, and professional modes use the private identity LoRA at strength `0.4`, guidance
-`2.0`, 20 Euler steps, a full reference plus wider 2.4x face crop at 0.25 MP each, and a fixed whole-person
-camera-coherence instruction. Action and full-body modes automatically use strength `0.6` and guidance `4.0`
-to protect small/off-angle faces. The compact references are intentional: the
+instructions. Multi-photo camera-facing phone and professional modes use the private identity LoRA at strength
+`0.4` and guidance `2.0`. One-photo, candid, action, and full-body modes automatically use strength `0.6` and
+guidance `4.0` to protect small/off-angle faces. All profiles use 20 Euler steps plus a full reference and 2.4x
+face crop at 0.25 MP each. Candid tries its validated off-angle seed first and retains the ordinary seed as a
+fallback. The compact references are intentional: the
 exact city A/B improved from `0.8704` identity in `47.6` seconds to `0.9112` in `25.3` seconds while reducing
 the harsh, separately rendered face texture.
 
@@ -79,6 +86,9 @@ The frozen-v1 production LoRA setting is checkpoint 1,250 from the ten-photo loc
 its balanced and action profiles automatically; this is not a different or missing LoRA.
 The checkpoint was selected from all six checkpoints by held-out professional/action scores and visual
 review. The final 1,500-step checkpoint was rejected because difficult-angle identity regressed.
+
+Easy Social Photos v1.0.1 is frozen separately under `flux2-easy-social-v1.0.1`. The previous v1.0.0 tag remains
+available for exact rollback, while the active registry hashes protect the natural-skin production files.
 
 ### First-time model setup
 

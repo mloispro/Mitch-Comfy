@@ -93,6 +93,9 @@ if (-not (Test-Path -LiteralPath $frozenBaselinesPath)) {
     try {
         $frozenBaselines = Get-Content -Raw -LiteralPath $frozenBaselinesPath | ConvertFrom-Json
         foreach ($baseline in @($frozenBaselines.baselines)) {
+            if ($baseline.active -eq $false) {
+                continue
+            }
             foreach ($artifact in @($baseline.artifacts)) {
                 $artifactPath = Join-Path $RepoRoot $artifact.path
                 if (-not (Test-Path -LiteralPath $artifactPath)) {
@@ -134,6 +137,19 @@ if (Test-Path -LiteralPath $easySocialWorkflowPath) {
         }
     } catch {
         $errors.Add("FLUX.2 Easy Social Photos workflow JSON is invalid: $($_.Exception.Message)")
+    }
+}
+
+$easySocialNodePath = Join-Path $RepoRoot "custom_nodes\ComfyUI-AIToolkit-Training\reference_photo_studio.py"
+if (Test-Path -LiteralPath $easySocialNodePath) {
+    $easySocialSource = Get-Content -Raw -LiteralPath $easySocialNodePath
+    foreach ($requiredSetting in @("OUTPUT_WIDTH = 896", "OUTPUT_HEIGHT = 1344")) {
+        if ($easySocialSource -notmatch [regex]::Escape($requiredSetting)) {
+            $errors.Add("FLUX.2 Easy Social Photos is missing frozen detail setting: $requiredSetting")
+        }
+    }
+    if ($easySocialSource -match "baseline\._generate_photo") {
+        $errors.Add("FLUX.2 Easy Social Photos must use one unified 1-4 reference generation path.")
     }
 }
 

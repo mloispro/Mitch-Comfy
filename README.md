@@ -23,16 +23,18 @@ retry ranking, and saving happen locally.
 The node automatically chooses the clearest, most frontal usable face for FLUX.2, rejects likely mixed
 identities, and uses every detected supplied face to rank the result. It intentionally sends only the selected
 photo's full view and derived face crop into the model: direct 2–4-latent tests were both slower and less
-accurate. Ordinary phone, candid, and professional photos use LoRA strength `0.4`, guidance `2.0`, 20 Euler
-steps, and compact 0.25 MP reference views. Action or full-body requests automatically switch to the stronger
-identity profile (`0.6`, guidance `4.0`) without exposing model controls.
+accurate. Every reference count now uses the same small generation path at `896×1344`, with a hidden stronger
+identity profile for one-photo, candid, action, and full-body requests. Camera-facing multi-photo scenes retain
+the lighter profile. There is no face swap, refiner, or second model pass.
 
-Phone and professional passes normally take about 26–28 seconds on the RTX 3090. A second seed runs only when
-the first face fails its calibrated identity gate. The final validation produced a one-reference phone result
-at `0.8161` held-out identity in `26.3` seconds, a four-reference professional result at `0.8463` held-out /
-`0.8777` supplied-reference identity in `26.3` seconds, a candid result at `0.7873` held-out / `0.8125`
-supplied-reference identity, and a head-to-feet action result at `0.7576` supplied-reference identity in
-`28.3` seconds. Identity scores reject drift; they do not measure overall photographic quality.
+The realism fix is primary-generation conditioning plus enough face pixels: unretouched spatially varied skin,
+coherent face/neck/body lighting, and no separate facial sharpening. Typical successful passes take about
+35–38 seconds on the RTX 3090; a second deterministic seed runs only when the local identity gate rejects the
+first. Final production validation scored `0.7996` against three other genuine photos for a one-reference phone
+result, `0.8827` against the supplied centroid for professional, `0.7985` for a clear off-camera candid, and
+`0.7230` for a head-to-feet action result whose face was only 103 pixels wide. Local texture measurements for
+the close/waist-up results fell inside the genuine-photo comparison range. Scores rank identity and flag
+texture extremes; the subject's visual judgment remains authoritative.
 
 ## FLUX.2 One Reference Photo — frozen rollback baseline
 
@@ -64,7 +66,8 @@ Superseded Qwen, Z-Image, face-swap, and multi-node Social Photo graphs remain u
 
 1. Open `Mitch/production/FLUX.2 Easy Social Photos - 1-4 References` in ComfyUI.
 2. Upload one to four real photos in any order, enter the scene prompt, choose the three presets, and queue it.
-3. Use `FLUX.2 One Reference Photo` only for rollback or direct frozen-v1 comparison.
+3. Use `FLUX.2 One Reference Photo` only for rollback or direct frozen-v1 comparison. Easy Social Photos
+   v1.0.1 is separately frozen under `flux2-easy-social-v1.0.1` after its natural-skin validation.
 4. Build new behavior under `workflows/experiments` and validate it before promotion.
 5. Run `scripts\checkpoint.ps1 -Message "Describe the working change"` to verify and commit it.
 

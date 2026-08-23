@@ -18,8 +18,14 @@ PHOTO_STYLES = {
 
 FRAMINGS = {
     "Prompt decides": "",
-    "Head and shoulders": "Head-and-shoulders framing.",
-    "Waist-up": "Natural waist-up framing.",
+    "Head and shoulders": (
+        "Tight head-and-shoulders composition; the face occupies substantial frame area and the "
+        "image ends around the upper chest, without showing the waist, legs, or feet."
+    ),
+    "Waist-up": (
+        "Waist-up composition with the subject filling most of the frame, cropped naturally around "
+        "the hips; do not show knees, lower legs, or feet."
+    ),
     "Full body": (
         "Wide full-body composition with the entire person visible head to feet, from the top of the hair through "
         "both shoes, with clear ground beneath the feet; no crop at the knees or ankles."
@@ -30,7 +36,9 @@ MOMENTS = {
     "Prompt decides": "",
     "Looking at camera": "Looking naturally toward the camera.",
     "Candid / looking away": (
-        "Candid three-quarter profile with eyes clearly looking away from the camera; no eye contact."
+        "Unposed candid three-quarter profile: turn the head at least thirty degrees and direct both "
+        "eyes fully off-frame toward the activity beside him. The irises are visibly not aimed at "
+        "the lens; the camera observes him unnoticed, with absolutely no eye contact."
     ),
     "Action": (
         "Natural in-progress action with believable body mechanics and slight motion; the candid "
@@ -39,10 +47,14 @@ MOMENTS = {
 }
 
 REALISM_RENDERING = (
-    "Render the entire person as one coherent in-camera photograph: face, hair, neck, arms, "
-    "and clothing share the same scene lighting, white balance, depth of field, edge softness, "
-    "and camera grain. Use natural low-contrast skin microtexture with no local face sharpening "
-    "or etched wrinkles. Do not exaggerate pores, facial lines, age, symmetry, or muscularity."
+    "Render the entire person as one continuous in-camera subject under the same light. Face, "
+    "ears, neck, arms, and hands share one white balance, shadow direction, edge softness, and "
+    "sensor grain. Skin is unretouched and spatially nonuniform: subtle natural redness around "
+    "the nose, cheeks, and ears; faint under-eye color; mild irregular pigmentation; sparse "
+    "stubble and vellus hair; low-contrast pores; and a few tiny ordinary marks. These details "
+    "vary organically across the skin and follow three-dimensional lighting rather than forming "
+    "a uniform texture overlay. Preserve current apparent age without deepening wrinkles or "
+    "sharpening the face separately from the scene."
 )
 
 

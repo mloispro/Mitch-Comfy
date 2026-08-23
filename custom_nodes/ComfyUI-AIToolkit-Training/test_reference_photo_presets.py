@@ -30,16 +30,31 @@ class ReferencePhotoPresetTests(unittest.TestCase):
         )
         self.assertTrue(result.startswith("At a cafe."))
         self.assertNotIn("smartphone photograph", result)
-        self.assertIn("one coherent in-camera photograph", result)
+        self.assertIn("one continuous in-camera subject", result)
 
     def test_realism_rendering_applies_to_phone_and_professional_presets(self):
         for style in ("Smartphone — natural", "Professional — natural"):
             result = compose_scene_prompt(
                 "Beside a window.", style, "Waist-up", "Looking at camera"
             )
-            self.assertIn("same scene lighting", result)
-            self.assertIn("no local face sharpening", result)
-            self.assertIn("camera grain", result)
+            self.assertIn("spatially nonuniform", result)
+            self.assertIn("three-dimensional lighting", result)
+            self.assertIn("without deepening wrinkles", result)
+            self.assertIn("sensor grain", result)
+
+    def test_realism_rendering_requests_specific_subtle_skin_variation(self):
+        result = compose_scene_prompt(
+            "Beside a window.", "Smartphone — natural", "Waist-up", "Looking at camera"
+        )
+        for detail in (
+            "subtle natural redness",
+            "faint under-eye color",
+            "mild irregular pigmentation",
+            "sparse stubble and vellus hair",
+            "low-contrast pores",
+            "tiny ordinary marks",
+        ):
+            self.assertIn(detail, result)
 
     def test_phone_action_full_body_preset_is_explicit(self):
         result = compose_scene_prompt(
@@ -48,6 +63,16 @@ class ReferencePhotoPresetTests(unittest.TestCase):
         self.assertIn("smartphone photograph", result)
         self.assertIn("head to feet", result)
         self.assertIn("body mechanics", result)
+
+    def test_waist_up_preset_excludes_full_body_drift(self):
+        result = compose_scene_prompt(
+            "Walking on a city sidewalk.",
+            "Smartphone — natural",
+            "Waist-up",
+            "Looking at camera",
+        )
+        self.assertIn("subject filling most of the frame", result)
+        self.assertIn("do not show knees, lower legs, or feet", result)
 
     def test_professional_preset_keeps_natural_skin(self):
         result = compose_scene_prompt(
@@ -61,7 +86,8 @@ class ReferencePhotoPresetTests(unittest.TestCase):
             "At a cafe.", "Smartphone — natural", "Waist-up", "Candid / looking away"
         )
         self.assertIn("three-quarter profile", result)
-        self.assertIn("no eye contact", result)
+        self.assertIn("at least thirty degrees", result)
+        self.assertIn("absolutely no eye contact", result)
 
     def test_empty_scene_is_rejected(self):
         with self.assertRaises(ValueError):

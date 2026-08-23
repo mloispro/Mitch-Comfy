@@ -116,10 +116,24 @@ it scored `0.7921`. Both variants exaggerated facial lines and apparent age.
 The finish was rejected. Realism is handled in the primary generation prompt
 and balanced profile instead of stacking another generative pass onto the face.
 
+## FLUX.2 natural-skin primary render — promoted as Easy Social v1.0.1
+
+Controlled same-seed tests showed that wording alone did not recover small full-body facial texture: the frozen
+768×1024 control measured `2.444` micro-luma variation, while balanced wording at the same size measured
+`2.447`. Raising only the production canvas to `896×1344` increased the detected face from roughly `85×120`
+to `121×179` pixels, micro variation to `4.043`, and supplied-reference identity from `0.7576` to `0.8246`.
+Runtime increased by about seven seconds, without another model or postprocess pass.
+
+The promoted prompt asks for subtle spatially nonuniform albedo and microtexture that follow three-dimensional
+lighting while explicitly preserving apparent age and avoiding separate facial sharpening. Final phone,
+professional, and candid crops measured within the genuine-photo texture comparison band. The full-body action
+face remains resolution-limited, as expected at 103 pixels wide, but the complete photo passed visual and
+calibrated action-identity review. See `docs/skin-realism-v1.0.1-evaluation.md` for the fixed suite.
+
 ## Final decision
 
 The promoted route remains FLUX.2 Klein Base 4B plus the validated local
-identity LoRA. Easy Social Photos adds automatic local quality/angle selection,
-one-to-four-reference centroid verification, phone/professional/candid/action
-presets, and an action-specific identity profile. No PuLID, USO, WithAnyone,
+identity LoRA. Easy Social Photos v1.0.1 adds automatic local quality/angle selection,
+one-to-four-reference centroid verification, higher face pixel budget, natural-skin primary conditioning,
+phone/professional/candid/action presets, and difficult-angle identity profiles. No PuLID, USO, WithAnyone,
 face swap, or post-generation face refiner is in the production graph.
