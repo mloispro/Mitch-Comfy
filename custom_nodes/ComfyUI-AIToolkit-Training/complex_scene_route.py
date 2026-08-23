@@ -18,6 +18,7 @@ from comfy_extras.nodes_model_advanced import ModelSamplingAuraFlow
 from comfy_extras.nodes_sd3 import EmptySD3LatentImage
 
 from . import reference_photo_studio as studio
+from .head_integrity import build_head_protection_mask, measure_head_integrity
 from .scene_crop import face_aware_scene_crop
 from .scene_constraints import (
     build_hard_scene_constraints,
@@ -135,7 +136,7 @@ def _crop_layout_anchor(
     }
 
 
-def _main_subject_mask(image: torch.Tensor, face) -> tuple[torch.Tensor, dict]:
+def _main_subject_component(image: torch.Tensor, face) -> tuple[np.ndarray, int]:
     global _REMBG_SESSION
     try:
         from rembg import new_session, remove
@@ -173,7 +174,19 @@ def _main_subject_mask(image: torch.Tensor, face) -> tuple[torch.Tensor, dict]:
         candidates,
         key=lambda label: int(np.count_nonzero(face_labels == label)),
     )
-    selected = (labels == selected_label).astype(np.uint8)
+    return (labels == selected_label).astype(np.uint8), int(selected_label)
+
+
+def _main_subject_mask(image: torch.Tensor, face) -> tuple[torch.Tensor, dict]:
+    selected, selected_label = _main_subject_component(image, face)
+    raw_ys, raw_xs = np.where(selected > 0)
+    head_support, head_support_report = build_head_protection_mask(
+        selected.shape, face.bbox
+    )
+    raw_head_support_coverage = float(
+        np.count_nonzero((selected > 0) & (head_support > 0))
+    ) / max(1, int(np.count_nonzero(head_support)))
+    selected = np.maximum(selected, head_support)
     kernel = cv2.getStructuringElement(
         cv2.MORPH_ELLIPSE,
         (SUBJECT_MASK_DILATION * 2 + 1, SUBJECT_MASK_DILATION * 2 + 1),
@@ -196,12 +209,29 @@ def _main_subject_mask(image: torch.Tensor, face) -> tuple[torch.Tensor, dict]:
     return mask, {
         "model": SUBJECT_MASK_MODEL,
         "selected_component": int(selected_label),
+        "raw_component_bbox": [
+            int(raw_xs.min()),
+            int(raw_ys.min()),
+            int(raw_xs.max()) + 1,
+            int(raw_ys.max()) + 1,
+        ],
         "hard_area_fraction": round(hard_area, 4),
         "bbox": [int(xs.min()), int(ys.min()), int(xs.max()) + 1, int(ys.max()) + 1],
         "threshold": SUBJECT_MASK_THRESHOLD,
         "dilation_pixels": SUBJECT_MASK_DILATION,
         "feather_sigma": SUBJECT_MASK_FEATHER_SIGMA,
+        "head_protection": head_support_report,
+        "raw_head_support_coverage": round(raw_head_support_coverage, 4),
     }
+
+
+def _candidate_head_integrity(image: torch.Tensor, face) -> dict:
+    component, _ = _main_subject_component(image, face)
+    return measure_head_integrity(
+        component,
+        face.bbox,
+        getattr(face, "kps", None),
+    ).as_dict()
 
 
 def _remove_anchor_identity(image: torch.Tensor, face) -> tuple[torch.Tensor, dict]:
@@ -277,8 +307,9 @@ def _final_identity_prompt(composed_scene: str, contract: dict) -> str:
         "Pictures 2 and 3 are identity evidence for the central person; Picture 3 is a closer crop of Picture 2, not another "
         "person. The trained identity token is m1tchperson. Render the central person as unmistakably the exact m1tchperson "
         "identity shown in Pictures 2 and 3, preserving current apparent age, facial proportions, eyes, eyebrows, nose, "
-        "mouth, ears, jaw, hairline, hair color, and natural unretouched skin. Regenerate only the masked main-subject region "
-        "as one continuous head, body, arms, and clothing under the existing scene light and camera optics. Preserve the "
+        "mouth, ears, jaw, complete natural skull, crown, back of head, hairline, hair color, and natural unretouched skin. "
+        "Never flatten, shave away, crop, or blend any portion of the head into the background. Regenerate only the masked "
+        "main-subject region as one continuous head, body, arms, and clothing under the existing scene light and camera optics. Preserve the "
         "unmasked scene, secondary people, vehicles, architecture, tables, and depth structure exactly. Blend the subject "
         "boundary as an ordinary in-camera occlusion with no face swap, pasted head, halo, sharpening seam, or cutout edge. "
         f"Requested result: {guarded}"
@@ -477,6 +508,7 @@ def generate_complex_candidate(
     selected_score = -1.0
     selected_confidence = 0.0
     selected_seed = studio.baseline.PRODUCTION_SEED + FINAL_SEED_OFFSETS[0]
+    head_rejections = 0
     for offset in FINAL_SEED_OFFSETS:
         seed = (studio.baseline.PRODUCTION_SEED + offset) % (1 << 64)
         noise = studio.RandomNoise.execute(seed)[0]
@@ -489,10 +521,16 @@ def generate_complex_candidate(
             similarity = studio.baseline._cosine_similarity(
                 prepared["identity_centroid"], embedding
             )
+            final_face = _layout_face(candidate)
+            head_integrity = _candidate_head_integrity(candidate, final_face)
             error = ""
         except RuntimeError as exc:
             similarity = -1.0
             confidence = 0.0
+            head_integrity = {
+                "status": "rejected",
+                "failures": ["head_integrity_analysis_failed"],
+            }
             error = str(exc)
         attempts.append(
             {
@@ -500,19 +538,26 @@ def generate_complex_candidate(
                 "seed": seed,
                 "similarity_to_reference_centroid": round(similarity, 4),
                 "face_detection_confidence": round(confidence, 4),
+                "head_integrity": head_integrity,
                 "error": error,
             }
         )
-        if similarity > selected_score:
+        head_passed = head_integrity.get("status") == "passed"
+        if not head_passed:
+            head_rejections += 1
+        if head_passed and similarity > selected_score:
             selected_photo = candidate
             selected_score = similarity
             selected_confidence = confidence
             selected_seed = seed
-        if similarity >= profile["identity_retry_threshold"]:
+        if head_passed and similarity >= profile["identity_retry_threshold"]:
             break
 
     if selected_photo is None or selected_score < 0:
-        raise RuntimeError("No face was detected in the complex-scene identity pass.")
+        raise RuntimeError(
+            "No complex-scene candidate passed the full-head integrity gate after "
+            f"{len(attempts)} attempt(s); rejected {head_rejections} incomplete head(s)."
+        )
     return {
         "photo": selected_photo,
         "effective_prompt": prompt,
@@ -531,6 +576,13 @@ def generate_complex_candidate(
             "anchor_identity_removal": identity_removal,
             "mode": "main_subject_only_latent_inpaint",
             "subject_mask": subject_mask_report,
+            "head_integrity_gate": attempts[
+                next(
+                    index
+                    for index, attempt in enumerate(attempts)
+                    if attempt["seed"] == selected_seed
+                )
+            ]["head_integrity"],
             "background_owner": SCENE_MODEL,
             "seconds": round(time.perf_counter() - final_started, 3),
         },

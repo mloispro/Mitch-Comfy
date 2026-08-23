@@ -260,6 +260,8 @@ def _generate_v104(
             "the unmasked people, vehicles, architecture, furniture, and depth structure remain owned by the scene model. "
             "This is subject-region latent generation, not a face-swap overlay. Every route requires a recognizable, "
             "materially detailed environment under realistic moderate-to-deep focus instead of default portrait blur. "
+            "Complex scenes protect a face-relative full-head region before generation and reject final seeds that fail "
+            "the narrow crown/head-core integrity check. "
             "Phone haze runs only after identity selection and does not blur scene detail. Tested local VLM critics and an "
             "SDXL refiner are deliberately excluded. Final subject and scene review remains authoritative."
         ),

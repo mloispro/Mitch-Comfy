@@ -24,13 +24,16 @@ secondary people, groups, or reflections use the following hidden complex route:
    detector can certify realism.
 3. InsightFace finds the largest layout face. A framing-aware crop promotes a small layout subject but leaves an
    already-close subject alone.
-4. Local U2Net human segmentation selects only the connected person overlapping that face. Implausibly small or
-   frame-filling masks are rejected during layout selection.
+4. Local U2Net human segmentation selects only the connected person overlapping that face. A conservative
+   face-relative full-head/neck ellipse is unioned into the mask before dilation and feathering, preventing a thin
+   layout silhouette from constraining the regenerated crown or back of head. Implausibly small or frame-filling
+   masks are rejected during layout selection.
 5. The layout face is strongly obscured and reduced to a tiny `192×288` structural reference. FLUX.2 Base 4B plus
    the selected identity LoRA regenerates only the masked main subject from the genuine full-photo/face references.
    Unmasked bystanders, vehicles, furniture, buildings, and depth geometry remain owned by the accepted layout.
-6. InsightFace ranks identity seeds. Smartphone presets receive a restrained zero-model-pass finish that slightly
-   reduces synthetic saturation/crispness and adds mild sensor/compression coherence. Optional phone haze follows.
+6. InsightFace ranks identity seeds, but a seed is eligible only after a second U2Net pass confirms minimum crown
+   clearance and head-core coverage. Smartphone presets then receive a restrained zero-model-pass finish that
+   slightly reduces synthetic saturation/crispness and adds mild sensor/compression coherence. Optional phone haze follows.
 
 Complex-scene failures never fall back to the known unsafe full-frame identity route. The layout cache is keyed by
 the complete prompt, models, dimensions, sampling settings, and seed; identical reruns reuse only an exact
@@ -46,11 +49,12 @@ deterministic scene and still run identity evaluation.
 | Qwen Image 2512 four-step layout | scene proof | about 15 s | n/a | Coherent extras, but persistent shallow-focus/bokeh background |
 | Z-Image Base scene proof | scene proof | about 60 s | n/a | First materially detailed deep-focus environment with coherent furniture/people |
 | Detector-gated café before final traffic direction rule | complex | 143.1 s | 0.6882 | Counts passed, but identity weak and arm marks exaggerated |
-| Final new café construction | complex | 105.4 s | **0.7946** | Passed exactly 3 people/2 cars, distinct bystanders, same-direction cars, 28.4% subject mask, first identity seed |
-| Identical cached café rerun | complex/cache | **40.4 s** | **0.7946** | Count gate and identity passed with exact deterministic layout reuse |
+| Café before head-integrity fix | complex | 105.4 s | 0.7946 | **Rejected by human review:** identity/count gates passed but part of the crown was missing |
+| Broken café through new offline gate | validation | n/a | 0.7946 | **Rejected:** crown clearance `0.1301`, below the calibrated structural floor |
+| Fixed café construction | complex | **105.0 s** | **0.8678** | Full-head mask expanded raw top `y=502` to `y=393`; exactly 3 people/2 cars; head gate passed at `0.2208` crown clearance and `0.7848` core coverage |
 
-The final accepted test is
-`ComfyUI/output/flux2-reference-studio-v104/4-references/20260823-042038-606256/photo_00001_.png`.
+The current fixed test is
+`ComfyUI/output/flux2-reference-studio-v104/4-references/20260823-100140-433621/photo_00001_.png`.
 Its report records exact object boxes/confidences, count targets, mask bounds/area, layout/identity settings, cache
 status, identity score, timing, and phone-finish parameters.
 
@@ -67,7 +71,8 @@ status, identity score, timing, and phone-finish parameters.
 
 ## Limits
 
-YOLO validates requested people/vehicle counts, not anatomy, traffic law, or photographic truth. InsightFace is an
-identity-drift filter, not proof of identity, and off-angle faces can score lower. Novel prompts can still require a
+YOLO validates requested people/vehicle counts, not anatomy, traffic law, or photographic truth. The head gate is
+limited to crown/head-core completeness and does not certify hands, limbs, expressions, or the scene. InsightFace is
+an identity-drift filter, not proof of identity, and off-angle faces can score lower. Novel prompts can still require a
 layout retry or final human rejection. The frozen v1.0.3 workflow remains unchanged for exact rollback and direct
 comparison.

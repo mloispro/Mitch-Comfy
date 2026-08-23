@@ -37,11 +37,12 @@ The same node automatically adds compact context rules for cars, traffic, crowds
 held objects, and signage. Ordinary solo prompts run directly through the 4B identity LoRA. Secondary people,
 groups, and reflections automatically use a 25-step Z-Image Base scene pass. Explicit human/vehicle counts are
 checked by local YOLO and can trigger a different layout seed. A face-aware crop plus local human segmentation
-selects the main layout subject; the wrong layout face is obscured, and a tiny structural reference is retained.
+selects the main layout subject. A conservative full-head/neck ellipse is automatically unioned with that mask;
+the wrong layout face is obscured, and a tiny structural reference is retained.
 FLUX.2 Base 4B plus the identity LoRA then regenerates only the masked main subject while leaving the unmasked
 scene pixels untouched. There is no face-swap overlay. Typical RTX 3090 times are about 36–38 seconds for the
-fast route, `105.4` seconds for the first validated complex café scene, and `40.4` seconds when its deterministic
-layout is already in the local cache.
+fast route and `105.0` seconds for the fixed complex café regression after a clean restart. An exact repeat can
+reuse its deterministic process-local layout cache.
 
 Detailed backgrounds are a global v1.0.4 rule on both routes. The setting should remain recognizable from the
 foreground through the major distance structures, with real materials, surface wear, seams, foliage, vehicles,
@@ -62,13 +63,16 @@ stronger lift near windows, lamps, and sun. It does not blur image pixels, reren
 remove background detail, or invoke another model. The hidden midpoint identity profile (`0.5`, guidance `3.0`) protects likeness before
 the optical pass. Use `Smartphone — natural` for a clean modern phone without the extra haze.
 
-Each candidate is checked locally against the supplied genuine-photo centroid. Balanced scenes retry below
+Each candidate is checked locally against the supplied genuine-photo centroid. Complex-scene candidates also run
+through a narrow U2Net full-head gate that rejects missing crown/head-core structure before a seed can be selected.
+Balanced scenes retry below
 `0.75`; action/full-body scenes use a calibrated `0.70` floor because the detected output face is smaller.
 The higher-scoring result is returned when a retry occurs. Scores, selection measurements, seeds, elapsed
 time, and settings are written under
 `ComfyUI/output/flux2-reference-studio-v104/<reference-count>-references/<run-id>/report.json`. The report also
 records the inferred contexts, chosen fast/complex route, per-stage timing, object-count targets/detections,
-subject-mask area, and scene-cache status. Complex scenes never fall back to the known full-frame identity route;
+subject-mask area, head-protection bounds, per-seed head-integrity measurements, and scene-cache status. Complex
+scenes never fall back to the known full-frame identity route;
 a failed complex layout surfaces as a failure rather than returning cloned bystanders. This score
 is a drift filter, not proof of identity; compare important results visually with the real person.
 

@@ -44,25 +44,26 @@ requested. Phone-lens haze changes contrast and light scatter only; it never rep
 The realism fix remains primary-generation conditioning plus enough face pixels: unretouched spatially varied skin,
 coherent face/neck/body lighting, and no separate facial sharpening. Typical successful passes take about
 35–38 seconds on the RTX 3090 for the fast route; a second deterministic seed runs only when the local identity
-gate rejects the first. A new complex scene took `105.4` seconds in the final café regression; its locally cached
-layout reran in `40.4` seconds. Final production validation scored `0.7996` against three other genuine photos for a one-reference phone
+gate rejects the first. The fixed complex café regression took `105.0` seconds after a clean service restart;
+subsequent exact-prompt runs can reuse its process-local layout cache. Final production validation scored `0.7996` against three other genuine photos for a one-reference phone
 result, `0.8827` against the supplied centroid for professional, `0.7985` for a clear off-camera candid, and
 `0.7230` for a head-to-feet action result whose face was only 103 pixels wide. Local texture measurements for
 the close/waist-up results fell inside the genuine-photo comparison range. Scores rank identity and flag
 texture extremes; the subject's visual judgment remains authoritative.
 
-The final constrained café regression automatically used the complex route in `105.4` seconds, scored `0.7946`,
-and passed the local detector target of exactly three people and two vehicles. The two bystanders differ in age,
-sex, clothing, pose, and spacing; both parked cars share the same curb direction; the main-subject mask covers
-`28.4%` of the frame; and the first identity seed passed. The object detector validates requested counts only—it
-does not claim to certify photographic truth. Qwen3-VL 4B and Qwen3.5 4B critics remain excluded after falsely
-passing known defects.
+Human review rejected the original `0.7946` café candidate because the masked identity pass removed part of the
+crown even though InsightFace and object counts passed. The complex route now unions a full-head safety ellipse
+with the segmented subject before generation and runs a separate U2Net head-integrity check on every final seed.
+The broken candidate is rejected at `0.1301` crown clearance; all four genuine calibration photos pass. The live
+fixed café regression completed in `105.0` seconds, scored `0.8678`, preserved exactly three people and two
+vehicles, expanded the mask from raw `y=502` to `y=393`, and passed at `0.2208` crown clearance with `0.7848`
+head-core coverage. This is a narrow missing-head gate, not a claim that automation certifies general realism.
 
 The global background-detail regression passed on both routes. A solo professional bookstore scene correctly
 stayed on the direct route, completed in `37.6` seconds at `0.7656` identity, and showed gradual physical focus
 falloff instead of uniformly sharp scenery or fake bokeh. The constrained café test retained readable masonry,
 pavement, furniture, two distinct bystanders, and two coherent parked cars while the identity pass changed only
-the segmented foreground subject.
+the protected foreground subject region.
 
 Every smartphone result receives a restrained, deterministic zero-model-pass finish that slightly reduces the
 synthetic saturation/local crispness and unifies subject and scene with mild sensor noise and quality-95 phone
