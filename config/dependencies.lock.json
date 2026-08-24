@@ -23,6 +23,9 @@
     }
   },
   "runtime_python_packages": {
+    "huggingface-hub": "0.36.2",
+    "tokenizers": "0.21.4",
+    "transformers": "4.50.3",
     "ultralytics": "8.4.76",
     "rembg": "2.0.69"
   },
@@ -43,6 +46,25 @@
       "source": "https://huggingface.co/Comfy-Org/flux2-klein-9B",
       "sha256": "ABAD16806E0CBABC54E0325D6565847443FE396D5F0BE38BB3CD3FE75A1201D6",
       "clip_type": "flux2"
+    },
+    "flux_2_dev_fp8_mixed": {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\diffusion_models\\flux2_dev_fp8mixed.safetensors",
+      "source": "https://huggingface.co/Comfy-Org/flux2-dev/blob/main/split_files/diffusion_models/flux2_dev_fp8mixed.safetensors",
+      "sha256": "863A82E4FF950A42A6B0E80BEA824828F129EB1A8FBBDBD9E8CB29859127B486",
+      "note": "Official FLUX.2 Dev FP8 mixed benchmark model; not promoted to production.",
+      "sampling": {
+        "steps": 20,
+        "guidance": 4.0,
+        "sampler": "euler",
+        "scheduler": "Flux2Scheduler"
+      }
+    },
+    "mistral_3_small_flux2_fp4_mixed": {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\text_encoders\\mistral_3_small_flux2_fp4_mixed.safetensors",
+      "source": "https://huggingface.co/Comfy-Org/flux2-dev/blob/main/split_files/text_encoders/mistral_3_small_flux2_fp4_mixed.safetensors",
+      "sha256": "1EE1FF334D78228D73049EF0EE4FCD21C1700536B5A45C06547AF057F92463A7",
+      "clip_type": "flux2",
+      "note": "Official FP4 Mistral encoder used only by the FLUX.2 Dev benchmark route."
     },
     "inswapper_128.onnx": {
       "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\insightface\\inswapper_128.onnx",

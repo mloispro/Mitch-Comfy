@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Krea2 Turbo Mitch identity-locked busy sidewalk workflow",
+  "comfyUI": {
+    "root": "C:\\projects\\AI-Tools\\ComfyUI",
+    "commit": "b78cec879b9460d5cb25228a83a942fb78d2cd24",
+    "requiredNativeFeatures": [
+      "CLIPLoader type krea2",
+      "Krea2 diffusion model detection",
+      "Krea2 LoRA key conversion"
+    ]
+  },
+  "runtime": {
+    "setupGpu": "NVIDIA GeForce RTX 4070",
+    "setupGpuUuid": "GPU-de12eec8-4b3d-f2ae-791c-8423a86915fd",
+    "port": 8189,
+    "generationWasRunDuringSetup": false
+  },
+  "models": [
+    {
+      "repository": "Comfy-Org/Krea-2",
+      "relativePath": "diffusion_models/krea2_turbo_fp8_scaled.safetensors",
+      "sizeBytes": 13141730784,
+      "sha256": "EB4DD8C612CFD10F64F25B057E6E6BBCB5737C94A7372177E456DBF7579502F1"
+    },
+    {
+      "repository": "Comfy-Org/Krea-2",
+      "relativePath": "text_encoders/qwen3vl_4b_fp8_scaled.safetensors",
+      "sizeBytes": 5242467968,
+      "sha256": "54BD5144DF0BBC25DD6CCADFCB826B521445A1B06AE5A42570BDD2974CA87094"
+    },
+    {
+      "repository": "Comfy-Org/Krea-2",
+      "relativePath": "vae/qwen_image_vae.safetensors",
+      "sizeBytes": 253806246,
+      "sha256": "A70580F0213E67967EE9C95F05BB400E8FB08307E017A924BF3441223E023D1F"
+    }
+  ],
+  "identityLora": {
+    "inlineStudioUrl": "http://127.0.0.1:8848",
+    "runId": "36d539e7-e05d-48ed-a74e-ddb1db3ab684",
+    "datasetId": "a6a132e7-c844-4dfa-b8aa-35952421b3ea",
+    "architecture": "krea2",
+    "baseMode": "turbo_adapter",
+    "trigger": "m1tch_person",
+    "datasetItemCount": 22,
+    "completedSteps": 500,
+    "rank": 16,
+    "alpha": 16,
+    "resolution": 1024,
+    "destinationRelativePath": "loras/aitk/mitch-krea2-identity-v1.safetensors",
+    "sizeBytes": 191896264,
+    "tensorCount": 696,
+    "sha256": "44753AFAADAB3A8CE97597CCECE21252F85BD700C33C788F2900E58A7C8FD094",
+    "state": "published"
+  },
+  "workflow": {
+    "relativePath": "archive/krea2-workflows/Krea 2 Mitch - Busy Sidewalk (Unavailable Personal LoRA).json",
+    "outputNodeBypassed": true,
+    "width": 896,
+    "height": 1344,
+    "steps": 8,
+    "cfg": 1.0,
+    "sampler": "euler",
+    "scheduler": "simple",
+    "initialLoraStrength": 0.85
+  }
+}

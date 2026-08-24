@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Controlled Krea2 Identity Edit plus Gokay whole-frame realism evaluation",
+  "publishedModel": {
+    "repository": "gokaygokay/Krea-2-Realism-LoRA",
+    "relativePath": "loras/krea2_realism_lora.safetensors",
+    "sizeBytes": 469288512,
+    "sha256": "6C38A7934C54A56E0F67753660A4500A094D6DCE28A0EE4A0D1DC9F4975D32D2",
+    "keyPrefix": "base_model.model."
+  },
+  "comfyCompatibleModel": {
+    "relativePath": "loras/krea2_realism_lora_comfy.safetensors",
+    "sizeBytes": 469288080,
+    "sha256": "C85612BAC3392C28A1B7D2FFDC74E23FEB3C783A596EC8839C67ED8A2D24237C",
+    "keyPrefix": "diffusion_model.",
+    "conversion": "Key prefix only; all 528 tensor values are unchanged"
+  },
+  "conditioning": {
+    "base": "krea2_turbo_fp8_scaled.safetensors",
+    "modelChain": [
+      "Krea2 Turbo",
+      "Gokay realism LoRA",
+      "Krea2 Identity Edit v1.2",
+      "Krea2EditModelPatch"
+    ],
+    "identityReference": "20260815_165446.jpg",
+    "identityPaths": [
+      "VAE appearance tokens through Krea2EditModelPatch",
+      "Qwen3-VL grounded instruction encoding through Krea2EditGroundedEncode"
+    ]
+  },
+  "generation": {
+    "gpu": "NVIDIA GeForce RTX 4070",
+    "seed": 9472103,
+    "width": 832,
+    "height": 1248,
+    "steps": 12,
+    "cfg": 1.0,
+    "sampler": "euler",
+    "scheduler": "simple",
+    "identityLoraStrength": 1.0,
+    "refBoost": 6.0,
+    "groundingPixels": 768
+  },
+  "results": [
+    {
+      "label": "gokay-realism-0.35",
+      "realismLoraStrength": 0.35,
+      "centroidSimilarity": 0.713
+    },
+    {
+      "label": "gokay-realism-0.50",
+      "realismLoraStrength": 0.5,
+      "centroidSimilarity": 0.7073
+    }
+  ],
+  "decision": "Do not replace smartphone-0.35; Gokay adds more environmental structure but causes more visible and measured identity drift"
+}

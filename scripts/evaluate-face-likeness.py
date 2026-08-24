@@ -38,6 +38,13 @@ def parse_args() -> argparse.Namespace:
         "--json-output",
         help="Optional path for a clean JSON report in addition to stdout.",
     )
+    parser.add_argument(
+        "--insightface-root",
+        help=(
+            "Optional InsightFace model root. Defaults to the current user's "
+            "~/.insightface directory."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -85,7 +92,11 @@ def main() -> None:
         if not path.is_file():
             raise RuntimeError(f"Image does not exist: {path}")
 
-    model_root = Path.home() / ".insightface"
+    model_root = (
+        Path(args.insightface_root).resolve()
+        if args.insightface_root
+        else Path.home() / ".insightface"
+    )
     analyzer = FaceAnalysis(
         name="antelopev2",
         root=str(model_root),

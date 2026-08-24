@@ -22,6 +22,10 @@ from .social_workbench import (
 )
 from .identity_lock import AIToolkitIdentityLockSettings, AIToolkitQwenIdentityLock
 from .klein9b_identity_test import Klein9BKVIdentityProof
+from .krea2_reference_mask import Krea2ReferenceFaceAttentionMask
+from .whole_frame_phone_finish import WholeFramePhoneFinish
+from .flux2_model_benchmark import Flux2ModelBenchmark
+from .minimal_flux2_reality_test import Flux2MinimalRealityTest
 from .one_reference_photo import (
     Flux2IdentityLoraExperiment,
     Flux2IdentityStrategyExperiment,
@@ -234,6 +238,10 @@ NODE_CLASS_MAPPINGS = {
     "Flux2IdentityStrategyExperiment": Flux2IdentityStrategyExperiment,
     "Flux2IdentityLoraExperiment": Flux2IdentityLoraExperiment,
     "Klein9BKVIdentityProof": Klein9BKVIdentityProof,
+    "Krea2ReferenceFaceAttentionMask": Krea2ReferenceFaceAttentionMask,
+    "WholeFramePhoneFinish": WholeFramePhoneFinish,
+    "Flux2ModelBenchmark": Flux2ModelBenchmark,
+    "Flux2MinimalRealityTest": Flux2MinimalRealityTest,
     "SocialPhotoSubjectReferences": SocialPhotoSubjectReferences,
     "SocialPhotoSettings": SocialPhotoSettings,
     "SocialPhotoGenerate": SocialPhotoGenerate,
@@ -258,6 +266,10 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "Flux2IdentityStrategyExperiment": "[Internal] FLUX.2 Identity Strategy Experiment",
     "Flux2IdentityLoraExperiment": "[Internal] FLUX.2 Identity LoRA Experiment",
     "Klein9BKVIdentityProof": "Proof: FLUX.2 Klein 9B KV Identity",
+    "Krea2ReferenceFaceAttentionMask": "Krea2: Reference Face Attention Mask",
+    "WholeFramePhoneFinish": "Photo: Whole Frame Phone Finish",
+    "Flux2ModelBenchmark": "Proof: FLUX.2 Klein 9B KV vs Dev Benchmark",
+    "Flux2MinimalRealityTest": "Proof: Minimal FLUX.2 Background Reality Test",
     "SocialPhotoSubjectReferences": "Social Photo: 1–4 Subject References",
     "SocialPhotoSettings": "Social Photo: Prompt & Presets",
     "SocialPhotoGenerate": "Social Photo: Generate",

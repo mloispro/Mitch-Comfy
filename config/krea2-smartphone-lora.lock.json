@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Controlled Krea2 Identity Edit plus smartphone-photography LoRA evaluation",
+  "model": {
+    "repository": "reverentelusarca/elusarcas-krea2-smartphone-photography-lora",
+    "relativePath": "loras/krea-smartphone-photo-slider.safetensors",
+    "sizeBytes": 28627768,
+    "sha256": "6468A57747EE8953036AEDC28EBA2034AD6355789151F4F85EF63260ED3FA2CE"
+  },
+  "conditioning": {
+    "base": "krea2_turbo_fp8_scaled.safetensors",
+    "modelChain": [
+      "Krea2 Turbo",
+      "smartphone photography LoRA",
+      "Krea2 Identity Edit v1.2",
+      "Krea2EditModelPatch"
+    ],
+    "identityReference": "20260815_165446.jpg",
+    "identityPaths": [
+      "VAE appearance tokens through Krea2EditModelPatch",
+      "Qwen3-VL grounded instruction encoding through Krea2EditGroundedEncode"
+    ]
+  },
+  "generation": {
+    "gpu": "NVIDIA GeForce RTX 4070",
+    "seed": 9472103,
+    "width": 832,
+    "height": 1248,
+    "steps": 12,
+    "cfg": 1.0,
+    "sampler": "euler",
+    "scheduler": "simple",
+    "identityLoraStrength": 1.0,
+    "refBoost": 6.0,
+    "groundingPixels": 768
+  },
+  "results": [
+    {
+      "label": "baseline",
+      "smartphoneLoraStrength": 0.0,
+      "centroidSimilarity": 0.7218
+    },
+    {
+      "label": "smartphone-0.35",
+      "smartphoneLoraStrength": 0.35,
+      "centroidSimilarity": 0.7225,
+      "selected": true
+    },
+    {
+      "label": "smartphone-0.50",
+      "smartphoneLoraStrength": 0.5,
+      "centroidSimilarity": 0.7203
+    }
+  ]
+}

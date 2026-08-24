@@ -32,6 +32,22 @@ def _first_count(text: str, entity_pattern: str) -> int | None:
     return _number(match.group("count")) if match else None
 
 
+def _has_specific_vehicle_appearance(text: str) -> bool:
+    body = r"sedan|hatchback|coupe|suv|truck|van|taxi|convertible|wagon"
+    color = r"red|orange|yellow|green|blue|purple|silver|gray|grey|black|white|brown"
+    vehicle = r"car|cars|vehicle|vehicles|suv|suvs|truck|trucks|taxi|taxis"
+    if re.search(rf"\b(?:{body})\b", text, re.IGNORECASE):
+        return True
+    return bool(
+        re.search(
+            rf"\b(?:{color})\b(?:\W+\w+){{0,2}}\W+\b(?:{vehicle})\b|"
+            rf"\b(?:{vehicle})\b(?:\W+\w+){{0,2}}\W+\b(?:{color})\b",
+            text,
+            re.IGNORECASE,
+        )
+    )
+
+
 def build_hard_scene_constraints(contract: dict) -> str:
     """Translate count/camera intent into terse layout constraints models follow better."""
     text = str(contract.get("user_scene", ""))
@@ -55,7 +71,9 @@ def build_hard_scene_constraints(contract: dict) -> str:
 
     if vehicle_count is not None:
         instructions.append(
-            f"HARD VEHICLE COUNT: exactly {vehicle_count} visible vehicles total; no partial or distant additional vehicle."
+            f"HARD VEHICLE COUNT: exactly {vehicle_count} complete passenger cars are visible in the entire photograph. "
+            "They occupy the full visible road area; every remaining road patch is uninterrupted bare asphalt. Every car "
+            "has a clearly different body style, paint color, wheel design, and size instead of looking duplicated."
         )
 
     if "background_people" in contexts or "group_photo" in contexts:
@@ -63,6 +81,24 @@ def build_hard_scene_constraints(contract: dict) -> str:
             "IDENTITY SEPARATION: every secondary person must have a visibly different sex or apparent ancestry, age, "
             "face shape, nose, hairline, hairstyle, build, clothing color, pose, gaze, and activity from the main subject "
             "and from every other person. No lookalikes, twins, repeated heads, or wardrobe duplicates."
+        )
+        if (
+            person_count == 2
+            and not re.search(r"\b(man|men|woman|women|male|female)\b", text, re.IGNORECASE)
+        ):
+            instructions.append(
+                "SECONDARY CAST: keep the requested clothing, but make one secondary adult an older woman with short "
+                "curly gray hair and a round face, and the other a younger man with straight dark hair and an angular "
+                "face. Their age, sex, silhouette, hair, and facial structure must read differently at a glance."
+            )
+
+    if (
+        vehicle_count == 2
+        and not _has_specific_vehicle_appearance(text)
+    ):
+        instructions.append(
+            "VEHICLE CAST: make one car a small dark-red hatchback and the other a light-silver midsize sedan. Their "
+            "silhouettes, paint, wheelbase, grille, and roofline are unmistakably different."
         )
 
     lowered = text.casefold()
@@ -91,8 +127,8 @@ def build_scene_topology(contract: dict) -> str:
     contexts = set(contract.get("contexts", []))
     text = str(contract.get("user_scene", "")).casefold()
     parked_direction = (
-        " All parked vehicles in the same curb row are parallel and face the same legal direction, with every front end "
-        "pointing toward frame-left; never arrange them nose-to-nose or front-to-front."
+        " The requested parked cars are side-on, parallel, separated by bare pavement, and all point toward the same "
+        "side of the frame."
         if "parked" in text
         else ""
     )
@@ -101,8 +137,8 @@ def build_scene_topology(contract: dict) -> str:
             "COMPOSITION MAP: aim the camera across the sidewalk, not down the road. Put the main subject alone in the "
             "foreground center; place secondary people laterally apart in the middle distance without overlap; show the "
             "curb and only a narrow side-on strip of road behind them; place requested vehicles fully separated in that "
-            "strip; use one continuous building facade as the far plane. Do not create a receding traffic corridor, a "
-            "crowd at the vanishing point, or a person directly behind the main subject."
+            "strip; fill the rest of that strip with bare asphalt; use one continuous building facade as the far plane. "
+            "Keep the secondary people beside rather than directly behind the main subject."
             f"{parked_direction}"
         )
     if "background_people" in contexts:

@@ -20,6 +20,9 @@ datasets/
 jobs/
 checkpoints/artifacts/
 work/
+.audit/
+output/
+vendor/
 *.safetensors
 *.ckpt
 *.pt

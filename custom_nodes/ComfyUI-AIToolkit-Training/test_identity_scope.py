@@ -20,6 +20,15 @@ class IdentityScopeTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             build_multi_person_identity_prompt("A cafe scene", "  ")
 
+    def test_priority_constraints_are_first(self):
+        prompt = build_multi_person_identity_prompt(
+            "A cafe scene",
+            "m1tchperson",
+            priority_constraints="exactly three humans and two cars",
+        )
+        self.assertTrue(prompt.startswith("NONNEGOTIABLE FRAME CONSTRAINTS:"))
+        self.assertLess(prompt.index("exactly three humans"), prompt.index("Create one"))
+
 
 if __name__ == "__main__":
     unittest.main()

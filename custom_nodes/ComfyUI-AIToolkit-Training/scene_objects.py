@@ -66,3 +66,15 @@ def count_scene_objects(image: torch.Tensor) -> dict:
 
 def object_count_error(counts: dict, targets: dict[str, int]) -> int:
     return sum(abs(int(counts.get(name, 0)) - target) for name, target in targets.items())
+
+
+def guarded_multi_person_count_error(
+    counts: dict,
+    targets: dict[str, int],
+    requires_multiple_people: bool,
+) -> int:
+    """Score explicit count mistakes and require a real multi-person result when implied."""
+    error = object_count_error(counts, targets)
+    if requires_multiple_people and "person" not in targets:
+        error += max(0, 2 - int(counts.get("person", 0)))
+    return error

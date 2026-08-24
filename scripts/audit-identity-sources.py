@@ -37,6 +37,40 @@ def load_still(path: Path) -> Image.Image:
         return ImageOps.exif_transpose(opened).convert("RGB")
 
 
+def difference_hash(image: Image.Image) -> str:
+    reduced = ImageOps.grayscale(image).resize((9, 8), Image.Resampling.LANCZOS)
+    pixels = list(reduced.getdata())
+    value = 0
+    for row in range(8):
+        for column in range(8):
+            value = (value << 1) | int(
+                pixels[row * 9 + column] > pixels[row * 9 + column + 1]
+            )
+    return f"{value:016x}"
+
+
+def exif_summary(path: Path) -> dict[str, str | int]:
+    with Image.open(path) as opened:
+        exif = opened.getexif()
+    fields = {
+        271: "make",
+        272: "model",
+        274: "orientation",
+        305: "software",
+        306: "modified_at",
+        36867: "captured_at",
+    }
+    return {
+        label: value
+        for tag, label in fields.items()
+        if (value := exif.get(tag)) not in (None, "")
+    }
+
+
+def hamming_distance(left: str, right: str) -> int:
+    return (int(left, 16) ^ int(right, 16)).bit_count()
+
+
 def frame_to_image(frame) -> Image.Image:
     return Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
 
@@ -93,6 +127,12 @@ def main() -> None:
     parser.add_argument("--source-dir", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--video-interval", type=float, default=2.0)
+    parser.add_argument(
+        "--stills-per-sheet",
+        type=int,
+        default=0,
+        help="Split stills into numbered review sheets; 0 writes one combined sheet.",
+    )
     args = parser.parse_args()
 
     source_dir = args.source_dir.resolve()
@@ -115,11 +155,32 @@ def main() -> None:
                 "width": image.width,
                 "height": image.height,
                 "sha256": sha256(path),
+                "dhash": difference_hash(image),
+                "exif": exif_summary(path),
             }
         )
         still_sheet.append((image, [path.name, f"{image.width}x{image.height}"]))
 
-    render_sheet(still_sheet, output_dir / "source-stills-contact-sheet.jpg")
+    inventory["near_duplicate_pairs"] = [
+        {
+            "left": left["filename"],
+            "right": right["filename"],
+            "dhash_distance": hamming_distance(left["dhash"], right["dhash"]),
+        }
+        for index, left in enumerate(inventory["stills"])
+        for right in inventory["stills"][index + 1 :]
+        if hamming_distance(left["dhash"], right["dhash"]) <= 4
+    ]
+
+    if args.stills_per_sheet > 0:
+        for index in range(0, len(still_sheet), args.stills_per_sheet):
+            sheet_number = index // args.stills_per_sheet + 1
+            render_sheet(
+                still_sheet[index : index + args.stills_per_sheet],
+                output_dir / f"source-stills-contact-sheet-{sheet_number:02d}.jpg",
+            )
+    else:
+        render_sheet(still_sheet, output_dir / "source-stills-contact-sheet.jpg")
 
     for path in videos:
         records, sheet_items = sample_video(path, args.video_interval)

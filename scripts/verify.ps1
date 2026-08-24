@@ -254,7 +254,7 @@ if (-not (Test-Path -LiteralPath $comfyPython)) {
 
 Push-Location (Join-Path $RepoRoot "custom_nodes\ComfyUI-AIToolkit-Training")
 try {
-    & python -m unittest test_integration.py test_social_photo_core.py test_reference_photo_presets.py test_phone_lens_optics.py test_scene_quality.py test_identity_scope.py test_scene_crop.py test_scene_constraints.py test_scene_objects.py test_camera_finish.py test_head_integrity.py
+    & python -m unittest test_integration.py test_social_photo_core.py test_reference_photo_presets.py test_phone_lens_optics.py test_scene_quality.py test_identity_scope.py test_identity_leakage.py test_scene_crop.py test_scene_constraints.py test_scene_objects.py test_camera_finish.py test_head_integrity.py test_minimal_flux2_reality_test.py test_flux2_model_benchmark.py
     if ($LASTEXITCODE -ne 0) {
         $errors.Add("Python unit tests failed.")
     }
@@ -271,6 +271,8 @@ try {
         "Flux2EasySocialPhotoV104",
         "Flux2OneReferencePhoto",
         "Flux2IdentityLoraExperiment",
+        "Flux2ModelBenchmark",
+        "Flux2MinimalRealityTest",
         "Klein9BKVIdentityProof",
         "KSampler"
     )) {

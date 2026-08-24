@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "status": "selected_balanced_realism_no_personal_lora_route",
+  "workflow": "workflows/production/Krea 2 Identity Edit - Face Attention v2.json",
+  "mechanism": {
+    "identityReference": "20260815_165446.jpg",
+    "identityPaths": [
+      "Krea2EditModelPatch VAE appearance tokens",
+      "Krea2EditGroundedEncode image-aware Qwen3-VL grounding"
+    ],
+    "attentionMask": {
+      "node": "Krea2ReferenceFaceAttentionMask",
+      "space": "reference image only",
+      "widthScale": 0.82,
+      "heightScale": 0.86,
+      "verticalOffset": 0.02,
+      "outputPixelMasking": false
+    }
+  },
+  "settings": {
+    "model": "krea2_turbo_fp8_scaled.safetensors",
+    "identityEdit": "krea2_identity_edit_v1_2.safetensors",
+    "identityEditStrength": 1.0,
+    "smartphoneLora": "krea-smartphone-photo-slider.safetensors",
+    "smartphoneLoraStrength": 0.35,
+    "maskedReferenceBoost": 6.0,
+    "groundingPixels": 512,
+    "width": 832,
+    "height": 1248,
+    "steps": 12,
+    "cfg": 1.0,
+    "sampler": "euler",
+    "scheduler": "simple",
+    "seed": 9472103,
+    "promptProfile": "deep_focus_environmental_v1"
+  },
+  "evaluation": {
+    "method": "InsightFace AntelopeV2 glintr100 four-genuine-reference centroid",
+    "globalBoost6Smartphone035": 0.7225,
+    "faceAttentionGrounding768": 0.7789,
+    "priorManualFaceAttentionGrounding512": 0.7783,
+    "identityMaxAutomaticFaceAttentionGrounding512": 0.7899,
+    "selectedDeepFocusPrompt12Step": 0.7822,
+    "selectedDeepFocusWithWholeFramePhoneFinish": 0.7884,
+    "rejectedDeepFocusPrompt8Step": 0.7479,
+    "selectedCalibration": "strong_match",
+    "identityMaxImage": "output/krea2-face-attention-run-20260823.png",
+    "selectedImage": "output/krea2-face-attention-deep-focus-phone-finish-20260823.jpg",
+    "selectionReason": "User preferred the more realistic whole-frame integration and increased midground street detail; the small identity-score tradeoff remained a calibrated strong match.",
+    "maskOverlay": "output/krea2-face-attention-mask-overlay.png",
+    "limitation": "The far end of the block remains somewhat softer than an ordinary 1x phone photograph, but foreground and midground scene detail are materially improved."
+  },
+  "wholeFramePhoneFinish": {
+    "node": "WholeFramePhoneFinish",
+    "generative": false,
+    "masked": false,
+    "selectiveFaceProcessing": false,
+    "lumaSigma": 0.65,
+    "chromaSigma": 0.18,
+    "unsharpRadius": 0.55,
+    "unsharpPercent": 12,
+    "unsharpThreshold": 4,
+    "jpegQuality": 95,
+    "meanAbsolutePixelDelta": 1.2556,
+    "p95AbsolutePixelDelta": 3.0
+  },
+  "excluded": [
+    "Mitch character LoRA",
+    "face swap",
+    "output head mask",
+    "inpainting",
+    "face restoration",
+    "selective sharpening",
+    "selective upscaling"
+  ]
+}

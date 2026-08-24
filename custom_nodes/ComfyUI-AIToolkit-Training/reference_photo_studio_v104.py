@@ -5,14 +5,28 @@ import time
 from datetime import datetime
 from pathlib import Path
 
+import cv2
 import folder_paths
+import numpy as np
 
 from . import reference_photo_studio as studio
 from .camera_finish import apply_natural_phone_finish
-from .complex_scene_route import generate_complex_candidate
+from .identity_leakage import evaluate_identity_scope
 from .identity_scope import build_multi_person_identity_prompt
-from .reference_photo_presets import compose_scene_prompt, selected_reference_names
+from .reference_photo_presets import (
+    FRAMINGS,
+    MOMENTS,
+    PHOTO_STYLES,
+    compose_scene_prompt,
+    selected_reference_names,
+)
 from .reference_photo_studio_v103 import HAZE_STYLE, _apply_haze_to_tensor
+from .scene_constraints import (
+    build_hard_scene_constraints,
+    build_scene_topology,
+    scene_object_targets,
+)
+from .scene_objects import count_scene_objects, guarded_multi_person_count_error
 from .scene_quality import (
     apply_scene_guardrails,
     build_scene_contract,
@@ -143,6 +157,211 @@ def _generate_direct_candidate(
     }
 
 
+def _identity_scope_for_photo(
+    photo,
+    identity_centroid: np.ndarray,
+    main_identity_minimum: float,
+) -> dict:
+    rgb = np.clip(
+        photo[0].detach().float().cpu().numpy() * 255.0, 0, 255
+    ).astype(np.uint8)
+    faces = studio.baseline._face_analyzer().get(
+        cv2.cvtColor(rgb, cv2.COLOR_RGB2BGR)
+    )
+    return evaluate_identity_scope(
+        [np.asarray(face.normed_embedding, dtype=np.float32) for face in faces],
+        [face.bbox for face in faces],
+        [float(face.det_score) for face in faces],
+        identity_centroid,
+        main_identity_minimum,
+    ).as_dict()
+
+
+def _generate_guarded_multi_person_candidate(
+    prepared: dict,
+    guarded_scene: str,
+    profile: dict,
+    moment: str,
+    contract: dict,
+) -> dict:
+    """Generate the complete scene once, then reject identity leaks and count errors."""
+    started = time.perf_counter()
+    hard_constraints = build_hard_scene_constraints(contract)
+    topology = build_scene_topology(contract)
+    concise_scene = " ".join(
+        item.strip()
+        for item in (
+            str(contract.get("user_scene", "")),
+            PHOTO_STYLES.get(str(contract.get("camera_style", "")), ""),
+            FRAMINGS.get(str(contract.get("framing", "")), ""),
+            MOMENTS.get(str(contract.get("moment", "")), ""),
+            (
+                "One coherent in-camera exposure with continuous perspective, lighting, focus falloff, sensor texture, "
+                "and occlusion across subject and environment. Keep the real setting structurally readable with natural "
+                "distance-dependent detail, not portrait blur, CGI polish, a cutout edge, or a separately sharpened face."
+            ),
+        )
+        if item.strip()
+    )
+    effective_prompt = build_multi_person_identity_prompt(
+        concise_scene,
+        studio.baseline.IDENTITY_TOKEN,
+        priority_constraints=" ".join(
+            item.strip() for item in (hard_constraints, topology) if item.strip()
+        ),
+    )
+    # A strong global identity LoRA can tint secondary faces toward the trained
+    # identity. Keep enough strength for Mitch while references and the token do
+    # the rest of the identity work.
+    lora_strength = min(float(profile["lora_strength"]), 0.50)
+    model = studio.comfy_nodes.UNETLoader().load_unet(
+        studio.baseline.MODEL_4B_BASE_NAME, "default"
+    )[0]
+    model = studio.comfy_nodes.LoraLoaderModelOnly().load_lora_model_only(
+        model,
+        studio.baseline.PRODUCTION_LORA_NAME,
+        lora_strength,
+    )[0]
+    clip = studio.comfy_nodes.CLIPLoader().load_clip(
+        studio.baseline.CLIP_4B_NAME, "flux2", "default"
+    )[0]
+    vae = studio.comfy_nodes.VAELoader().load_vae(studio.baseline.VAE_NAME)[0]
+    reference_latents = [
+        studio.comfy_nodes.VAEEncode().encode(vae, image)[0]["samples"]
+        for image in prepared["latent_images"]
+    ]
+    positive = studio.comfy_nodes.CLIPTextEncode().encode(clip, effective_prompt)[0]
+    positive = studio.node_helpers.conditioning_set_values(
+        positive,
+        {"reference_latents": reference_latents},
+        append=True,
+    )
+    negative = studio.comfy_nodes.CLIPTextEncode().encode(clip, "")[0]
+    guider = studio.CFGGuider.execute(
+        model, positive, negative, profile["guidance_scale"]
+    )[0]
+    sampler = studio.KSamplerSelect.execute("euler")[0]
+    sigmas = studio.Flux2Scheduler.execute(
+        studio.baseline.PRODUCTION_STEPS,
+        studio.OUTPUT_WIDTH,
+        studio.OUTPUT_HEIGHT,
+    )[0]
+    latent = studio.EmptyFlux2LatentImage.execute(
+        studio.OUTPUT_WIDTH,
+        studio.OUTPUT_HEIGHT,
+        1,
+    )[0]
+
+    contexts = set(contract.get("contexts", []))
+    requires_multiple_people = bool(
+        contexts.intersection({"background_people", "group_photo", "crowd", "reflection"})
+    )
+    targets = scene_object_targets(contract)
+    seed_offsets = (
+        (1, 0, 2)
+        if moment == "Candid / looking away"
+        else (0, 1, 2)
+    )
+    attempts = []
+    selected_photo = None
+    selected_scope = None
+    selected_counts = None
+    selected_seed = None
+    preferred_identity_target = float(profile["identity_retry_threshold"])
+    for attempt_index, offset in enumerate(seed_offsets):
+        seed = (studio.baseline.PRODUCTION_SEED + offset) % (1 << 64)
+        noise = studio.RandomNoise.execute(seed)[0]
+        sampled = studio.SamplerCustomAdvanced.execute(
+            noise, guider, sampler, sigmas, latent
+        )[0]
+        candidate = studio.comfy_nodes.VAEDecode().decode(vae, sampled)[0]
+        scope = _identity_scope_for_photo(
+            candidate,
+            prepared["identity_centroid"],
+            profile["identity_retry_threshold"],
+        )
+        counts = count_scene_objects(candidate)
+        count_error = guarded_multi_person_count_error(
+            counts,
+            targets,
+            requires_multiple_people=requires_multiple_people,
+        )
+        failures = list(scope["failures"])
+        if count_error:
+            failures.append("scene_object_count_mismatch")
+        accepted = not failures
+        attempts.append(
+            {
+                "attempt": attempt_index + 1,
+                "seed": seed,
+                "accepted": accepted,
+                "failures": failures,
+                "identity_scope": scope,
+                "scene_object_targets": targets,
+                "scene_object_counts": counts,
+                "scene_object_count_error": count_error,
+                "preferred_identity_target": preferred_identity_target,
+                "meets_preferred_identity_target": (
+                    scope["main_identity_similarity"] >= preferred_identity_target
+                ),
+            }
+        )
+        if accepted:
+            if (
+                selected_scope is None
+                or scope["main_identity_similarity"]
+                > selected_scope["main_identity_similarity"]
+            ):
+                selected_photo = candidate
+                selected_scope = scope
+                selected_counts = counts
+                selected_seed = seed
+            if scope["main_identity_similarity"] >= preferred_identity_target:
+                break
+
+    if selected_photo is None:
+        compact_failures = [
+            {
+                "seed": item["seed"],
+                "failures": item["failures"],
+                "identity": item["identity_scope"]["main_identity_similarity"],
+                "counts": {
+                    "person": item["scene_object_counts"].get("person", 0),
+                    "vehicle": item["scene_object_counts"].get("vehicle", 0),
+                },
+            }
+            for item in attempts
+        ]
+        raise RuntimeError(
+            f"FLUX.2 generated {len(attempts)} multi-person candidates, but the identity-leakage "
+            "and scene-count gates rejected all of them. No bad image was saved. "
+            f"Attempts: {json.dumps(compact_failures)}"
+        )
+
+    return {
+        "photo": selected_photo,
+        "effective_prompt": effective_prompt,
+        "similarity": selected_scope["main_identity_similarity"],
+        "detection_confidence": selected_scope["main_detection_confidence"],
+        "selected_seed": selected_seed,
+        "attempts": attempts,
+        "layout_stage": None,
+        "identity_stage": {
+            "mode": "single_pass_full_frame_multi_person",
+            "model": studio.baseline.MODEL_4B_BASE_NAME,
+            "lora": studio.baseline.PRODUCTION_LORA_NAME,
+            "lora_strength": lora_strength,
+            "steps": studio.baseline.PRODUCTION_STEPS,
+            "identity_scope_gate": selected_scope,
+            "preferred_identity_target": preferred_identity_target,
+            "scene_object_targets": targets,
+            "scene_object_counts": selected_counts,
+            "scene_object_count_gate": "passed",
+            "seconds": round(time.perf_counter() - started, 3),
+        },
+    }
+
+
 def _generate_v104(
     reference_names: list[str],
     scene_prompt: str,
@@ -176,10 +395,10 @@ def _generate_v104(
     complex_requested = requires_complex_route(contract)
     route_error = ""
     if complex_requested:
-        candidate = generate_complex_candidate(
-            prepared, generation_scene, contract, profile
+        candidate = _generate_guarded_multi_person_candidate(
+            prepared, guarded_scene, profile, moment, contract
         )
-        generation_route = "complex_deep_focus_layout_plus_masked_4b_identity"
+        generation_route = "single_pass_4b_multi_person_with_leakage_and_count_gates"
     else:
         candidate = _generate_direct_candidate(
             prepared, guarded_scene, profile, moment, contract
@@ -207,8 +426,8 @@ def _generate_v104(
     run_stamp = datetime.now().strftime("%Y%m%d-%H%M%S-%f")
     output_folder = f"{OUTPUT_ROOT}/{len(reference_names)}-references/{run_stamp}"
     report = {
-        "schema_version": 4,
-        "purpose": "easy_social_photo_v104_automatic_scene_complexity_routing",
+        "schema_version": 5,
+        "purpose": "easy_social_photo_v104_single_pass_multi_person_guardrails",
         "generation_baseline": "flux2-easy-social-v1.0.3",
         "generation_route": generation_route,
         "complex_route_requested": complex_requested,
@@ -218,12 +437,14 @@ def _generate_v104(
         "vae": studio.baseline.VAE_NAME,
         "lora_name": studio.baseline.PRODUCTION_LORA_NAME,
         "generation_profile": profile["name"],
-        "lora_strength": profile["lora_strength"],
+        "lora_strength": candidate["identity_stage"].get(
+            "lora_strength", profile["lora_strength"]
+        ),
         "source_references": reference_names,
         "source_reference_count": len(reference_names),
         "primary_generation_reference": prepared["selected_reference"],
         "reference_selection": "automatic local face quality and frontal-angle ranking",
-        "model_reference_count": 3 if candidate["layout_stage"] else len(prepared["latent_images"]),
+        "model_reference_count": len(prepared["latent_images"]),
         "derived_primary_face_crop": True,
         "reference_strategy": profile["reference_strategy"],
         "reference_pixels_each": profile["reference_pixels"],
@@ -253,17 +474,16 @@ def _generate_v104(
         "optical_processing": optical_processing,
         "seconds": round(time.perf_counter() - started, 3),
         "acceptance": (
-            "The same simple controls automatically route ordinary photos through the fast 4B LoRA path. Crowds, groups, "
-            "reflections, and combined crowd/traffic prompts first build a coherent deep-focus Z-Image Base scene, promote "
-            "the detected main layout subject with a deterministic framing-aware crop, and isolate that subject with local "
-            "human segmentation. FLUX.2 Base 4B plus the selected identity LoRA then regenerates only that masked subject; "
-            "the unmasked people, vehicles, architecture, furniture, and depth structure remain owned by the scene model. "
-            "This is subject-region latent generation, not a face-swap overlay. Every route requires a recognizable, "
-            "materially detailed environment under realistic moderate-to-deep focus instead of default portrait blur. "
-            "Complex scenes protect a face-relative full-head region before generation and reject final seeds that fail "
-            "the narrow crown/head-core integrity check. "
-            "Phone haze runs only after identity selection and does not blur scene detail. Tested local VLM critics and an "
-            "SDXL refiner are deliberately excluded. Final subject and scene review remains authoritative."
+            "Ordinary solo photos use the fast FLUX.2 Base 4B identity path. Multi-person, crowd, traffic, reflection, and "
+            "group requests use the same model in one whole-frame generation, with a deliberately restrained identity LoRA "
+            "strength and explicit identity-separation, object-count, camera-ownership, and scene-topology instructions. "
+            "Each candidate is rejected unless the requested identity is detected above threshold, no detected secondary "
+            "face exceeds the identity-leakage or duplicate-face limits, and local YOLO counts match every explicit person "
+            "and vehicle count. Failed candidates trigger up to three deterministic seeds; the first fully valid result "
+            "is returned. If every seed fails, the node returns an error and saves no misleading image. This "
+            "avoids the pasted-subject appearance inherent to masked two-stage compositing. The gates cannot judge every "
+            "background physics or aesthetic issue, so final visual review remains authoritative. Phone optics run only "
+            "after candidate acceptance and do not add a model or refiner pass."
         ),
     }
     saved = studio.comfy_nodes.SaveImage().save_images(
@@ -316,7 +536,7 @@ class Flux2EasySocialPhotoV104(studio.Flux2EasySocialPhoto):
             moment=moment,
         )
         contexts = ", ".join(report["scene_contract"]["contexts"]) or "general"
-        route = "complex" if report["complex_route_requested"] else "fast"
+        route = "guarded multi-person" if report["complex_route_requested"] else "fast solo"
         gate = report["identity_gate_status"].replace("_", " ")
         return {
             "ui": {

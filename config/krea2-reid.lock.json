@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "recordedOn": "2026-08-23",
+  "purpose": "Local one-reference Krea2 ReID iPhone-photo experiment without a personal Mitch LoRA",
+  "status": "rejected_for_mitch_identity",
+  "sources": {
+    "modelCard": "https://huggingface.co/yijunwang2/krea2-reid",
+    "officialWorkflow": "https://huggingface.co/yijunwang2/krea2-reid/blob/main/workflow/krea2_reid_comfyui.json",
+    "customNodes": "https://github.com/ostris/ComfyUI-Krea2-Ostris-Edit",
+    "baseComponents": "https://huggingface.co/Comfy-Org/Krea-2"
+  },
+  "customNode": {
+    "path": "C:\\projects\\AI-Tools\\ComfyUI\\custom_nodes\\ComfyUI-Krea2-Ostris-Edit",
+    "revision": "7756566160c4a1b24bb1bd9f0ff3ced1a83d7547"
+  },
+  "models": [
+    {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\diffusion_models\\krea2_turbo_int8_convrot.safetensors",
+      "sizeBytes": 13492686496,
+      "sha256": "8E4EEDA70DD5037AB1BA2BEF6B417F9F901E26093117CF397F741FC1FDAAF3F1"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\text_encoders\\qwen3vl_4b_bf16.safetensors",
+      "sizeBytes": 8875719384,
+      "sha256": "36F3FF447EF59201722E8F9CE6020C9819FDCFBA6AA2608C4E09B1C0CE114E34"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\vae\\qwen_image_vae.safetensors",
+      "sizeBytes": 253806246,
+      "sha256": "A70580F0213E67967EE9C95F05BB400E8FB08307E017A924BF3441223E023D1F"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\loras\\krea2_reid_rank32.safetensors",
+      "sizeBytes": 228587752,
+      "sha256": "A80349FAEE4A2D80EFF9A83820CD523C74CD0BBC6039CEE21FA34B084D967944"
+    }
+  ],
+  "conditioningContract": {
+    "referenceCount": 1,
+    "qwen3VlImageConditioning": true,
+    "cleanVaeReferenceTokens": true,
+    "isolatedReferenceAttention": true,
+    "kvCache": true,
+    "referencePixelBudgetMegapixels": 0.140625
+  },
+  "sampling": {
+    "width": 832,
+    "height": 1248,
+    "steps": 8,
+    "cfg": 1.0,
+    "sampler": "euler",
+    "scheduler": "simple",
+    "loraStrength": 1.0
+  },
+  "runtime": {
+    "gpu": "NVIDIA GeForce RTX 4070",
+    "port": 8189,
+    "lowVram": true,
+    "personalMitchLoraUsed": false,
+    "faceSwapUsed": false,
+    "maskUsed": false
+  },
+  "evaluation": {
+    "method": "InsightFace AntelopeV2 glintr100 cosine similarity",
+    "genuineReferencePairwiseMinimum": 0.7748,
+    "genuineReferencePairwiseMean": 0.8163,
+    "directReferenceSeeds": [
+      { "seed": 17072027, "centroidSimilarity": 0.0663, "status": "identity_drift" },
+      { "seed": 17072028, "centroidSimilarity": 0.0606, "status": "identity_drift" },
+      { "seed": 17072029, "centroidSimilarity": 0.1155, "status": "identity_drift" },
+      { "seed": 17072030, "centroidSimilarity": 0.1406, "status": "identity_drift" }
+    ],
+    "alternateGenuineReference": {
+      "centroidSimilarity": 0.1182,
+      "status": "identity_drift"
+    },
+    "syntheticBridge": {
+      "sourceIdentityEditCentroidSimilarity": 0.7594,
+      "resultCentroidSimilarity": 0.0293,
+      "status": "identity_drift"
+    },
+    "officialSyntheticDiagnostic": {
+      "status": "visual_success",
+      "conclusion": "The local graph and adapter function on the release reference; the failure is specific to Mitch identity transfer."
+    }
+  },
+  "artifacts": {
+    "apiRunner": "scripts/smoke-krea2-reid.ps1",
+    "uiWorkflow": "archive/krea2-workflows/Krea 2 ReID - One Reference iPhone Photo (Rejected for Mitch).json",
+    "benchmarkReport": "work/krea2-reid-iphone-benchmark.json",
+    "evaluationDocument": "docs/krea2-reid-iphone-evaluation.md"
+  }
+}
