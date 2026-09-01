@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "recorded_on": "2026-08-21",
+  "recorded_on": "2026-08-24",
   "applications": {
     "comfyui": {
       "path": "C:\\projects\\AI-Tools\\ComfyUI",
@@ -20,16 +20,66 @@
       "path": "C:\\projects\\AI-Tools\\ComfyUI\\custom_nodes\\ComfyUI-ReActor",
       "remote": "https://github.com/Gourieff/ComfyUI-ReActor.git",
       "revision": "6ad6b35a4df250d14cb2abf0808c9ffedf59f747"
+    },
+    "ComfyUI_InfiniteYou": {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\custom_nodes\\ComfyUI_InfiniteYou",
+      "remote": "https://github.com/bytedance/ComfyUI_InfiniteYou.git",
+      "revision": "1c979397c5c80f5ac83a2473a2f7d4503104110f",
+      "note": "Official node; installed only for the reproducible rejected one-reference experiment."
     }
   },
   "runtime_python_packages": {
+    "facexlib": "0.3.0",
     "huggingface-hub": "0.36.2",
+    "insightface": "1.0.1",
+    "onnxruntime": "1.23.2",
+    "opencv-python": "4.13.0.92",
     "tokenizers": "0.21.4",
     "transformers": "4.50.3",
     "ultralytics": "8.4.76",
     "rembg": "2.0.69"
   },
   "external_models": {
+    "flux_1_dev_fp8_checkpoint": {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\checkpoints\\flux1-dev-fp8.safetensors",
+      "source": "https://huggingface.co/Comfy-Org/flux1-dev/blob/main/flux1-dev-fp8.safetensors",
+      "sha256": "8E91B68084B53A7FC44ED2A3756D821E355AC1A7B6FE29BE760C1DB532F3D88A",
+      "note": "Existing FLUX.1 Dev FP8 checkpoint reused by the InfiniteYou experiment."
+    },
+    "infiniteyou_flux_v1_aes_image_projection": {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\infinite_you\\aes_stage2\\image_proj_model.bin",
+      "source": "https://huggingface.co/ByteDance/InfiniteYou/blob/main/infu_flux_v1.0/aes_stage2/image_proj_model.bin",
+      "sha256": "F85518431D7367DE30B9558A939C003462A7E331E8C8B929146916DC27E471D6",
+      "license": "CC-BY-NC-4.0",
+      "note": "Rejected experiment; non-commercial research use only."
+    },
+    "infiniteyou_flux_v1_aes_infusenet_fp8": {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\infinite_you\\aes_stage2\\infusenet_aes_fp8e4m3fn.safetensors",
+      "source": "https://huggingface.co/ByteDance/InfiniteYou/blob/main/infu_flux_v1.0/aes_stage2/infusenet_aes_fp8e4m3fn.safetensors",
+      "sha256": "7F6526AE545731182F95E5FF2F1DEDDDFE4ADB3895BA727F332029E7DF8395A7",
+      "license": "CC-BY-NC-4.0",
+      "note": "Rejected experiment; non-commercial research use only."
+    },
+    "infiniteyou_flux_v1_sim_image_projection": {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\infinite_you\\sim_stage1\\image_proj_model.bin",
+      "source": "https://huggingface.co/ByteDance/InfiniteYou/blob/main/infu_flux_v1.0/sim_stage1/image_proj_model.bin",
+      "sha256": "B7A8A1B6FECF2731B2AC64BDE33A1885014949C8C08F3EFAEBD0665BB0E8AD8F",
+      "license": "CC-BY-NC-4.0",
+      "note": "Rejected identity-focused refinement; non-commercial research use only."
+    },
+    "infiniteyou_flux_v1_sim_infusenet_fp8": {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\infinite_you\\sim_stage1\\infusenet_sim_fp8e4m3fn.safetensors",
+      "source": "https://huggingface.co/ByteDance/InfiniteYou/blob/main/infu_flux_v1.0/sim_stage1/infusenet_sim_fp8e4m3fn.safetensors",
+      "sha256": "DE810F98F99FF103EA2529A141CDBE62C856177851D1660B33C3ADE7FF0DBA56",
+      "license": "CC-BY-NC-4.0",
+      "note": "Rejected identity-focused refinement; non-commercial research use only."
+    },
+    "facexlib_arcface_ir_se50": {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\.venv\\Lib\\site-packages\\facexlib\\weights\\recognition_arcface_ir_se50.pth",
+      "source": "https://github.com/xinntao/facexlib/releases/download/v0.1.0/recognition_arcface_ir_se50.pth",
+      "sha256": "A035C768259B98AB1CE0E646312F48B9E1E218197A0F80AC6765E88F8B6DDF28",
+      "note": "ArcFace recognition model loaded by the official InfiniteYou ComfyUI wrapper."
+    },
     "flux_2_klein_9b_kv_fp8": {
       "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\diffusion_models\\flux-2-klein-9b-kv-fp8.safetensors",
       "source": "https://huggingface.co/black-forest-labs/FLUX.2-klein-9b-kv-fp8",
@@ -177,11 +227,6 @@
         "guidance": 4.0,
         "seed": 8675310
       }
-    },
-    "mtch35_flux2_klein_lora": {
-      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\loras\\mtch35-flux2-klein-v4-best.safetensors",
-      "sha256": "54841471807F55799C255A244333673FE85542C7050A0B551BEDFF9E86D868F2",
-      "note": "Rejected legacy identity experiment; not exposed by Social Photo Studio because visual tests produced an older generic subject."
     }
   }
 }

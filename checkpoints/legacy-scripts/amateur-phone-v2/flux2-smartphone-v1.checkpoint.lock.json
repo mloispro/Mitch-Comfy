@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "checkpoint_id": "flux2-smartphone-v1",
+  "created_local_date": "2026-08-24",
+  "status": "user_accepted_checkpoint",
+  "user_verdict": "better; save this as a checkpoint",
+  "accepted_image": {
+    "path": "output/checkpoints/flux2-smartphone-v1/accepted.png",
+    "sha256": "484D27FC839AAE8BDD21320D0C3E1DBB4615493D66910C6A6D91FE3FB8B3FD71",
+    "bytes": 2015466,
+    "width": 832,
+    "height": 1248
+  },
+  "generation": {
+    "route_lock": "config/flux2-no-lora-strong-identity-street-v1.lock.json",
+    "workflow": "checkpoints/legacy-workflows/production/FLUX.2 No-LoRA Strong Identity Street Corner v1.json",
+    "workflow_sha256": "D827450A3255465FBAD7615703271194D3EA2E128C3B4CE00DE54ED9F286799D",
+    "runner": "scripts/run-flux2-no-lora-strong-identity-street-v1.ps1",
+    "runner_sha256": "74CADF29DA6808C0B719BA1D93B18A0CE0E6CB1167CF4F47738CD53EE5077B28",
+    "pre_finish_image": "output/flux2-no-lora-strong-identity-street-v1/winner-smartphone-30step.png",
+    "pre_finish_sha256": "59451B8198F86FB761214ADE5732B234D4CC77F0EAE5116EBF05B261DE8BA866",
+    "stage_1": {
+      "worker": "RTX 3090 / port 8188",
+      "model": "flux-2-klein-9b-fp8.safetensors",
+      "steps": 4,
+      "cfg": 1.0,
+      "seed": 9472363
+    },
+    "stage_2": {
+      "worker": "RTX 3090 / port 8188",
+      "model": "flux-2-klein-base-4b-fp8.safetensors",
+      "steps": 30,
+      "cfg": 4.0,
+      "seed": 9472363
+    }
+  },
+  "whole_frame_finish": {
+    "worker": "RTX 4070 / port 8189",
+    "source_specific_processing": false,
+    "selective_face_processing": false,
+    "white_veil": {
+      "node": "Image Blend",
+      "color_rgb": [255, 255, 255],
+      "opacity": 0.07
+    },
+    "grain": {
+      "node": "Image Film Grain",
+      "density": 0.18,
+      "intensity": 0.05,
+      "highlights": 1.0,
+      "supersample_factor": 2
+    },
+    "prompt_id": "88d1426e-a2f2-40a2-a24a-ccc1e8cfd556",
+    "three_variant_batch_seconds": 10.9
+  },
+  "identity_evaluation": {
+    "method": "InsightFace AntelopeV2 glintr100 cosine similarity against five held-out genuine photographs",
+    "five_photo_centroid_similarity": 0.7535,
+    "five_photo_mean_similarity": 0.673,
+    "minimum_heldout_similarity": 0.6228,
+    "maximum_heldout_similarity": 0.726,
+    "heldout_similarities": [0.6634, 0.6553, 0.726, 0.6976, 0.6228],
+    "genuine_photo_pairwise_floor": 0.6206,
+    "all_heldout_at_or_above_genuine_floor": true,
+    "calibration": "strong_match",
+    "visual_review_authoritative": true
+  },
+  "frozen_constraints": [
+    "no character LoRA",
+    "no face swap",
+    "no output mask",
+    "no crop or face-only processing",
+    "no selective sharpening or restoration",
+    "preserve the accepted image and settings while later experiments run on copies"
+  ]
+}

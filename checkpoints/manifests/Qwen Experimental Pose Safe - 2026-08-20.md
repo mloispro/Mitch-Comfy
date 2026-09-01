@@ -1,6 +1,8 @@
 # Qwen experimental pose-safe dating pack
 
-Historical v4 workflow at validation time: `workflows/experiments/EXPERIMENTAL - Qwen Identity + Build - 9 Dating Photos.json`
+> **Historical record — not current instructions.** Terms such as “production,” “current,” “selected,” or “recommended” below describe the decision on 2026-08-20. See `docs/STATUS.md` for current state.
+
+Historical v4 mutable workflow at validation time (no longer present): *workflows/experiments/EXPERIMENTAL - Qwen Identity + Build - 9 Dating Photos.json*
 
 Workflow SHA256: `60502AE47288ADCC923EADDB8CA894A73664B30B7E8FEF4C857E57AC18C13ECE`
 
@@ -8,7 +10,9 @@ This manifest describes the pose-safe v4 run. The same stable experimental filen
 
 New golfer scene SHA256: `17EF25B672D8CF7F9995CAB5A22B0DA1C6F46F8AA6D8468765BDB211823D0612`
 
-The workflow was rebuilt after a nine-scene audit rejected whole-frame body correction. The rejected version is preserved byte-for-byte at `checkpoints/workflows/Qwen Easy Identity + Build - unsafe-body-v3.json` with SHA256 `DA92834337B6E64E2BDD88CB898DB931D2AC7E0B7999BF9DCF9DE19979AF02DF`.
+The workflow was rebuilt after a nine-scene audit rejected whole-frame body correction. The rejected version is
+preserved at `checkpoints/workflows/Qwen Easy Identity + Build - unsafe-body-v3.json`; its current archive
+SHA256 is `D7E433FB7F350E990357A09D086ED4CD93433BC1FBEC3A8CC0E0284DCCA119F8`.
 
 ## Routing
 
@@ -38,8 +42,8 @@ For the four pose-critical solo scenes, a pixel comparison between the approved 
 
 ## Preserved stable workflow hashes
 
-- `Qwen + ReActor Single-Person Scene Match.json`: `BAB42CD251644175AD170C4D8748A86614E83F4EEBED14A54633FCBE538CC54A`
-- `Qwen 2512 + ReActor - 9 Dating Photos.json`: `C01EA3931C51E3E70F395EE918CA58E49B4783C6F323D59DE9F5D47BBC443003`
+- `Qwen + ReActor Single-Person Scene Match.json`: `2C04D28733A02ACC62B6BFA812516F2C8DCC37FD6DBDC36DC43E7023DB234072`
+- `Qwen 2512 + ReActor - 9 Dating Photos.json`: `35EC491F5C8F29B60BE4E1D2B7495D090C40EA6F6503F09D79D419797808F9C7`
 - `ReActor Multi-Person Identity Finish - Sharper Face.json`: `E8E3A3B387C84BAA944298D73A6B3BC180ECF2F3B72CF608B430FA994A3BDB2D`
 
 Exact body-identity validation is not claimed. Only waist-up genuine references are available; a neutral full-body front and side reference would be required to verify leg and build identity rather than anatomical plausibility.

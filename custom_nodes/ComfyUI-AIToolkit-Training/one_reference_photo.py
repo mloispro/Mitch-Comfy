@@ -37,6 +37,8 @@ PRODUCTION_STEPS = 20
 OUTPUT_WIDTH = 768
 OUTPUT_HEIGHT = 1024
 REFERENCE_PIXELS = 1024 * 1024
+PRODUCTION_REFERENCE_PIXELS = 512 * 512
+PRODUCTION_REFERENCE_STRATEGY = "Full + face crop 2.4x"
 OUTPUT_ROOT = "flux2-one-reference"
 EXPERIMENT_OUTPUT_ROOT = "flux2-identity-experiments"
 PRODUCTION_SEED = 8675310
@@ -498,9 +500,11 @@ class Flux2OneReferencePhoto:
             face_reference=face_reference,
             scene_prompt=scene_prompt,
             seed=PRODUCTION_SEED,
-            strategy_name="Full + face crop 2.0x",
+            # Compact paired views were the validated production setting: they keep
+            # identity evidence without making the face look separately rendered.
+            strategy_name=PRODUCTION_REFERENCE_STRATEGY,
             output_root=OUTPUT_ROOT,
-            reference_pixels=REFERENCE_PIXELS,
+            reference_pixels=PRODUCTION_REFERENCE_PIXELS,
             steps=PRODUCTION_STEPS,
             refine_pass=False,
             identity_retry_threshold=0.75,

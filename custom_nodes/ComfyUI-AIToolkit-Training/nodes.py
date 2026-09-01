@@ -25,7 +25,13 @@ from .klein9b_identity_test import Klein9BKVIdentityProof
 from .krea2_reference_mask import Krea2ReferenceFaceAttentionMask
 from .whole_frame_phone_finish import WholeFramePhoneFinish
 from .flux2_model_benchmark import Flux2ModelBenchmark
+from .flux2_dev_mitch_studio import Flux2DevMitchSceneStudio
+from .flux2_klein9b_mitch_identity_studio import Flux2Klein9BMitchIdentityStudioV1
+from .flux2_klein9b_group_scene_studio import Flux2Klein9BMitchGroupSceneStudioV1
+from .flux2_klein9b_photo_realism_upgrade import Flux2Klein9BPhotoRealismUpgradeV1
+from .exact_scene_lora_v3 import Flux2ExactSceneIdentityV3
 from .minimal_flux2_reality_test import Flux2MinimalRealityTest
+from .crowd_proof import Flux2CrowdProofExperiment
 from .one_reference_photo import (
     Flux2IdentityLoraExperiment,
     Flux2IdentityStrategyExperiment,
@@ -241,7 +247,13 @@ NODE_CLASS_MAPPINGS = {
     "Krea2ReferenceFaceAttentionMask": Krea2ReferenceFaceAttentionMask,
     "WholeFramePhoneFinish": WholeFramePhoneFinish,
     "Flux2ModelBenchmark": Flux2ModelBenchmark,
+    "Flux2DevMitchSceneStudio": Flux2DevMitchSceneStudio,
+    "Flux2Klein9BMitchIdentityStudioV1": Flux2Klein9BMitchIdentityStudioV1,
+    "Flux2Klein9BMitchGroupSceneStudioV1": Flux2Klein9BMitchGroupSceneStudioV1,
+    "Flux2Klein9BPhotoRealismUpgradeV1": Flux2Klein9BPhotoRealismUpgradeV1,
+    "Flux2ExactSceneIdentityV3": Flux2ExactSceneIdentityV3,
     "Flux2MinimalRealityTest": Flux2MinimalRealityTest,
+    "Flux2CrowdProofExperiment": Flux2CrowdProofExperiment,
     "SocialPhotoSubjectReferences": SocialPhotoSubjectReferences,
     "SocialPhotoSettings": SocialPhotoSettings,
     "SocialPhotoGenerate": SocialPhotoGenerate,
@@ -269,7 +281,13 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "Krea2ReferenceFaceAttentionMask": "Krea2: Reference Face Attention Mask",
     "WholeFramePhoneFinish": "Photo: Whole Frame Phone Finish",
     "Flux2ModelBenchmark": "Proof: FLUX.2 Klein 9B KV vs Dev Benchmark",
+    "Flux2DevMitchSceneStudio": "FLUX.2 Dev: Mitch Scene Studio — Prompt or Scene Image",
+    "Flux2Klein9BMitchIdentityStudioV1": "FLUX.2 Klein 9B: Mitch Identity Studio v1",
+    "Flux2Klein9BMitchGroupSceneStudioV1": "FLUX.2 Klein 9B: Mitch Group Scene Studio v1",
+    "Flux2Klein9BPhotoRealismUpgradeV1": "FLUX.2 Klein 9B: Upgrade Photo Detail & Realism v1",
+    "Flux2ExactSceneIdentityV3": "[Experimental] FLUX.2 Klein v3 LoRA — Exact Scene Identity",
     "Flux2MinimalRealityTest": "Proof: Minimal FLUX.2 Background Reality Test",
+    "Flux2CrowdProofExperiment": "[Internal] FLUX.2 State-Fair Crowd Proof",
     "SocialPhotoSubjectReferences": "Social Photo: 1–4 Subject References",
     "SocialPhotoSettings": "Social Photo: Prompt & Presets",
     "SocialPhotoGenerate": "Social Photo: Generate",

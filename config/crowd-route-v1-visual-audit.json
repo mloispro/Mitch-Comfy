@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "reviewed_on": "2026-08-24",
+  "reviewer": "User exact-resolution review with Codex re-audit",
+  "overall_status": "passed",
+  "state_fair": {
+    "status": "passed_native_height_safe_v1",
+    "rejected_candidate": "output/crowd_route_v1/state-fair/winner/final_00001_.png",
+    "comparison_plate": "output/crowd_route_v1/state-fair/selected-plate.png",
+    "genuine_identity_references": [
+      "C:/projects/AI-Tools/ComfyUI/input/20260815_165446.jpg",
+      "C:/projects/AI-Tools/ComfyUI/input/20260815_165449.jpg",
+      "C:/projects/AI-Tools/ComfyUI/input/20260818_173106.jpg"
+    ],
+    "views": [
+      "output/crowd_route_v1/state-fair/identity-anchor-recovery/approved-native-customer-v1.png",
+      "output/crowd_route_v1/state-fair/identity-anchor-recovery/native-activity-runner-up.png"
+    ],
+    "checks": {
+      "identity_passes_user_visual_review": "passed",
+      "hairline_hair_ears_jaw_eyes_nose_mouth_and_apparent_age": "passed",
+      "single_pass_subject_and_scene_integration": "passed",
+      "no_output_crop_mask_swap_or_composite": "passed",
+      "foreground_midground_and_far_crowd_anatomy": "passed",
+      "ferris_wheel_stalls_umbrellas_and_pavement_geometry": "passed",
+      "clothing_color_and_activity_variation": "passed",
+      "no_misleading_full_body_height_comparison": "passed",
+      "thumbnail_has_no_immediate_photoshop_impression": "passed"
+    },
+    "rejection_evidence": {
+      "plate_face_height_pixels": 78.6,
+      "output_face_height_pixels": 101.2,
+      "face_height_growth_ratio": 1.2875,
+      "observed_failures": [
+        "oversized head relative to unchanged body",
+        "blotchy over-rendered facial texture",
+        "immediate pasted-on impression"
+      ]
+    },
+    "next_gate": "Identity must be accepted visually before any crowd expansion. The next route preserves an accepted identity-first subject core and generates only outside a wide non-contour boundary.",
+    "recovery_candidate_rejection": {
+      "candidate": "output/crowd_route_v1/state-fair/recovery-candidate-krea-reactor/03-final-global-finish.png",
+      "status": "rejected_by_user_visual_review",
+      "reasons": [
+        "does not look like Mitch",
+        "looks like a different person despite automated similarity 0.8537"
+      ],
+      "routes_rejected_for_identity_lock": [
+        "Krea2 native identity edit",
+        "ReActor inswapper_128 internal-face finish"
+      ],
+      "lesson": "Automated face similarity is diagnostic only. It cannot promote a candidate or override direct visual identity review."
+    },
+    "identity_anchor_recovery": {
+      "status": "passed_native_height_safe_v1",
+      "report": "output/crowd_route_v1/state-fair/identity-anchor-recovery/report.json",
+      "provisional_lead": "C:/projects/AI-Tools/ComfyUI/output/crowd-proof/identity-anchor-statefair/gpu-3090-seed-9472301_00001_.png",
+      "runner_up": "C:/projects/AI-Tools/ComfyUI/output/gpu-4070/crowd-proof/identity-anchor-statefair/gpu-4070-seed-9472302_00001_.png",
+      "route": "single-pass whole-frame Krea2 edit from a user-approved full-body identity anchor",
+      "explicit_synthetic_reference_experiment": true,
+      "user_visual_identity_review": "passed",
+      "user_visual_realism_review": "passed",
+      "later_visual_issue": "Mitch appears taller than everyone else because he is the nearest complete hero figure while most comparison pedestrians are farther back.",
+      "packaged_lead": "output/crowd_route_v1/state-fair/identity-anchor-recovery/lead-final.png",
+      "packaged_runner_up": "output/crowd_route_v1/state-fair/identity-anchor-recovery/runner-up-final.png",
+      "finish": "fixed non-generative whole-frame phone response",
+      "prohibited_downstream_operations": [
+        "ReActor",
+        "face restoration",
+        "host replacement",
+        "subject-contour compositing",
+        "selective face sharpening"
+      ],
+      "scale_correction_candidate": {
+        "path": "output/crowd_route_v1/state-fair/identity-anchor-recovery/lead-expanded-scale-corrected.png",
+        "status": "rejected_by_user_visual_review",
+        "method": "rectangular outer-margin outpaint with the complete approved source rectangle restored afterward",
+        "identity_or_body_pixels_regenerated": false,
+        "source_dimensions": "832x1248",
+        "candidate_dimensions": "1040x1560",
+        "margin_seed": 8675501,
+        "observed_result": "clean lower extension; improved subject-to-scene scale; no subject boundary introduced",
+        "remaining_gate": "rejected because the original relative pedestrian scale remained unchanged"
+      },
+      "rejected_geometry_edit_class": {
+        "status": "rejected_by_user_visual_review",
+        "includes": [
+          "crop",
+          "output mask",
+          "outpaint",
+          "inpaint",
+          "identity or body composite",
+          "face or body swap"
+        ],
+        "reason": "The correction must exist in the native whole-frame generation rather than be repaired after generation."
+      },
+      "native_height_safe_candidate": {
+        "path": "output/crowd_route_v1/state-fair/identity-anchor-recovery/approved-native-customer-v1.png",
+        "runner_up": "output/crowd_route_v1/state-fair/identity-anchor-recovery/native-activity-runner-up.png",
+        "status": "approved_by_user_visual_review",
+        "route": "single-pass whole-frame Krea2 generation from the approved identity anchor",
+        "composition": "mid-torso customer activity candid at the state fair",
+        "height_cue": "no full-body comparison",
+        "output_crop_mask_swap_or_composite": false,
+        "approval": "User said the candidate looks good.",
+        "remaining_gate": "none; frozen as native_height_safe_v1"
+      }
+    }
+  },
+  "reusable_scene_reviews": [
+    {
+      "slug": "restaurant-patio",
+      "status": "passed",
+      "views": "output/crowd_route_v1/portfolio/restaurant-patio/audit",
+      "notes": "One correct unobstructed host, two distinct friends, coherent seated diners, hands, chairs, plants, pavement, and depth."
+    },
+    {
+      "slug": "boutique-hotel-lounge",
+      "status": "passed",
+      "views": "output/crowd_route_v1/portfolio/boutique-hotel-lounge/audit",
+      "notes": "Coherent readers, books, hands, seating, luggage, bar, lighting, and occlusion with no identity double."
+    },
+    {
+      "slug": "night-market-live-music",
+      "status": "passed",
+      "views": "output/crowd_route_v1/portfolio/night-market-live-music/audit",
+      "notes": "Coherent crowd overlaps, food plate, instruments, cables, tents, pavement, and mixed practical light."
+    }
+  ],
+  "limitations": "The approved route intentionally depends on the frozen user-approved full-body identity anchor. A different anchor requires renewed identity and realism review. Earlier automated passes and all scene-first host-replacement outputs remain rejected."
+}

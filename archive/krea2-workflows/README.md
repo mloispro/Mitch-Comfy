@@ -9,9 +9,10 @@ rediscovered.
 - `Krea 2 One Reference Identity Experiment (Obsolete Style Reference).json` used a style-reference
   adapter as an identity diagnostic. It is superseded by the dual-conditioned Identity Edit route.
 - `Krea 2 Mitch - Busy Sidewalk (Unavailable Personal LoRA).json` records the graph's original
-  blocked state. The personal LoRA is now published locally, but this graph remains archived with
-  its Save Image node bypassed until the controlled strength test is evaluated.
+  blocked state. The later character-LoRA test failed identity, and that weight was removed on 2026-09-01.
+  The graph remains archival evidence only.
 
-The active production graph is
-`workflows/production/Krea 2 Identity Edit - Face Attention v2.json`. Its non-visible builder source
-is `templates/krea2-workflows/Krea 2 Identity Edit - Local Reference Restage.source.json`.
+The former Face Attention graph is preserved as an archived fallback at
+`checkpoints/legacy-workflows/production/Krea 2 Identity Edit - Face Attention v2.json`. Its builder source is
+`templates/krea2-workflows/Krea 2 Identity Edit - Local Reference Restage.source.json`. Neither graph is a
+current visible Production workflow; see `docs/STATUS.md`.

@@ -5,6 +5,7 @@ from pathlib import Path
 
 from social_photo_core import (
     build_prompt,
+    generation_reference_score,
     identity_route,
     is_known_synthetic_identity_fixture,
     load_registry,
@@ -13,6 +14,7 @@ from social_photo_core import (
     resolve_scenes,
     sanitize_report,
     seed_for,
+    waist_up_torso_crop_box,
 )
 
 
@@ -67,6 +69,29 @@ class SocialPhotoCoreTests(unittest.TestCase):
         self.assertEqual(resolve_resolution("Portrait 2:3"), (1024, 1536))
         self.assertEqual(resolve_resolution("Portrait 2:3", fallback=True), (768, 1152))
         self.assertEqual([seed_for(100, index) for index in range(3)], [100, 1109, 2118])
+
+    def test_waist_up_reference_selection_rewards_real_torso_context(self):
+        body_view = {"quality_score": 0.6208, "face_size_score": 0.3305}
+        close_face = {"quality_score": 0.7925, "face_size_score": 1.0}
+        self.assertGreater(
+            generation_reference_score(body_view, "Waist-up"),
+            generation_reference_score(close_face, "Waist-up"),
+        )
+        self.assertGreater(
+            generation_reference_score(close_face, "Head and shoulders"),
+            generation_reference_score(body_view, "Head and shoulders"),
+        )
+
+    def test_waist_up_torso_crop_excludes_head_and_lower_body(self):
+        left, top, right, bottom = waist_up_torso_crop_box(
+            1504, 2006, (500.0, 250.0, 850.0, 650.0)
+        )
+        self.assertGreaterEqual(top, 630)
+        self.assertGreater(bottom, 1500)
+        self.assertLess(bottom, 2006)
+        crop_aspect = (bottom - top) / (right - left)
+        self.assertGreaterEqual(crop_aspect, 0.75)
+        self.assertLessEqual(crop_aspect, 1.2)
 
     def test_identity_route_keeps_lora_as_last_resort(self):
         sufficient = identity_route([0.58, 0.62], 1)

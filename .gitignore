@@ -24,6 +24,7 @@ work/
 output/
 vendor/
 *.safetensors
+!checkpoints/loras/mitch/*.safetensors
 *.ckpt
 *.pt
 *.pth

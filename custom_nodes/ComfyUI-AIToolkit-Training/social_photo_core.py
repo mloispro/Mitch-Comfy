@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import math
 from copy import deepcopy
 from pathlib import Path
 from typing import Any
@@ -145,6 +146,44 @@ def resolve_scenes(settings: dict[str, Any], registry: dict[str, Any] | None = N
 
 def seed_for(base_seed: int, image_index: int) -> int:
     return (int(base_seed) + 1009 * int(image_index)) & 0xFFFFFFFFFFFFFFFF
+
+
+def generation_reference_score(observation: dict[str, Any], framing: str) -> float:
+    """Rank identity sources while preserving body context for waist-up requests."""
+    quality = float(observation["quality_score"])
+    if framing != "Waist-up":
+        return quality
+    torso_context = 1.0 - max(
+        0.0, min(1.0, float(observation["face_size_score"]))
+    )
+    return quality + 0.35 * torso_context
+
+
+def waist_up_torso_crop_box(
+    image_width: int,
+    image_height: int,
+    face_bbox: tuple[float, float, float, float],
+) -> tuple[int, int, int, int]:
+    """Return a shoulders-to-hips crop that cannot impose head pose or scale."""
+    x1, y1, x2, y2 = (float(value) for value in face_bbox)
+    face_width = max(x2 - x1, 1.0)
+    face_height = max(y2 - y1, 1.0)
+    top = max(0.0, y2 - 0.05 * face_height)
+    bottom = min(float(image_height), y2 + 2.45 * face_height)
+    crop_height = max(bottom - top, face_height * 2.0)
+    crop_width = min(
+        float(image_width),
+        max(crop_height * 0.85, face_width * 3.4),
+    )
+    center_x = (x1 + x2) * 0.5
+    left = max(0.0, min(float(image_width) - crop_width, center_x - crop_width * 0.5))
+    right = left + crop_width
+    return (
+        int(math.floor(left)),
+        int(math.floor(top)),
+        int(math.ceil(right)),
+        int(math.ceil(bottom)),
+    )
 
 
 def identity_route(

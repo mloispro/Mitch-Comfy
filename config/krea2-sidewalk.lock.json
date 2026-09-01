@@ -52,7 +52,9 @@
     "sizeBytes": 191896264,
     "tensorCount": 696,
     "sha256": "44753AFAADAB3A8CE97597CCECE21252F85BD700C33C788F2900E58A7C8FD094",
-    "state": "published"
+    "state": "rejected_deleted",
+    "deletedAt": "2026-08-24",
+    "deletionReason": "Failed identity validation in one-pass and scene-first Krea2 tests"
   },
   "workflow": {
     "relativePath": "archive/krea2-workflows/Krea 2 Mitch - Busy Sidewalk (Unavailable Personal LoRA).json",

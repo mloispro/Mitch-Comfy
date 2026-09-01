@@ -1,16 +1,18 @@
 # Qwen Experimental GPEN Identity v7
 
+> **Historical record — not current instructions.** Terms such as “production,” “current,” “selected,” or “recommended” below describe the decision on 2026-08-20. See `docs/STATUS.md` for current state.
+
 Date: 2026-08-20
 
 ## Archived v7 workflow
 
 - Exact checkpoint: `checkpoints/workflows/Qwen Experimental Identity Build v7 - GPEN identity finish.json`
-- Checkpoint SHA256: `D56DB06D2BB6A6771AC72B6886FC493D877AC81D55F04F27B81FC638EDD3C877`
+- Current checkpoint SHA256: `7F0AAA2CA539562124C588E311B78270584594A6639CA0A24904BB28A7AF6F42`
 
 ## Preserved predecessors
 
 - v5 CodeFormer 0.32 SHA256: `8104E3669E9FD67CB8D30A5C9016897242A9F88C00728D286376DCC78FD783F2`
-- v6 CodeFormer identity-first SHA256: `E037E570ACC34AA3239E8EA9A7655DCB0EA2195249F3CB0707B3A5EB9C86F496`
+- v6 CodeFormer identity-first SHA256: `282D468E08175A2125AE9DADC45EDC1DC6ADD4878D96ABE7AA1EE264F9A56A14`
 
 ## Face-finish decision
 

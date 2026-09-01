@@ -1,5 +1,7 @@
 # Easy Social Photos v1.0.1 realism evaluation
 
+> **Historical record — not current instructions.** Easy Social is now an archived rollback. See `docs/STATUS.md`.
+
 This fixed local suite promoted the smallest change that corrected the smooth, uniformly shaded face: a more
 specific natural-skin instruction and `896×1344` primary generation. It did not add a face swap, enhancement
 model, inpaint, upscale, or low-denoise finishing pass.

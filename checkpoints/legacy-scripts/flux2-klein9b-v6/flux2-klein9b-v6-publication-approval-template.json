@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "approved": false,
+  "approved_by": "Mitch",
+  "run_name": "flux2-klein9b-identity-v6-r32-dop",
+  "checkpoint_step": 0,
+  "strength": 0.9,
+  "full_screen_summary_sha256": "REPLACE_AFTER_REVIEW",
+  "comparison_sheet_sha256": "REPLACE_AFTER_REVIEW",
+  "full_size_review_completed": false,
+  "thumbnail_review_completed": false,
+  "identity_and_face_shape_approved": false,
+  "profile_image_left_approved": false,
+  "profile_image_right_approved": false,
+  "rooftop_down_left_approved": false,
+  "full_body_identity_and_anatomy_approved": false,
+  "exactly_one_mitch_in_group_approved": false,
+  "bystander_diversity_approved": false,
+  "hands_objects_and_person_count_approved": false,
+  "scene_detail_and_whole_frame_integration_approved": false,
+  "notes": "Do not set approved=true until every field is confirmed from the locked full-size outputs and comparison sheet."
+}

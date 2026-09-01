@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "status": "best_candidate_pending_user_visual_approval",
+  "decision": "FLUX.2 no-character-LoRA identity rejected; use Krea2 Identity Edit v1.2 for the identity-critical whole-frame generation",
+  "workflow": "checkpoints/legacy-workflows/production/Krea 2 No Character LoRA Street Corner v1.json",
+  "runner": "scripts/run-no-character-lora-street-corner.ps1",
+  "identity_reference": {
+    "comfyui_input": "20260815_165446.jpg",
+    "type": "genuine photograph",
+    "role": "single identity reference"
+  },
+  "mechanism": {
+    "base_model": "krea2_turbo_fp8_scaled.safetensors",
+    "identity_adapter": "krea2_identity_edit_v1_2.safetensors",
+    "identity_adapter_strength": 1.0,
+    "identity_paths": [
+      "VAE appearance tokens through Krea2EditModelPatch",
+      "image-aware Qwen3-VL grounding through Krea2EditGroundedEncode"
+    ],
+    "reference_attention_mask": {
+      "space": "reference tokens only",
+      "width_scale": 0.82,
+      "height_scale": 0.86,
+      "vertical_offset": 0.02,
+      "masked_reference_boost": 6.0,
+      "output_pixel_masking": false
+    },
+    "camera_appearance_lora": "krea-smartphone-photo-slider.safetensors",
+    "camera_appearance_lora_strength": 0.35,
+    "character_lora": null,
+    "face_swap": null,
+    "output_mask": null,
+    "inpaint": null,
+    "composite": null
+  },
+  "sampling": {
+    "width": 832,
+    "height": 1248,
+    "steps": 12,
+    "cfg": 1.0,
+    "sampler": "euler",
+    "scheduler": "simple",
+    "grounding_pixels": 512,
+    "seed": 9472103
+  },
+  "winner": {
+    "path": "output/no-character-lora-street-corner-v1/winner.png",
+    "sha256": "634A41C11D0E63388B52CA2AB7C157C75CEDF87F601AB9F832B0A991754821AE",
+    "five_photo_centroid_similarity": 0.7459,
+    "minimum_heldout_similarity": 0.5503,
+    "calibration": "strong_match",
+    "workflow_runtime_worker": "RTX 4070"
+  },
+  "controlled_refinement": {
+    "change": "identity reference only",
+    "alternate_reference": "mitch-flux2-id-left-three-quarter.jpg",
+    "centroid_similarity": 0.66,
+    "minimum_heldout_similarity": 0.5732,
+    "decision": "rejected; visual likeness and centroid similarity regressed"
+  },
+  "flux2_rejection": {
+    "best_prior_native_dev_centroid": 0.6865,
+    "user_visual_verdict": "does not look like me",
+    "latest_native_klein_four_ref_0_4mp": 0.6275,
+    "latest_native_klein_four_ref_1_0mp": 0.6104,
+    "latest_native_klein_single_genuine_ref": 0.5439,
+    "latest_native_dev_single_genuine_ref": 0.5511,
+    "pulid_klein9b_author_exact": 0.4371,
+    "native_klein9b_approved_synthetic_anchor_front": 0.5964,
+    "conclusion": "FLUX.2 renders the street/crowd well but the available native and adapter paths do not preserve Mitch identity without a character LoRA"
+  }
+}

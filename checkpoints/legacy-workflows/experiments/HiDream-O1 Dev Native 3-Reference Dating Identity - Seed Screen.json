@@ -1,0 +1,937 @@
+{
+  "id": "339c4a2b-be4e-43a5-905d-634d5310691a",
+  "revision": 0,
+  "last_node_id": 230,
+  "last_link_id": 18,
+  "nodes": [
+    {
+      "id": 6,
+      "type": "CheckpointLoaderSimple",
+      "pos": [
+        -1540,
+        -20
+      ],
+      "size": [
+        470,
+        140
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            1
+          ]
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            2,
+            3
+          ]
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            17
+          ]
+        }
+      ],
+      "properties": {
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "cnr_id": "comfy-core",
+        "ver": "0.21.0",
+        "Node name for S&R": "CheckpointLoaderSimple",
+        "models": [
+          {
+            "name": "hidream_o1_image_dev_fp8_scaled.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/HiDream-O1-Image/resolve/main/checkpoints/hidream_o1_image_dev_fp8_scaled.safetensors",
+            "directory": "checkpoints"
+          }
+        ]
+      },
+      "widgets_values": [
+        "hidream_o1_image_dev_fp8_scaled.safetensors"
+      ]
+    },
+    {
+      "id": 124,
+      "type": "ModelNoiseScale",
+      "pos": [
+        -1060,
+        -20
+      ],
+      "size": [
+        280,
+        80
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            9,
+            10
+          ]
+        }
+      ],
+      "properties": {
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "cnr_id": "comfy-core",
+        "ver": "0.21.0",
+        "Node name for S&R": "ModelNoiseScale"
+      },
+      "widgets_values": [
+        7.6
+      ]
+    },
+    {
+      "id": 213,
+      "type": "LoadImage",
+      "pos": [
+        -1540,
+        230
+      ],
+      "size": [
+        310,
+        430
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            6
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "properties": {
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "cnr_id": "comfy-core",
+        "ver": "0.21.0",
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "hidream-o1-ref-01-sweater-front-neutral.jpg",
+        "image"
+      ],
+      "title": "Reference 1 - genuine identity photo"
+    },
+    {
+      "id": 214,
+      "type": "LoadImage",
+      "pos": [
+        -1540,
+        650
+      ],
+      "size": [
+        310,
+        430
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            7
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "properties": {
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "cnr_id": "comfy-core",
+        "ver": "0.21.0",
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "hidream-o1-ref-02-opposite-profile.jpg",
+        "image"
+      ],
+      "title": "Reference 2 - genuine identity photo"
+    },
+    {
+      "id": 215,
+      "type": "LoadImage",
+      "pos": [
+        -1540,
+        1070
+      ],
+      "size": [
+        310,
+        430
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            8
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "properties": {
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "cnr_id": "comfy-core",
+        "ver": "0.21.0",
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "hidream-o1-ref-03-laundry-angle.jpg",
+        "image"
+      ],
+      "title": "Reference 3 - genuine identity photo"
+    },
+    {
+      "id": 110,
+      "type": "CLIPTextEncode",
+      "pos": [
+        -1100,
+        230
+      ],
+      "size": [
+        540,
+        520
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 2
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            4
+          ]
+        }
+      ],
+      "properties": {
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "cnr_id": "comfy-core",
+        "ver": "0.21.0",
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "References 1, 2, and 3 are genuine photographs of Mitch, the same real man, and define the exact identity of the only main subject. Create a completely new photorealistic vertical rear-camera smartphone photograph of that exact same man at a relaxed neighborhood restaurant patio in early evening. Preserve his current apparent age, high forehead and hairline, short light-brown hair, blue-gray eye shape and spacing, nose, ears, mouth, narrow jaw, faint natural stubble, lean build, and unretouched skin texture. Frame him naturally from the waist upward, slightly off center, with a mild three-quarter face, both eyes comfortably open, and a small relaxed smile while he looks a few degrees past the camera toward a friend. He wears a simple deep-navy open-collar shirt. Show ordinary patio tables, varied unrelated diners, planters, storefront windows, and warm practical lights at believable depth. Use an eye-level handheld 1x phone-camera view, normal automatic exposure, restrained HDR, natural deep focus, slight shadow noise, and imperfect candid framing. Keep every background person distinct from Mitch. The result must look like an ordinary dating-profile snapshot, with no beauty filter, studio lighting, face smoothing, portrait-mode blur, cinematic grading, text, logo, or watermark."
+      ],
+      "color": "#232",
+      "bgcolor": "#353",
+      "title": "Frozen baseline scene prompt (three references named)"
+    },
+    {
+      "id": 188,
+      "type": "CLIPTextEncode",
+      "pos": [
+        -1100,
+        790
+      ],
+      "size": [
+        420,
+        120
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 3
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            5
+          ]
+        }
+      ],
+      "properties": {
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "cnr_id": "comfy-core",
+        "ver": "0.21.0",
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        ""
+      ],
+      "color": "#223",
+      "bgcolor": "#335",
+      "title": "Empty negative prompt (official Dev recipe)"
+    },
+    {
+      "id": 104,
+      "type": "HiDreamO1ReferenceImages",
+      "pos": [
+        -500,
+        290
+      ],
+      "size": [
+        280,
+        150
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 4
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 5
+        },
+        {
+          "label": "image_1",
+          "name": "images.image_1",
+          "type": "IMAGE",
+          "link": 6
+        },
+        {
+          "label": "image_2",
+          "name": "images.image_2",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 7
+        },
+        {
+          "label": "image_3",
+          "name": "images.image_3",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 8
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            11
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            12
+          ]
+        }
+      ],
+      "properties": {
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "cnr_id": "comfy-core",
+        "ver": "0.21.0",
+        "Node name for S&R": "HiDreamO1ReferenceImages"
+      },
+      "widgets_values": [],
+      "color": "#322",
+      "bgcolor": "#533",
+      "title": "Native subject personalization: three genuine photos"
+    },
+    {
+      "id": 156,
+      "type": "EmptyHiDreamO1LatentImage",
+      "pos": [
+        -500,
+        590
+      ],
+      "size": [
+        280,
+        150
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            15
+          ]
+        }
+      ],
+      "properties": {
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "cnr_id": "comfy-core",
+        "ver": "0.21.0",
+        "Node name for S&R": "EmptyHiDreamO1LatentImage"
+      },
+      "widgets_values": [
+        1728,
+        2304,
+        1
+      ],
+      "title": "Official trained portrait canvas (~4 MP)"
+    },
+    {
+      "id": 112,
+      "type": "BasicScheduler",
+      "pos": [
+        -160,
+        40
+      ],
+      "size": [
+        280,
+        150
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 9
+        }
+      ],
+      "outputs": [
+        {
+          "name": "SIGMAS",
+          "type": "SIGMAS",
+          "links": [
+            14
+          ]
+        }
+      ],
+      "properties": {
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "cnr_id": "comfy-core",
+        "ver": "0.21.0",
+        "Node name for S&R": "BasicScheduler"
+      },
+      "widgets_values": [
+        "normal",
+        28,
+        1
+      ]
+    },
+    {
+      "id": 125,
+      "type": "SamplerLCM",
+      "pos": [
+        -160,
+        220
+      ],
+      "size": [
+        280,
+        160
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "SAMPLER",
+          "type": "SAMPLER",
+          "links": [
+            13
+          ]
+        }
+      ],
+      "properties": {
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "cnr_id": "comfy-core",
+        "ver": "0.21.0",
+        "Node name for S&R": "SamplerLCM"
+      },
+      "widgets_values": [
+        1,
+        1,
+        2.5
+      ]
+    },
+    {
+      "id": 108,
+      "type": "SamplerCustom",
+      "pos": [
+        180,
+        80
+      ],
+      "size": [
+        280,
+        500
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "showAdvanced": false,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 10
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 11
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 12
+        },
+        {
+          "name": "sampler",
+          "type": "SAMPLER",
+          "link": 13
+        },
+        {
+          "name": "sigmas",
+          "type": "SIGMAS",
+          "link": 14
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 15
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "LATENT",
+          "links": [
+            16
+          ]
+        },
+        {
+          "name": "denoised_output",
+          "type": "LATENT",
+          "links": []
+        }
+      ],
+      "properties": {
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "cnr_id": "comfy-core",
+        "ver": "0.21.0",
+        "Node name for S&R": "SamplerCustom"
+      },
+      "widgets_values": [
+        true,
+        8675601,
+        "fixed",
+        1
+      ]
+    },
+    {
+      "id": 105,
+      "type": "VAEDecode",
+      "pos": [
+        520,
+        100
+      ],
+      "size": [
+        230,
+        80
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 16
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 17
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            18
+          ]
+        }
+      ],
+      "properties": {
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "cnr_id": "comfy-core",
+        "ver": "0.21.0",
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 227,
+      "type": "SaveImage",
+      "pos": [
+        800,
+        100
+      ],
+      "size": [
+        1260,
+        1330
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 18
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65,
+        "cnr_id": "comfy-core",
+        "ver": "0.21.1",
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "hidream-o1-reference-dating-3ref-v1/seed-8675601"
+      ]
+    },
+    {
+      "id": 230,
+      "type": "MarkdownNote",
+      "pos": [
+        -500,
+        790
+      ],
+      "size": [
+        650,
+        330
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "Experiment lock and limits",
+      "properties": {},
+      "widgets_values": [
+        "HiDream-O1 Dev native subject-driven personalization receives three genuine photos: a high-resolution front view, a high-resolution opposite near-profile, and a newer independent-session angle. Reference order is fixed. The checkpoint, 1728x2304 canvas, 28-step LCM recipe, CFG 1, noise scale 7.6, and baseline scene are unchanged; only the necessary reference count wording changed. Seed 8675601 is the strict stronger-reference A/B against the prior two-reference run. No LoRA, face swap, mask, restoration, refinement, or upload is present. Identity metrics are diagnostics and require visual review."
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    }
+  ],
+  "links": [
+    [
+      1,
+      6,
+      0,
+      124,
+      0,
+      "MODEL"
+    ],
+    [
+      2,
+      6,
+      1,
+      110,
+      0,
+      "CLIP"
+    ],
+    [
+      3,
+      6,
+      1,
+      188,
+      0,
+      "CLIP"
+    ],
+    [
+      4,
+      110,
+      0,
+      104,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      5,
+      188,
+      0,
+      104,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      6,
+      213,
+      0,
+      104,
+      2,
+      "IMAGE"
+    ],
+    [
+      7,
+      214,
+      0,
+      104,
+      3,
+      "IMAGE"
+    ],
+    [
+      8,
+      215,
+      0,
+      104,
+      4,
+      "IMAGE"
+    ],
+    [
+      9,
+      124,
+      0,
+      112,
+      0,
+      "MODEL"
+    ],
+    [
+      10,
+      124,
+      0,
+      108,
+      0,
+      "MODEL"
+    ],
+    [
+      11,
+      104,
+      0,
+      108,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      12,
+      104,
+      1,
+      108,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      13,
+      125,
+      0,
+      108,
+      3,
+      "SAMPLER"
+    ],
+    [
+      14,
+      112,
+      0,
+      108,
+      4,
+      "SIGMAS"
+    ],
+    [
+      15,
+      156,
+      0,
+      108,
+      5,
+      "LATENT"
+    ],
+    [
+      16,
+      108,
+      0,
+      105,
+      0,
+      "LATENT"
+    ],
+    [
+      17,
+      6,
+      2,
+      105,
+      1,
+      "VAE"
+    ],
+    [
+      18,
+      105,
+      0,
+      227,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [],
+  "definitions": {
+    "subgraphs": []
+  },
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.68,
+      "offset": [
+        1740,
+        330
+      ]
+    },
+    "frontendVersion": "1.43.18",
+    "linearData": {
+      "inputs": [],
+      "outputs": []
+    },
+    "VHS_latentpreview": false,
+    "VHS_latentpreviewrate": 0,
+    "VHS_MetadataImage": true,
+    "VHS_KeepIntermediate": true
+  },
+  "version": 0.4
+}

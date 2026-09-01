@@ -1,6 +1,9 @@
 # Qwen 2512 dating-pack external model manifest
 
-These large files are installed locally and intentionally excluded from Git.
+> **Historical record — not current instructions.** The listed 2512 LoRAs were removed during the 2026-09-01 cleanup. The current Qwen utility uses the retained 2511 Lightning and multiple-angles LoRAs listed in `docs/STATUS.md`.
+
+These large files were installed locally at validation time and excluded from Git. The table is provenance,
+not a current installation inventory; `docs/STATUS.md` is authoritative for retained LoRAs.
 
 | Purpose | Installed path under `C:\projects\AI-Tools\ComfyUI` | Bytes | SHA256 |
 | --- | --- | ---: | --- |

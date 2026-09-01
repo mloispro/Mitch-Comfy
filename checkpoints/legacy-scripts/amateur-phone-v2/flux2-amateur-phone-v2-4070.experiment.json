@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "status": "rejected_by_mitch_visual_review",
+  "checkpoint_preserved": "config/flux2-smartphone-v1.checkpoint.lock.json",
+  "worker": "RTX 4070 / ComfyUI port 8189",
+  "prompt_id": "851e19b8-a363-401c-bb5f-915685a64ab4",
+  "controlled_change": "scene and stage-2 preservation prompts only; identity mechanism and sampling remained frozen",
+  "generation": {
+    "width": 832,
+    "height": 1248,
+    "seed": 9472363,
+    "stage_1": {
+      "model": "flux-2-klein-9b-fp8.safetensors",
+      "steps": 4,
+      "cfg": 1.0,
+      "references": [
+        "mitch-inline-author-ref-01-face.jpg",
+        "mitch-inline-author-ref-02-angle.jpg"
+      ],
+      "camera_changes": [
+        "subject slightly off center",
+        "camera holder walking backward",
+        "subject mid-step and looking just past the lens",
+        "irregular crop and partially cut-off edge pedestrian",
+        "slight handheld camera roll",
+        "automatic exposure with mildly clipped bright sky",
+        "small-sensor deep focus with reduced distant microcontrast"
+      ]
+    },
+    "stage_2": {
+      "model": "flux-2-klein-base-4b-fp8.safetensors",
+      "steps": 30,
+      "cfg": 4.0,
+      "scene_reference_megapixels": 0.5,
+      "identity_reference_megapixels": 1.0,
+      "identity_references": [
+        "mitch-inline-author-ref-01-face.jpg",
+        "mitch-inline-author-ref-02-angle.jpg",
+        "mitch-inline-author-ref-03-front-outdoor.jpg"
+      ]
+    }
+  },
+  "outputs": {
+    "raw": {
+      "path": "output/flux2-amateur-phone-v2-4070/raw.png",
+      "sha256": "D234193D21FF9F17CEDEFDEB468D1B2B83024A07E50C5BEDC913CE7D3BCA1CA0",
+      "identity_centroid": 0.7438,
+      "minimum_heldout_similarity": 0.6124
+    },
+    "strong_finish": {
+      "path": "output/flux2-amateur-phone-v2-4070/final.png",
+      "sha256": "6841007E3532E8DEA5E6142ABBC147C4540AA52D422B4D66CD7B1C43623E812D",
+      "white_veil": 0.07,
+      "grain_density": 0.18,
+      "grain_intensity": 0.05,
+      "identity_centroid": 0.7417,
+      "minimum_heldout_similarity": 0.6026
+    },
+    "light_finish": {
+      "path": "output/flux2-amateur-phone-v2-4070/final-light.png",
+      "sha256": "F1791832C751CF468DF794745E3C7E97CA0153214F8F9C96DEEA3548F669CF3E",
+      "white_veil": 0.05,
+      "grain_density": 0.1,
+      "grain_intensity": 0.02,
+      "identity_centroid": 0.741,
+      "minimum_heldout_similarity": 0.61
+    }
+  },
+  "integration_test": {
+    "status": "rejected_despite_automated_identity_diagnostics",
+    "prompt_id": "fe93105f-f04a-4b6a-8163-1ceb07bddfb8",
+    "elapsed_seconds": 233.247,
+    "controlled_change": "stage-2 scene reference increased from 0.5 MP to 1.0 MP; prompt, model, three genuine identity references, reference order, seed, dimensions, 30 steps, CFG 4, and Euler sampling remained frozen",
+    "mechanism": "whole-frame native ReferenceLatent conditioning; no mask, face swap, crop, compositing, selective sharpening, or relighting",
+    "raw": {
+      "path": "output/flux2-amateur-phone-v2-4070/integration-scene-1mp-raw.png",
+      "sha256": "C1C5A82A259F9751397181230088921F977461FA96B4605FB28C82C48D6B5312",
+      "identity_centroid": 0.7398,
+      "minimum_heldout_similarity": 0.6198
+    },
+    "light_finish": {
+      "path": "output/flux2-amateur-phone-v2-4070/integration-scene-1mp-light.png",
+      "sha256": "39850291EA9069CA49355D3F36B43BB955CC555BE5EE25DCF44775020D9DDBBE",
+      "white_veil": 0.05,
+      "grain_density": 0.1,
+      "grain_intensity": 0.02,
+      "identity_centroid": 0.7405,
+      "minimum_heldout_similarity": 0.6237,
+      "within_genuine_pairwise_floor": true
+    },
+    "crowd_leakage_check": {
+      "status": "passed",
+      "limitation": "Only the main face was large enough for the local detector; small background faces were not measurable."
+    },
+    "visual_result": "FAILED: oversized/disconnected head, mismatched face-to-body lighting and texture, synthetic skin and hair, weak visual likeness, malformed hand, and obvious generated street details. The metric-led assessment was incorrect."
+  },
+  "reverted_to": {
+    "path": "output/checkpoints/flux2-smartphone-v1/accepted.png",
+    "sha256": "484D27FC839AAE8BDD21320D0C3E1DBB4615493D66910C6A6D91FE3FB8B3FD71"
+  },
+  "decision": "REJECTED by Mitch at full size. Never promote or retry this 0.5 MP or 1.0 MP amateur-phone-v2 branch. Automated face similarity did not reflect whole-image likeness or integration. The active selection is reverted to the previously user-approved flux2-smartphone-v1 checkpoint."
+}

@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [string]$Source = "templates\krea2-workflows\Krea 2 Identity Edit - Local Reference Restage.source.json",
-    [string]$Destination = "workflows\production\Krea 2 Identity Edit - Face Attention v2.json",
+    [string]$Destination = "checkpoints\legacy-workflows\production\Krea 2 Identity Edit - Face Attention v2.json",
     [switch]$Force
 )
 

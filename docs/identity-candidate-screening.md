@@ -1,8 +1,10 @@
 # Identity candidate screening
 
-This log records why an experimental identity path was promoted or rejected. The
-accepted `flux2-one-reference-v1.0.0` production baseline is not changed by these
-experiments.
+> **Historical chronology — not current instructions.** Later experiments superseded the early “production” baseline in this log. See `docs/STATUS.md` for the current decision.
+
+This log records the chronological promotion and rejection decisions from the early identity campaign.
+The then-accepted `flux2-one-reference-v1.0.0` baseline is still recoverable, but it was later replaced in
+normal use by the Klein 9B V3 workflow family.
 
 ## Promotion gates
 
@@ -130,10 +132,69 @@ professional, and candid crops measured within the genuine-photo texture compari
 face remains resolution-limited, as expected at 103 pixels wide, but the complete photo passed visual and
 calibrated action-identity review. See `docs/skin-realism-v1.0.1-evaluation.md` for the fixed suite.
 
-## Final decision
+## FLUX.2 PuLID v2 — rejected after exact Klein 9B tests
 
-The promoted route remains FLUX.2 Klein Base 4B plus the validated local
-identity LoRA. Easy Social Photos v1.0.1 adds automatic local quality/angle selection,
-one-to-four-reference centroid verification, higher face pixel budget, natural-skin primary conditioning,
-phone/professional/candid/action presets, and difficult-angle identity profiles. No PuLID, USO, WithAnyone,
-face swap, or post-generation face refiner is in the production graph.
+The author-maintained PuLID-Flux2 node and released native v2 weight were tested
+against the exact compatible FLUX.2 Klein 9B FP8 model. The mechanism is genuine
+for 9B: AntelopeV2 and EVA-CLIP features become 4096-wide identity tokens that
+are injected into matching transformer blocks. The author's shipped graph uses
+strength `1.3`; the node documents `1.4` as recommended and permits up to `2.0`.
+
+The author-style `1.3` run scored `0.5210` against five held-out genuine photos.
+The strength-only `2.0` refinement regressed to `0.4896`. Both are identity
+drift despite polished, coherent crowd scenes. The node reads only `image[0]`,
+so it cannot average multiple identity photos. It is excluded from the final
+no-character-LoRA workflows.
+
+The released weight is not a trained Dev or Klein 4B adapter. On any hidden-width
+mismatch, the node source creates a random projection and a new randomly initialized
+injector. Those claimed compatibility paths were rejected before generation.
+See `docs/flux2-no-lora-multireference-evaluation-2026-08-24.md` for exact hashes,
+workflows, images, and measurements.
+
+## FLUX.2 native four-reference route — rejected after user visual review
+
+Four genuine photos now enter the core FLUX.2 `ReferenceLatent` path in explicit
+front-face, three-quarter-face, upper-body, and full-body roles. The improved Dev
+prompt scored `0.6865` with the best background detail. Native Klein 9B at seed
+`8675311` scored `0.6618` in `14.1` seconds. Mitch's full-size review rejected both
+because the faces did not look like him. Stronger genuine references, official
+`1.0 MP` reference scaling, single-reference Klein and Dev, author-exact PuLID,
+and a previously approved synthetic anchor all failed the reopened audit. Preserve
+these as background/detail experiments, not identity solutions.
+
+## Krea2 Identity Edit street corner — selected at the time without character LoRA
+
+The no-character-LoRA fallback selected at that point used one genuine photograph through both
+trained Krea2 Identity Edit v1.2 paths with reference-space face attention. It
+generated the complete person and street scene in one pass, scoring `0.7459`
+against five held-out genuine photos. A reference-only refinement regressed to
+`0.6600`. The workflow has no character LoRA, output mask, face swap, inpaint,
+restoration, or compositing. It is now an archived fallback; visual approval remains the final gate. See
+`docs/no-character-lora-street-corner-evaluation-2026-08-24.md`.
+
+## InfiniteYou-FLUX v1.0 — rejected after official one-reference tests
+
+The official ByteDance ComfyUI node was pinned at commit
+`1c979397c5c80f5ac83a2473a2f7d4503104110f`. Its mechanism passed the integrity gate:
+the largest detected face becomes a FaceXlib ArcFace IR-SE50 embedding, the released
+projector produces eight 4096-wide identity tokens, and the released InfuseNet injects
+residual control into the matching FLUX.1 Dev transformer. No style reference, generic
+img2img, face swap, mask, LoRA, or postprocess supplied identity.
+
+At the author's AES Stage 2 defaults, one genuine face photo produced a coherent person
+and scene without a pasted-head seam but changed facial structure and apparent age. It
+scored `0.5080` against five held-out genuine photos. The single documented refinement—
+switching only to identity-focused SIM Stage 1—improved the score to `0.5502`, still far
+below the genuine-photo floor and the accepted production score of `0.8309`. Both variants
+also rendered strong portrait blur despite a resolved-background prompt. InfiniteYou is
+therefore reproducible but rejected. See
+`docs/infiniteyou-flux1-one-reference-evaluation-2026-08-24.md`.
+
+## Current resolution after later campaigns
+
+- Klein Base 9B plus the protected V3 step-1600 LoRA is the primary whole-frame identity route.
+- FLUX.2 Dev plus the protected V2 step-1000 LoRA is the retained dating-scene specialty route.
+- The no-character Krea2 result is an archived fallback, not the primary workflow.
+- Easy Social and One Reference remain recoverable 4B rollbacks outside visible Production.
+- PuLID, USO, WithAnyone, InfiniteYou, masked host replacement, and face-swap/refiner routes remain rejected.

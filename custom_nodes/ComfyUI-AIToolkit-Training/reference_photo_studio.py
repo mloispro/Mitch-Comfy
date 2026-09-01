@@ -30,6 +30,7 @@ from .reference_photo_presets import (
     duplicate_reference_names,
     selected_reference_names,
 )
+from .social_photo_core import generation_reference_score, waist_up_torso_crop_box
 
 
 OUTPUT_ROOT = "flux2-reference-studio"
@@ -204,8 +205,35 @@ def _analyze_reference(name: str, image) -> dict:
     }
 
 
+def _waist_up_reference_views(body_image, face_image, target_pixels: int) -> list:
+    rgb = np.clip(body_image[0].detach().float().cpu().numpy() * 255.0, 0, 255).astype(
+        np.uint8
+    )
+    faces = baseline._face_analyzer().get(cv2.cvtColor(rgb, cv2.COLOR_RGB2BGR))
+    if not faces:
+        raise RuntimeError("No face was detected in the selected waist-up reference photo.")
+    face = max(
+        faces,
+        key=lambda item: float(
+            (item.bbox[2] - item.bbox[0]) * (item.bbox[3] - item.bbox[1])
+        ),
+    )
+    height, width = rgb.shape[:2]
+    left, top, right, bottom = waist_up_torso_crop_box(
+        width, height, tuple(float(value) for value in face.bbox)
+    )
+    torso = body_image[:, top:bottom, left:right, :]
+    return [
+        baseline._resize_reference(torso, target_pixels),
+        baseline._resize_reference(baseline._face_crop(face_image, 2.4), target_pixels),
+    ]
+
+
 def _prepare_sources(
-    reference_names: list[str], reference_strategy: str, reference_pixels: int
+    reference_names: list[str],
+    reference_strategy: str,
+    reference_pixels: int,
+    selection_framing: str = "",
 ):
     source_images = [
         comfy_nodes.LoadImage().load_image(name)[0][:1, :, :, :3]
@@ -237,7 +265,11 @@ def _prepare_sources(
                     f"people (identity score {similarity:.3f}). Remove the incorrect photo."
                 )
 
-    selected = max(observations, key=lambda item: item["quality_score"])
+    selected = max(
+        observations,
+        key=lambda item: generation_reference_score(item, selection_framing),
+    )
+    face_selected = max(observations, key=lambda item: item["quality_score"])
     embeddings = [item["embedding"] for item in observations]
     centroid = _normalized_centroid(embeddings)
     detected_sources: list[dict] = []
@@ -246,6 +278,7 @@ def _prepare_sources(
             {
                 "reference": item["reference"],
                 "selected_for_generation": item is selected,
+                "selected_for_face_generation": item is face_selected,
                 "face_detection_confidence": round(
                     item["face_detection_confidence"], 4
                 ),
@@ -255,6 +288,9 @@ def _prepare_sources(
                 "face_size_score": round(item["face_size_score"], 4),
                 "exposure_score": round(item["exposure_score"], 4),
                 "edge_context_score": round(item["edge_context_score"], 4),
+                "generation_selection_score": round(
+                    generation_reference_score(item, selection_framing), 4
+                ),
                 "similarity_to_reference_centroid": round(
                     baseline._cosine_similarity(centroid, item["embedding"]), 4
                 ),
@@ -264,17 +300,30 @@ def _prepare_sources(
     # Additional genuine photos are identity evidence for consistency checks and
     # candidate ranking, not extra model latents: controlled tests showed that feeding
     # 2–4 full latents reduced likeness and doubled/tripled latency on the RTX 3090.
-    latent_images = baseline._strategy_references(
-        source_images[selected["source_index"]],
-        reference_strategy,
-        reference_pixels,
-    )
+    selected_image = source_images[selected["source_index"]]
+    if selection_framing == "Waist-up":
+        face_image = source_images[face_selected["source_index"]]
+        latent_images = _waist_up_reference_views(
+            selected_image, face_image, reference_pixels
+        )
+        effective_reference_strategy = (
+            "Waist-up torso-only + independent face crop 2.4x"
+        )
+    else:
+        latent_images = baseline._strategy_references(
+            selected_image,
+            reference_strategy,
+            reference_pixels,
+        )
+        effective_reference_strategy = reference_strategy
 
     return {
         "source_images": source_images,
         "latent_images": latent_images,
         "identity_centroid": centroid,
         "selected_reference": selected["reference"],
+        "selected_face_reference": face_selected["reference"],
+        "reference_strategy": effective_reference_strategy,
         "detected_sources": detected_sources,
         "missing_face_sources": missing_face_sources,
     }

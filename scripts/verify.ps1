@@ -35,14 +35,27 @@ Check-Junction (Join-Path $ComfyRoot "custom_nodes\ComfyUI-AIToolkit-Training") 
 Check-Junction (Join-Path $ComfyRoot "custom_nodes\ComfyUI-AlwaysRunImage") (Join-Path $RepoRoot "custom_nodes\ComfyUI-AlwaysRunImage")
 
 $expectedWorkflows = @(
-    "workflows\production\FLUX.2 One Reference Photo.json",
-    "workflows\production\FLUX.2 Easy Social Photos - 1-4 References.json",
-    "workflows\production\FLUX.2 Easy Social Photos v1.0.3 - 1-4 References.json",
-    "workflows\production\FLUX.2 Easy Social Photos v1.0.4 - Auto Scene Routing.json",
+    "workflows\production\FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1.json",
+    "workflows\production\FLUX.2 Klein 9B Mitch Group Scene Studio v1.json",
+    "workflows\production\FLUX.2 Klein 9B Mitch Identity Studio v1.json",
+    "workflows\production\FLUX.2 Dev LoRA - 9 Dating Scenes v1.json",
     "checkpoints\legacy-workflows\production\Social Photo Studio - FLUX.2 Klein 9B KV (superseded).json",
     "workflows\production\Dataset gen - QWEN 2511 - 3-photo.json",
-    "workflows\production\ReActor Multi-Person Identity Finish - Sharper Face.json",
     "workflows\production\Train Generated Dataset - AI Toolkit.json",
+    "checkpoints\legacy-workflows\production\FLUX.2 Dev Mitch Scene Studio v1.json",
+    "checkpoints\legacy-workflows\production\FLUX.2 Easy Social Photos - 1-4 References.json",
+    "checkpoints\legacy-workflows\production\FLUX.2 Easy Social Photos v1.0.3 - 1-4 References.json",
+    "checkpoints\legacy-workflows\production\FLUX.2 Easy Social Photos v1.0.4 - Auto Scene Routing.json",
+    "checkpoints\legacy-workflows\production\FLUX.2 One Reference Photo.json",
+    "checkpoints\legacy-workflows\production\FLUX.2 No-LoRA Strong Identity Street Corner v1.json",
+    "checkpoints\legacy-workflows\production\Krea 2 Identity Anchor Crowd v1.json",
+    "checkpoints\legacy-workflows\production\Krea 2 Identity Edit - Face Attention v2.json",
+    "checkpoints\legacy-workflows\production\Krea 2 No Character LoRA Street Corner v1.json",
+    "checkpoints\legacy-workflows\production\ReActor Multi-Person Identity Finish - Sharper Face.json",
+    "checkpoints\legacy-workflows\experiments\HiDream-O1 Dev Native 2-Reference Dating Identity - Test.json",
+    "checkpoints\legacy-workflows\experiments\HiDream-O1 Dev Native 3-Reference Dating Identity - Seed Screen.json",
+    "checkpoints\legacy-workflows\experiments\HiDream-O1 Full Native 2-Reference Dating Identity - Test.json",
+    "checkpoints\legacy-workflows\experiments\InfiniteYou FLUX.1 Dev One Reference - Tested Rejected.json",
     "checkpoints\legacy-workflows\production\Qwen + ReActor Single-Person Scene Match.json",
     "checkpoints\legacy-workflows\production\Qwen 2512 + ReActor - 9 Dating Photos.json",
     "checkpoints\legacy-workflows\experiments\EXPERIMENTAL - Qwen Identity + Build - 9 Dating Photos.json",
@@ -61,7 +74,7 @@ foreach ($relativePath in $expectedWorkflows) {
     }
 }
 
-$oneReferenceWorkflowPath = Join-Path $RepoRoot "workflows\production\FLUX.2 One Reference Photo.json"
+$oneReferenceWorkflowPath = Join-Path $RepoRoot "checkpoints\legacy-workflows\production\FLUX.2 One Reference Photo.json"
 if (Test-Path -LiteralPath $oneReferenceWorkflowPath) {
     try {
         $oneReferenceWorkflow = Get-Content -Raw -LiteralPath $oneReferenceWorkflowPath | ConvertFrom-Json
@@ -85,6 +98,30 @@ if (Test-Path -LiteralPath $oneReferenceWorkflowPath) {
         }
     } catch {
         $errors.Add("FLUX.2 One Reference Photo workflow JSON is invalid: $($_.Exception.Message)")
+    }
+}
+
+$klein9bStudioWorkflowPath = Join-Path $RepoRoot "workflows\production\FLUX.2 Klein 9B Mitch Identity Studio v1.json"
+if (Test-Path -LiteralPath $klein9bStudioWorkflowPath) {
+    try {
+        $klein9bStudioWorkflow = Get-Content -Raw -LiteralPath $klein9bStudioWorkflowPath | ConvertFrom-Json
+        if ($klein9bStudioWorkflow.nodes.Count -ne 3) {
+            $errors.Add("FLUX.2 Klein 9B Mitch Identity Studio v1 must contain exactly 3 visible nodes.")
+        }
+        foreach ($requiredNode in @("MarkdownNote", "Flux2Klein9BMitchIdentityStudioV1", "PreviewImage")) {
+            if ($requiredNode -notin @($klein9bStudioWorkflow.nodes.type)) {
+                $errors.Add("FLUX.2 Klein 9B Mitch Identity Studio v1 is missing node: $requiredNode")
+            }
+        }
+        $studioNode = @($klein9bStudioWorkflow.nodes | Where-Object { $_.type -eq "Flux2Klein9BMitchIdentityStudioV1" })[0]
+        if ($studioNode -and @($studioNode.inputs).Count -ne 3) {
+            $errors.Add("FLUX.2 Klein 9B Mitch Identity Studio v1 must expose only profile, prompt, and seed.")
+        }
+        if ($studioNode -and [string]$studioNode.widgets_values[0] -notmatch "^GROUP") {
+            $errors.Add("FLUX.2 Klein 9B Mitch Identity Studio v1 must open in its group-safe one-reference profile.")
+        }
+    } catch {
+        $errors.Add("FLUX.2 Klein 9B Mitch Identity Studio v1 workflow JSON is invalid: $($_.Exception.Message)")
     }
 }
 
@@ -115,7 +152,7 @@ if (-not (Test-Path -LiteralPath $frozenBaselinesPath)) {
     }
 }
 
-$easySocialWorkflowPath = Join-Path $RepoRoot "workflows\production\FLUX.2 Easy Social Photos v1.0.3 - 1-4 References.json"
+$easySocialWorkflowPath = Join-Path $RepoRoot "checkpoints\legacy-workflows\production\FLUX.2 Easy Social Photos v1.0.3 - 1-4 References.json"
 if (Test-Path -LiteralPath $easySocialWorkflowPath) {
     try {
         $easySocialWorkflow = Get-Content -Raw -LiteralPath $easySocialWorkflowPath | ConvertFrom-Json
@@ -155,7 +192,7 @@ if (Test-Path -LiteralPath $easySocialNodePath) {
     }
 }
 
-$routedSocialWorkflowPath = Join-Path $RepoRoot "workflows\production\FLUX.2 Easy Social Photos v1.0.4 - Auto Scene Routing.json"
+$routedSocialWorkflowPath = Join-Path $RepoRoot "checkpoints\legacy-workflows\production\FLUX.2 Easy Social Photos v1.0.4 - Auto Scene Routing.json"
 if (Test-Path -LiteralPath $routedSocialWorkflowPath) {
     try {
         $routedSocialWorkflow = Get-Content -Raw -LiteralPath $routedSocialWorkflowPath | ConvertFrom-Json
@@ -254,7 +291,7 @@ if (-not (Test-Path -LiteralPath $comfyPython)) {
 
 Push-Location (Join-Path $RepoRoot "custom_nodes\ComfyUI-AIToolkit-Training")
 try {
-    & python -m unittest test_integration.py test_social_photo_core.py test_reference_photo_presets.py test_phone_lens_optics.py test_scene_quality.py test_identity_scope.py test_identity_leakage.py test_scene_crop.py test_scene_constraints.py test_scene_objects.py test_camera_finish.py test_head_integrity.py test_minimal_flux2_reality_test.py test_flux2_model_benchmark.py
+    & python -m unittest test_integration.py test_social_photo_core.py test_reference_photo_presets.py test_phone_lens_optics.py test_scene_quality.py test_identity_scope.py test_identity_leakage.py test_scene_crop.py test_scene_constraints.py test_scene_objects.py test_camera_finish.py test_head_integrity.py test_minimal_flux2_reality_test.py test_flux2_model_benchmark.py test_flux2_klein9b_mitch_identity_studio_presets.py test_flux2_klein9b_photo_realism_upgrade_presets.py
     if ($LASTEXITCODE -ne 0) {
         $errors.Add("Python unit tests failed.")
     }
@@ -273,6 +310,8 @@ try {
         "Flux2IdentityLoraExperiment",
         "Flux2ModelBenchmark",
         "Flux2MinimalRealityTest",
+        "Flux2Klein9BMitchIdentityStudioV1",
+        "Flux2Klein9BPhotoRealismUpgradeV1",
         "Klein9BKVIdentityProof",
         "KSampler"
     )) {
@@ -283,7 +322,8 @@ try {
     }
     $easyInfo = Invoke-RestMethod -Uri "$ComfyUrl/object_info/Flux2EasySocialPhotoV104" -TimeoutSec 5
     $livePhotoStyles = @($easyInfo.Flux2EasySocialPhotoV104.input.required.photo_style[0])
-    if ("Smartphone — slight lens haze" -notin $livePhotoStyles) {
+    $slightLensHazeStyle = "Smartphone " + [char]0x2014 + " slight lens haze"
+    if ($slightLensHazeStyle -notin $livePhotoStyles) {
         $errors.Add("Live FLUX.2 Easy Social Photos is missing the slight phone-lens haze preset.")
     }
 } catch {

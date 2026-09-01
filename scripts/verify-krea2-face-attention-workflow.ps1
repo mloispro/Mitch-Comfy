@@ -1,6 +1,7 @@
 [CmdletBinding()]
 param(
-    [string]$Workflow = "workflows\production\Krea 2 Identity Edit - Face Attention v2.json",
+    [string]$Workflow = "checkpoints\legacy-workflows\production\Krea 2 Identity Edit - Face Attention v2.json",
+    [string]$ExpectedWorkflowId = "krea2-identity-edit-face-attention-v2",
     [int]$Port = 8189,
     [switch]$SkipLiveApi
 )
@@ -43,7 +44,7 @@ function Get-InputLink([int]$NodeId, [string]$Name) {
     return $input[0].link
 }
 
-Assert-Equal $graph.id "krea2-identity-edit-face-attention-v2" "Wrong workflow id."
+Assert-Equal $graph.id $ExpectedWorkflowId "Wrong workflow id."
 Assert-Equal @($graph.nodes | Where-Object type -eq "Krea2ReferenceFaceAttentionMask").Count 1 "Face attention node count is wrong."
 Assert-Equal @($graph.nodes | Where-Object type -eq "WholeFramePhoneFinish").Count 1 "Whole-frame phone finish node count is wrong."
 Assert-Equal @($graph.nodes | Where-Object id -In @(90, 92)).Count 0 "The ambiguous optional second-reference nodes remain."

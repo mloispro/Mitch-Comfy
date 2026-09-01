@@ -1,0 +1,1316 @@
+{
+  "id": "krea2-no-character-lora-street-corner-v1",
+  "revision": 2,
+  "last_node_id": 113,
+  "last_link_id": 32,
+  "nodes": [
+    {
+      "id": 29,
+      "type": "SaveImage",
+      "pos": [
+        3640,
+        -160
+      ],
+      "size": [
+        760,
+        860
+      ],
+      "flags": {},
+      "order": 23,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 32
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.26.0",
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "krea2-identity-edit/no-character-lora-street-corner-v1"
+      ]
+    },
+    {
+      "id": 53,
+      "type": "KSampler",
+      "pos": [
+        2800,
+        -160
+      ],
+      "size": [
+        320,
+        560
+      ],
+      "flags": {},
+      "order": 21,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 3
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 22
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 23
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 24
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            25
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.26.0",
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        9472103,
+        "fixed",
+        12,
+        1,
+        "euler",
+        "simple",
+        1
+      ]
+    },
+    {
+      "id": 54,
+      "type": "VAEDecode",
+      "pos": [
+        2810,
+        440
+      ],
+      "size": [
+        225,
+        8
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 22,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 25
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 6
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            31
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.26.0",
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 55,
+      "type": "UNETLoader",
+      "pos": [
+        60,
+        -160
+      ],
+      "size": [
+        480,
+        130
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            1
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.26.0",
+        "Node name for S&R": "UNETLoader",
+        "models": [
+          {
+            "name": "krea2_turbo_fp8_scaled.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/Krea-2/resolve/main/diffusion_models/krea2_turbo_fp8_scaled.safetensors",
+            "directory": "diffusion_models"
+          }
+        ]
+      },
+      "widgets_values": [
+        "krea2_turbo_fp8_scaled.safetensors",
+        "default"
+      ]
+    },
+    {
+      "id": 56,
+      "type": "CLIPLoader",
+      "pos": [
+        60,
+        30
+      ],
+      "size": [
+        480,
+        140
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            4,
+            5
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.26.0",
+        "Node name for S&R": "CLIPLoader",
+        "models": [
+          {
+            "name": "qwen3vl_4b_fp8_scaled.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/Krea-2/resolve/main/text_encoders/qwen3vl_4b_fp8_scaled.safetensors",
+            "directory": "text_encoders"
+          }
+        ]
+      },
+      "widgets_values": [
+        "qwen3vl_4b_fp8_scaled.safetensors",
+        "krea2",
+        "default"
+      ]
+    },
+    {
+      "id": 57,
+      "type": "VAELoader",
+      "pos": [
+        60,
+        220
+      ],
+      "size": [
+        480,
+        90
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            6,
+            7,
+            16
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.26.0",
+        "Node name for S&R": "VAELoader",
+        "models": [
+          {
+            "name": "qwen_image_vae.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/Krea-2/resolve/main/vae/qwen_image_vae.safetensors",
+            "directory": "vae"
+          }
+        ]
+      },
+      "widgets_values": [
+        "qwen_image_vae.safetensors"
+      ]
+    },
+    {
+      "id": 71,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        60,
+        520
+      ],
+      "size": [
+        480,
+        120
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 28
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            2
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.26.0",
+        "Node name for S&R": "LoraLoaderModelOnly"
+      },
+      "widgets_values": [
+        "krea2_identity_edit_v1_2.safetensors",
+        1
+      ]
+    },
+    {
+      "id": 72,
+      "type": "LoadImage",
+      "pos": [
+        640,
+        -160
+      ],
+      "size": [
+        520,
+        440
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            11,
+            12,
+            13,
+            14,
+            29
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.26.0",
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "20260815_165446.jpg",
+        "image"
+      ]
+    },
+    {
+      "id": 73,
+      "type": "VAEEncode",
+      "pos": [
+        1260,
+        60
+      ],
+      "size": [
+        225,
+        8
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "pixels",
+          "type": "IMAGE",
+          "link": 11
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            15
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.26.0",
+        "Node name for S&R": "VAEEncode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 79,
+      "type": "Krea2EditModelPatch",
+      "pos": [
+        2320,
+        -160
+      ],
+      "size": [
+        420,
+        350
+      ],
+      "flags": {},
+      "order": 20,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 2
+        },
+        {
+          "name": "source_latent",
+          "type": "LATENT",
+          "link": 15
+        },
+        {
+          "name": "source_latent_b",
+          "shape": 7,
+          "type": "LATENT",
+          "link": null
+        },
+        {
+          "name": "ref_boost_mask",
+          "shape": 7,
+          "type": "MASK",
+          "link": 30
+        },
+        {
+          "name": "vae",
+          "shape": 7,
+          "type": "VAE",
+          "link": 16
+        },
+        {
+          "name": "source_image",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 14
+        },
+        {
+          "name": "source_image_b",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "target_latent",
+          "shape": 7,
+          "type": "LATENT",
+          "link": 27
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            3
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Krea2EditModelPatch"
+      },
+      "widgets_values": [
+        6,
+        1,
+        "fit"
+      ]
+    },
+    {
+      "id": 82,
+      "type": "EmptySD3LatentImage",
+      "pos": [
+        1260,
+        410
+      ],
+      "size": [
+        270,
+        150
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "width",
+          "type": "INT",
+          "widget": {
+            "name": "width"
+          },
+          "link": 9
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "widget": {
+            "name": "height"
+          },
+          "link": 10
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            24,
+            27
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.26.0",
+        "Node name for S&R": "EmptySD3LatentImage"
+      },
+      "widgets_values": [
+        1024,
+        1024,
+        1
+      ]
+    },
+    {
+      "id": 83,
+      "type": "ResolutionSelector",
+      "pos": [
+        1250,
+        150
+      ],
+      "size": [
+        270,
+        190
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "width",
+          "type": "INT",
+          "links": [
+            9
+          ]
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "links": [
+            10
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.26.0",
+        "Node name for S&R": "ResolutionSelector"
+      },
+      "widgets_values": [
+        "2:3 (Portrait Photo)",
+        1,
+        8
+      ]
+    },
+    {
+      "id": 84,
+      "type": "Krea2EditGroundedEncode",
+      "pos": [
+        1620,
+        -160
+      ],
+      "size": [
+        620,
+        330
+      ],
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 4
+        },
+        {
+          "name": "image",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 12
+        },
+        {
+          "name": "image_b",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            22
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Krea2EditGroundedEncode"
+      },
+      "widgets_values": [
+        "Restage this exact same man in a new candid vertical smartphone photograph at a somewhat busy downtown street corner. Preserve his exact recognizable facial identity, face shape, forehead lines, eye shape and spacing, nose, mouth, ears, short light-brown hairstyle, hairline, apparent age, natural skin texture, and lean build. He walks naturally toward the camera with the camera directly seeing his face and front torso, framed about knees-up and slightly off center, wearing a plain fitted navy crew-neck T-shirt and dark casual pants. Unrelated pedestrians cross and walk behind him at varied depths and in both directions; nearby people have independent clothing colors and natural actions. Clearly resolve storefront windows, traffic lights, cars, street signs, curb, crosswalk paint, pavement texture, and building detail extending into the distance. Use ordinary soft late-afternoon daylight, natural recent-smartphone exposure, restrained phone HDR, realistic skin pores, subtle sensor texture, and normal small-sensor depth with coherent exposure, sharpness, noise, and edge softness across the subject and scene. Make the result look like one genuine unedited rear-phone-camera photograph captured in a single moment.",
+        512,
+        ""
+      ]
+    },
+    {
+      "id": 85,
+      "type": "Krea2EditGroundedEncode",
+      "pos": [
+        1620,
+        250
+      ],
+      "size": [
+        225,
+        8
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 19,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 5
+        },
+        {
+          "name": "image",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 13
+        },
+        {
+          "name": "image_b",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            23
+          ]
+        }
+      ],
+      "title": "negative (leave empty)",
+      "properties": {
+        "Node name for S&R": "Krea2EditGroundedEncode"
+      },
+      "widgets_values": [
+        "",
+        512,
+        ""
+      ]
+    },
+    {
+      "id": 100,
+      "type": "Note",
+      "pos": [
+        60,
+        680
+      ],
+      "size": [
+        480,
+        150
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "Model files",
+      "properties": {
+        "Node name for S&R": "Note"
+      },
+      "widgets_values": [
+        "Files (auto-downloadable via the manager links):\n- krea2_turbo_fp8_scaled (or krea2_raw_bf16 - see GENERATE note)\n- qwen3vl_4b_fp8_scaled text encoder, type 'krea2'\n- qwen_image_vae\n- krea2_identity_edit_v1_2.safetensors LoRA (this model)"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 101,
+      "type": "Note",
+      "pos": [
+        640,
+        510
+      ],
+      "size": [
+        520,
+        190
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "Identity reference",
+      "properties": {
+        "Node name for S&R": "Note"
+      },
+      "widgets_values": [
+        "Use one genuine reference with a clearly visible face. The image enters through both training-matched paths: VAE appearance tokens and image-aware Qwen3-VL grounding. It is not used as a style reference or pasted into the output."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 102,
+      "type": "Note",
+      "pos": [
+        640,
+        690
+      ],
+      "size": [
+        520,
+        230
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "Face attention — reference only",
+      "properties": {
+        "Node name for S&R": "Note"
+      },
+      "widgets_values": [
+        "The CPU-only node detects the largest reference face and boosts only an internal oval. It excludes the hair/head silhouette, ears, neck, clothing, body, and source background. This MASK controls reference attention inside Krea2EditModelPatch; it never masks, composites, inpaints, or sharpens output pixels. Defaults reproduce the accepted no-Mitch-LoRA test."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 103,
+      "type": "Note",
+      "pos": [
+        1620,
+        360
+      ],
+      "size": [
+        620,
+        300
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "Writing instructions",
+      "properties": {
+        "Node name for S&R": "Note"
+      },
+      "widgets_values": [
+        "Write the edit in plain English:\n  'Relight the scene with warm golden hour sunlight.'\n  'Place this person at the cafe table, holding a coffee.'\n  'Change her outfit to a red raincoat.'\n\nUnique face coming out generic? Append:\n  'Preserve the exact facial identity - distinguishing features: ...'\nand describe what makes the face distinctive.\n\ngrounding_px: how large the model 'sees' the input while reading your\ninstruction. 384-768 is the trained range. Getting doubled/split\ncompositions? LOWER it. The collapsed node below is the negative -\nonly used at CFG > 1; keep its prompt empty."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 104,
+      "type": "Note",
+      "pos": [
+        2320,
+        230
+      ],
+      "size": [
+        420,
+        420
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "Fidelity dial",
+      "properties": {
+        "Node name for S&R": "Note"
+      },
+      "widgets_values": [
+        "FACE-ONLY FIDELITY\\n\\nref_boost 6 is restricted by the connected reference attention mask. Unmasked reference tokens remain available at neutral strength through the native Identity Edit paths. Do not disconnect the mask and increase global boost: that recreates the sharp subject/background separation this version fixes.\\n\\nfit mode is training-matched and should remain enabled."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 105,
+      "type": "Note",
+      "pos": [
+        2800,
+        490
+      ],
+      "size": [
+        320,
+        280
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "Sampling",
+      "properties": {
+        "Node name for S&R": "Note"
+      },
+      "widgets_values": [
+        "Validated local settings:\\n  Krea2 Turbo\\n  12 steps, CFG 1\\n  Euler + simple\\n  832 x 1248 (2:3, about 1 MP)\\n  grounding_px 512\\n\\nThe fixed seed reproduces the accepted calibration. Change it only after confirming the graph works."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 106,
+      "type": "Note",
+      "pos": [
+        620,
+        -600
+      ],
+      "size": [
+        1600,
+        330
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "README",
+      "properties": {
+        "Node name for S&R": "Note"
+      },
+      "widgets_values": [
+        "KREA 2 IDENTITY EDIT — NO CHARACTER LoRA STREET CORNER v1\n\nThis is the tested fallback after native FLUX.2 and PuLID-Flux2 failed Mitch identity. One genuine photograph enters both trained Krea2 Identity Edit paths. The internal face mask controls reference attention only; it never masks, inpaints, or composites output pixels.\n\nLocked settings: Identity Edit v1.2 strength 1.0, masked ref boost 6, grounding 512, camera-appearance LoRA 0.35, 832x1248, 12 Euler/simple steps, CFG 1, seed 9472103. The camera LoRA is not a character LoRA.\n\nTested street-corner candidate: 0.7459 against five held-out genuine photographs (calibrated strong match). Visual approval remains authoritative."
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 107,
+      "type": "Note",
+      "pos": [
+        1250,
+        -140
+      ],
+      "size": [
+        270,
+        110
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "Resolution",
+      "properties": {
+        "Node name for S&R": "Note"
+      },
+      "widgets_values": [
+        "Output resolution. 1MP is the\nsweet spot; go higher only for\nsingle-person edits."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 111,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        60,
+        370
+      ],
+      "size": [
+        480,
+        120
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            28
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.26.0",
+        "Node name for S&R": "LoraLoaderModelOnly"
+      },
+      "widgets_values": [
+        "krea-smartphone-photo-slider.safetensors",
+        0.35
+      ]
+    },
+    {
+      "id": 112,
+      "type": "Krea2ReferenceFaceAttentionMask",
+      "pos": [
+        640,
+        310
+      ],
+      "size": [
+        520,
+        180
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 29
+        },
+        {
+          "name": "width_scale",
+          "type": "FLOAT",
+          "widget": {
+            "name": "width_scale"
+          },
+          "link": null
+        },
+        {
+          "name": "height_scale",
+          "type": "FLOAT",
+          "widget": {
+            "name": "height_scale"
+          },
+          "link": null
+        },
+        {
+          "name": "vertical_offset",
+          "type": "FLOAT",
+          "widget": {
+            "name": "vertical_offset"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "reference_attention_mask",
+          "type": "MASK",
+          "links": [
+            30
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "cnr_id": "ComfyUI-AIToolkit-Training",
+        "Node name for S&R": "Krea2ReferenceFaceAttentionMask"
+      },
+      "widgets_values": [
+        0.82,
+        0.86,
+        0.02
+      ],
+      "color": "#174d52",
+      "bgcolor": "#20666d"
+    },
+    {
+      "id": 113,
+      "type": "WholeFramePhoneFinish",
+      "pos": [
+        3160,
+        390
+      ],
+      "size": [
+        440,
+        90
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 31
+        }
+      ],
+      "outputs": [
+        {
+          "name": "finished_image",
+          "type": "IMAGE",
+          "links": [
+            32
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "cnr_id": "ComfyUI-AIToolkit-Training",
+        "Node name for S&R": "WholeFramePhoneFinish"
+      },
+      "widgets_values": [],
+      "color": "#423514",
+      "bgcolor": "#66521f"
+    }
+  ],
+  "links": [
+    [
+      1,
+      55,
+      0,
+      111,
+      0,
+      "MODEL"
+    ],
+    [
+      2,
+      71,
+      0,
+      79,
+      0,
+      "MODEL"
+    ],
+    [
+      3,
+      79,
+      0,
+      53,
+      0,
+      "MODEL"
+    ],
+    [
+      4,
+      56,
+      0,
+      84,
+      0,
+      "CLIP"
+    ],
+    [
+      5,
+      56,
+      0,
+      85,
+      0,
+      "CLIP"
+    ],
+    [
+      6,
+      57,
+      0,
+      54,
+      1,
+      "VAE"
+    ],
+    [
+      7,
+      57,
+      0,
+      73,
+      1,
+      "VAE"
+    ],
+    [
+      9,
+      83,
+      0,
+      82,
+      0,
+      "INT"
+    ],
+    [
+      10,
+      83,
+      1,
+      82,
+      1,
+      "INT"
+    ],
+    [
+      11,
+      72,
+      0,
+      73,
+      0,
+      "IMAGE"
+    ],
+    [
+      12,
+      72,
+      0,
+      84,
+      1,
+      "IMAGE"
+    ],
+    [
+      13,
+      72,
+      0,
+      85,
+      1,
+      "IMAGE"
+    ],
+    [
+      14,
+      72,
+      0,
+      79,
+      5,
+      "IMAGE"
+    ],
+    [
+      15,
+      73,
+      0,
+      79,
+      1,
+      "LATENT"
+    ],
+    [
+      16,
+      57,
+      0,
+      79,
+      4,
+      "VAE"
+    ],
+    [
+      22,
+      84,
+      0,
+      53,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      23,
+      85,
+      0,
+      53,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      24,
+      82,
+      0,
+      53,
+      3,
+      "LATENT"
+    ],
+    [
+      25,
+      53,
+      0,
+      54,
+      0,
+      "LATENT"
+    ],
+    [
+      27,
+      82,
+      0,
+      79,
+      7,
+      "LATENT"
+    ],
+    [
+      31,
+      54,
+      0,
+      113,
+      0,
+      "IMAGE"
+    ],
+    [
+      32,
+      113,
+      0,
+      29,
+      0,
+      "IMAGE"
+    ],
+    [
+      28,
+      111,
+      0,
+      71,
+      0,
+      "MODEL"
+    ],
+    [
+      29,
+      72,
+      0,
+      112,
+      0,
+      "IMAGE"
+    ],
+    [
+      30,
+      112,
+      0,
+      79,
+      3,
+      "MASK"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "MODELS",
+      "bounding": [
+        40,
+        -240,
+        540,
+        1140
+      ],
+      "color": "#3f789e",
+      "flags": {}
+    },
+    {
+      "id": 2,
+      "title": "2 · GENUINE IDENTITY REFERENCE + FACE ATTENTION",
+      "bounding": [
+        620,
+        -240,
+        580,
+        1190
+      ],
+      "color": "#8A8",
+      "flags": {}
+    },
+    {
+      "id": 4,
+      "title": "3 · INSTRUCTION",
+      "bounding": [
+        1600,
+        -240,
+        680,
+        930
+      ],
+      "color": "#b58b2a",
+      "flags": {}
+    },
+    {
+      "id": 5,
+      "title": "4 · IDENTITY FIDELITY",
+      "bounding": [
+        2300,
+        -240,
+        460,
+        910
+      ],
+      "color": "#c15f3c",
+      "flags": {}
+    },
+    {
+      "id": 6,
+      "title": "5 · GENERATE",
+      "bounding": [
+        2780,
+        -240,
+        1200,
+        1030
+      ],
+      "color": "#3f789e",
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "frontendVersion": "1.45.19",
+    "ds": {
+      "scale": 0.72,
+      "offset": [
+        55,
+        360
+      ]
+    },
+    "VHS_latentpreview": false,
+    "VHS_latentpreviewrate": 0,
+    "VHS_MetadataImage": true,
+    "VHS_KeepIntermediate": true
+  },
+  "version": 0.4
+}

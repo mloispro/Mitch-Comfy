@@ -1,0 +1,176 @@
+{
+  "schema_version": 2,
+  "status": "frozen_native_height_safe_v1",
+  "route_name": "crowd_route_v1",
+  "mechanism": "single_pass_whole_frame_krea2_from_approved_full_body_identity_anchor",
+  "approved_on": "2026-08-24",
+  "approval": {
+    "identity": "passed by user visual review",
+    "whole_photo_realism": "passed by user visual review",
+    "visual_review_authoritative": true,
+    "automated_identity_metric_required_for_promotion": false
+  },
+  "workflow": {
+    "comfyui": "checkpoints/legacy-workflows/production/Krea 2 Identity Anchor Crowd v1.json",
+    "runner": "scripts/run-krea2-identity-anchor-crowd.ps1",
+    "builder": "scripts/build-krea2-identity-anchor-crowd-workflow.ps1",
+    "prompt_config": "config/crowd-route-v1-prompts.json"
+  },
+  "identity_anchor": {
+    "comfyui_input": "C:/projects/AI-Tools/ComfyUI/input/mitch-identity-anchor-walking-v1.png",
+    "sha256": "B047731FE747489B64507355620D29C3EB45C677823A36B7C16E0B270B2FEA1C",
+    "provenance": "user-approved full-body Krea2 walking photograph",
+    "role": "face, current hair, apparent age, lean build, natural full-body proportions, and walking-pose anchor",
+    "reference_policy": "explicitly approved synthetic identity-anchor experiment; do not silently substitute a close-up or generated candidate"
+  },
+  "generation": {
+    "model": "krea2_turbo_fp8_scaled.safetensors",
+    "text_encoder": "qwen3vl_4b_fp8_scaled.safetensors",
+    "vae": "qwen_image_vae.safetensors",
+    "identity_adapter": "krea2_identity_edit_v1_2.safetensors",
+    "identity_adapter_strength": 1.0,
+    "identity_paths": [
+      "VAE appearance tokens through Krea2EditModelPatch",
+      "image-aware Qwen3-VL instruction encoding through Krea2EditGroundedEncode"
+    ],
+    "reference_attention": {
+      "space": "reference tokens only",
+      "internal_face_width_scale": 0.82,
+      "internal_face_height_scale": 0.86,
+      "vertical_offset": 0.02,
+      "masked_reference_boost": 6.0,
+      "output_pixel_masking": false
+    },
+    "smartphone_lora": "krea-smartphone-photo-slider.safetensors",
+    "smartphone_lora_strength": 0.35,
+    "width": 832,
+    "height": 1248,
+    "steps": 12,
+    "cfg": 1.0,
+    "sampler": "euler",
+    "scheduler": "simple",
+    "grounding_pixels": 768
+  },
+  "finish": {
+    "node": "WholeFramePhoneFinish",
+    "scope": "whole_frame_only",
+    "generative": false,
+    "masked": false,
+    "selective_face_or_subject_processing": false,
+    "unsharp_radius": 0.55,
+    "unsharp_percent": 12,
+    "unsharp_threshold": 4,
+    "luma_sigma": 0.65,
+    "chroma_sigma": 0.18,
+    "jpeg_quality": 95
+  },
+  "state_fair_proof": {
+    "status": "passed_native_height_safe_v1",
+    "lead_seed": 9472301,
+    "runner_up_seed": 9472302,
+    "lead": "output/crowd_route_v1/state-fair/identity-anchor-recovery/lead-final.png",
+    "runner_up": "output/crowd_route_v1/state-fair/identity-anchor-recovery/runner-up-final.png",
+    "report": "output/crowd_route_v1/state-fair/identity-anchor-recovery/report.json",
+    "identity_review": "passed",
+    "integration_review": "passed",
+    "crowd_and_background_review": "passed",
+    "smartphone_realism_review": "passed"
+  },
+  "scale_correction_candidate": {
+    "status": "rejected_by_user_visual_review",
+    "path": "output/crowd_route_v1/state-fair/identity-anchor-recovery/lead-expanded-scale-corrected.png",
+    "sha256": "D40C1E0774E4DB6CADAEDBC5140F8036C3785C9FC717B9F18D5936FE920A1111",
+    "source": "output/crowd_route_v1/state-fair/identity-anchor-recovery/lead-raw.png",
+    "method": "identity-safe rectangular whole-frame outpaint",
+    "source_core_policy": "The complete approved 832x1248 source rectangle was recomposited at x=104,y=156 after margin generation; no face, head, body, or subject-contour mask was used.",
+    "canvas": {
+      "source_width": 832,
+      "source_height": 1248,
+      "output_width": 1040,
+      "output_height": 1560,
+      "padding": {
+        "left": 104,
+        "top": 156,
+        "right": 104,
+        "bottom": 156
+      },
+      "rectangular_core_feather_pixels": 40
+    },
+    "margin_generation": {
+      "model": "flux-2-klein-9b-kv-fp8.safetensors",
+      "text_encoder": "qwen_3_8b_fp8mixed.safetensors",
+      "vae": "flux2-vae.safetensors",
+      "steps": 4,
+      "sampler": "euler",
+      "seed": 8675501
+    },
+    "visual_result": "No new bottom-edge person or object artifact. Mitch occupies a smaller portion of the expanded frame and reads as the nearest pedestrian rather than anatomically taller than the crowd.",
+    "approval_rule": "Rejected. Expanding the canvas changed framing but did not change Mitch relative to the existing pedestrians."
+  },
+  "native_height_safe_candidate": {
+    "status": "approved_by_user_visual_review",
+    "path": "output/crowd_route_v1/state-fair/identity-anchor-recovery/approved-native-customer-v1.png",
+    "sha256": "4F23F84F09AE5893030D0440C7073CD18021DCC28B9628258690CEEB0BCDB34A",
+    "runner_up": "output/crowd_route_v1/state-fair/identity-anchor-recovery/native-activity-runner-up.png",
+    "runner_up_sha256": "36A4F0DE9871714E2E4881168944CBFFF88B79E345B8A45DA9B271ADF32D7A34",
+    "mechanism": "single-pass whole-frame Krea2 generation from the approved identity anchor",
+    "composition": "native mid-torso customer activity candid at a state-fair stall",
+    "height_strategy": "remove full-body head-to-foot comparison from this scene rather than altering a generated body afterward",
+    "output_crop_mask_swap_or_composite": false,
+    "seed": 9472363,
+    "approval": "User reviewed the rendered candidate and said it looks good.",
+    "approved_on": "2026-08-24",
+    "approval_rule": "Frozen as the state-fair lead. A material change to identity mechanism or post-generation geometry reopens validation."
+  },
+  "reopened_issue": {
+    "reported_on": "2026-08-24",
+    "problem": "Mitch appears taller than surrounding pedestrians",
+    "diagnosis": "The identity anchor and prompt made Mitch the nearest complete hero figure while most comparable pedestrians were farther back, creating an exaggerated relative-height impression through depth arrangement.",
+    "controlled_retry": "Prompt-only Krea2 retries did not reliably reduce subject scale. Preserve the approved central rectangle and outpaint only wide rectangular margins to increase environmental context without altering identity or body pixels.",
+    "prompt_only_result": "rejected because Krea2 retained hero-subject scale across controlled prompt and reference-size changes",
+    "current_candidate": "output/crowd_route_v1/state-fair/identity-anchor-recovery/native-customer-height-safe-candidate.png",
+    "rejected_branches": [
+      "outer-border outpaint because it did not alter relative pedestrian scale",
+      "Krea2 scene-plus-identity combine because composition lock suppressed Mitch identity",
+      "scaled rectangular identity core because its straight transition was visibly composited",
+      "all output crop, mask, swap, and composite corrections"
+    ],
+    "current_rule": "Correct scale must be established in a native whole-frame generation."
+  },
+  "generalization": {
+    "status": "ready",
+    "change_only": [
+      "scene prompt",
+      "seed"
+    ],
+    "keep_frozen": [
+      "identity anchor",
+      "model and adapters",
+      "reference order and attention mask",
+      "sampling settings",
+      "whole-frame finish"
+    ],
+    "next_scenes": [
+      "busy city sidewalk",
+      "boutique hotel lounge",
+      "night market or live-music patio"
+    ]
+  },
+  "rejected_mechanisms": [
+    "Klein 9B scene plate followed by full-body host replacement",
+    "Klein 4B contextual subject inpaint",
+    "Krea2 generated subject followed by ReActor",
+    "inswapper_128 identity finish",
+    "automated face similarity as a promotion decision"
+  ],
+  "prohibited": [
+    "scene-first host replacement",
+    "ReActor",
+    "face restoration",
+    "full-head or subject-contour output mask",
+    "subject compositing",
+    "selective face sharpening",
+    "generative upscaling",
+    "changing the identity anchor without reopening visual validation"
+  ]
+}

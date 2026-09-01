@@ -1,0 +1,259 @@
+{
+  "id": "bb8d5430-f9aa-4b42-96dd-609559af33c8",
+  "revision": 0,
+  "last_node_id": 13,
+  "last_link_id": 119,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "CheckpointLoaderSimple",
+      "pos": [-1260, -520],
+      "size": [360, 98],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {"name": "MODEL", "type": "MODEL", "links": [101]},
+        {"name": "CLIP", "type": "CLIP", "links": [102, 103]},
+        {"name": "VAE", "type": "VAE", "links": [111, 113]}
+      ],
+      "title": "Pinned FLUX.1 Dev FP8 checkpoint",
+      "properties": {"Node name for S&R": "CheckpointLoaderSimple", "cnr_id": "comfy-core"},
+      "widgets_values": ["flux1-dev-fp8.safetensors"]
+    },
+    {
+      "id": 2,
+      "type": "LoadImage",
+      "pos": [-1260, -300],
+      "size": [360, 310],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {"name": "IMAGE", "type": "IMAGE", "links": [104]},
+        {"name": "MASK", "type": "MASK", "links": null}
+      ],
+      "title": "ONE genuine identity photo",
+      "properties": {"Node name for S&R": "LoadImage", "cnr_id": "comfy-core"},
+      "widgets_values": ["mitch-inline-author-ref-01-face.jpg", "image"]
+    },
+    {
+      "id": 3,
+      "type": "IDEmbeddingModelLoader",
+      "pos": [-770, -330],
+      "size": [410, 150],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {"name": "FACE_DETECTOR", "type": "MODEL", "links": [105]},
+        {"name": "ARCFACE_MODEL", "type": "MODEL", "links": [106]},
+        {"name": "IMAGE_PROJ_MODEL", "type": "MODEL", "links": [107]}
+      ],
+      "title": "AES projector + ArcFace (official defaults)",
+      "properties": {"Node name for S&R": "IDEmbeddingModelLoader"},
+      "widgets_values": ["aes_stage2\\image_proj_model.bin", 8, "CPU", "AUTO"]
+    },
+    {
+      "id": 4,
+      "type": "ExtractIDEmbedding",
+      "pos": [-220, -300],
+      "size": [300, 142],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {"name": "face_detector", "type": "MODEL", "link": 105},
+        {"name": "arcface_model", "type": "MODEL", "link": 106},
+        {"name": "image_proj_model", "type": "MODEL", "link": 107},
+        {"name": "image", "type": "IMAGE", "link": 104}
+      ],
+      "outputs": [{"name": "CONDITIONING", "type": "CONDITIONING", "links": [108]}],
+      "title": "Largest face -> ArcFace -> 8 identity tokens",
+      "properties": {"Node name for S&R": "ExtractIDEmbedding"},
+      "widgets_values": []
+    },
+    {
+      "id": 5,
+      "type": "CLIPTextEncodeFlux",
+      "pos": [-770, 70],
+      "size": [520, 300],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [{"name": "clip", "type": "CLIP", "link": 102}],
+      "outputs": [{"name": "CONDITIONING", "type": "CONDITIONING", "links": [109]}],
+      "title": "Coherent phone photo + real background",
+      "properties": {"Node name for S&R": "CLIPTextEncodeFlux", "cnr_id": "comfy-core"},
+      "widgets_values": [
+        "An unposed waist-up rear-camera smartphone photograph of a man standing naturally on a busy downtown sidewalk in late afternoon. He wears a plain charcoal crew-neck T-shirt and dark jeans and looks toward the camera with a relaxed neutral expression. Frame him slightly off center beside a brick storefront. Clearly resolve unrelated pedestrians at different distances, parked cars, shop windows, street signs, sidewalk texture, and ordinary ambient daylight. Natural small-sensor camera perspective, realistic skin texture, slight handheld imperfection, and one coherent photograph with the person and background captured together. No portrait blur, beauty filter, flash, face cutout, selective subject sharpening, watermark, or text.",
+        "An unposed waist-up rear-camera smartphone photograph of a man standing naturally on a busy downtown sidewalk in late afternoon. He wears a plain charcoal crew-neck T-shirt and dark jeans and looks toward the camera with a relaxed neutral expression. Frame him slightly off center beside a brick storefront. Clearly resolve unrelated pedestrians at different distances, parked cars, shop windows, street signs, sidewalk texture, and ordinary ambient daylight. Natural small-sensor camera perspective, realistic skin texture, slight handheld imperfection, and one coherent photograph with the person and background captured together. No portrait blur, beauty filter, flash, face cutout, selective subject sharpening, watermark, or text.",
+        3.5
+      ]
+    },
+    {
+      "id": 6,
+      "type": "CLIPTextEncode",
+      "pos": [-770, 430],
+      "size": [360, 100],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [{"name": "clip", "type": "CLIP", "link": 103}],
+      "outputs": [{"name": "CONDITIONING", "type": "CONDITIONING", "links": [110]}],
+      "title": "Empty negative (official FLUX path)",
+      "properties": {"Node name for S&R": "CLIPTextEncode", "cnr_id": "comfy-core"},
+      "widgets_values": [""]
+    },
+    {
+      "id": 7,
+      "type": "InfuseNetLoader",
+      "pos": [-220, -30],
+      "size": [390, 80],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [{"name": "CONTROL_NET", "type": "CONTROL_NET", "links": [112]}],
+      "title": "AES Stage 2 FP8 InfuseNet",
+      "properties": {"Node name for S&R": "InfuseNetLoader"},
+      "widgets_values": ["aes_stage2\\infusenet_aes_fp8e4m3fn.safetensors"]
+    },
+    {
+      "id": 8,
+      "type": "EmptyImage",
+      "pos": [-220, 90],
+      "size": [300, 130],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [{"name": "IMAGE", "type": "IMAGE", "links": [114]}],
+      "title": "No pose image: identity only",
+      "properties": {"Node name for S&R": "EmptyImage", "cnr_id": "comfy-core"},
+      "widgets_values": [864, 1152, 1, 0]
+    },
+    {
+      "id": 9,
+      "type": "InfuseNetApply",
+      "pos": [240, 20],
+      "size": [360, 300],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {"name": "positive", "type": "CONDITIONING", "link": 109},
+        {"name": "id_embedding", "type": "CONDITIONING", "link": 108},
+        {"name": "control_net", "type": "CONTROL_NET", "link": 112},
+        {"name": "image", "type": "IMAGE", "link": 114},
+        {"name": "negative", "shape": 7, "type": "CONDITIONING", "link": 110},
+        {"name": "vae", "shape": 7, "type": "VAE", "link": 111},
+        {"name": "control_mask", "shape": 7, "type": "MASK", "link": null}
+      ],
+      "outputs": [
+        {"name": "positive", "type": "CONDITIONING", "links": [115]},
+        {"name": "negative", "type": "CONDITIONING", "links": [116]}
+      ],
+      "title": "Residual identity injection: strength 1.0, full schedule",
+      "properties": {"Node name for S&R": "InfuseNetApply"},
+      "widgets_values": [1.0, 0.0, 1.0]
+    },
+    {
+      "id": 10,
+      "type": "EmptyLatentImage",
+      "pos": [250, 380],
+      "size": [300, 110],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [{"name": "LATENT", "type": "LATENT", "links": [117]}],
+      "title": "Official near-1MP portrait geometry",
+      "properties": {"Node name for S&R": "EmptyLatentImage", "cnr_id": "comfy-core"},
+      "widgets_values": [864, 1152, 1]
+    },
+    {
+      "id": 11,
+      "type": "KSampler",
+      "pos": [700, 10],
+      "size": [330, 470],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {"name": "model", "type": "MODEL", "link": 101},
+        {"name": "positive", "type": "CONDITIONING", "link": 115},
+        {"name": "negative", "type": "CONDITIONING", "link": 116},
+        {"name": "latent_image", "type": "LATENT", "link": 117}
+      ],
+      "outputs": [{"name": "LATENT", "type": "LATENT", "links": [118]}],
+      "title": "Official 30-step defaults",
+      "properties": {"Node name for S&R": "KSampler", "cnr_id": "comfy-core"},
+      "widgets_values": [8675367, "fixed", 30, 1.0, "euler", "beta", 1.0]
+    },
+    {
+      "id": 12,
+      "type": "VAEDecode",
+      "pos": [1110, 80],
+      "size": [240, 80],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {"name": "samples", "type": "LATENT", "link": 118},
+        {"name": "vae", "type": "VAE", "link": 113}
+      ],
+      "outputs": [{"name": "IMAGE", "type": "IMAGE", "links": [119]}],
+      "properties": {"Node name for S&R": "VAEDecode", "cnr_id": "comfy-core"},
+      "widgets_values": []
+    },
+    {
+      "id": 13,
+      "type": "SaveImage",
+      "pos": [1430, 60],
+      "size": [360, 370],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [{"name": "images", "type": "IMAGE", "link": 119}],
+      "outputs": [],
+      "title": "TESTED + REJECTED — identity drift in AES and SIM",
+      "properties": {"Node name for S&R": "SaveImage", "cnr_id": "comfy-core"},
+      "widgets_values": ["InfiniteYou/aes-stage2-one-ref"]
+    }
+  ],
+  "links": [
+    [101, 1, 0, 11, 0, "MODEL"],
+    [102, 1, 1, 5, 0, "CLIP"],
+    [103, 1, 1, 6, 0, "CLIP"],
+    [104, 2, 0, 4, 3, "IMAGE"],
+    [105, 3, 0, 4, 0, "MODEL"],
+    [106, 3, 1, 4, 1, "MODEL"],
+    [107, 3, 2, 4, 2, "MODEL"],
+    [108, 4, 0, 9, 1, "CONDITIONING"],
+    [109, 5, 0, 9, 0, "CONDITIONING"],
+    [110, 6, 0, 9, 4, "CONDITIONING"],
+    [111, 1, 2, 9, 5, "VAE"],
+    [112, 7, 0, 9, 2, "CONTROL_NET"],
+    [113, 1, 2, 12, 1, "VAE"],
+    [114, 8, 0, 9, 3, "IMAGE"],
+    [115, 9, 0, 11, 1, "CONDITIONING"],
+    [116, 9, 1, 11, 2, "CONDITIONING"],
+    [117, 10, 0, 11, 3, "LATENT"],
+    [118, 11, 0, 12, 0, "LATENT"],
+    [119, 12, 0, 13, 0, "IMAGE"]
+  ],
+  "groups": [
+    {"id": 1, "title": "Identity mechanism: genuine photo -> ArcFace -> projected tokens", "bounding": [-1310, -370, 1430, 430], "color": "#8a5a44", "font_size": 22, "flags": {}},
+    {"id": 2, "title": "Whole-image FLUX generation; no face swap, mask, LoRA, or postprocess", "bounding": [-820, -570, 2650, 1120], "color": "#3f789e", "font_size": 22, "flags": {}}
+  ],
+  "config": {},
+  "extra": {
+    "ds": {"scale": 0.72, "offset": [1340, 670]},
+    "frontendVersion": "1.27.10"
+  },
+  "version": 0.4
+}

@@ -84,6 +84,34 @@ class IdentityLeakageTests(unittest.TestCase):
         )
         self.assertIn("main_identity_below_threshold", weak.failures)
 
+    def test_caller_can_score_the_intended_main_instead_of_a_leaked_bystander(self):
+        report = evaluate_identity_scope(
+            [
+                np.array([0.55, 0.83, 0.0]),
+                np.array([0.98, 0.10, 0.0]),
+            ],
+            self.boxes[:2],
+            self.confidences[:2],
+            self.identity,
+            0.75,
+            preferred_main_index=0,
+        )
+        self.assertEqual(report.main_face_index, 0)
+        self.assertEqual(report.main_selection_method, "caller_provided_scene_role")
+        self.assertIn("main_identity_below_threshold", report.failures)
+        self.assertIn("identity_leaked_to_secondary_face", report.failures)
+
+    def test_invalid_preferred_main_index_is_rejected(self):
+        with self.assertRaises(ValueError):
+            evaluate_identity_scope(
+                [np.array([1.0, 0.0, 0.0])],
+                self.boxes[:1],
+                self.confidences[:1],
+                self.identity,
+                0.75,
+                preferred_main_index=2,
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

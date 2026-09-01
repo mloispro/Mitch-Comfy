@@ -25,6 +25,7 @@ class IdentityScopeReport:
     status: str
     detected_face_count: int
     main_face_index: int | None
+    main_selection_method: str
     main_identity_similarity: float
     main_detection_confidence: float
     maximum_secondary_identity_similarity: float
@@ -49,13 +50,20 @@ def evaluate_identity_scope(
     secondary_identity_maximum: float = SECONDARY_IDENTITY_MAX,
     secondary_to_main_maximum: float = SECONDARY_TO_MAIN_MAX,
     secondary_duplicate_maximum: float = SECONDARY_DUPLICATE_MAX,
+    preferred_main_index: int | None = None,
 ) -> IdentityScopeReport:
-    """Select the identity-matching face and reject identity leakage elsewhere."""
+    """Score one intended main face and reject identity leakage elsewhere.
+
+    Callers that know the subject's scene position should pass ``preferred_main_index``.
+    Falling back to the most identity-similar face is retained for callers without
+    scene-role information.
+    """
     if not face_embeddings:
         return IdentityScopeReport(
             status="rejected",
             detected_face_count=0,
             main_face_index=None,
+            main_selection_method="none",
             main_identity_similarity=-1.0,
             main_detection_confidence=0.0,
             maximum_secondary_identity_similarity=-1.0,
@@ -71,7 +79,16 @@ def evaluate_identity_scope(
     embeddings = [_normalized(item) for item in face_embeddings]
     identity = _normalized(identity_centroid)
     similarities = [_cosine(identity, embedding) for embedding in embeddings]
-    main_index = int(np.argmax(np.asarray(similarities)))
+    if preferred_main_index is None:
+        main_index = int(np.argmax(np.asarray(similarities)))
+        main_selection_method = "highest_identity_similarity"
+    else:
+        main_index = int(preferred_main_index)
+        if main_index < 0 or main_index >= len(embeddings):
+            raise ValueError(
+                f"preferred_main_index {main_index} is outside the detected face range"
+            )
+        main_selection_method = "caller_provided_scene_role"
     secondary_indexes = [index for index in range(len(embeddings)) if index != main_index]
     secondary_identity = [similarities[index] for index in secondary_indexes]
     secondary_to_main = [
@@ -118,6 +135,7 @@ def evaluate_identity_scope(
         status="passed" if not failures else "rejected",
         detected_face_count=len(embeddings),
         main_face_index=main_index,
+        main_selection_method=main_selection_method,
         main_identity_similarity=round(float(similarities[main_index]), 4),
         main_detection_confidence=round(float(face_confidences[main_index]), 4),
         maximum_secondary_identity_similarity=round(float(max_secondary_identity), 4),

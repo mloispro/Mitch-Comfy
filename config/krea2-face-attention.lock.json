@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "selected_balanced_realism_no_personal_lora_route",
-  "workflow": "workflows/production/Krea 2 Identity Edit - Face Attention v2.json",
+  "workflow": "checkpoints/legacy-workflows/production/Krea 2 Identity Edit - Face Attention v2.json",
   "mechanism": {
     "identityReference": "20260815_165446.jpg",
     "identityPaths": [

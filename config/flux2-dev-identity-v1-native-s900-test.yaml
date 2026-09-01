@@ -1,0 +1,93 @@
+---
+job: extension
+config:
+  name: m1tch-flux2-dev-native-s900-test
+  process:
+    - type: diffusion_trainer
+      training_folder: C:\projects\AI-Tools\Mitch-Comfy\work\flux2-dev-identity-v1\native-s900-test
+      device: cuda:0
+      trigger_word: m1tch_person
+      performance_log_every: 0
+      network:
+        type: lora
+        linear: 16
+        linear_alpha: 16
+        pretrained_lora_path: C:\projects\AI-Tools\ai-toolkit\AI-Toolkit\output\m1tch-flux2-dev-identity-v1\m1tch-flux2-dev-identity-v1_000000900.safetensors
+      save:
+        dtype: bf16
+        save_every: 0
+        max_step_saves_to_keep: 1
+        save_format: safetensors
+        push_to_hub: false
+      datasets:
+        - folder_path: C:\projects\AI-Tools\Mitch-Comfy\datasets\mitch-identity-stills-v3\dataset
+          caption_ext: txt
+          caption_dropout_rate: 0.0
+          token_dropout_rate: 0.0
+          shuffle_tokens: false
+          cache_latents_to_disk: true
+          cache_text_embeddings: true
+          resolution: [768, 1024]
+          num_repeats: 1
+          flip_x: false
+          flip_y: false
+      train:
+        batch_size: 1
+        steps: 900
+        start_step: 900
+        gradient_accumulation: 1
+        train_unet: true
+        train_text_encoder: false
+        gradient_checkpointing: true
+        noise_scheduler: flowmatch
+        timestep_type: weighted
+        content_or_style: balanced
+        optimizer: adamw8bit
+        optimizer_params:
+          weight_decay: 0.0001
+        lr: 0.00008
+        lr_scheduler: constant
+        max_grad_norm: 1.0
+        unload_text_encoder: true
+        cache_text_embeddings: true
+        skip_first_sample: true
+        force_first_sample: false
+        disable_sampling: false
+        dtype: bf16
+        loss_type: mse
+        ema_config:
+          use_ema: false
+          ema_decay: 0.99
+      model:
+        name_or_path: black-forest-labs/FLUX.2-dev
+        arch: flux2
+        dtype: bf16
+        quantize: true
+        qtype: qfloat8
+        quantize_te: true
+        qtype_te: qfloat8
+        low_vram: true
+        layer_offloading: true
+        layer_offloading_transformer_percent: 1.0
+        layer_offloading_text_encoder_percent: 1.0
+        model_kwargs:
+          match_target_res: false
+      sample:
+        sampler: flowmatch
+        sample_every: 0
+        sample_start_step: 0
+        width: 832
+        height: 1248
+        prompts:
+          - An ordinary unedited smartphone portrait of m1tch_person, an adult man, seated at a neighborhood cafe in soft open shade, head and shoulders, navy crew-neck T-shirt, relaxed natural half-smile, looking at the camera, realistic pores and fine facial detail, believable phone-camera exposure, no beauty filter.
+        neg: ""
+        seed: 8675310
+        walk_seed: false
+        guidance_scale: 4.0
+        sample_steps: 28
+        network_multiplier: 1.0
+        format: png
+meta:
+  purpose: Native AI-Toolkit inference compatibility test for the rejected FLUX.2 Dev step-900 identity LoRA.
+  optimizer_steps_executed: 0
+  comparison: Same portrait prompt, seed, dimensions, guidance, and LoRA strength as the ComfyUI benchmark; native pipeline and 28 steps are the controlled differences.

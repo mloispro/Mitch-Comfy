@@ -1,0 +1,319 @@
+{
+  "id": "flux2-dev-native-reference-krea2-crowd-comparison",
+  "revision": 0,
+  "last_node_id": 18,
+  "last_link_id": 21,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "LoadImage",
+      "pos": [-900, 510],
+      "size": [320, 500],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {"name": "IMAGE", "type": "IMAGE", "links": [1, 2]},
+        {"name": "MASK", "type": "MASK", "links": null}
+      ],
+      "properties": {"Node name for S&R": "LoadImage", "cnr_id": "comfy-core"},
+      "widgets_values": ["mitch-identity-anchor-walking-v1.png", "image"]
+    },
+    {
+      "id": 2,
+      "type": "UNETLoader",
+      "pos": [-900, -170],
+      "size": [410, 110],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [{"name": "MODEL", "type": "MODEL", "links": [8]}],
+      "properties": {"Node name for S&R": "UNETLoader", "cnr_id": "comfy-core"},
+      "widgets_values": ["flux2_dev_fp8mixed.safetensors", "default"]
+    },
+    {
+      "id": 3,
+      "type": "CLIPLoader",
+      "pos": [-900, -20],
+      "size": [410, 150],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [{"name": "CLIP", "type": "CLIP", "links": [4]}],
+      "properties": {"Node name for S&R": "CLIPLoader", "cnr_id": "comfy-core"},
+      "widgets_values": ["mistral_3_small_flux2_fp4_mixed.safetensors", "flux2", "default"]
+    },
+    {
+      "id": 4,
+      "type": "VAELoader",
+      "pos": [-900, 170],
+      "size": [410, 110],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [{"name": "VAE", "type": "VAE", "links": [3, 16]}],
+      "properties": {"Node name for S&R": "VAELoader", "cnr_id": "comfy-core"},
+      "widgets_values": ["flux2-vae.safetensors"]
+    },
+    {
+      "id": 5,
+      "type": "GetImageSize",
+      "pos": [-500, 530],
+      "size": [250, 120],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [{"name": "image", "type": "IMAGE", "link": 1}],
+      "outputs": [
+        {"name": "width", "type": "INT", "links": [18, 20]},
+        {"name": "height", "type": "INT", "links": [19, 21]},
+        {"name": "batch_size", "type": "INT", "links": null}
+      ],
+      "properties": {"Node name for S&R": "GetImageSize", "cnr_id": "comfy-core"},
+      "widgets_values": []
+    },
+    {
+      "id": 6,
+      "type": "VAEEncode",
+      "pos": [-500, 710],
+      "size": [250, 100],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {"name": "pixels", "type": "IMAGE", "link": 2},
+        {"name": "vae", "type": "VAE", "link": 3}
+      ],
+      "outputs": [{"name": "LATENT", "type": "LATENT", "links": [7]}],
+      "properties": {"Node name for S&R": "VAEEncode", "cnr_id": "comfy-core"},
+      "widgets_values": []
+    },
+    {
+      "id": 7,
+      "type": "CLIPTextEncode",
+      "pos": [-430, -220],
+      "size": [540, 450],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {"name": "clip", "type": "CLIP", "link": 4},
+        {"name": "text", "type": "STRING", "widget": {"name": "text"}, "link": null}
+      ],
+      "outputs": [{"name": "CONDITIONING", "type": "CONDITIONING", "links": [5]}],
+      "title": "Approved Krea2 State-Fair Prompt",
+      "properties": {"Node name for S&R": "CLIPTextEncode", "cnr_id": "comfy-core"},
+      "widgets_values": ["Create a completely new candid vertical rear-smartphone photograph of the exact same man in the reference enjoying a genuinely busy Midwestern state fair in late afternoon. Preserve his recognizable facial identity, forehead lines, eye shape and spacing, nose, mouth, ears, current short light-brown hair and hairline, apparent age, lean build, and natural skin texture. He is unmistakably a fair customer on the public walkway side of a food stall, never an employee and never behind the service counter. Frame him naturally from mid-torso upward, slightly off center, body turned three-quarter toward an unseen vendor while he looks near the camera with a relaxed confident expression. He casually holds one ordinary clear cup of lemonade near his waist; no food tray, knife, utensil, apron, serving action, or work pose. Do not show his legs or feet and do not create any visual height comparison. A small edge of the customer counter provides normal foreground depth without blocking his hands or body. Behind and beside him, an irregular dense crowd moves independently at varied depths in varied colorful ordinary clothing; include readable food stalls, umbrellas, midway lights, and one correctly scaled Ferris wheel. Use normal deep smartphone focus, ordinary open-shade daylight, restrained HDR, subtle sensor texture, slight motion only on moving bystanders, and believable imperfect handheld framing. Make the entire frame feel captured in one moment. No centered hero lane, no flash, no portrait-mode blur, no beauty filter, no cinematic grade, no staged pose, no identity duplicate, no repeated faces, no selectively sharpened subject, no collage, no face-swap look, no malformed hands, no text, logo, or watermark."]
+    },
+    {
+      "id": 8,
+      "type": "FluxGuidance",
+      "pos": [160, -80],
+      "size": [280, 110],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {"name": "conditioning", "type": "CONDITIONING", "link": 5},
+        {"name": "guidance", "type": "FLOAT", "widget": {"name": "guidance"}, "link": null}
+      ],
+      "outputs": [{"name": "CONDITIONING", "type": "CONDITIONING", "links": [6]}],
+      "properties": {"Node name for S&R": "FluxGuidance", "cnr_id": "comfy-core"},
+      "widgets_values": [4.0]
+    },
+    {
+      "id": 9,
+      "type": "ReferenceLatent",
+      "pos": [160, 100],
+      "size": [280, 100],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {"name": "conditioning", "type": "CONDITIONING", "link": 6},
+        {"name": "latent", "type": "LATENT", "link": 7}
+      ],
+      "outputs": [{"name": "CONDITIONING", "type": "CONDITIONING", "links": [9]}],
+      "title": "Whole-Image Native Reference",
+      "properties": {"Node name for S&R": "ReferenceLatent", "cnr_id": "comfy-core"},
+      "widgets_values": []
+    },
+    {
+      "id": 10,
+      "type": "BasicGuider",
+      "pos": [500, -70],
+      "size": [260, 100],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {"name": "model", "type": "MODEL", "link": 8},
+        {"name": "conditioning", "type": "CONDITIONING", "link": 9}
+      ],
+      "outputs": [{"name": "GUIDER", "type": "GUIDER", "links": [10]}],
+      "properties": {"Node name for S&R": "BasicGuider", "cnr_id": "comfy-core"},
+      "widgets_values": []
+    },
+    {
+      "id": 11,
+      "type": "KSamplerSelect",
+      "pos": [500, 80],
+      "size": [260, 110],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [{"name": "SAMPLER", "type": "SAMPLER", "links": [11]}],
+      "properties": {"Node name for S&R": "KSamplerSelect", "cnr_id": "comfy-core"},
+      "widgets_values": ["euler"]
+    },
+    {
+      "id": 12,
+      "type": "Flux2Scheduler",
+      "pos": [500, 240],
+      "size": [260, 170],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {"name": "width", "type": "INT", "widget": {"name": "width"}, "link": 18},
+        {"name": "height", "type": "INT", "widget": {"name": "height"}, "link": 19}
+      ],
+      "outputs": [{"name": "SIGMAS", "type": "SIGMAS", "links": [12]}],
+      "properties": {"Node name for S&R": "Flux2Scheduler", "cnr_id": "comfy-core"},
+      "widgets_values": [20, 832, 1248]
+    },
+    {
+      "id": 13,
+      "type": "RandomNoise",
+      "pos": [500, 460],
+      "size": [260, 110],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [{"name": "NOISE", "type": "NOISE", "links": [13]}],
+      "properties": {"Node name for S&R": "RandomNoise", "cnr_id": "comfy-core"},
+      "widgets_values": [9472363, "fixed"]
+    },
+    {
+      "id": 14,
+      "type": "EmptyFlux2LatentImage",
+      "pos": [500, 620],
+      "size": [260, 170],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {"name": "width", "type": "INT", "widget": {"name": "width"}, "link": 20},
+        {"name": "height", "type": "INT", "widget": {"name": "height"}, "link": 21}
+      ],
+      "outputs": [{"name": "LATENT", "type": "LATENT", "links": [14]}],
+      "properties": {"Node name for S&R": "EmptyFlux2LatentImage", "cnr_id": "comfy-core"},
+      "widgets_values": [832, 1248, 1]
+    },
+    {
+      "id": 15,
+      "type": "SamplerCustomAdvanced",
+      "pos": [830, 80],
+      "size": [270, 180],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {"name": "noise", "type": "NOISE", "link": 13},
+        {"name": "guider", "type": "GUIDER", "link": 10},
+        {"name": "sampler", "type": "SAMPLER", "link": 11},
+        {"name": "sigmas", "type": "SIGMAS", "link": 12},
+        {"name": "latent_image", "type": "LATENT", "link": 14}
+      ],
+      "outputs": [
+        {"name": "output", "type": "LATENT", "links": [15]},
+        {"name": "denoised_output", "type": "LATENT", "links": null}
+      ],
+      "properties": {"Node name for S&R": "SamplerCustomAdvanced", "cnr_id": "comfy-core"},
+      "widgets_values": []
+    },
+    {
+      "id": 16,
+      "type": "VAEDecode",
+      "pos": [1160, 80],
+      "size": [240, 100],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {"name": "samples", "type": "LATENT", "link": 15},
+        {"name": "vae", "type": "VAE", "link": 16}
+      ],
+      "outputs": [{"name": "IMAGE", "type": "IMAGE", "links": [17]}],
+      "properties": {"Node name for S&R": "VAEDecode", "cnr_id": "comfy-core"},
+      "widgets_values": []
+    },
+    {
+      "id": 17,
+      "type": "SaveImage",
+      "pos": [1460, 30],
+      "size": [420, 500],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [{"name": "images", "type": "IMAGE", "link": 17}],
+      "outputs": [{"name": "images", "type": "IMAGE", "links": null}],
+      "properties": {"Node name for S&R": "SaveImage", "cnr_id": "comfy-core"},
+      "widgets_values": ["flux2-dev-native-reference-krea-comparison/state-fair-dev-20step-guidance4.0-seed9472363"]
+    },
+    {
+      "id": 18,
+      "type": "MarkdownNote",
+      "pos": [-900, -520],
+      "size": [1880, 220],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": ["# FLUX.2 Dev native-reference crowd comparison\n\nDirect adaptation of Comfy-Org's official non-turbo FLUX.2 Dev image-edit blueprint. The complete 832×1248 reference is VAE-encoded and attached after `FluxGuidance 4` with `ReferenceLatent`; sampling uses `BasicGuider`, Euler, and 20 steps. No LoRA, turbo mode, negative prompt, crop, output mask, inpaint, swap, composite, restoration, sharpening, or finish. Local official quantized files: Dev FP8 mixed, Mistral 3 Small FP4 mixed, and FLUX.2 VAE.\n\n**2026-08-24 result: tested, preserved as comparison, not promoted.** Crowd variation and skin color were better than Base 4B, but Dev introduced strong portrait-style background blur despite the deep-focus prompt and identity scored 0.5617, below Base 4B at 0.5691 and Krea2 at 0.6330."]
+    }
+  ],
+  "links": [
+    [1, 1, 0, 5, 0, "IMAGE"],
+    [2, 1, 0, 6, 0, "IMAGE"],
+    [3, 4, 0, 6, 1, "VAE"],
+    [4, 3, 0, 7, 0, "CLIP"],
+    [5, 7, 0, 8, 0, "CONDITIONING"],
+    [6, 8, 0, 9, 0, "CONDITIONING"],
+    [7, 6, 0, 9, 1, "LATENT"],
+    [8, 2, 0, 10, 0, "MODEL"],
+    [9, 9, 0, 10, 1, "CONDITIONING"],
+    [10, 10, 0, 15, 1, "GUIDER"],
+    [11, 11, 0, 15, 2, "SAMPLER"],
+    [12, 12, 0, 15, 3, "SIGMAS"],
+    [13, 13, 0, 15, 0, "NOISE"],
+    [14, 14, 0, 15, 4, "LATENT"],
+    [15, 15, 0, 16, 0, "LATENT"],
+    [16, 4, 0, 16, 1, "VAE"],
+    [17, 16, 0, 17, 0, "IMAGE"],
+    [18, 5, 0, 12, 0, "INT"],
+    [19, 5, 1, 12, 1, "INT"],
+    [20, 5, 0, 14, 0, "INT"],
+    [21, 5, 1, 14, 1, "INT"]
+  ],
+  "groups": [
+    {"id": 1, "title": "Official Dev models", "bounding": [-940, -230, 490, 550], "color": "#3f789e", "flags": {}},
+    {"id": 2, "title": "Native whole-image Dev reference conditioning", "bounding": [-470, -260, 950, 1110], "color": "#8f6c3b", "flags": {}},
+    {"id": 3, "title": "Official non-turbo Dev sampling", "bounding": [470, -110, 670, 950], "color": "#3f789e", "flags": {}},
+    {"id": 4, "title": "Whole-frame output", "bounding": [1130, -20, 790, 600], "color": "#3f789e", "flags": {}}
+  ],
+  "config": {},
+  "extra": {
+    "frontendVersion": "1.45.19",
+    "ds": {"scale": 0.72, "offset": [750, 430]}
+  },
+  "version": 0.4
+}

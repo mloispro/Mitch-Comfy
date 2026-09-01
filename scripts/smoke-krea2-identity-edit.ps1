@@ -7,13 +7,18 @@ param(
     [int]$Width = 832,
     [int]$Height = 1248,
     [int]$Steps = 12,
+    [ValidateSet("simple", "sgm_uniform", "karras", "exponential", "ddim_uniform", "beta", "normal", "linear_quadratic", "kl_optimal")]
+    [string]$Scheduler = "simple",
     [double]$RefBoost = 6.0,
     [double]$SmartphoneLoraStrength = 0.0,
     [double]$GokayRealismLoraStrength = 0.0,
+    [double]$MitchKreaLoraStrength = 0.0,
     [double]$SceneRefBoost = 1.0,
     [int]$GroundingPixels = 768,
     [switch]$FaceAttentionMask,
     [switch]$ApplyPhoneFinish,
+    [switch]$ReferenceFromOutput,
+    [string]$OutputPrefix = "",
     [int]$Port = 8189,
     [string]$ExpectedGpuName = "",
     [int]$TimeoutSeconds = 1200
@@ -24,6 +29,7 @@ $baseUrl = "http://127.0.0.1:$Port"
 $twoInputMode = $SceneReference -ne "[none]"
 $smartphoneLoraName = "krea-smartphone-photo-slider.safetensors"
 $gokayRealismLoraName = "krea2_realism_lora_comfy.safetensors"
+$mitchKreaLoraName = "aitk\mitch-krea2-identity-v1.safetensors"
 
 if ($SmartphoneLoraStrength -ne 0.0 -and $GokayRealismLoraStrength -ne 0.0) {
     throw "Use only one realism LoRA per controlled experiment."
@@ -89,7 +95,7 @@ $requiredNodes = @(
     "LoraLoaderModelOnly",
     "CLIPLoader",
     "VAELoader",
-    "LoadImage",
+    $(if ($ReferenceFromOutput) { "Image Load" } else { "LoadImage" }),
     "VAEEncode",
     "EmptySD3LatentImage",
     "Krea2EditModelPatch",
@@ -120,6 +126,9 @@ if ($SmartphoneLoraStrength -ne 0.0 -and $loraNames -notcontains $smartphoneLora
 if ($GokayRealismLoraStrength -ne 0.0 -and $loraNames -notcontains $gokayRealismLoraName) {
     throw "Gokay Krea2 realism LoRA is not visible to ComfyUI."
 }
+if ($MitchKreaLoraStrength -ne 0.0 -and $loraNames -notcontains $mitchKreaLoraName) {
+    throw "Mitch Krea2 identity LoRA is not visible to ComfyUI."
+}
 
 $identityModelInput = @("1", 0)
 $outputVariant = "baseline"
@@ -136,6 +145,12 @@ elseif ($GokayRealismLoraStrength -ne 0.0) {
     $outputVariant = "gokay-realism-converted-$($GokayRealismLoraStrength.ToString('0.00', [Globalization.CultureInfo]::InvariantCulture).Replace('.', 'p'))"
     $activeRealismLoraName = $gokayRealismLoraName
     $activeRealismLoraStrength = $GokayRealismLoraStrength
+}
+$mitchModelInput = $identityModelInput
+if ($MitchKreaLoraStrength -ne 0.0) {
+    $identityModelInput = @("19", 0)
+    $formattedMitchStrength = $MitchKreaLoraStrength.ToString('0.00', [Globalization.CultureInfo]::InvariantCulture).Replace('.', 'p')
+    $outputVariant = "$outputVariant-mitch-krea-$formattedMitchStrength"
 }
 if ($FaceAttentionMask) {
     $outputVariant = "$outputVariant-face-attention"
@@ -173,8 +188,16 @@ $workflow = @{
         inputs = @{ vae_name = "qwen_image_vae.safetensors" }
     }
     "5" = @{
-        class_type = "LoadImage"
-        inputs = @{ image = $Reference }
+        class_type = if ($ReferenceFromOutput) { "Image Load" } else { "LoadImage" }
+        inputs = if ($ReferenceFromOutput) {
+            @{
+                image_path = $Reference
+                RGBA = "false"
+            }
+        }
+        else {
+            @{ image = $Reference }
+        }
     }
     "6" = @{
         class_type = "VAEEncode"
@@ -199,7 +222,7 @@ $workflow = @{
             steps = $Steps
             cfg = 1.0
             sampler_name = "euler"
-            scheduler = "simple"
+            scheduler = $Scheduler
             positive = @("9", 0)
             negative = @("10", 0)
             latent_image = @("7", 0)
@@ -217,7 +240,10 @@ $workflow = @{
         class_type = "SaveImage"
         inputs = @{
             images = if ($ApplyPhoneFinish) { @("18", 0) } else { @("12", 0) }
-            filename_prefix = if ($twoInputMode) {
+            filename_prefix = if (-not [string]::IsNullOrWhiteSpace($OutputPrefix)) {
+                $OutputPrefix
+            }
+            elseif ($twoInputMode) {
                 "krea2-identity-edit/mitch-sidewalk-scene-plus-identity-$outputVariant"
             }
             else {
@@ -234,6 +260,17 @@ if ($activeRealismLoraName) {
             model = @("1", 0)
             lora_name = $activeRealismLoraName
             strength_model = $activeRealismLoraStrength
+        }
+    }
+}
+
+if ($MitchKreaLoraStrength -ne 0.0) {
+    $workflow["19"] = @{
+        class_type = "LoraLoaderModelOnly"
+        inputs = @{
+            model = $mitchModelInput
+            lora_name = $mitchKreaLoraName
+            strength_model = $MitchKreaLoraStrength
         }
     }
 }

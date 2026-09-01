@@ -1,5 +1,7 @@
 # Easy Social Photos v1.0.2 phone-lens evaluation
 
+> **Historical record — not current instructions.** Easy Social is now an archived rollback. See `docs/STATUS.md`.
+
 The optional `Smartphone — slight lens haze` preset reproduces the thin washed film in casual phone captures
 near bright windows or sun. It describes the physical cause—uneven veiling glare and lifted blacks from stray
 light on an everyday handled lens—instead of applying a flat white overlay or a face-smoothing postprocess.

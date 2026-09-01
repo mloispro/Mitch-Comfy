@@ -1,5 +1,7 @@
 # FLUX.2 One Reference Identity v1
 
+> **Historical record — not current instructions.** This accepted 2026-08-22 baseline is now a rollback, not a visible Production workflow. See `docs/STATUS.md` for current state.
+
 ## Accepted and frozen
 
 Mitch visually accepted this baseline on 2026-08-22: the result looked great and looked like him. This is the
@@ -8,15 +10,18 @@ decisive acceptance signal; the automated scores below remain supporting drift d
 - Release tag: `flux2-one-reference-v1.0.0`
 - Frozen registry: `config/frozen-baselines.json`
 - Workflow SHA-256: `CB5BAD60751997EF37F8A5D6DE1215F65CDB83E35F3D7BEB539EFDFFB42AF875`
-- Identity-core SHA-256: `060AFDBE97433C7CB567C74682D4C45F52AC7B81E1CC5F9B4ED6CED4DC54E7CC`
+- Accepted identity-core SHA-256 from the release tag: `060AFDBE97433C7CB567C74682D4C45F52AC7B81E1CC5F9B4ED6CED4DC54E7CC`
 
-`scripts/verify.ps1` rejects accidental changes to the workflow or identity core. Presets, multi-reference
-support, and other experiments must be implemented beside this baseline and compared against it. The private
-LoRA is hash-locked below but is not stored in Git, so it must also have a separate private backup.
+The exact workflow blob is preserved in the hidden legacy archive and under the release tag. The current live
+Python file has since evolved to keep archived graphs importable, so restore the accepted implementation from
+the release tag when an exact code rollback is required. `scripts/verify.ps1` requires the archive workflow and
+validates its structure. Presets, multi-reference support, and other experiments
+must be implemented beside this baseline and compared against it. The private LoRA is hash-locked below but is
+not stored in Git, so it must also have a separate private backup.
 
-## Production route
+## Archived route
 
-- Workflow: `workflows/production/FLUX.2 One Reference Photo.json`
+- Workflow: `checkpoints/legacy-workflows/production/FLUX.2 One Reference Photo.json`
 - Visible controls: one genuine face upload and one plain-language scene prompt
 - Model: `flux-2-klein-base-4b-fp8.safetensors`
 - Text encoder: `qwen_3_4b_fp8_mixed.safetensors`

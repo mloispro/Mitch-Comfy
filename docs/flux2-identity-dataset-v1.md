@@ -1,5 +1,7 @@
 # FLUX.2 identity dataset v1
 
+> **Historical provenance record — not current operating instructions.** The retained Klein 4B V1 adapter is listed in `docs/STATUS.md`; current primary generation uses Klein 9B V3.
+
 This local-only training set contains ten genuine photos selected for identity diversity rather than volume.
 The images live under the ignored `datasets/flux2-klein-identity-v1` directory and are never committed.
 

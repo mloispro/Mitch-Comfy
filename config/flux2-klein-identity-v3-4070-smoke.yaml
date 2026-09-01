@@ -1,0 +1,90 @@
+---
+job: extension
+config:
+  name: m1tch-flux2-klein-4b-identity-v3-smoke
+  process:
+    - type: diffusion_trainer
+      training_folder: C:\projects\AI-Tools\Mitch-Comfy\work\ai-toolkit-output
+      sqlite_db_path: C:\projects\AI-Tools\Mitch-Comfy\work\ai-toolkit-output\aitk_db.db
+      device: cuda:0
+      trigger_word: m1tch_person
+      performance_log_every: 1
+      network:
+        type: lora
+        linear: 16
+        linear_alpha: 16
+      save:
+        dtype: bf16
+        save_every: 20
+        max_step_saves_to_keep: 1
+        save_format: safetensors
+        push_to_hub: false
+      datasets:
+        - folder_path: C:\projects\AI-Tools\Mitch-Comfy\datasets\mitch-identity-stills-v3\dataset
+          caption_ext: txt
+          caption_dropout_rate: 0.0
+          token_dropout_rate: 0.0
+          shuffle_tokens: false
+          cache_latents_to_disk: true
+          cache_text_embeddings: true
+          resolution: [512, 768, 1024]
+          num_repeats: 1
+          flip_x: false
+          flip_y: false
+      train:
+        batch_size: 1
+        steps: 20
+        gradient_accumulation: 1
+        train_unet: true
+        train_text_encoder: false
+        gradient_checkpointing: true
+        noise_scheduler: flowmatch
+        timestep_type: weighted
+        content_or_style: balanced
+        optimizer: adamw8bit
+        optimizer_params:
+          weight_decay: 0.0001
+        lr: 0.00008
+        lr_scheduler: constant
+        max_grad_norm: 1.0
+        unload_text_encoder: true
+        cache_text_embeddings: true
+        skip_first_sample: true
+        disable_sampling: true
+        dtype: bf16
+        loss_type: mse
+        ema_config:
+          use_ema: false
+          ema_decay: 0.99
+      logging:
+        log_every: 1
+        use_ui_logger: false
+      model:
+        name_or_path: black-forest-labs/FLUX.2-klein-base-4B
+        arch: flux2_klein_4b
+        dtype: bf16
+        quantize: true
+        qtype: qfloat8
+        quantize_te: true
+        qtype_te: qfloat8
+        low_vram: true
+        layer_offloading: false
+        model_kwargs:
+          match_target_res: false
+      sample:
+        sampler: flowmatch
+        sample_every: 20
+        width: 768
+        height: 1024
+        prompts:
+          - A realistic smartphone portrait of m1tch_person, an adult man, in natural daylight.
+        neg: ""
+        seed: 8675310
+        walk_seed: false
+        guidance_scale: 4.0
+        sample_steps: 30
+meta:
+  name: m1tch-flux2-klein-4b-identity-v3-smoke
+  version: "3.0-smoke"
+  production_config: C:\projects\AI-Tools\Mitch-Comfy\config\flux2-klein-identity-v3-4070.yaml
+  target_gpu: NVIDIA GeForce RTX 4070

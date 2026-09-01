@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "dataset": "mitch-identity-stills-v6-klein9b-intake",
+  "trigger_word": "m1tch_person",
+  "intake_root": "C:\\projects\\AI-Tools\\Mitch photos\\klein9b-v6-intake",
+  "records": [
+    {
+      "id": "new_profile_image_left_train_01",
+      "file": "replace-me-profile-image-left-train-01.jpg",
+      "split": "train",
+      "role": "profile_image_left",
+      "session": "replace-me-session-a",
+      "caption": "m1tch_person, an adult man, clear true profile facing image-left, head and shoulders, neutral expression, natural daylight, sharp genuine cellphone photograph",
+      "attestations": {
+        "genuine_camera_still": true,
+        "not_video_frame": true,
+        "no_generated_pixels": true,
+        "no_identity_edit": true,
+        "no_beauty_filter": true,
+        "no_face_or_body_restoration": true
+      }
+    },
+    {
+      "id": "new_profile_image_left_train_02",
+      "file": "replace-me-profile-image-left-train-02.jpg",
+      "split": "train",
+      "role": "profile_image_left",
+      "session": "replace-me-session-b",
+      "caption": "m1tch_person, an adult man, clear true profile facing image-left, head and shoulders, relaxed expression, ordinary indoor light, sharp genuine cellphone photograph",
+      "attestations": {
+        "genuine_camera_still": true,
+        "not_video_frame": true,
+        "no_generated_pixels": true,
+        "no_identity_edit": true,
+        "no_beauty_filter": true,
+        "no_face_or_body_restoration": true
+      }
+    },
+    {
+      "id": "new_profile_image_left_validation_01",
+      "file": "replace-me-profile-image-left-validation-01.jpg",
+      "split": "validation",
+      "role": "profile_image_left",
+      "session": "replace-me-session-c",
+      "caption": "",
+      "attestations": {
+        "genuine_camera_still": true,
+        "not_video_frame": true,
+        "no_generated_pixels": true,
+        "no_identity_edit": true,
+        "no_beauty_filter": true,
+        "no_face_or_body_restoration": true
+      }
+    },
+    {
+      "id": "new_profile_image_right_train_01",
+      "file": "replace-me-profile-image-right-train-01.jpg",
+      "split": "train",
+      "role": "profile_image_right",
+      "session": "replace-me-session-a",
+      "caption": "m1tch_person, an adult man, clear true profile facing image-right, head and shoulders, neutral expression, natural daylight, sharp genuine cellphone photograph",
+      "attestations": {
+        "genuine_camera_still": true,
+        "not_video_frame": true,
+        "no_generated_pixels": true,
+        "no_identity_edit": true,
+        "no_beauty_filter": true,
+        "no_face_or_body_restoration": true
+      }
+    },
+    {
+      "id": "new_profile_image_right_train_02",
+      "file": "replace-me-profile-image-right-train-02.jpg",
+      "split": "train",
+      "role": "profile_image_right",
+      "session": "replace-me-session-b",
+      "caption": "m1tch_person, an adult man, clear true profile facing image-right, head and shoulders, relaxed expression, ordinary indoor light, sharp genuine cellphone photograph",
+      "attestations": {
+        "genuine_camera_still": true,
+        "not_video_frame": true,
+        "no_generated_pixels": true,
+        "no_identity_edit": true,
+        "no_beauty_filter": true,
+        "no_face_or_body_restoration": true
+      }
+    },
+    {
+      "id": "new_profile_image_right_validation_01",
+      "file": "replace-me-profile-image-right-validation-01.jpg",
+      "split": "validation",
+      "role": "profile_image_right",
+      "session": "replace-me-session-c",
+      "caption": "",
+      "attestations": {
+        "genuine_camera_still": true,
+        "not_video_frame": true,
+        "no_generated_pixels": true,
+        "no_identity_edit": true,
+        "no_beauty_filter": true,
+        "no_face_or_body_restoration": true
+      }
+    },
+    {
+      "id": "new_body_train_01",
+      "file": "replace-me-body-train-01.jpg",
+      "split": "train",
+      "role": "body",
+      "session": "replace-me-session-f",
+      "caption": "m1tch_person, an adult man, genuine full-body cellphone photograph standing naturally, entire body visible from head to shoes, face sharp and clearly visible, ordinary daylight",
+      "attestations": {
+        "genuine_camera_still": true,
+        "not_video_frame": true,
+        "no_generated_pixels": true,
+        "no_identity_edit": true,
+        "no_beauty_filter": true,
+        "no_face_or_body_restoration": true,
+        "full_or_three_quarter_body_visible": true
+      }
+    },
+    {
+      "id": "new_body_train_02",
+      "file": "replace-me-body-train-02.jpg",
+      "split": "train",
+      "role": "body",
+      "session": "replace-me-session-g",
+      "caption": "m1tch_person, an adult man, genuine three-quarter-body cellphone photograph in a natural standing pose, face sharp and clearly visible, different clothing and ordinary indoor light",
+      "attestations": {
+        "genuine_camera_still": true,
+        "not_video_frame": true,
+        "no_generated_pixels": true,
+        "no_identity_edit": true,
+        "no_beauty_filter": true,
+        "no_face_or_body_restoration": true,
+        "full_or_three_quarter_body_visible": true
+      }
+    }
+  ]
+}

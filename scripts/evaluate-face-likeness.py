@@ -30,6 +30,14 @@ def parse_args() -> argparse.Namespace:
         help="Generated candidate image path. Repeat to rank several candidates.",
     )
     parser.add_argument(
+        "--calibration-reference",
+        action="append",
+        help=(
+            "Optional genuine reference used only to derive strong/near thresholds. "
+            "Repeat for a stable calibration subset; defaults to all --reference values."
+        ),
+    )
+    parser.add_argument(
         "--candidate-label",
         action="append",
         help="Optional label paired by position with each --candidate value.",
@@ -82,13 +90,18 @@ def rounded(value: float | None) -> float | None:
 def main() -> None:
     args = parse_args()
     references = [Path(value).resolve() for value in args.reference]
+    calibration_references = [
+        Path(value).resolve() for value in (args.calibration_reference or args.reference)
+    ]
     candidates = [Path(value).resolve() for value in args.candidate]
     labels = args.candidate_label or [path.stem for path in candidates]
     if len(references) < 2:
         raise RuntimeError("Use at least two genuine references for held-out calibration.")
+    if len(calibration_references) < 2:
+        raise RuntimeError("Use at least two genuine calibration references.")
     if len(labels) != len(candidates):
         raise RuntimeError("Use exactly one --candidate-label for each --candidate.")
-    for path in [*references, *candidates]:
+    for path in [*references, *calibration_references, *candidates]:
         if not path.is_file():
             raise RuntimeError(f"Image does not exist: {path}")
 
@@ -107,9 +120,11 @@ def main() -> None:
 
     reference_faces = [largest_face(analyzer, path) for path in references]
     reference_embeddings = [normalized_embedding(face) for face in reference_faces]
+    calibration_faces = [largest_face(analyzer, path) for path in calibration_references]
+    calibration_embeddings = [normalized_embedding(face) for face in calibration_faces]
     reference_pairwise = [
         cosine(left, right)
-        for left, right in itertools.combinations(reference_embeddings, 2)
+        for left, right in itertools.combinations(calibration_embeddings, 2)
     ]
     centroid = np.mean(np.stack(reference_embeddings), axis=0)
     centroid /= max(float(np.linalg.norm(centroid)), 1e-8)
@@ -120,6 +135,7 @@ def main() -> None:
     for path, label in zip(candidates, labels, strict=True):
         face = largest_face(analyzer, path)
         embedding = normalized_embedding(face)
+        face_bbox = [float(value) for value in face.bbox]
         similarities = [cosine(embedding, reference) for reference in reference_embeddings]
         centroid_similarity = cosine(embedding, centroid)
         mean_similarity = float(np.mean(similarities))
@@ -147,6 +163,9 @@ def main() -> None:
                 "per_reference_similarity": [rounded(value) for value in similarities],
                 "calibrated_status": calibrated_status,
                 "detector_confidence": rounded(getattr(face, "det_score", None)),
+                "face_bbox": [rounded(value) for value in face_bbox],
+                "face_width_pixels": rounded(face_bbox[2] - face_bbox[0]),
+                "face_height_pixels": rounded(face_bbox[3] - face_bbox[1]),
             }
         )
 
@@ -171,10 +190,14 @@ def main() -> None:
             "identity and does not measure overall photo quality."
         ),
         "reference_calibration": {
-            "paths": [str(path) for path in references],
+            "paths": [str(path) for path in calibration_references],
             "pairwise_similarity": [rounded(value) for value in reference_pairwise],
             "pairwise_minimum": rounded(reference_floor),
             "pairwise_mean": rounded(reference_mean),
+        },
+        "scoring_references": {
+            "paths": [str(path) for path in references],
+            "count": len(references),
         },
         "candidates": ranked,
     }

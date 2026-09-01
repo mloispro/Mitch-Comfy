@@ -1,0 +1,85 @@
+---
+job: extension
+config:
+  name: m1tch-zimage-base-identity-v1
+  process:
+    - type: diffusion_trainer
+      training_folder: C:\projects\AI-Tools\Mitch-Comfy\work\zimage-base-identity-v1\train\ai-toolkit-output
+      sqlite_db_path: C:\projects\AI-Tools\Mitch-Comfy\work\zimage-base-identity-v1\train\ai-toolkit-output\aitk_db.db
+      device: cuda:0
+      training_seed: 42
+      trigger_word: m1tch_person
+      performance_log_every: 10
+      network:
+        type: lora
+        linear: 16
+        linear_alpha: 16
+      save:
+        dtype: bf16
+        save_every: 100
+        max_step_saves_to_keep: 20
+        save_format: safetensors
+        push_to_hub: false
+      datasets:
+        - folder_path: C:\projects\AI-Tools\Mitch-Comfy\work\zimage-base-identity-v1\train\dataset
+          caption_ext: txt
+          caption_dropout_rate: 0.0
+          token_dropout_rate: 0.0
+          shuffle_tokens: false
+          cache_latents_to_disk: true
+          cache_text_embeddings: true
+          resolution: [768, 1024]
+          num_repeats: 1
+          flip_x: false
+          flip_y: false
+      train:
+        batch_size: 1
+        steps: 2000
+        gradient_accumulation: 1
+        train_unet: true
+        train_text_encoder: false
+        gradient_checkpointing: true
+        noise_scheduler: flowmatch
+        timestep_type: weighted
+        content_or_style: balanced
+        optimizer: adamw8bit
+        optimizer_params:
+          weight_decay: 0.0001
+        lr: 0.0001
+        lr_scheduler: constant
+        max_grad_norm: 1.0
+        unload_text_encoder: true
+        cache_text_embeddings: true
+        skip_first_sample: true
+        disable_sampling: true
+        dtype: bf16
+        loss_type: mse
+        ema_config:
+          use_ema: false
+          ema_decay: 0.99
+      logging:
+        log_every: 1
+        use_ui_logger: false
+      model:
+        name_or_path: C:\Users\Mitch\.cache\huggingface\hub\models--Tongyi-MAI--Z-Image\snapshots\04cc4abb7c5069926f75c9bfde9ef43d49423021
+        arch: zimage
+        dtype: bf16
+        quantize: true
+        qtype: qfloat8
+        quantize_te: true
+        qtype_te: qfloat8
+        low_vram: true
+        layer_offloading: false
+meta:
+  name: m1tch-zimage-base-identity-v1
+  version: "1.0"
+  trigger: m1tch_person
+  base_model: Tongyi-MAI/Z-Image
+  base_model_snapshot: 04cc4abb7c5069926f75c9bfde9ef43d49423021
+  architecture: zimage
+  dataset: mitch-identity-stills-v3
+  source_manifest_sha256: 8DDC058D0A223343721D4665EB07ED319D6F26038697C3F619124CC599175664
+  ai_toolkit_commit: 0f788923aef28e3a87fa68cfa15a761d9d499d6c
+  ai_toolkit_declared_patch_digest: 99a8e6c62771d72e04a83f4f1b3bbb950f773cd8
+  target_gpu: NVIDIA GeForce RTX 3090
+  acceptance: Select by fixed-seed held-out identity comparison and full-size human review; never publish the final step automatically.

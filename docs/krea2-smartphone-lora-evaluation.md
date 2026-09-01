@@ -1,5 +1,7 @@
 # Krea2 Smartphone LoRA Evaluation
 
+> **Historical evaluation for an archived fallback.** The smartphone LoRA remains installed only with the retained Krea2 no-character rollback; it is not part of current primary generation. See `docs/STATUS.md`.
+
 ## Decision
 
 The Elusarca smartphone-photography LoRA is compatible with the proven Krea2 Identity Edit v1.2

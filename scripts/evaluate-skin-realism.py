@@ -24,6 +24,10 @@ def parse_args() -> argparse.Namespace:
         "--contact-sheet",
         default=".downloads/skin-evals/contact-sheet.png",
     )
+    parser.add_argument(
+        "--json-output",
+        help="Optional path for a clean JSON report in addition to stdout.",
+    )
     return parser.parse_args()
 
 
@@ -205,16 +209,17 @@ def main() -> None:
     output.parent.mkdir(parents=True, exist_ok=True)
     if not cv2.imwrite(str(output), sheet):
         raise RuntimeError(f"Could not write contact sheet: {output}")
-    print(
-        json.dumps(
-            {
-                "scope": "Local diagnostic only; metrics flag texture extremes and do not prove realism.",
-                "contact_sheet": str(output),
-                "entries": results,
-            },
-            indent=2,
-        )
-    )
+    report = {
+        "scope": "Local diagnostic only; metrics flag texture extremes and do not prove realism.",
+        "contact_sheet": str(output),
+        "entries": results,
+    }
+    rendered = json.dumps(report, indent=2)
+    if args.json_output:
+        json_output = Path(args.json_output).resolve()
+        json_output.parent.mkdir(parents=True, exist_ok=True)
+        json_output.write_text(rendered + "\n", encoding="utf-8")
+    print(rendered)
 
 
 if __name__ == "__main__":

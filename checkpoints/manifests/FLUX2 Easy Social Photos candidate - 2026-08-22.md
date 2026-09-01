@@ -1,5 +1,7 @@
 # FLUX.2 Easy Social Photos candidate
 
+> **Historical record — not current instructions.** Terms such as “production,” “current,” “selected,” or “recommended” below describe the decision on 2026-08-22. See `docs/STATUS.md` for current state.
+
 ## Purpose
 
 This candidate adds a small preset UI and accepts one to four genuine photos without changing the accepted
@@ -19,7 +21,9 @@ The UI exposes only:
 - head-and-shoulders, waist-up, full-body, or prompt-decides framing;
 - camera-facing, candid/looking-away, action, or prompt-decides moment.
 
-Workflow: `workflows/experiments/FLUX.2 Easy Social Photos - 1-4 References.json`
+Archived workflow: `checkpoints/legacy-workflows/production/FLUX.2 Easy Social Photos - 1-4 References.json`
+
+Current archive SHA-256: `3944358DA1C5A8034193F727E02340B7E94C8D17DD3851C8361ADE1310062331`
 
 ## Accepted-core controls
 

@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "status": "superseded_rejected_route",
+  "final_rejection": {
+    "date": "2026-08-29",
+    "authority": "Mitch full-size visual review",
+    "failures": [
+      "oversized head relative to the body",
+      "visible composited or Photoshopped subject boundary"
+    ],
+    "runnable_router_removed": "Flux2EasySocialPhotoV105"
+  },
+  "superseded_by": "config/crowd-route-v1-identity-anchor.lock.json",
+  "route_name": "crowd_route_v1",
+  "plate_stage": {
+    "model": "flux-2-klein-9b-kv-fp8.safetensors",
+    "text_encoder": "qwen_3_8b_fp8mixed.safetensors",
+    "vae": "flux2-vae.safetensors",
+    "identity_conditioning": false,
+    "kv_cache": true,
+    "width": 896,
+    "height": 1344,
+    "steps": 4,
+    "sampler": "euler",
+    "candidate_seeds": [
+      8675411,
+      8675412,
+      8675413,
+      8675414
+    ],
+    "validated_state_fair_plate_seed": 8675411,
+    "host_compatibility_gate": {
+      "face_height_pixels_minimum": 85,
+      "face_height_pixels_maximum": 160,
+      "face_detection_confidence_minimum": 0.7,
+      "absolute_yaw_proxy_maximum": 1.0,
+      "both_eyes_visible": true,
+      "person_count_minimum": 5
+    }
+  },
+  "identity_stage": {
+    "mode": "contextual_inpaint",
+    "model": "flux-2-klein-base-4b-fp8.safetensors",
+    "text_encoder": "qwen_3_4b_fp8_mixed.safetensors",
+    "vae": "flux2-vae.safetensors",
+    "lora": "aitk\\m1tch-flux2-klein-4b-identity-v1-best.safetensors",
+    "lora_strength": 0.6,
+    "reference_order": [
+      "low-resolution face-obscured scene plate",
+      "automatically selected genuine full photograph",
+      "derived 2.4x face crop"
+    ],
+    "width": 896,
+    "height": 1344,
+    "steps": 20,
+    "guidance": 4.0,
+    "sampler": "euler",
+    "identity_seed_order": [
+      8675311,
+      8675310
+    ],
+    "mask": {
+      "host_selection": "largest compatible face near frame center",
+      "person_isolation": "face-selected U2Net human component intersected with tallest YOLO person box containing the host face",
+      "head_support": "full head, hair, ears, and neck ellipse",
+      "contact_support": "ellipse beneath detected full-body host",
+      "hard_dilation_pixels": 18,
+      "context_transition_pixels": 36
+    }
+  },
+  "finish": {
+    "scope": "whole_frame_only",
+    "method": "restrained_phone_sensor_and_compression_finish",
+    "selective_face_or_subject_processing": false
+  },
+  "acceptance_thresholds": {
+    "identity_similarity_minimum": 0.75,
+    "face_detection_confidence_minimum": 0.75,
+    "face_height_pixels_minimum": 85,
+    "face_height_ratio_to_plate_minimum": 0.9,
+    "face_height_ratio_to_plate_maximum": 1.12,
+    "face_width_ratio_to_plate_minimum": 0.9,
+    "face_width_ratio_to_plate_maximum": 1.12,
+    "face_center_shift_in_plate_face_heights_maximum": 0.14,
+    "localized_face_detail_ratio_to_plate_minimum": 0.65,
+    "localized_face_detail_ratio_to_plate_maximum": 1.35,
+    "secondary_identity_similarity_maximum": 0.42,
+    "secondary_face_duplicate_similarity_maximum": 0.6,
+    "subject_neighbor_sobel_edge_ratio_minimum": 0.75,
+    "subject_neighbor_sobel_edge_ratio_maximum": 1.35,
+    "visual_review_authoritative": true
+  },
+  "state_fair_proof": {
+    "status": "rejected_replacement_required",
+    "selected_plate": "output/crowd_route_v1/state-fair/selected-plate.png",
+    "winner": "output/crowd_route_v1/state-fair/winner/final_00001_.png",
+    "winner_report": "output/crowd_route_v1/state-fair/winner/report.json",
+    "runner_up": "output/crowd_route_v1/state-fair/runner-up/final_00001_.png",
+    "runner_up_report": "output/crowd_route_v1/state-fair/runner-up/report.json",
+    "winner_metrics": {
+      "identity_similarity": 0.8129,
+      "face_detection_confidence": 0.8739,
+      "face_height_pixels": 101.2,
+      "detected_people_plate": 15,
+      "detected_people_output": 14,
+      "crowd_preservation_ratio": 0.9333,
+      "maximum_secondary_identity_similarity": 0.0716,
+      "maximum_secondary_duplicate_similarity": 0.404,
+      "subject_neighbor_sobel_edge_ratio": 0.7858,
+      "head_integrity": "passed",
+      "automated_acceptance": "passed"
+    },
+    "visual_rejection": {
+      "plate_face_height_pixels": 78.6,
+      "output_face_height_pixels": 101.2,
+      "face_height_growth_ratio": 1.2875,
+      "reasons": [
+        "oversized head relative to body",
+        "blotchy over-rendered facial texture",
+        "pasted-on appearance"
+      ],
+      "automated_acceptance_superseded": true
+    }
+  },
+  "generalization": {
+    "identity_settings_changed_between_scenes": false,
+    "manifest": "output/crowd_route_v1/generalization/20260824-021028/validation.json",
+    "busy_city_sidewalk": {
+      "identity_similarity": 0.8169,
+      "face_detection_confidence": 0.8894,
+      "subject_neighbor_sobel_edge_ratio": 0.9535,
+      "automated_acceptance": "passed"
+    },
+    "boutique_hotel_lounge": {
+      "identity_similarity": 0.7985,
+      "face_detection_confidence": 0.9093,
+      "subject_neighbor_sobel_edge_ratio": 0.8992,
+      "automated_acceptance": "passed"
+    },
+    "night_market_live_music": {
+      "identity_similarity": 0.8152,
+      "face_detection_confidence": 0.9091,
+      "subject_neighbor_sobel_edge_ratio": 0.9365,
+      "automated_acceptance": "passed"
+    }
+  },
+  "portfolio": {
+    "selection": "config/crowd-route-v1-portfolio-selection.json",
+    "manifest": "output/crowd_route_v1/portfolio/portfolio-manifest.json",
+    "contact_sheet": "output/crowd_route_v1/portfolio/best-six-contact-sheet.png",
+    "master_count": 9,
+    "runner_up_count": 9,
+    "direct_eye_contact_master_count": 2,
+    "activity_or_off_camera_master_count": 7,
+    "understated_high_status_master_count": 3
+  },
+  "prohibited": [
+    "Krea character LoRA",
+    "ReActor",
+    "face restoration",
+    "selective face sharpening",
+    "generative upscaling",
+    "identity-conditioned scene plate"
+  ]
+}

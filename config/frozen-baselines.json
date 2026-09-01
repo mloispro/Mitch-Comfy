@@ -3,12 +3,14 @@
   "baselines": [
     {
       "id": "flux2-one-reference-v1.0.0",
+      "active": false,
+      "superseded_by": "flux2-klein9b-mitch-identity-studio-v1",
       "accepted_on": "2026-08-22",
       "accepted_implementation_commit": "a92c9ca01bd85587f6edb68151e553c7ef2345b3",
       "git_tag": "flux2-one-reference-v1.0.0",
       "artifacts": [
         {
-          "path": "workflows/production/FLUX.2 One Reference Photo.json",
+          "path": "checkpoints/legacy-workflows/production/FLUX.2 One Reference Photo.json",
           "sha256": "CB5BAD60751997EF37F8A5D6DE1215F65CDB83E35F3D7BEB539EFDFFB42AF875"
         },
         {
@@ -65,9 +67,9 @@
     },
     {
       "id": "flux2-easy-social-v1.0.2",
-      "active": true,
+      "active": false,
       "role": "frozen_rollback",
-      "superseded_by": "flux2-easy-social-v1.0.3",
+      "superseded_by": "flux2-klein9b-mitch-identity-studio-v1",
       "accepted_on": "2026-08-22",
       "git_tag": "flux2-easy-social-v1.0.2",
       "artifacts": [
@@ -87,14 +89,15 @@
     },
     {
       "id": "flux2-easy-social-v1.0.3",
-      "active": true,
-      "role": "primary",
+      "active": false,
+      "role": "superseded_primary",
+      "superseded_by": "flux2-klein9b-mitch-identity-studio-v1",
       "accepted_on": "2026-08-22",
       "accepted_implementation_commit": "6d861d0395053e167d10d754a47ac81c00428947",
       "git_tag": "flux2-easy-social-v1.0.3",
       "artifacts": [
         {
-          "path": "workflows/production/FLUX.2 Easy Social Photos v1.0.3 - 1-4 References.json",
+          "path": "checkpoints/legacy-workflows/production/FLUX.2 Easy Social Photos v1.0.3 - 1-4 References.json",
           "sha256": "A9D3A48DD9FEDFC86EAAA21E466AB17621AEEB3AC4A137F348E51CDA274B3D7E"
         },
         {
@@ -104,6 +107,26 @@
         {
           "path": "custom_nodes/ComfyUI-AIToolkit-Training/phone_lens_optics.py",
           "sha256": "AC6ECEF9DB89B59C007AC1FB79ACA3149D17209B20128B87AEE76F1475280CD3"
+        }
+      ]
+    },
+    {
+      "id": "flux2-klein9b-mitch-identity-studio-v1",
+      "active": true,
+      "role": "primary",
+      "accepted_on": "2026-08-30",
+      "artifacts": [
+        {
+          "path": "workflows/production/FLUX.2 Klein 9B Mitch Identity Studio v1.json",
+          "sha256": "9F5B5B9F7FB12EA90D6E7A948FBB81DCDF2FC9C73B330499B70FB7553A3C4425"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_mitch_identity_studio.py",
+          "sha256": "CAA9344F2A29FE23130E7837F9D0C17208CD1B6BD409A495CC96A894AE193EC9"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_mitch_identity_studio_presets.py",
+          "sha256": "6AE31BF840B070DA801723DA994BBD9248CA99FA60326EB98F7B0B42F0D2E1A9"
         }
       ]
     }

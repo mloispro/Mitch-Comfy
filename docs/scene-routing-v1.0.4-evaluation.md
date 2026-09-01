@@ -1,5 +1,7 @@
 # Easy Social Photos v1.0.4 scene-routing evaluation
 
+> **Historical record — not current instructions.** Easy Social v1.0.4 was later visually rejected and archived. See `docs/STATUS.md`.
+
 ## Goal
 
 Make the whole social photo believable—not only the face—without adding controls to the two-node workflow or

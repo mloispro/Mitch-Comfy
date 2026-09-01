@@ -1,5 +1,7 @@
 # Krea2 ReID iPhone Photo Evaluation
 
+> **Historical record — not current instructions.** This route was rejected. See `docs/STATUS.md` for current state.
+
 ## Outcome
 
 The exact Krea2 ReID ComfyUI route was installed and validated locally, but it is rejected as a

@@ -37,7 +37,26 @@ from .scene_quality import (
 OUTPUT_ROOT = "flux2-reference-studio-v104"
 
 
-def _direct_identity_prompt(guarded_scene: str, contract: dict) -> str:
+def _waist_up_split_identity_prompt(guarded_scene: str) -> str:
+    return (
+        "Create one new photorealistic photo of the exact same adult man represented by both supplied "
+        f"references. His trained identity token is {studio.baseline.IDENTITY_TOKEN}. Picture 1 is a "
+        "genuine shoulders-to-hips crop with the face intentionally excluded. Use Picture 1 only for "
+        "natural shoulder width, neck-to-torso alignment, lean build, and adult body proportions; do "
+        "not copy its clothing, activity, objects, background, or pose. Picture 2 is a current close "
+        "facial identity view of the same person. Use Picture 2 for face shape, eyes, eyebrows, nose, "
+        "mouth, ears, jaw, hairline, current hair, skin, and apparent age, but not for body scale or "
+        "camera distance. Keep the generated head centered directly over the neck and shoulder line, "
+        "on the same depth plane as the torso, with no forward-projecting neck, leaning head, close-lens "
+        "enlargement, or oversized skull. Do not copy either reference crop. New photo request: "
+        f"{guarded_scene} The result must be one continuous in-camera person, not a face swap, composite, "
+        "or separately rendered head."
+    )
+
+
+def _direct_identity_prompt(guarded_scene: str, contract: dict, prepared: dict) -> str:
+    if prepared.get("reference_strategy", "").startswith("Waist-up torso-only"):
+        return _waist_up_split_identity_prompt(guarded_scene)
     if "background_people" not in set(contract.get("contexts", [])):
         return studio.baseline._identity_prompt(
             guarded_scene,
@@ -58,7 +77,7 @@ def _generate_direct_candidate(
     contract: dict,
 ) -> dict:
     started = time.perf_counter()
-    effective_prompt = _direct_identity_prompt(guarded_scene, contract)
+    effective_prompt = _direct_identity_prompt(guarded_scene, contract, prepared)
     model = studio.comfy_nodes.UNETLoader().load_unet(
         studio.baseline.MODEL_4B_BASE_NAME, "default"
     )[0]
@@ -376,9 +395,6 @@ def _generate_v104(
     profile = studio._generation_profile(
         framing, moment, len(reference_names), requested_photo_style
     )
-    prepared = studio._prepare_sources(
-        reference_names, profile["reference_strategy"], profile["reference_pixels"]
-    )
     generation_photo_style = (
         "Smartphone — natural"
         if requested_photo_style == HAZE_STYLE
@@ -387,12 +403,18 @@ def _generate_v104(
     contract = build_scene_contract(
         scene_prompt, generation_photo_style, framing, moment
     )
+    complex_requested = requires_complex_route(contract)
+    prepared = studio._prepare_sources(
+        reference_names,
+        profile["reference_strategy"],
+        profile["reference_pixels"],
+        selection_framing=framing if not complex_requested else "",
+    )
     generation_scene = compose_scene_prompt(
         scene_prompt, generation_photo_style, framing, moment
     )
     guarded_scene = apply_scene_guardrails(generation_scene, contract)
 
-    complex_requested = requires_complex_route(contract)
     route_error = ""
     if complex_requested:
         candidate = _generate_guarded_multi_person_candidate(
@@ -443,10 +465,18 @@ def _generate_v104(
         "source_references": reference_names,
         "source_reference_count": len(reference_names),
         "primary_generation_reference": prepared["selected_reference"],
-        "reference_selection": "automatic local face quality and frontal-angle ranking",
+        "face_generation_reference": prepared["selected_face_reference"],
+        "reference_selection": (
+            "independent local torso-context and face-quality ranking"
+            if prepared["reference_strategy"].startswith("Waist-up torso-only")
+            else "automatic local face quality and frontal-angle ranking"
+        ),
         "model_reference_count": len(prepared["latent_images"]),
         "derived_primary_face_crop": True,
-        "reference_strategy": profile["reference_strategy"],
+        "derived_primary_torso_crop": prepared["reference_strategy"].startswith(
+            "Waist-up torso-only"
+        ),
+        "reference_strategy": prepared["reference_strategy"],
         "reference_pixels_each": profile["reference_pixels"],
         "detected_identity_sources": prepared["detected_sources"],
         "sources_without_detectable_faces": prepared["missing_face_sources"],

@@ -1,88 +1,70 @@
-# ComfyUI AI-Toolkit Training
+# ComfyUI AI-Toolkit Training nodes
 
-## FLUX.2 Easy Social Photos
+This local custom-node package supports Mitch’s current ComfyUI photo workflows, dataset utilities, and exact
+legacy rollback graphs. Current workflow status is maintained in `../../docs/STATUS.md`.
 
-`FLUX.2 Easy Social Photos v1.0.3 - 1-4 References.json` is the supported everyday dating-app and Instagram
-generator. Its only functional node accepts genuine photos, a plain-language scene prompt, and three compact
-preset menus, then returns one locally saved photo.
+## Nodes used by current photo workflows
 
-`Flux2EasySocialPhotoV103` accepts one to four real photos in any order and automatically chooses the best clear,
-frontal source. It derives a full-photo identity reference and a 2.4x face crop, runs FLUX.2 Klein Base 4B
-FP8 with the selected local identity LoRA for 20 Euler steps, and scores the result locally against all usable
-supplied faces. Phone/pro/candid and action/full-body requests select separate hidden profiles. It retries once
-only below the calibrated identity threshold and returns the higher-scoring result. The smaller frozen
-`Flux2OneReferencePhoto` node remains available for rollback comparison. See
-[the maintenance guide](../../docs/HOW-TO.md) for normal use and measured results.
+| Node | Workflow | Purpose |
+| --- | --- | --- |
+| `Flux2Klein9BMitchIdentityStudioV1` | Klein 9B Mitch Identity Studio v1 | New whole-frame solo, full-body, and prompt-defined group photographs |
+| `Flux2Klein9BMitchGroupSceneStudioV1` | Klein 9B Mitch Group Scene Studio v1 | Source-matched group layout with a face-interior-free Canny guide |
+| `Flux2Klein9BPhotoRealismUpgradeV1` | Upgrade Photo Detail & Realism v1 | Whole-frame re-render of an existing one-face Mitch image |
+| `Flux2DevMitchSceneStudio` | FLUX.2 Dev LoRA - 9 Dating Scenes v1 | Prompt or scene-reference generation with the Dev V2 step-1000 LoRA |
 
-The optional slight phone-lens haze style uses the clean-phone generation prompt followed by a deterministic,
-highlight-driven optical pass. It adds no model invocation and leaves spatial face detail intact. The normal
-smartphone and professional styles bypass that pass.
+These nodes verify protected LoRA/reference hashes and enforce the intended worker/model contracts. They do not
+upload images or use face swap. See the corresponding workflow documents in `../../docs` for reference roles,
+locked settings, and review gates.
 
-## Qwen identity-locked social workflow
+## Dataset/training utility nodes
 
-`Generate 9 Social Photos - Z-Image LoRA + Qwen Identity Lock.json` keeps the existing editable Z-Image draft/final workbench and adds a separate final-only Qwen Image Edit 2511 identity pass. Stage 3 indexes the 15 successful Qwen angle portraits in `ComfyUI/output/lora-dataset`, scores them against the three genuine photos, and automatically selects exactly one pose-matched portrait for each final. Candidate A edits the complete scene; Candidate B edits an expanded full-head crop. Both are aligned and feathered into the untouched Z-Image final, and Auto mode retains the original unless a candidate safely improves genuine-photo similarity.
+- `AIToolkitTrainGeneratedDataset` submits or monitors the fixed generated-dataset job.
+- `AIToolkitSubmitZImageTraining` submits a captioned flat-folder dataset to AI-Toolkit.
+- `AIToolkitTrainingStatus` reads a durable job’s status and log tail.
+- `AIToolkitPublishCompletedLoRA` publishes a completed adapter into ComfyUI.
 
-Normal use:
+The visible `Train Generated Dataset - AI Toolkit` workflow uses the first node. The other three remain general
+submission/status/publication helpers; their presence does not make a retired model family current. Training
+completion does not mean an adapter is approved; held-out evaluation and full-size visual review are still required.
 
-1. Queue Stage 1 with Stage 2 off and review the drafts.
-2. Edit any scene card, seed, global setting, or per-scene enable switch.
-3. Turn Stage 2 on. Stage 3 is enabled by default and runs only after real finals exist.
-4. Review the original head, selected pose reference, raw candidate heads, aligned full-image candidates, mask, locked final, and before/after contact sheet.
+The visible `Dataset gen - QWEN 2511 - 3-photo` workflow is a standard ComfyUI graph using Qwen Image Edit 2511
+and does not depend on a custom node in this package.
 
-Stage 3 exposes scope, `Auto / Original / Candidate A / Candidate B`, reference-angle override, prompt instruction, full-head crop expansion, feathering, Qwen resolution/steps, separate candidate seeds, minimum identity improvement, and one target-position override for each scene. Manual Candidate A/B selection still enforces hard face-count, seam, and mask safety checks. Originals and candidates are saved separately and never overwritten. The identity-bank analysis is cached in `lora-dataset/.identity-lock-index.json` and rebuilt automatically when a portrait changes.
+## Legacy nodes
 
-This custom node package submits Z-Image LoRA training to AI-Toolkit's existing durable job queue. A ComfyUI workflow never waits for training to finish.
+Easy Social Photos, One Reference Photo, scene-routing, ReActor-era helpers, and older Z-Image workbench nodes
+remain importable only so exact archived graphs can be inspected or deliberately restored. Their graphs live under
+`../../checkpoints/legacy-workflows` and are not the current recommendation.
 
-## One-click generated-dataset workflow
+Do not infer current support from a legacy class still appearing in `NODE_CLASS_MAPPINGS`. The six visible
+workflow JSON files under `../../workflows/production` and `../../docs/STATUS.md` define the supported surface.
 
-Use **AI-Toolkit: Train Generated Dataset** for the fixed dataset at
-`C:\projects\AI-Tools\ComfyUI\output\lora-dataset`. It has no inputs. The first run validates and submits a
-3,000-step Z-Image Base job. A live panel polls the durable job every five seconds without running the workflow again.
-It shows model-download activity while preparing, then step percentage, speed, ETA, and AI-Toolkit's current message.
-When training completes, the same monitor idempotently publishes the final LoRA into ComfyUI.
-The dataset fingerprint prevents duplicate jobs. The node never searches or uses `multiref-v2`.
-Refresh the ComfyUI browser page after installing or updating the custom node so its live panel is loaded.
+## Local AI-Toolkit configuration
 
-## Local configuration
-
-`settings.json` is configured for this machine:
+`settings.json` is machine-local and excluded from Git. On this workstation it points to:
 
 - AI-Toolkit: `C:\projects\AI-Tools\ai-toolkit\AI-Toolkit`
 - AI-Toolkit Python: `C:\projects\AI-Tools\ai-toolkit\python_embeded\python.exe`
 - AI-Toolkit UI/API: `http://127.0.0.1:8675`
-- Base model: `Tongyi-MAI/Z-Image` (`arch: zimage`)
-- Published LoRAs: `C:\projects\AI-Tools\ComfyUI\models\loras\aitk`
+- Published LoRA directory: `C:\projects\AI-Tools\ComfyUI\models\loras\aitk`
 
-If AI-Toolkit is configured with `AI_TOOLKIT_AUTH`, launch ComfyUI with the same environment variable. The token is not stored in this package.
+If AI-Toolkit uses `AI_TOOLKIT_AUTH`, ComfyUI must receive the same environment variable. The token is never
+stored in this repository.
 
-## Use
+Dataset submission requires a flat folder where each supported image has a non-empty same-stem `.txt` caption.
+Submission validates the dataset and creates a durable job; it does not edit captions. Unique job names and the
+dataset fingerprint prevent accidental duplicate submission.
 
-1. Start `C:\projects\AI-Tools\ai-toolkit\Start-AI-Toolkit.bat`. The UI and queue worker must be available when submitting or checking jobs; training itself survives a UI restart.
-2. Restart ComfyUI.
-3. Add **AI-Toolkit: Submit Z-Image Training** from `training/AI-Toolkit`.
-4. Point `dataset_path` at a flat folder where every supported image has a same-stem `.txt` caption. Submission rejects missing, empty, or orphan captions and does not edit them. AI-Toolkit injects `trigger_word` at load time if a caption does not already contain it.
-5. Run the workflow once. Save the returned `job_id`.
-6. Use **AI-Toolkit: Training Status** in a later ComfyUI run to read status, step, total steps, info, and the log tail.
-7. After status is `completed`, use **AI-Toolkit: Publish Completed LoRA**. It atomically copies the final `.safetensors` to `models/loras/aitk` and returns its ComfyUI-relative LoRA name.
+## Development and verification
 
-Job names are unique in AI-Toolkit, which prevents an accidental repeat execution from creating duplicate training jobs.
+The package is linked directly into the live ComfyUI custom-node folder. Restart ComfyUI after changing Python
+files, then reopen the workflow.
 
-## Nine-photo social workbench
+Run the repository verifier:
 
-`Generate 9 Social Photos - Z-Image LoRA.json` is an editable two-stage workflow. It contains one
-global-settings node, nine separate scene cards, a fast Draft renderer, a nine-image preview, and a
-gated Final renderer.
+```powershell
+.\scripts\verify.ps1
+```
 
-1. Select the completed LoRA and adjust global style, negative prompt, LoRA strength, CFG, dimensions,
-   or step counts if desired.
-2. Edit any scene prompt, negative additions, seed, reference preset, ControlNet strength, or enable switch.
-3. Leave `render_final` off and queue to make 576×832, 10-step drafts. Use `draft_scope` to render
-   either all enabled scenes or one scene while refining it.
-4. Review the drafts and iterate until identity, composition, clothing, and setting look right.
-5. Turn `render_final` on, choose all scenes or one scene with `final_scope`, and queue again to create
-   the 832×1216, 25-step final output. Unchanged draft
-   nodes remain cached.
-
-Drafts and finals are saved separately below `ComfyUI/output/zimg-social-pack`. The older one-click
-generator remains available as an advanced convenience node. Neither generator modifies the dataset or
-training workflows.
+The verifier runs the local unit suite and checks the live node/model surface. Specialized production workflow
+verifiers are listed in `../../docs/STATUS.md`.

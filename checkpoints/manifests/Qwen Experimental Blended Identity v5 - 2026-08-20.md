@@ -1,8 +1,14 @@
 # Qwen experimental blended-identity v5
 
-Workflow: `workflows/experiments/EXPERIMENTAL - Qwen Identity + Build - 9 Dating Photos.json`
+> **Historical record — not current instructions.** Terms such as “production,” “current,” “selected,” or “recommended” below describe the decision on 2026-08-20. See `docs/STATUS.md` for current state.
 
-Workflow SHA256: `60202824877529F823D54282646F357AF4C1B188037B86594BAF7CA15D0EC070`
+Mutable workflow at validation time (no longer present): *workflows/experiments/EXPERIMENTAL - Qwen Identity + Build - 9 Dating Photos.json*
+
+Recorded validation-time SHA256: `60202824877529F823D54282646F357AF4C1B188037B86594BAF7CA15D0EC070`
+
+Preserved V5 checkpoint: `checkpoints/workflows/Qwen Experimental Identity Build v5 - face detail 0.32.json`
+
+Current checkpoint SHA256: `8104E3669E9FD67CB8D30A5C9016897242A9F88C00728D286376DCC78FD783F2`
 
 ## Face identity change
 

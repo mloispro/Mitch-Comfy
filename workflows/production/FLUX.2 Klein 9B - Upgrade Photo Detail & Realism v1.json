@@ -1,0 +1,110 @@
+{
+  "id": "flux2-klein9b-upgrade-photo-detail-realism-v1",
+  "revision": 0,
+  "last_node_id": 5,
+  "last_link_id": 3,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "MarkdownNote",
+      "pos": [-1120, -40],
+      "size": [590, 760],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "LOCKED PHOTO DETAIL + REALISM RECIPE",
+      "properties": {"Node name for S&R": "MarkdownNote", "cnr_id": "comfy-core"},
+      "widgets_values": ["# FLUX.2 Klein 9B – Upgrade Photo Detail & Realism v1\n\nUse this to make an existing one-person Mitch photo more realistic and detailed while keeping its pose, head direction, gaze, expression, crop, clothing, and scene layout.\n\n1. Load the exact photo to improve.\n2. In `detail_instructions`, name any source-specific materials that need extra realism: canyon rock and water, siding and branches, fabric, vegetation, and so on. Do not ask for a new pose or scene.\n3. Keep seed `8675416` first. If identity or a local artifact fails visual review, use only seed `8675412` as the single controlled retry.\n4. Queue only on the standard RTX 3090 worker at port `8188`.\n\nThe node automatically creates a face-interior-free Canny guide and supplies four locked references in this exact order:\n- exact source photo at `1.00 MP` for scene, pose, expression, clothing, and composition\n- face-interior-free structure guide at `0.50 MP`\n- protected genuine Mitch identity photo at `0.50 MP`\n- protected isolated genuine hair crop at `0.10 MP`\n\nLocked generation settings:\n- FLUX.2 Klein Base 9B dynamically loaded as `fp8_e4m3fn`\n- protected V3 step-1600 Mitch LoRA at `0.90`\n- Qwen 3 8B FP8 text encoder and FLUX.2 VAE\n- 50 Euler steps, CFG `4.0`, `Flux2Scheduler`\n- source-native dimensions up to `1.70 MP`, then aspect-preserving downscale\n- RTX 3090 only\n\nThis is one whole-frame generation pass. It has no source latent initialization, face swap, output mask, restoration, selective sharpening, upscaling, film grain stage, or second model pass. The node saves the raw photo, guide, exact effective prompt, hashes, settings, timing, and report. Always review identity, hair/forehead continuity, pose, background detail, lighting, and halos at full size and thumbnail."],
+      "color": "#5b4524",
+      "bgcolor": "#3c2d18"
+    },
+    {
+      "id": 2,
+      "type": "LoadImage",
+      "pos": [-450, -40],
+      "size": [330, 520],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {"name": "IMAGE", "type": "IMAGE", "links": [1], "slot_index": 0},
+        {"name": "MASK", "type": "MASK", "links": null, "slot_index": 1}
+      ],
+      "title": "PHOTO TO UPGRADE — CHANGE THIS",
+      "properties": {"Node name for S&R": "LoadImage", "cnr_id": "comfy-core"},
+      "widgets_values": ["mitch-photo2-source-aef87048.png", "image"],
+      "color": "#4f3b22",
+      "bgcolor": "#6a5030"
+    },
+    {
+      "id": 3,
+      "type": "Flux2Klein9BPhotoRealismUpgradeV1",
+      "pos": [-30, -40],
+      "size": [720, 760],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {"name": "source_photo", "type": "IMAGE", "link": 1},
+        {"name": "detail_instructions", "type": "STRING", "widget": {"name": "detail_instructions"}, "link": null},
+        {"name": "seed", "type": "INT", "widget": {"name": "seed"}, "link": null}
+      ],
+      "outputs": [
+        {"name": "photo", "type": "IMAGE", "links": [2], "slot_index": 0},
+        {"name": "structure_guide", "type": "IMAGE", "links": [3], "slot_index": 1},
+        {"name": "effective_prompt", "type": "STRING", "links": null, "slot_index": 2},
+        {"name": "output_folder", "type": "STRING", "links": null, "slot_index": 3},
+        {"name": "report_json", "type": "STRING", "links": null, "slot_index": 4}
+      ],
+      "title": "UPGRADE PHOTO DETAIL & REALISM — LOCKED V1",
+      "properties": {"Node name for S&R": "Flux2Klein9BPhotoRealismUpgradeV1", "cnr_id": "ComfyUI-AIToolkit-Training"},
+      "widgets_values": [
+        "Reconstruct every visible background material with natural, irregular fine detail while preserving the exact objects, boundaries, depth ordering, and lighting in the source. Keep distant detail softer than the face but materially recognizable.",
+        8675416,
+        "fixed"
+      ],
+      "color": "#285744",
+      "bgcolor": "#36745a"
+    },
+    {
+      "id": 4,
+      "type": "PreviewImage",
+      "pos": [780, -40],
+      "size": [560, 760],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [{"name": "images", "type": "IMAGE", "link": 2}],
+      "outputs": [],
+      "title": "UPGRADED PHOTO — FULL-SIZE REVIEW REQUIRED",
+      "properties": {"Node name for S&R": "PreviewImage", "cnr_id": "comfy-core"},
+      "widgets_values": []
+    },
+    {
+      "id": 5,
+      "type": "PreviewImage",
+      "pos": [780, 800],
+      "size": [560, 610],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [{"name": "images", "type": "IMAGE", "link": 3}],
+      "outputs": [],
+      "title": "AUTO STRUCTURE GUIDE — FACE INTERIOR MUST BE BLANK",
+      "properties": {"Node name for S&R": "PreviewImage", "cnr_id": "comfy-core"},
+      "widgets_values": []
+    }
+  ],
+  "links": [
+    [1, 2, 0, 3, 0, "IMAGE"],
+    [2, 3, 0, 4, 0, "IMAGE"],
+    [3, 3, 1, 5, 0, "IMAGE"]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {"frontendVersion": "1.45.19", "ds": {"scale": 0.70, "offset": [870, 290]}},
+  "version": 0.4
+}

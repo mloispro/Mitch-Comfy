@@ -1,0 +1,100 @@
+---
+job: extension
+config:
+  name: m1tch-flux2-klein9b-identity-v4-r16-diverse-smoke
+  process:
+    - type: diffusion_trainer
+      training_folder: C:\projects\AI-Tools\Mitch-Comfy\work\flux2-klein9b-identity-v4-r16-diverse\smoke\ai-toolkit-output
+      sqlite_db_path: C:\projects\AI-Tools\Mitch-Comfy\work\flux2-klein9b-identity-v4-r16-diverse\smoke\ai-toolkit-output\aitk_db.db
+      device: cuda:0
+      training_seed: 42
+      trigger_word: m1tch_person
+      performance_log_every: 1
+      network:
+        type: lora
+        linear: 16
+        linear_alpha: 16
+      save:
+        dtype: bf16
+        save_every: 40
+        max_step_saves_to_keep: 1
+        save_format: safetensors
+        push_to_hub: false
+      datasets:
+        - folder_path: C:\projects\AI-Tools\Mitch-Comfy\work\flux2-klein9b-identity-v4-r16-diverse\smoke\dataset
+          caption_ext: txt
+          caption_dropout_rate: 0.0
+          token_dropout_rate: 0.0
+          shuffle_tokens: false
+          cache_latents_to_disk: true
+          cache_text_embeddings: true
+          resolution: [768, 1024]
+          num_repeats: 1
+          flip_x: false
+          flip_y: false
+      train:
+        batch_size: 1
+        steps: 40
+        gradient_accumulation: 1
+        train_unet: true
+        train_text_encoder: false
+        gradient_checkpointing: true
+        noise_scheduler: flowmatch
+        timestep_type: weighted
+        content_or_style: balanced
+        optimizer: adamw8bit
+        optimizer_params:
+          weight_decay: 0.0001
+        lr: 0.00008
+        lr_scheduler: constant
+        max_grad_norm: 1.0
+        unload_text_encoder: true
+        cache_text_embeddings: true
+        skip_first_sample: false
+        disable_sampling: false
+        dtype: bf16
+        loss_type: mse
+        ema_config:
+          use_ema: false
+          ema_decay: 0.99
+      logging:
+        log_every: 1
+        use_ui_logger: false
+      model:
+        name_or_path: C:\Users\Mitch\.cache\huggingface\hub\models--black-forest-labs--FLUX.2-klein-base-9B\snapshots\32773329fbe7e81a90ef971740e8ba4b0364ecf3
+        arch: flux2_klein_9b
+        dtype: bf16
+        quantize: true
+        qtype: qfloat8
+        quantize_te: true
+        qtype_te: qfloat8
+        low_vram: false
+        layer_offloading: false
+        model_kwargs:
+          match_target_res: false
+      sample:
+        sampler: flowmatch
+        sample_every: 40
+        sample_start_step: 0
+        width: 768
+        height: 1024
+        prompts:
+          - A realistic close smartphone portrait of m1tch_person, an adult man, outdoors in soft natural daylight, looking at the camera with a relaxed neutral expression, natural skin texture.
+        neg: ""
+        seed: 8675310
+        walk_seed: false
+        guidance_scale: 4.0
+        sample_steps: 30
+meta:
+  name: m1tch-flux2-klein9b-identity-v4-r16-diverse-smoke
+  version: "4.0-r16-diverse-smoke"
+  base_model: black-forest-labs/FLUX.2-klein-base-9B
+  base_model_snapshot: 32773329fbe7e81a90ef971740e8ba4b0364ecf3
+  text_encoder: Qwen/Qwen3-8B
+  text_encoder_snapshot: b968826d9c46dd6066d109eabc6255188de91218
+  architecture: flux2_klein_9b
+  source_manifest_sha256: 460AECB7D7A13AFAB6C186368A3711A86E415AF72D04D738A6F20BA1D7CEB9D1
+  ai_toolkit_commit: 0f788923aef28e3a87fa68cfa15a761d9d499d6c
+  target_gpu: NVIDIA GeForce RTX 3090
+  fallback_gpu: none
+  purpose: Isolated 40-update acceptance smoke with one Base 9B sample; never publish this adapter.

@@ -1,0 +1,935 @@
+{
+  "id": "7a57fd77-723f-4d0a-9fc9-335e52124efb",
+  "revision": 0,
+  "last_node_id": 234,
+  "last_link_id": 18,
+  "nodes": [
+    {
+      "id": 6,
+      "type": "CheckpointLoaderSimple",
+      "pos": [
+        -1600,
+        -20
+      ],
+      "size": [
+        470,
+        140
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            1
+          ]
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            3,
+            4
+          ]
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            17
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CheckpointLoaderSimple",
+        "cnr_id": "comfy-core",
+        "ver": "0.21.0",
+        "models": [
+          {
+            "name": "hidream_o1_image_bf16.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/HiDream-O1-Image/resolve/main/checkpoints/hidream_o1_image_bf16.safetensors",
+            "directory": "checkpoints"
+          }
+        ],
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65
+      },
+      "widgets_values": [
+        "hidream_o1_image_fp8_scaled.safetensors"
+      ]
+    },
+    {
+      "id": 124,
+      "type": "ModelNoiseScale",
+      "pos": [
+        -1160,
+        -20
+      ],
+      "size": [
+        280,
+        80
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            2,
+            9
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ModelNoiseScale",
+        "cnr_id": "comfy-core",
+        "ver": "0.21.0",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65
+      },
+      "widgets_values": [
+        8.0
+      ]
+    },
+    {
+      "id": 232,
+      "type": "HiDreamO1PatchSeamSmoothing",
+      "pos": [
+        -750,
+        -20
+      ],
+      "size": [
+        340,
+        280
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 2
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            10
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "HiDreamO1PatchSeamSmoothing",
+        "cnr_id": "comfy-core",
+        "ver": "0.21.1",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65
+      },
+      "widgets_values": [
+        0.8,
+        1.0,
+        "single_shift",
+        "ramp_2_4",
+        "median",
+        1.0
+      ],
+      "title": "Official Full late patch-seam smoothing"
+    },
+    {
+      "id": 213,
+      "type": "LoadImage",
+      "pos": [
+        -1600,
+        230
+      ],
+      "size": [
+        310,
+        430
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            7
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "cnr_id": "comfy-core",
+        "ver": "0.21.0",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65
+      },
+      "widgets_values": [
+        "20260815_165446.jpg",
+        "image"
+      ],
+      "title": "Reference 1 - genuine front/near-front photo"
+    },
+    {
+      "id": 214,
+      "type": "LoadImage",
+      "pos": [
+        -1600,
+        650
+      ],
+      "size": [
+        310,
+        430
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            8
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "cnr_id": "comfy-core",
+        "ver": "0.21.0",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65
+      },
+      "widgets_values": [
+        "20260818_173106.jpg",
+        "image"
+      ],
+      "title": "Reference 2 - genuine complementary angle"
+    },
+    {
+      "id": 110,
+      "type": "CLIPTextEncode",
+      "pos": [
+        -1160,
+        230
+      ],
+      "size": [
+        520,
+        520
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 3
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            5
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode",
+        "cnr_id": "comfy-core",
+        "ver": "0.21.0",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65
+      },
+      "widgets_values": [
+        "References 1 and 2 are genuine photographs of Mitch, the same real man, and define the exact identity of the only main subject. Create a completely new photorealistic vertical rear-camera smartphone photograph of that exact same man at a relaxed neighborhood restaurant patio in early evening. Preserve his current apparent age, high forehead and hairline, short light-brown hair, blue-gray eye shape and spacing, nose, ears, mouth, narrow jaw, faint natural stubble, lean build, and unretouched skin texture. Frame him naturally from the waist upward, slightly off center, with a mild three-quarter face, both eyes comfortably open, and a small relaxed smile while he looks a few degrees past the camera toward a friend. He wears a simple deep-navy open-collar shirt. Show ordinary patio tables, varied unrelated diners, planters, storefront windows, and warm practical lights at believable depth. Use an eye-level handheld 1x phone-camera view, normal automatic exposure, restrained HDR, natural deep focus, slight shadow noise, and imperfect candid framing. Keep every background person distinct from Mitch. The result must look like an ordinary dating-profile snapshot, with no beauty filter, studio lighting, face smoothing, portrait-mode blur, cinematic grading, text, logo, or watermark."
+      ],
+      "color": "#232",
+      "bgcolor": "#353",
+      "title": "Frozen HiDream prompt - same as Dev comparison"
+    },
+    {
+      "id": 188,
+      "type": "CLIPTextEncode",
+      "pos": [
+        -1160,
+        790
+      ],
+      "size": [
+        234.765625,
+        8
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 4
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            6
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode",
+        "cnr_id": "comfy-core",
+        "ver": "0.21.0",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65
+      },
+      "widgets_values": [
+        ""
+      ],
+      "color": "#223",
+      "bgcolor": "#335",
+      "title": "Empty negative prompt (official Full template)"
+    },
+    {
+      "id": 104,
+      "type": "HiDreamO1ReferenceImages",
+      "pos": [
+        -560,
+        290
+      ],
+      "size": [
+        250,
+        120
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 5
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 6
+        },
+        {
+          "label": "image_1",
+          "name": "images.image_1",
+          "type": "IMAGE",
+          "link": 7
+        },
+        {
+          "label": "image_2",
+          "name": "images.image_2",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 8
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            11
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            12
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "HiDreamO1ReferenceImages",
+        "cnr_id": "comfy-core",
+        "ver": "0.21.0",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65
+      },
+      "widgets_values": [],
+      "color": "#322",
+      "bgcolor": "#533",
+      "title": "Native subject personalization: two genuine photos"
+    },
+    {
+      "id": 156,
+      "type": "EmptyHiDreamO1LatentImage",
+      "pos": [
+        -560,
+        590
+      ],
+      "size": [
+        280,
+        150
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            15
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptyHiDreamO1LatentImage",
+        "cnr_id": "comfy-core",
+        "ver": "0.21.0",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65
+      },
+      "widgets_values": [
+        1728,
+        2304,
+        1
+      ],
+      "title": "Official trained portrait canvas (~4 MP)"
+    },
+    {
+      "id": 112,
+      "type": "BasicScheduler",
+      "pos": [
+        -160,
+        240
+      ],
+      "size": [
+        280,
+        150
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 9
+        }
+      ],
+      "outputs": [
+        {
+          "name": "SIGMAS",
+          "type": "SIGMAS",
+          "links": [
+            14
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BasicScheduler",
+        "cnr_id": "comfy-core",
+        "ver": "0.21.0",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65
+      },
+      "widgets_values": [
+        "normal",
+        40,
+        1
+      ]
+    },
+    {
+      "id": 230,
+      "type": "KSamplerSelect",
+      "pos": [
+        -160,
+        420
+      ],
+      "size": [
+        270,
+        90
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "SAMPLER",
+          "type": "SAMPLER",
+          "links": [
+            13
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSamplerSelect",
+        "cnr_id": "comfy-core",
+        "ver": "0.21.1",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65
+      },
+      "widgets_values": [
+        "dpmpp_2m_sde_gpu"
+      ]
+    },
+    {
+      "id": 108,
+      "type": "SamplerCustom",
+      "pos": [
+        180,
+        80
+      ],
+      "size": [
+        280,
+        500
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "showAdvanced": false,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 10
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 11
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 12
+        },
+        {
+          "name": "sampler",
+          "type": "SAMPLER",
+          "link": 13
+        },
+        {
+          "name": "sigmas",
+          "type": "SIGMAS",
+          "link": 14
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 15
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "LATENT",
+          "links": [
+            16
+          ]
+        },
+        {
+          "name": "denoised_output",
+          "type": "LATENT",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SamplerCustom",
+        "cnr_id": "comfy-core",
+        "ver": "0.21.0",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65
+      },
+      "widgets_values": [
+        true,
+        8675601,
+        "fixed",
+        5.0
+      ]
+    },
+    {
+      "id": 105,
+      "type": "VAEDecode",
+      "pos": [
+        520,
+        100
+      ],
+      "size": [
+        230,
+        80
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 16
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 17
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            18
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode",
+        "cnr_id": "comfy-core",
+        "ver": "0.21.0",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 227,
+      "type": "SaveImage",
+      "pos": [
+        800,
+        100
+      ],
+      "size": [
+        1260,
+        1330
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 18
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveImage",
+        "cnr_id": "comfy-core",
+        "ver": "0.21.1",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65
+      },
+      "widgets_values": [
+        "hidream-o1-reference-dating-full-v1/frozen-comparison-1728x2304"
+      ]
+    },
+    {
+      "id": 234,
+      "type": "MarkdownNote",
+      "pos": [
+        -560,
+        790
+      ],
+      "size": [
+        690,
+        330
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "Controlled Full-model comparison",
+      "properties": {},
+      "widgets_values": [
+        "This graph uses the official undistilled HiDream-O1 Full ComfyUI recipe: noise scale 8, 40 steps, CFG 5, normal scheduler, DPM++ 2M SDE GPU, and late patch-seam smoothing. The two genuine references, prompt, order, seed, and trained 1728x2304 canvas are frozen from the Dev result. No character LoRA, face swap, mask, restoration, output refiner, or prompt enhancer is present. The tested Full result improved the waist-up restaurant composition but was slower, smoother, and weaker in identity than Dev. Disabling seam smoothing exposed severe patch-grid artifacts. This is a preserved research baseline, not an approved dating-photo recipe."
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    }
+  ],
+  "links": [
+    [
+      1,
+      6,
+      0,
+      124,
+      0,
+      "MODEL"
+    ],
+    [
+      2,
+      124,
+      0,
+      232,
+      0,
+      "MODEL"
+    ],
+    [
+      3,
+      6,
+      1,
+      110,
+      0,
+      "CLIP"
+    ],
+    [
+      4,
+      6,
+      1,
+      188,
+      0,
+      "CLIP"
+    ],
+    [
+      5,
+      110,
+      0,
+      104,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      6,
+      188,
+      0,
+      104,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      7,
+      213,
+      0,
+      104,
+      2,
+      "IMAGE"
+    ],
+    [
+      8,
+      214,
+      0,
+      104,
+      3,
+      "IMAGE"
+    ],
+    [
+      9,
+      124,
+      0,
+      112,
+      0,
+      "MODEL"
+    ],
+    [
+      10,
+      232,
+      0,
+      108,
+      0,
+      "MODEL"
+    ],
+    [
+      11,
+      104,
+      0,
+      108,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      12,
+      104,
+      1,
+      108,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      13,
+      230,
+      0,
+      108,
+      3,
+      "SAMPLER"
+    ],
+    [
+      14,
+      112,
+      0,
+      108,
+      4,
+      "SIGMAS"
+    ],
+    [
+      15,
+      156,
+      0,
+      108,
+      5,
+      "LATENT"
+    ],
+    [
+      16,
+      108,
+      0,
+      105,
+      0,
+      "LATENT"
+    ],
+    [
+      17,
+      6,
+      2,
+      105,
+      1,
+      "VAE"
+    ],
+    [
+      18,
+      105,
+      0,
+      227,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [],
+  "definitions": {
+    "subgraphs": []
+  },
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.7,
+      "offset": [
+        1700,
+        340
+      ]
+    },
+    "frontendVersion": "1.43.18",
+    "linearData": {
+      "inputs": [],
+      "outputs": []
+    },
+    "VHS_latentpreview": false,
+    "VHS_latentpreviewrate": 0,
+    "VHS_MetadataImage": true,
+    "VHS_KeepIntermediate": true
+  },
+  "version": 0.4
+}

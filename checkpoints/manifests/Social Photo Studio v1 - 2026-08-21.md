@@ -1,8 +1,11 @@
 # Social Photo Studio v1 validation
 
-## Supported path
+> **Historical record — not current instructions.** This workflow was superseded and removed from visible Production. See `docs/STATUS.md` for current state.
 
-- Workflow: `workflows/production/Social Photo Studio - FLUX Klein.json`
+## Archived path
+
+- Closest retained graph: `checkpoints/legacy-workflows/production/Social Photo Studio - FLUX.2 Klein 9B KV (superseded).json`
+- Current archive SHA256: `5960625FD92F50335BFD4F38514C10006D5F5C0B327C45539255AF1E99288470`
 - Five visible nodes; three user steps: add 1–4 references, choose prompt/presets, queue once.
 - Modes: one photo, six-photo dating pack, nine-photo Instagram pack.
 - Camera looks: authentic phone, professional, 35mm lifestyle.

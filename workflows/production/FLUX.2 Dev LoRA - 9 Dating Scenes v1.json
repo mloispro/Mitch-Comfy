@@ -1,0 +1,93 @@
+{
+  "id": "8536bda2-7737-4a09-9b0b-cf3e494b8ba8",
+  "revision": 0,
+  "last_node_id": 3,
+  "last_link_id": 1,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "MarkdownNote",
+      "pos": [-780, -20],
+      "size": [620, 700],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "TRUE FLUX.2 DEV + DEV LORA TEST",
+      "properties": {"Node name for S&R": "MarkdownNote", "cnr_id": "comfy-core"},
+      "widgets_values": ["# FLUX.2 Dev LoRA — Nine Dating Scenes\n\nThis workflow is locked to the trained **FLUX.2 Dev v2 step-1000 LoRA**, not the Klein adapter, and the batch runs on the **RTX 3090**.\n\n- Base: `flux2_dev_fp8mixed.safetensors`\n- LoRA: `m1tch-flux2-dev-identity-v2-s1000.safetensors`\n- LoRA hash: `7c0c4f1726189c51e19c8392c12fe3e03a26bd084fffb8d84b907c966a77cc3e`\n- Trigger: `m1tch_person`\n- Default: strength 1.1, Euler, 28 steps, guidance 4.0\n\nChoose one of the nine `mitch-workbench-dating-*` scene images. Picture 1 supplies composition, pose, clothes, props and lighting. The Dev LoRA supplies Mitch's identity. In group scenes, only the primary man should be Mitch.\n\nThe supplied batch runner is `scripts/run-flux2-dev-lora-nine-scenes-3090.ps1`."],
+      "color": "#403356",
+      "bgcolor": "#2a1d40"
+    },
+    {
+      "id": 2,
+      "type": "Flux2DevMitchSceneStudio",
+      "pos": [-90, -20],
+      "size": [660, 730],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {"name": "scene_mode", "type": "COMBO", "widget": {"name": "scene_mode"}, "link": null},
+        {"name": "scene_reference", "type": "COMBO", "widget": {"name": "scene_reference"}, "link": null},
+        {"name": "scene_preset", "type": "COMBO", "widget": {"name": "scene_preset"}, "link": null},
+        {"name": "custom_scene_prompt", "type": "STRING", "widget": {"name": "custom_scene_prompt"}, "link": null},
+        {"name": "camera_style", "type": "COMBO", "widget": {"name": "camera_style"}, "link": null},
+        {"name": "framing", "type": "COMBO", "widget": {"name": "framing"}, "link": null},
+        {"name": "moment", "type": "COMBO", "widget": {"name": "moment"}, "link": null},
+        {"name": "canvas", "type": "COMBO", "widget": {"name": "canvas"}, "link": null},
+        {"name": "lora_strength", "type": "FLOAT", "widget": {"name": "lora_strength"}, "link": null},
+        {"name": "steps", "type": "INT", "widget": {"name": "steps"}, "link": null},
+        {"name": "guidance", "type": "FLOAT", "widget": {"name": "guidance"}, "link": null},
+        {"name": "seed", "type": "INT", "widget": {"name": "seed"}, "link": null}
+      ],
+      "outputs": [
+        {"name": "photo", "type": "IMAGE", "links": [1], "slot_index": 0},
+        {"name": "effective_prompt", "type": "STRING", "links": null, "slot_index": 1},
+        {"name": "output_folder", "type": "STRING", "links": null, "slot_index": 2},
+        {"name": "report_json", "type": "STRING", "links": null, "slot_index": 3}
+      ],
+      "title": "FLUX.2 DEV + STEP-1000 DEV LORA",
+      "properties": {"Node name for S&R": "Flux2DevMitchSceneStudio", "cnr_id": "ComfyUI-AIToolkit-Training"},
+      "widgets_values": [
+        "SCENE IMAGE — replace the main man with Mitch",
+        "mitch-workbench-dating-09-night-city.png",
+        "Custom — write your own scene",
+        "Recreate Picture 1's exact night rooftop composition. Replace only the central man with m1tch_person. Preserve both hands on the glass railing. His head and eyes look down toward image-left with absolutely no eye contact.",
+        "Dating app — natural smartphone",
+        "Prompt decides",
+        "Prompt decides",
+        "Portrait — 832 × 1248",
+        1.1,
+        28,
+        4.0,
+        8675419,
+        "fixed"
+      ],
+      "color": "#3a2857",
+      "bgcolor": "#513676"
+    },
+    {
+      "id": 3,
+      "type": "PreviewImage",
+      "pos": [650, -20],
+      "size": [560, 730],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [{"name": "images", "type": "IMAGE", "link": 1}],
+      "outputs": [],
+      "title": "DEV LORA RESULT",
+      "properties": {"Node name for S&R": "PreviewImage", "cnr_id": "comfy-core"},
+      "widgets_values": []
+    }
+  ],
+  "links": [[1, 2, 0, 3, 0, "IMAGE"]],
+  "groups": [
+    {"id": 1, "title": "FLUX.2 DEV — NINE SCENE LORA TEST", "bounding": [-820, -80, 2070, 830], "color": "#674ea7", "font_size": 30, "flags": {}}
+  ],
+  "config": {},
+  "extra": {"ds": {"scale": 0.78, "offset": [820, 120]}},
+  "version": 0.4
+}

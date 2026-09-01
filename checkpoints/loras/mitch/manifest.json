@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "milestone": "good-identity-workflows-2026-09-01",
+  "storage": "git-lfs",
+  "privacy": "private-personal-identity-weights",
+  "files": [
+    {
+      "name": "m1tch-flux2-klein9b-identity-v3-r32-dop-step1600.safetensors",
+      "installed_relative_path": "m1tch-flux2-klein9b-identity-v3-r32-dop-step1600.safetensors",
+      "bytes": 165705488,
+      "sha256": "D24907A84B8644A70C07611016A9D2FF8FAD2D2C761A8F97B213AE1D36088EEC",
+      "role": "current-klein9b-identity-group-upgrade"
+    },
+    {
+      "name": "m1tch-flux2-dev-identity-v2-s1000.safetensors",
+      "installed_relative_path": "flux2-dev-identity-v2-candidates\\m1tch-flux2-dev-identity-v2-s1000.safetensors",
+      "bytes": 160466176,
+      "sha256": "7C0C4F1726189C51E19C8392C12FE3E03A26BD084FFFB8D84B907C966A77CC3E",
+      "role": "current-flux2-dev-dating-scenes"
+    },
+    {
+      "name": "m1tch-flux2-klein-4b-identity-v1-best.safetensors",
+      "installed_relative_path": "aitk\\m1tch-flux2-klein-4b-identity-v1-best.safetensors",
+      "bytes": 46223904,
+      "sha256": "8A7D1477914D0A5262BF219F71F303418130449841CF220226B4E979D7232F87",
+      "role": "accepted-one-reference-easy-social-rollback"
+    },
+    {
+      "name": "m1tch-flux2-klein-4b-identity-v3-portrait-profile.safetensors",
+      "installed_relative_path": "aitk\\m1tch-flux2-klein-4b-identity-v3-portrait-profile.safetensors",
+      "bytes": 46224560,
+      "sha256": "C43D7C1FCA404A8B316A9D0C8756E140033E4763532628F62FACC791F0B8A149",
+      "role": "validated-klein4b-portrait-profile-specialty"
+    }
+  ]
+}

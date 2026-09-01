@@ -1,0 +1,207 @@
+{
+  "schema_version": 1,
+  "status": "best_candidate_pending_user_visual_approval",
+  "decision": "Use Klein 9B for the detailed street plate with an ordinary rear-camera 1x smartphone capture prompt, then undistilled Klein 4B Base for a whole-frame native multi-reference identity edit; default to 30 steps for speed and retain 50 steps as the quality option",
+  "workflow": "checkpoints/legacy-workflows/production/FLUX.2 No-LoRA Strong Identity Street Corner v1.json",
+  "runner": "scripts/run-flux2-no-lora-strong-identity-street-v1.ps1",
+  "builder": "scripts/build-flux2-no-lora-strong-identity-street-v1-workflow.ps1",
+  "source_research": {
+    "inline_studio_workflow": "https://inlinestudio.art/workflows/flux-2-portable-consistent-characters-without-lora-training",
+    "inline_studio_repository": "https://github.com/inlineresearch/Inline-Studio",
+    "audited_commit": "7679e668e3bb87cfeb8de92043a45d0ab9b0e7ea",
+    "finding": "Inline Studio .char files package normalized references, a text description, and SFace/DINO embeddings. The embeddings score and flag outputs; they do not condition FLUX. Generation uses native FLUX.2 multi-reference latent tokens."
+  },
+  "mechanism": {
+    "stage_1": "two genuine photographs are VAE-encoded and appended to the prompt with core ReferenceLatent nodes; distilled Klein 9B generates the detailed street plate",
+    "stage_2": "the complete stage-1 image is reference 1 at 0.5 MP and three genuine identity photographs are references 2-4 at 1.0 MP; undistilled Klein 4B Base regenerates the complete frame",
+    "conditioning_class": "native whole-image FLUX.2 multi-reference token conditioning",
+    "character_lora": null,
+    "identity_adapter": null,
+    "face_swap": null,
+    "output_mask": null,
+    "crop": null,
+    "inpaint": null,
+    "composite": null,
+    "post_processing": null
+  },
+  "references": [
+    {
+      "comfyui_input": "mitch-inline-author-ref-01-face.jpg",
+      "role": "front/near-front face identity; stage 1 image 1 and stage 2 image 2",
+      "type": "genuine photograph",
+      "sha256": "C7860DEC138085EEAD6FCEC8EB72660991EF59542F771E7171D0677EA069F118"
+    },
+    {
+      "comfyui_input": "mitch-inline-author-ref-02-angle.jpg",
+      "role": "complementary face angle; stage 1 image 2 and stage 2 image 3",
+      "type": "genuine photograph",
+      "sha256": "4D46086B4EF5F0F913CCB4786165C6E6589677EDBC039E00C55E23DD971486FB"
+    },
+    {
+      "comfyui_input": "mitch-inline-author-ref-03-front-outdoor.jpg",
+      "role": "independent front outdoor identity; stage 2 image 4",
+      "type": "genuine photograph",
+      "sha256": "DBE3B87F34C5227F294FF4F0834BD175FA4306B6195526C7966B8203E918C651"
+    }
+  ],
+  "models": {
+    "stage_1_diffusion": {
+      "file": "flux-2-klein-9b-fp8.safetensors",
+      "bytes": 9433061528,
+      "sha256": "865BA09F5B4C3CBD3468A4BD3ACB9FCB2F8740C54317482F0BCD4ED1D3655CEE"
+    },
+    "stage_1_text_encoder": {
+      "file": "qwen_3_8b_fp8mixed.safetensors",
+      "sha256": "ABAD16806E0CBABC54E0325D6565847443FE396D5F0BE38BB3CD3FE75A1201D6"
+    },
+    "stage_2_diffusion": {
+      "file": "flux-2-klein-base-4b-fp8.safetensors",
+      "bytes": 4089498488,
+      "sha256": "44BAB3A86FE98B85D21DD2A4729EBDC3AE51FB8A39F76E457E18C724219E6840"
+    },
+    "stage_2_text_encoder": {
+      "file": "qwen_3_4b_fp8_mixed.safetensors",
+      "bytes": 5631994051,
+      "sha256": "72450B19758172C5A7273CF7DE729D1C17E7F434A104A00167624CBA94F68F15"
+    },
+    "vae": {
+      "file": "flux2-vae.safetensors",
+      "bytes": 336213556,
+      "sha256": "D64F3A68E1CC4F9F4E29B6E0DA38A0204FE9A49F2D4053F0EC1FA1CA02F9C4B5"
+    }
+  },
+  "sampling": {
+    "worker": "RTX 3090 / ComfyUI port 8188",
+    "width": 832,
+    "height": 1248,
+    "seed": 9472363,
+    "stage_1": {
+      "model": "Klein 9B distilled",
+      "steps": 4,
+      "cfg": 1.0,
+      "sampler": "euler",
+      "scheduler": "simple",
+      "identity_reference_megapixels": 1.0
+    },
+    "stage_2": {
+      "model": "Klein 4B Base undistilled",
+      "default_steps": 30,
+      "quality_steps": 50,
+      "cfg": 4.0,
+      "sampler": "euler",
+      "scheduler": "Flux2Scheduler",
+      "scene_reference_megapixels": 0.5,
+      "identity_reference_megapixels": 1.0
+    }
+  },
+  "speed_test_30_steps": {
+    "path": "output/flux2-no-lora-strong-identity-street-v1/winner-fast-30step.png",
+    "identity_report": "output/flux2-no-lora-strong-identity-street-v1/speed-test-30step-identity.json",
+    "sha256": "1D5F777008134242DF33CE1C82E71C1182CC3A81AE4F87447363297037D08D00",
+    "identity_steps": 30,
+    "runtime_seconds": 215.528,
+    "runtime_display": "3m 35.5s",
+    "seconds_saved_vs_quality": 130.177,
+    "percent_faster_vs_quality": 37.65,
+    "five_photo_centroid_similarity": 0.7511,
+    "five_photo_mean_similarity": 0.6708,
+    "minimum_heldout_similarity": 0.6095,
+    "maximum_heldout_similarity": 0.7259,
+    "heldout_similarities": [0.6655, 0.6643, 0.689, 0.7259, 0.6095],
+    "calibration": "strong_match",
+    "all_heldout_at_or_above_genuine_floor": false,
+    "detected_faces": 7,
+    "maximum_secondary_identity_similarity": 0.0982,
+    "maximum_secondary_to_main_similarity": 0.0898,
+    "maximum_secondary_pair_similarity": 0.2072,
+    "crowd_identity_leakage": false,
+    "controlled_change": "identity-stage steps only: 50 to 30",
+    "visual_decision": "full-size output retained coherent face/body/background integration and was nearly indistinguishable from the 50-step composition"
+  },
+  "production_default": {
+    "path": "output/flux2-no-lora-strong-identity-street-v1/winner-smartphone-30step.png",
+    "identity_report": "output/flux2-no-lora-strong-identity-street-v1/smartphone-prompt-30step-identity.json",
+    "sha256": "59451B8198F86FB761214ADE5732B234D4CC77F0EAE5116EBF05B261DE8BA866",
+    "profile": "smartphone_1x_30_steps",
+    "runtime_seconds": 230.048,
+    "runtime_display": "3m 50.0s",
+    "five_photo_centroid_similarity": 0.7494,
+    "five_photo_mean_similarity": 0.6694,
+    "minimum_heldout_similarity": 0.6204,
+    "maximum_heldout_similarity": 0.7188,
+    "heldout_similarities": [0.6663, 0.6556, 0.7188, 0.6857, 0.6204],
+    "genuine_photo_pairwise_floor": 0.6206,
+    "calibration": "strong_match",
+    "detected_faces": 3,
+    "maximum_secondary_identity_similarity": 0.0358,
+    "maximum_secondary_to_main_similarity": -0.0052,
+    "maximum_secondary_pair_similarity": -0.056,
+    "crowd_identity_leakage": false,
+    "camera_mechanism": "prompt-only native generation: ordinary 1x rear camera, approximately 26 mm equivalent, handheld eye-level perspective, automatic exposure and white balance, restrained computational HDR, deep phone focus, subtle edge sharpening, mild corner softness and distortion, faint shadow noise, compressed highlights, and limited motion blur",
+    "post_processing": null,
+    "visual_decision": "more plausible casual phone perspective and capture texture without a face-specific finish or loss of whole-frame integration"
+  },
+  "winner": {
+    "profile": "quality_50_steps",
+    "path": "output/flux2-no-lora-strong-identity-street-v1/winner-balanced.png",
+    "sha256": "F67391F1177639881A969DC15B2FCCD4A6CC3FEE9C74863E082AFBA27740073E",
+    "runtime_seconds": 345.705,
+    "five_photo_centroid_similarity": 0.7584,
+    "five_photo_mean_similarity": 0.6774,
+    "minimum_heldout_similarity": 0.6262,
+    "maximum_heldout_similarity": 0.7307,
+    "heldout_similarities": [0.6713, 0.6662, 0.6926, 0.7307, 0.6262],
+    "genuine_photo_pairwise_floor": 0.6206,
+    "all_heldout_at_or_above_genuine_floor": true,
+    "calibration": "strong_match",
+    "detected_people": 11,
+    "detected_faces": 7,
+    "maximum_secondary_identity_similarity": 0.0975,
+    "maximum_secondary_to_main_similarity": 0.0793,
+    "maximum_secondary_pair_similarity": 0.247,
+    "crowd_identity_leakage": false,
+    "visual_review_authoritative": true
+  },
+  "alternate_identity_max": {
+    "path": "output/flux2-no-lora-strong-identity-street-v1/alternate-identity-max.png",
+    "sha256": "33F6A8F07DE8DEEED91DB6F91C76406BAD3D3680FB9EAFD41D78A02D2744B08A",
+    "route": "Klein 4B Base three-reference generation followed by whole-frame FLUX.2 Dev detail pass",
+    "five_photo_centroid_similarity": 0.7828,
+    "minimum_heldout_similarity": 0.6242,
+    "decision": "preserved for comparison; identity scored higher but the inherited street was visibly softer"
+  },
+  "generalization_seed_9472364": {
+    "path": "output/flux2-no-lora-strong-identity-street-v1/generalization-seed9472364.png",
+    "identity_report": "output/flux2-no-lora-strong-identity-street-v1/generalization-seed9472364-identity.json",
+    "sha256": "846A5B6605280C41D0B1109B2A89C2EABD6D39716A658D4378F87BEA39BF58DA",
+    "runtime_seconds": 339.71,
+    "controlled_change": "stage-1 scene seed only: 9472363 to 9472364",
+    "unchanged": "all three references, reference order and scales, identity seed, models, steps, CFG, sampler, resolution, and prompts",
+    "five_photo_centroid_similarity": 0.7564,
+    "five_photo_mean_similarity": 0.6755,
+    "minimum_heldout_similarity": 0.6073,
+    "maximum_heldout_similarity": 0.726,
+    "heldout_similarities": [0.6859, 0.6573, 0.7013, 0.726, 0.6073],
+    "calibration": "strong_match",
+    "all_heldout_at_or_above_genuine_floor": false,
+    "detected_faces": 5,
+    "maximum_secondary_identity_similarity": 0.1237,
+    "maximum_secondary_to_main_similarity": 0.0906,
+    "maximum_secondary_pair_similarity": 0.1606,
+    "crowd_identity_leakage": false,
+    "decision": "supports scene-seed generalization, but remains an alternate because its weakest held-out view is 0.0133 below the conservative genuine-photo floor"
+  },
+  "artifact_hashes": {
+    "workflow_sha256": "D827450A3255465FBAD7615703271194D3EA2E128C3B4CE00DE54ED9F286799D",
+    "runner_sha256": "74CADF29DA6808C0B719BA1D93B18A0CE0E6CB1167CF4F47738CD53EE5077B28",
+    "builder_sha256": "C0508BE0FD637EA25B54F96693F8D7769C5065F7B51C425CC3D7500BA5EB3991",
+    "stage_1_image_sha256": "B1994F1246545AE0069316B0122FB24CE62BA7481C3E0E8C838538FD2BABA60F"
+  },
+  "limitations": [
+    "two scene seeds have completed the full two-stage loop; one cleared the genuine-photo floor on every held-out view and one missed its weakest view by 0.0133",
+    "the smartphone 30-step default retained a strong centroid and missed the conservative genuine-photo floor by 0.0002 after rounding; use 50 steps when maximum identity margin matters more than two minutes of runtime",
+    "automated face similarity is diagnostic and does not replace Mitch's full-size visual judgment",
+    "stage 2 preserves most of the 9B street but can alter small signage, clothing texture, and individual background faces",
+    "the primary face must remain large enough for identity to be visible and measurable"
+  ]
+}

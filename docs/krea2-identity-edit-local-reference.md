@@ -1,5 +1,7 @@
 # Local Krea 2 Identity Edit Reference Workflow
 
+> **Historical mechanism and setup record — not the current primary workflow.** The Krea2 Identity Edit and smartphone LoRAs remain installed only for the archived no-character fallback. See `docs/STATUS.md`.
+
 ## What the RioShiina Space is actually doing
 
 `RioShiina/ImageGen` does not run Google's Nano Banana 2 locally. For Krea 2 reference-photo work,
@@ -102,7 +104,7 @@ materially reduced the excessive background defocus. The `0.35` setting is safe 
 camera-appearance control; it is not the deep-focus solution. See
 `docs/krea2-smartphone-lora-evaluation.md` for the controlled comparison and exact artifacts.
 
-## Face-attention v2 — selected no-personal-LoRA route
+## Face-attention v2 — selected historical no-personal-LoRA route
 
 The visible subject/background separation was traced to global `ref_boost=6`: the node applies the
 extra target-to-reference attention to every source token unless `ref_boost_mask` is connected. The
@@ -113,7 +115,7 @@ composited, restored, sharpened, or inpainted.
 
 The versioned workflow is:
 
-`workflows/production/Krea 2 Identity Edit - Face Attention v2.json`
+`checkpoints/legacy-workflows/production/Krea 2 Identity Edit - Face Attention v2.json`
 
 Selected settings are Identity Edit `1.0`, masked boost `6`, grounding `512`, Smartphone LoRA
 `0.35`, `832x1248`, 12 steps, CFG `1`, Euler/simple. The automatic mask defaults are width scale
@@ -135,6 +137,36 @@ every pixel equally. It has no detector, mask, face branch, model pass, relighti
 selective processing. The mean absolute change was `1.2556` pixel levels with a 95th percentile of
 `3.0`; the background gradient metric was preserved (`3.3181` before, `3.3443` after). Identity
 scored `0.7884`, versus `0.7822` before the finish, and remained a calibrated strong match.
+
+## Identity Anchor Crowd v1 — approved state-fair route
+
+The state-fair campaign showed that a genuine close-up reference could still regress toward a different-looking
+person when the requested face was small in a dense crowd. ReActor raised the embedding score but remained a
+clear visual identity failure, proving that automated similarity cannot promote a result.
+
+The approved recovery uses the earlier full-body Krea 2 walking result that Mitch explicitly judged a strong
+identity match. That image is frozen as `mitch-identity-anchor-walking-v1.png` and supplies the face, current hair,
+apparent age, lean build, and walking proportions together. Krea 2 then generates the new scene as one complete
+frame through the same VAE appearance-token and Qwen3-VL grounding paths. There is no scene plate, host
+replacement, output mask, face swap, restoration, or compositing.
+
+The workflow selected at that time, now archived, is:
+
+`checkpoints/legacy-workflows/production/Krea 2 Identity Anchor Crowd v1.json`
+
+The repeatable runner is:
+
+`scripts/run-krea2-identity-anchor-crowd.ps1`
+
+The state-fair lead used seed `9472301`; the user approved both its identity and finished whole-photo realism.
+The frozen mechanism is recorded in `config/crowd-route-v1-identity-anchor.lock.json`. Generalization may change
+only the scene prompt and seed; changing the anchor or identity mechanism reopens validation.
+
+## No-character-LoRA street-corner v1
+
+After the native FLUX.2 and PuLID-Flux2 branches were rejected for visual identity drift, the selected genuine-reference Face Attention mechanism was rerun on the requested somewhat-busy downtown street corner. The locked reference produced `0.7459` against five held-out genuine photographs (`strong_match`) with a coherent whole frame. A reference-only refinement regressed to `0.6600` and was rejected.
+
+The preserved graph is `checkpoints/legacy-workflows/production/Krea 2 No Character LoRA Street Corner v1.json`; its retired runner is archived at `checkpoints/legacy-scripts/krea2-no-character-lora/run-no-character-lora-street-corner.ps1`. The camera-appearance LoRA at `0.35` is not a character LoRA. No output crop, face swap, inpaint, subject mask, restoration, or compositing is present. See `docs/no-character-lora-street-corner-evaluation-2026-08-24.md`.
 
 ## Sources
 

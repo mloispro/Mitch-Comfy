@@ -1,13 +1,15 @@
 # Qwen Experimental Streamlined Identity v8
 
+> **Historical record — not current instructions.** Terms such as “production,” “current,” “selected,” or “recommended” below describe the decision on 2026-08-20. See `docs/STATUS.md` for current state.
+
 Date: 2026-08-20
 
-## Current workflow
+## Archived workflow
 
-- Workflow: `workflows/experiments/EXPERIMENTAL - Qwen Identity + Build - 9 Dating Photos.json`
-- SHA256: `D6A36B56107CCF8819ABF7099E9311A16E6E948571F72AB3CFF7590C135CD7D5`
+- Former mutable workflow is archived at `checkpoints/legacy-workflows/experiments/EXPERIMENTAL - Qwen Identity + Build - 9 Dating Photos.json`
+- Current archive SHA256: `8C2A7250D04DEECEE4FC277DFE7C36639AB8FF8CB079B29B8469547626CCA9F0`
 - Exact checkpoint: `checkpoints/workflows/Qwen Experimental Identity Build v8 - streamlined GPEN.json`
-- Checkpoint SHA256: `D6A36B56107CCF8819ABF7099E9311A16E6E948571F72AB3CFF7590C135CD7D5`
+- Current checkpoint SHA256: `8C2A7250D04DEECEE4FC277DFE7C36639AB8FF8CB079B29B8469547626CCA9F0`
 
 ## Streamlined routing
 

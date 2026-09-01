@@ -1,0 +1,14 @@
+diff --git a/extensions_built_in/diffusion_models/flux2/flux2_model.py b/extensions_built_in/diffusion_models/flux2/flux2_model.py
+--- a/extensions_built_in/diffusion_models/flux2/flux2_model.py
++++ b/extensions_built_in/diffusion_models/flux2/flux2_model.py
+@@ -156,6 +156,10 @@ class Flux2Model(BaseModel):
+             transformer_state_dict[key] = transformer_state_dict[key].to(dtype)
+ 
+         transformer.load_state_dict(transformer_state_dict, assign=True)
++        # With assign=True the dictionary retains references to every BF16 tensor.
++        # Release those references before quantization replaces the module weights.
++        del transformer_state_dict
++        flush()
+ 
+         if self.model_config.quantize:
+             # patch the state dict method

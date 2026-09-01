@@ -1,10 +1,12 @@
 # Krea2 Gokay Realism Evaluation
 
+> **Historical record — not current instructions.** Gokay was rejected and is not installed; the retained Krea2 pair supports an archived fallback only. See `docs/STATUS.md`.
+
 ## Decision
 
-Gokay Realism adds more whole-frame street structure and pedestrian variation than the smartphone
-slider, but it also changes Mitch's face more. Do not replace the selected smartphone `0.35`
-setting with Gokay for the current identity-sensitive workflow.
+Gokay Realism added more whole-frame street structure and pedestrian variation than the smartphone
+slider, but it also changed Mitch's face more. It was rejected and removed. The retained smartphone `0.35`
+setting belongs only to the archived Krea2 fallback.
 
 ## Compatibility finding
 

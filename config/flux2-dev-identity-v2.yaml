@@ -1,0 +1,101 @@
+---
+job: extension
+config:
+  name: m1tch-flux2-dev-identity-v2
+  process:
+    - type: diffusion_trainer
+      training_folder: C:\projects\AI-Tools\ai-toolkit\AI-Toolkit\output
+      device: cuda:0
+      trigger_word: m1tch_person
+      performance_log_every: 10
+      network:
+        type: lora
+        linear: 16
+        linear_alpha: 16
+        network_kwargs:
+          only_if_contains:
+            - ".img_attn."
+            - ".txt_attn."
+            - ".single_blocks."
+      save:
+        dtype: bf16
+        save_every: 50
+        max_step_saves_to_keep: 10
+        save_format: safetensors
+        push_to_hub: false
+      datasets:
+        - folder_path: C:\projects\AI-Tools\Mitch-Comfy\datasets\mitch-identity-stills-v3\dataset
+          caption_ext: txt
+          caption_dropout_rate: 0.0
+          token_dropout_rate: 0.0
+          shuffle_tokens: false
+          cache_latents_to_disk: true
+          cache_text_embeddings: true
+          resolution: 1024
+          num_repeats: 1
+          flip_x: false
+          flip_y: false
+      train:
+        batch_size: 1
+        steps: 500
+        gradient_accumulation: 4
+        train_unet: true
+        train_text_encoder: false
+        gradient_checkpointing: true
+        noise_scheduler: flowmatch
+        timestep_type: linear
+        content_or_style: balanced
+        optimizer: adamw8bit
+        optimizer_params:
+          weight_decay: 0.0001
+        lr: 0.00008
+        lr_scheduler: constant
+        max_grad_norm: 1.0
+        unload_text_encoder: true
+        cache_text_embeddings: true
+        skip_first_sample: true
+        disable_sampling: true
+        dtype: bf16
+        loss_type: mse
+        ema_config:
+          use_ema: false
+          ema_decay: 0.99
+      model:
+        name_or_path: black-forest-labs/FLUX.2-dev
+        arch: flux2
+        dtype: bf16
+        quantize: true
+        qtype: qfloat8
+        quantize_te: true
+        qtype_te: qfloat8
+        low_vram: true
+        layer_offloading: true
+        layer_offloading_transformer_percent: 1.0
+        layer_offloading_text_encoder_percent: 1.0
+        model_kwargs:
+          match_target_res: false
+      sample:
+        sampler: flowmatch
+        sample_every: 50
+        sample_start_step: 0
+        width: 832
+        height: 1248
+        prompts:
+          - A realistic smartphone portrait of m1tch_person, an adult man, in natural daylight.
+        neg: ""
+        seed: 8675310
+        walk_seed: false
+        guidance_scale: 4.0
+        sample_steps: 28
+meta:
+  name: m1tch-flux2-dev-identity-v2
+  version: "2.0"
+  trigger: m1tch_person
+  base_model: black-forest-labs/FLUX.2-dev
+  architecture: flux2
+  dataset: mitch-identity-stills-v3
+  ai_toolkit_commit: 0f788923aef28e3a87fa68cfa15a761d9d499d6c
+  compatibility_patch: C:\projects\AI-Tools\Mitch-Comfy\patches\ai-toolkit-flux2-dev-win64gb.patch
+  required_environment: AI_TOOLKIT_PIN_QUANTIZED_OFFLOAD=0
+  intended_scope: Portrait and half-body social photographs; full-body identity is reported separately.
+  promotion_gate: Manual full-size and thumbnail review is mandatory; InsightFace is diagnostic only.

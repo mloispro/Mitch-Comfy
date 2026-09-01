@@ -1,0 +1,41 @@
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory = $true)][string]$LoraName,
+    [double]$LoraStrength = 0.9,
+    [ValidateSet("Quick", "Full")][string]$Profile = "Quick",
+    [string]$ComfyUrl = "http://127.0.0.1:8188",
+    [int]$Steps = 50,
+    [double]$Guidance = 4.0,
+    [long]$SeedBase = 8676310,
+    [int]$TimeoutSeconds = 1800,
+    [string]$ComfyOutputRoot = "C:\projects\AI-Tools\ComfyUI\output",
+    [string]$OutputNamespace = "klein9b-v3-r32-dop-extension2000"
+)
+
+$ErrorActionPreference = "Stop"
+$benchmark = Join-Path $PSScriptRoot "benchmark-flux2-klein9b-identity-v1.ps1"
+$heldOutReferences = @(
+    "val_03_navy_upper_body.jpg",
+    "val_04_window_small_smile.jpg",
+    "val_05_balcony_opposite_angle.jpg",
+    "val_06_car_daylight.jpg"
+)
+
+& $benchmark `
+    -LoraName $LoraName `
+    -LoraStrength $LoraStrength `
+    -Profile $Profile `
+    -ComfyUrl $ComfyUrl `
+    -Steps $Steps `
+    -Guidance $Guidance `
+    -SeedBase $SeedBase `
+    -TimeoutSeconds $TimeoutSeconds `
+    -ComfyOutputRoot $ComfyOutputRoot `
+    -WorkRunName "flux2-klein9b-identity-v3-r32-dop" `
+    -StagingManifestName "checkpoint-staging-extension-to2000.json" `
+    -OutputNamespace $OutputNamespace `
+    -ReferenceDatasetName "mitch-identity-stills-v4-klein9b" `
+    -ReferenceSubdirectory "validation" `
+    -ReferenceFiles $heldOutReferences
+
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

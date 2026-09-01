@@ -1,0 +1,42 @@
+diff --git a/extensions_built_in/diffusion_models/flux2/flux2_model.py b/extensions_built_in/diffusion_models/flux2/flux2_model.py
+--- a/extensions_built_in/diffusion_models/flux2/flux2_model.py
++++ b/extensions_built_in/diffusion_models/flux2/flux2_model.py
+@@ -101,15 +101,17 @@ class Flux2Model(BaseModel):
+                 torch_dtype=dtype,
+             )
+         )
+-        text_encoder.to(self.device_torch, dtype=dtype)
+-
+-        flush()
+-
+         if self.model_config.quantize_te:
++            # Keep the 24B encoder on CPU until it has been quantized. Moving the
++            # full BF16 model to CUDA first cannot fit on 24/32 GB cards and
++            # defeats both low_vram and layer offloading.
+             self.print_and_status_update("Quantizing Mistral")
+-            quantize(text_encoder, weights=get_qtype(self.model_config.qtype))
++            quantize(text_encoder, weights=get_qtype(self.model_config.qtype_te))
+             freeze(text_encoder)
+             flush()
++        elif not self.model_config.low_vram:
++            text_encoder.to(self.device_torch, dtype=dtype)
++            flush()
+ 
+         if (
+             self.model_config.layer_offloading
+diff --git a/toolkit/memory_management/manager_modules.py b/toolkit/memory_management/manager_modules.py
+--- a/toolkit/memory_management/manager_modules.py
++++ b/toolkit/memory_management/manager_modules.py
+@@ -238,7 +238,11 @@ def _ensure_cpu_pinned(t: Optional[torch.Tensor]) -> Optional[torch.Tensor]:
+     # Quantized wrappers can't be pin_memory()'d directly, but pinning their
+     # inner storage gives the same async-transfer benefit.
+     if _is_quantized_tensor(t):
+-        if torch.cuda.is_available():
++        # Pinning duplicates the inner storage while attaching very large
++        # quantized models. Allow memory-constrained hosts to use the lower-peak
++        # behavior from before cdff6e3 at the cost of slower H2D transfers.
++        pin_quantized = os.environ.get("AI_TOOLKIT_PIN_QUANTIZED_OFFLOAD", "1") != "0"
++        if torch.cuda.is_available() and pin_quantized:
+             _pin_inner_tensors(t)
+         return t
+     if torch.cuda.is_available():

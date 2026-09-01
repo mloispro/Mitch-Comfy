@@ -1,5 +1,7 @@
 # Easy Social Photos v1.0.3 deterministic phone-optics evaluation
 
+> **Historical record — not current instructions.** Easy Social is now an archived rollback. See `docs/STATUS.md`.
+
 v1.0.3 replaces unreliable prompt-only haze with a deterministic highlight-driven optical pass. The accepted
 v1.0.2 core remains unchanged and available for rollback. The new production graph still exposes two nodes and
 the same eight useful inputs.

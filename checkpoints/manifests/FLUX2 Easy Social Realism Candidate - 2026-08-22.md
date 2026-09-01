@@ -1,5 +1,7 @@
 # FLUX.2 Easy Social Photos realism candidate — 2026-08-22
 
+> **Historical record — not current instructions.** Terms such as “production,” “current,” “selected,” or “recommended” below describe the decision on 2026-08-22. See `docs/STATUS.md` for current state.
+
 ## Goal
 
 Keep the accepted private identity LoRA while removing the visibly over-detailed, separately rendered

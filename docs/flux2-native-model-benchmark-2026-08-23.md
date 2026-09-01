@@ -1,8 +1,12 @@
 # FLUX.2 Native Model Benchmark — 2026-08-23
 
-## Decision
+> **Historical snapshot — superseded.** This predates the validated Dev V2 and Klein 9B V3 identity LoRAs. See `docs/STATUS.md` for the current decision.
 
-Keep the accepted FLUX.2 Klein Base 4B plus Mitch identity LoRA route in production. Neither Klein 9B KV nor FLUX.2 Dev is a better default for local dating/IG generation on the RTX 3090.
+## Decision at the time
+
+The 2026-08-23 decision kept FLUX.2 Klein Base 4B plus the then-current Mitch identity LoRA. This benchmark
+tested native models without the later trained adapters; it does not contradict the current Klein 9B V3 or
+Dev V2 routes.
 
 FLUX.2 Dev produced the more believable and varied crowd scene, but it was 12.8 times slower than Klein 9B, scored slightly worse for identity, and still contained a near-duplicate secondary-face pair. It is not promoted to production.
 
@@ -43,11 +47,14 @@ The accepted 4B+LoRA minimal reality proof remains the production identity refer
 - The maximum secondary-pair face similarity is 0.6228. This passes the current 0.72 rejection limit, but is close enough to confirm that Dev does not eliminate crowd repetition.
 - On the 24 GB RTX 3090, the 33.8 GB staged model required CPU offload and took about 3 minutes 47 seconds for diffusion sampling alone.
 
-## Production implication
+## Historical implication
 
-Do not replace the current 4B+LoRA generator with either native model. Klein 9B does not buy enough crowd realism, while Dev buys better scene realism at unacceptable speed and identity cost.
+The evidence supported not replacing the 4B+LoRA generator with either unadapted native model at that time.
+Klein 9B did not buy enough crowd realism, while Dev bought better scene realism at unacceptable speed and
+identity cost.
 
-If a future crowd-heavy route is tested, FLUX.2 Dev is only a background/scene research candidate. It first needs a Dev-compatible identity solution and must beat the existing identity threshold without copy-paste compositing. Until then, the smallest reliable workflow remains the accepted 4B+LoRA route plus scene-quality rejection and regeneration.
+Later campaigns supplied independently validated Dev V2 and Klein 9B V3 identity LoRAs. Their current roles are
+defined in `docs/STATUS.md`; this native-only comparison remains useful only as a baseline.
 
 ## Artifacts
 

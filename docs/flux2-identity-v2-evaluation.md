@@ -1,5 +1,7 @@
 # FLUX.2 identity LoRA v2 evaluation
 
+> **Historical record — not current instructions.** This candidate was rejected and its weight was removed. See `docs/STATUS.md` for the retained adapters.
+
 Status: **rejected; never promoted to an active workflow**.
 
 The v2 training set was built only from real, user-owned media in `C:\projects\AI-Tools\Mitch photos`.
