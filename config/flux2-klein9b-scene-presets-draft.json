@@ -1,7 +1,8 @@
 {
   "schema_version": 1,
-  "status": "implemented_in_v1_1_visual_preset_workflows",
-  "updated": "2026-09-02",
+  "status": "historical_draft_superseded_by_canonical_runtime_manifest",
+  "canonical_manifest": "custom_nodes/ComfyUI-AIToolkit-Training/web/assets/scene-presets/manifest.json",
+  "updated": "2026-09-03",
   "upgrade_photo_workflow_excluded": true,
   "identity_studio": [
     {"key": "custom", "label": "Custom — write your own scene", "origin": "existing"},
@@ -22,11 +23,12 @@
     {"key": "elegant_restaurant", "label": "Elegant restaurant — understated evening", "origin": "existing"},
     {"key": "ragdoll_cat", "label": "Cat lover — Ragdoll", "origin": "existing"},
     {
-      "key": "toddler_moment",
-      "label": "Toddler moment — warm family candid",
-      "origin": "proposed_tabby_replacement",
-      "source_asset": null,
-      "scene_prompt": "A warm candid lifestyle photograph of m1tch_person sharing a natural playful moment with one fully clothed toddler in a bright comfortable home. Mitch is clearly the adult subject, with a gentle relaxed expression and believable protective hand placement. The toddler has a distinct unrelated face and age-appropriate proportions. Natural window light, realistic skin, complete hands and limbs, and an unposed family snapshot feeling."
+      "key": "canyon_river_overlook",
+      "label": "Canyon overlook — river at sunset",
+      "origin": "user_replaced_toddler_2026_09_03",
+      "source_asset": "assets/comfy-input/klein9b-scene-presets/generated/identity-canyon-river-overlook.png",
+      "source_sha256": "A235831D8E8B1AC4DDB551CC5CD0939C54ACAFEAD2B0A09F0435286F39CFE314",
+      "scene_prompt": "A close vertical travel portrait of m1tch_person at a dramatic canyon overlook near sunset, photographed by a companion with an ordinary phone. His head and upper torso fill image-right while he leans naturally beside a weathered foreground rock, wearing a fitted navy sleeveless shirt. His head tilts slightly toward image-left and he looks toward the camera with a restrained closed-lip smile. Layered canyon walls, irregular green vegetation, and a winding river remain clearly recognizable behind him in warm natural evening light. Keep believable small-sensor depth throughout the scene rather than portrait-mode background blur."
     },
     {
       "key": "golden_shepherd_puppy",
@@ -57,5 +59,5 @@
     }
   ],
   "pending_choice": null,
-  "implemented_choice": "Former tabby-cat slot removed; toddler and Golden Shepherd are separate visual presets."
+  "implemented_choice": "Former tabby-cat and toddler slots are removed; Canyon overlook and Golden Shepherd are separate visual presets."
 }

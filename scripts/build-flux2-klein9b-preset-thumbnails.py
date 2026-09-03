@@ -19,6 +19,13 @@ PREVIEW_OUTPUT = ROOT / "work" / "flux2-klein9b-visual-presets"
 SIZE = (300, 210)
 
 
+# Portrait sources are cropped to the landscape card. Most look best slightly above
+# center; the full-body Downtown preset needs a higher crop to keep Mitch's head in view.
+CARD_FOCAL_Y = {
+    "identity-downtown-menswear.jpg": 0.20,
+}
+
+
 CARDS = {
     "identity-custom.jpg": ("Custom scene", None, (61, 72, 87)),
     "identity-founder-editorial.jpg": (
@@ -66,8 +73,26 @@ CARDS = {
         ROOT / "assets" / "comfy-input" / "dating-scenes" / "dating-03-cat-ragdoll.png",
         (81, 78, 75),
     ),
-    "identity-toddler-moment.jpg": ("Toddler moment", None, (121, 83, 62)),
-    "identity-golden-shepherd-puppy.jpg": ("Golden Shepherd puppy", None, (126, 92, 47)),
+    "identity-canyon-river-overlook.jpg": (
+        "Canyon overlook",
+        ROOT
+        / "assets"
+        / "comfy-input"
+        / "klein9b-scene-presets"
+        / "generated"
+        / "identity-canyon-river-overlook.png",
+        (121, 83, 62),
+    ),
+    "identity-golden-shepherd-puppy.jpg": (
+        "Golden Shepherd puppy",
+        ROOT
+        / "assets"
+        / "comfy-input"
+        / "klein9b-scene-presets"
+        / "generated"
+        / "identity-golden-shepherd-puppy.png",
+        (126, 92, 47),
+    ),
     "identity-golf-course.jpg": (
         "Golf course",
         ROOT / "assets" / "comfy-input" / "dating-scenes" / "dating-05-golfer.png",
@@ -78,7 +103,16 @@ CARDS = {
         Path(r"C:\projects\AI-Tools\ComfyUI\output\identity-eval\flux2-dev-v2\high-value\high-value-20260827-231336-weekend-lake_00001_.png"),
         (54, 101, 118),
     ),
-    "identity-downtown-menswear.jpg": ("Downtown menswear", None, (67, 72, 80)),
+    "identity-downtown-menswear.jpg": (
+        "Downtown menswear",
+        ROOT
+        / "assets"
+        / "comfy-input"
+        / "klein9b-scene-presets"
+        / "generated"
+        / "identity-downtown-menswear.png",
+        (67, 72, 80),
+    ),
     "group-custom.jpg": ("Custom group upload", None, (72, 65, 82)),
     "group-approved-lounge.jpg": (
         "Approved lounge",
@@ -134,14 +168,19 @@ def placeholder(label: str, color: tuple[int, int, int]) -> Image.Image:
     return image
 
 
-def build_card(label: str, source: Path | None, color: tuple[int, int, int]) -> Image.Image:
+def build_card(
+    label: str,
+    source: Path | None,
+    color: tuple[int, int, int],
+    focal_y: float = 0.38,
+) -> Image.Image:
     if source is not None and source.is_file():
         with Image.open(source) as opened:
             image = ImageOps.fit(
                 ImageOps.exif_transpose(opened).convert("RGB"),
                 SIZE,
                 method=Image.Resampling.LANCZOS,
-                centering=(0.5, 0.38),
+                centering=(0.5, focal_y),
             )
     else:
         image = placeholder(label, color)
@@ -175,7 +214,7 @@ def build_preview_sheet(filenames: list[str], title: str, output_name: str) -> N
 def main() -> None:
     OUTPUT.mkdir(parents=True, exist_ok=True)
     for filename, (label, source, color) in CARDS.items():
-        card = build_card(label, source, color)
+        card = build_card(label, source, color, CARD_FOCAL_Y.get(filename, 0.38))
         card.save(OUTPUT / filename, quality=88, optimize=True)
     build_preview_sheet(
         [name for name in CARDS if name.startswith("identity-")],

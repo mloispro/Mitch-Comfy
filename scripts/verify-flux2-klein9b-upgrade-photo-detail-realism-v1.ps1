@@ -59,7 +59,7 @@ foreach ($required in @("MarkdownNote", "LoadImage", $NodeName, "PreviewImage"))
 $upgradeNode = @($workflow.nodes | Where-Object type -eq $NodeName)[0]
 if (@($upgradeNode.inputs).Count -ne 5) { throw "Upgrade node must expose only source_photo, detail_instructions, appearance_polish, phone_camera_style, and seed." }
 if ([bool]$upgradeNode.widgets_values[1] -ne $true) { throw "Production sheet must open with Subtle handsome polish enabled." }
-if ([bool]$upgradeNode.widgets_values[2] -ne $false) { throw "Production sheet must open in the natural-lens phone-off mode." }
+if ([bool]$upgradeNode.widgets_values[2] -ne $true) { throw "Production sheet must open in the accepted phone-camera mode." }
 if ([UInt64]$upgradeNode.widgets_values[3] -ne 8675416) { throw "Production sheet no longer opens at approved seed 8675416." }
 
 $nodeSource = Get-Content -Raw -LiteralPath $NodePath
@@ -188,6 +188,8 @@ $requiredInputs = @($nodeInfo.$NodeName.input_order.required)
 if (($requiredInputs -join ",") -ne "source_photo,detail_instructions,appearance_polish,phone_camera_style,seed") {
     throw "Live node input contract drifted: $($requiredInputs -join ', ')"
 }
+$livePhoneDefault = [bool]$nodeInfo.$NodeName.input.required.phone_camera_style[1].default
+if (-not $livePhoneDefault) { throw "Live RTX 3090 node still defaults Phone-camera realism off; reload the worker." }
 
 $hashes = [ordered]@{
     workflow = (Get-FileHash -Algorithm SHA256 -LiteralPath $WorkflowPath).Hash.ToUpperInvariant()
@@ -228,8 +230,8 @@ $validation = [ordered]@{
     hashes = $hashes
     milestone = [ordered]@{ commit = "d58732a"; tag = "milestone-good-identity-workflows-2026-09-01"; sampling_path_preserved = $true; included_example_prompt_matches_approved_png = $true; included_example_guide_pixels_match_approved_guide = $true }
     appearance = [ordered]@{ default = $true; profile = "deterministic_face_and_hair_local_v4+mediapipe_refined_iris_source_lock_v1"; mechanism = "deterministic face-local, source-relative iris-interior, and eroded semantic-hair-interior postprocess after unchanged generation"; generation_prompt_changed = $false; protected_pixels_exact = $true; dark_dots_and_freckles_reduced = $true; existing_hair_highlights_enhanced = $true; hairline_unchanged = $true; eyelids_unchanged = $true; source_gaze_lock = $true }
-    phone_camera_style = [ordered]@{ available = $true; default = $false; strength = 0.25; trigger = "casual snapshot"; rendering = "deep_focus"; background_blur_skipped = $true }
-    phone_off_camera_finish = [ordered]@{ default = $true; profile = "u2net_human_edge_safe_depth_ramp_v1"; mechanism = "local U2Net human matte plus subject-excluding normalized near/far Gaussian depth ramp"; protected_subject_pixels_exact = $true; subject_colors_excluded = $true; second_model_pass = $false }
+    phone_camera_style = [ordered]@{ available = $true; default = $true; strength = 0.25; trigger = "casual snapshot"; rendering = "deep_focus"; background_blur_skipped = $true; decision = "visually accepted by Mitch" }
+    phone_off_camera_finish = [ordered]@{ available = $true; default = $false; profile = "u2net_human_edge_safe_depth_ramp_v1"; mechanism = "local U2Net human matte plus subject-excluding normalized near/far Gaussian depth ramp"; protected_subject_pixels_exact = $true; subject_colors_excluded = $true; second_model_pass = $false }
     locked_settings = [ordered]@{ model_dtype = "fp8_e4m3fn"; lora_strength = 0.90; steps = 50; cfg = 4.0; sampler = "euler"; scheduler = "Flux2Scheduler"; references = 4 }
     forbidden_stages = [ordered]@{ turbo = $false; source_latent_init = $false; generation_mask = $false; face_swap = $false; restoration = $false; generation_sharpening = $false; upscaling = $false; second_model_pass = $false }
     appearance_postprocess = [ordered]@{ local_soft_mask = $true; face_iris_and_hair_interiors_only = $true; outside_pixels_exact_before_camera_finish = $true; local_texture_and_detail_contrast = $true }
@@ -250,13 +252,13 @@ $validation.workers_at_submit = $workersAtSubmit
 $prompt = [ordered]@{ "1" = @{ class_type = "LoadImage"; inputs = @{ image = $SourceName } } }
 if ($Native) {
     $outputNodeId = "2"
-    $prompt[$outputNodeId] = @{ class_type = $NodeName; inputs = @{ source_photo = @("1", 0); detail_instructions = $Detail; appearance_polish = $true; phone_camera_style = $false; seed = [UInt64]8675416 } }
+    $prompt[$outputNodeId] = @{ class_type = $NodeName; inputs = @{ source_photo = @("1", 0); detail_instructions = $Detail; appearance_polish = $true; phone_camera_style = $true; seed = [UInt64]8675416 } }
     $validation.test_resolution = "source native"
 }
 else {
     $prompt["2"] = @{ class_type = "ImageScaleToTotalPixels"; inputs = @{ image = @("1", 0); upscale_method = "bicubic"; megapixels = 1.0; resolution_steps = 1 } }
     $outputNodeId = "3"
-    $prompt[$outputNodeId] = @{ class_type = $NodeName; inputs = @{ source_photo = @("2", 0); detail_instructions = $Detail; appearance_polish = $true; phone_camera_style = $false; seed = [UInt64]8675416 } }
+    $prompt[$outputNodeId] = @{ class_type = $NodeName; inputs = @{ source_photo = @("2", 0); detail_instructions = $Detail; appearance_polish = $true; phone_camera_style = $true; seed = [UInt64]8675416 } }
     $validation.test_resolution = "approximately 1 MP preview; use -Native only for final confirmation"
 }
 $body = @{ prompt = $prompt; client_id = "verify-upgrade-photo-$([guid]::NewGuid().ToString('N'))" } | ConvertTo-Json -Depth 30

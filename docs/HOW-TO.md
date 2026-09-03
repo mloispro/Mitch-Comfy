@@ -79,9 +79,9 @@ Open `Mitch/production/FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1`.
    A local MediaPipe iris measurement moves only generated iris material toward the source-relative pupil coordinates;
    source pixels are not copied. The eyelid boundary, head outline, hairline, hair silhouette, and unselected skin
    texture remain exact generated pixels; the separate phone-off camera finish may soften only the background.
-4. Leave `Phone-camera realism` off for gentle, optical-looking background separation. The complete detailed render is
-   saved first, then a local U2Net matte and edge-safe depth-ramped blur preserve the subject exactly while softening the
-   background. Turn it on for the accepted deep-focus Smartphone Snapshot v13 look at `0.25`; phone-on skips the blur.
+4. Leave `Phone-camera realism` on for the accepted deep-focus Smartphone Snapshot v13 look at `0.25`; phone-on skips
+   the background-blur stage. Turn it off for optional gentle, optical-looking background separation. That path saves the
+   complete detailed render first, then uses a local U2Net matte and edge-safe depth-ramped blur to preserve the subject exactly.
 5. Use seed `8675416` first and queue only on the RTX 3090 worker at port `8188`.
 6. Review the upgraded photo, raw before-polish image, polish mask, pre-background-blur image, background-blur mask,
    and structure guide at full size and thumbnail.

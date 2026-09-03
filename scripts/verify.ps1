@@ -176,12 +176,59 @@ if (Test-Path -LiteralPath $klein9bGroupWorkflowPath) {
 
 $visualPresetRoot = Join-Path $RepoRoot "custom_nodes\ComfyUI-AIToolkit-Training\web\assets\scene-presets"
 $visualPresetScript = Join-Path $RepoRoot "custom_nodes\ComfyUI-AIToolkit-Training\web\visual_scene_presets.js"
+$visualPresetManifest = Join-Path $visualPresetRoot "manifest.json"
 if (-not (Test-Path -LiteralPath $visualPresetScript -PathType Leaf)) {
     $errors.Add("Missing Klein 9B visual preset extension: $visualPresetScript")
+} else {
+    $visualPresetScriptSource = Get-Content -Raw -LiteralPath $visualPresetScript
+    if ($visualPresetScriptSource -notmatch [regex]::Escape("assets/scene-presets/manifest.json")) {
+        $errors.Add("Klein 9B visual preset extension must load the canonical preset manifest.")
+    }
 }
 if (-not (Test-Path -LiteralPath $visualPresetRoot -PathType Container) -or
     @(Get-ChildItem -LiteralPath $visualPresetRoot -File -Filter "*.jpg").Count -ne 20) {
     $errors.Add("Klein 9B visual preset gallery must contain exactly 20 thumbnail cards.")
+}
+if (-not (Test-Path -LiteralPath $visualPresetManifest -PathType Leaf)) {
+    $errors.Add("Missing canonical Klein 9B scene-preset manifest.")
+} else {
+    try {
+        $presetManifest = Get-Content -Raw -LiteralPath $visualPresetManifest | ConvertFrom-Json
+        if ([int]$presetManifest.schema_version -ne 1) {
+            $errors.Add("Unsupported Klein 9B scene-preset manifest schema.")
+        }
+        if (@($presetManifest.identity).Count -ne 15 -or @($presetManifest.group).Count -ne 5) {
+            $errors.Add("Klein 9B scene-preset manifest must define 15 Identity and 5 Group cards.")
+        }
+        $presetRecords = @($presetManifest.identity) + @($presetManifest.group)
+        $presetLabels = @($presetRecords | ForEach-Object { [string]$_.label })
+        $presetKeys = @($presetRecords | ForEach-Object { [string]$_.key })
+        $presetThumbnails = @($presetRecords | ForEach-Object { [string]$_.thumbnail })
+        if (@($presetLabels | Sort-Object -Unique).Count -ne $presetLabels.Count -or
+            @($presetKeys | Sort-Object -Unique).Count -ne $presetKeys.Count -or
+            @($presetThumbnails | Sort-Object -Unique).Count -ne 20) {
+            $errors.Add("Klein 9B scene-preset labels, keys, and thumbnails must be unique.")
+        }
+        foreach ($thumbnail in $presetThumbnails) {
+            if (-not (Test-Path -LiteralPath (Join-Path $visualPresetRoot $thumbnail) -PathType Leaf)) {
+                $errors.Add("Scene-preset manifest references a missing thumbnail: $thumbnail")
+            }
+        }
+    } catch {
+        $errors.Add("Klein 9B scene-preset manifest is invalid: $($_.Exception.Message)")
+    }
+}
+foreach ($generatedPreset in @(
+    @{ File = "identity-canyon-river-overlook.png"; Hash = "A235831D8E8B1AC4DDB551CC5CD0939C54ACAFEAD2B0A09F0435286F39CFE314" },
+    @{ File = "identity-golden-shepherd-puppy.png"; Hash = "3206AF0F488DCE5383F77181B734F768FF40B0C6B0707A498A5059BF550F6EF8" },
+    @{ File = "identity-downtown-menswear.png"; Hash = "2AC525B98B8919C6161040A2E57865C69D9E13E8004F1B8854D39A42862F2797" }
+)) {
+    $generatedPath = Join-Path $RepoRoot ("assets\comfy-input\klein9b-scene-presets\generated\" + $generatedPreset.File)
+    if (-not (Test-Path -LiteralPath $generatedPath -PathType Leaf)) {
+        $errors.Add("Missing selected generated preset photo: $($generatedPreset.File)")
+    } elseif ((Get-FileHash -Algorithm SHA256 -LiteralPath $generatedPath).Hash -ne $generatedPreset.Hash) {
+        $errors.Add("Selected generated preset photo changed: $($generatedPreset.File)")
+    }
 }
 
 $frozenBaselinesPath = Join-Path $RepoRoot "config\frozen-baselines.json"
@@ -352,7 +399,7 @@ if (-not (Test-Path -LiteralPath $comfyPython)) {
 
 Push-Location (Join-Path $RepoRoot "custom_nodes\ComfyUI-AIToolkit-Training")
 try {
-    & python -m unittest test_integration.py test_social_photo_core.py test_reference_photo_presets.py test_phone_lens_optics.py test_scene_quality.py test_identity_scope.py test_identity_leakage.py test_scene_crop.py test_scene_constraints.py test_scene_objects.py test_camera_finish.py test_head_integrity.py test_minimal_flux2_reality_test.py test_flux2_model_benchmark.py test_flux2_klein9b_appearance_polish.py test_flux2_klein9b_deterministic_polish.py test_flux2_klein9b_smartphone_style.py test_flux2_klein9b_turbo.py test_flux2_klein9b_upgrade_reference_policy.py test_flux2_klein9b_upgrade_masking.py test_flux2_klein9b_source_gaze_lock.py test_flux2_klein9b_mitch_identity_studio_presets.py test_flux2_klein9b_scene_presets.py test_flux2_klein9b_photo_realism_upgrade_presets.py
+    & python -m unittest test_integration.py test_social_photo_core.py test_reference_photo_presets.py test_phone_lens_optics.py test_scene_quality.py test_identity_scope.py test_identity_leakage.py test_scene_crop.py test_scene_constraints.py test_scene_objects.py test_camera_finish.py test_head_integrity.py test_minimal_flux2_reality_test.py test_flux2_model_benchmark.py test_flux2_klein9b_appearance_polish.py test_flux2_klein9b_deterministic_polish.py test_flux2_klein9b_smartphone_style.py test_flux2_klein9b_turbo.py test_flux2_klein9b_upgrade_reference_policy.py test_flux2_klein9b_upgrade_masking.py test_flux2_klein9b_source_gaze_lock.py test_flux2_klein9b_mitch_identity_studio_presets.py test_flux2_klein9b_scene_presets.py test_flux2_klein9b_visual_preset_support.py test_flux2_klein9b_photo_realism_upgrade_presets.py
     if ($LASTEXITCODE -ne 0) {
         $errors.Add("Python unit tests failed.")
     }

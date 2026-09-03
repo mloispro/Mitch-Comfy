@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 import numpy as np
@@ -9,12 +8,16 @@ from PIL import Image, ImageOps
 import folder_paths
 
 from .flux2_klein9b_group_scene_studio import Flux2Klein9BMitchGroupSceneStudioV1
-from .flux2_klein9b_mitch_identity_studio import _verify_sha256
 from .flux2_klein9b_scene_presets import (
     CUSTOM_GROUP_PRESET,
     GROUP_SCENE_PRESETS,
+    PRESET_MANIFEST_SHA256,
     preset_asset_path,
     resolve_group_scene,
+)
+from .flux2_klein9b_visual_preset_support import (
+    augment_visual_preset_report,
+    verify_asset_sha256,
 )
 
 
@@ -22,7 +25,7 @@ def _load_group_preset_source(record: dict) -> tuple[torch.Tensor, Path]:
     path = preset_asset_path(record)
     if path is None or not path.is_file():
         raise RuntimeError(f"Missing Group Scene Studio preset source: {path}")
-    _verify_sha256(path, record["source_sha256"], f"Group preset {record['key']}")
+    verify_asset_sha256(path, record["source_sha256"], f"Group preset {record['key']}")
     with Image.open(path) as opened:
         image = ImageOps.exif_transpose(opened).convert("RGB")
         array = np.asarray(image, dtype=np.float32) / 255.0
@@ -113,31 +116,23 @@ class Flux2Klein9BMitchGroupSceneStudioVisualPresetsV11(
             fast_turbo,
             seed,
         )
-        photo, layout_guide, effective_prompt, output_folder, report_json = response[
-            "result"
-        ]
-        report = json.loads(report_json)
-        report.update(
-            {
-                "purpose": "flux2_klein9b_mitch_group_scene_studio_v1_1_visual_presets",
-                "scene_preset": scene_preset,
-                "scene_preset_key": record["key"],
-                "scene_preset_source": str(source_path) if source_path else None,
-                "scene_preset_source_sha256": record.get("source_sha256"),
+        return augment_visual_preset_report(
+            response,
+            output_directory=folder_paths.get_output_directory(),
+            shell_name="flux2_klein9b_mitch_group_scene_studio_v1_1_visual_presets",
+            preset={
+                "label": scene_preset,
+                "key": record["key"],
+                "manifest_sha256": PRESET_MANIFEST_SHA256,
+                "source": str(source_path) if source_path else None,
+                "source_sha256": record.get("source_sha256"),
+                "target_x_input": float(target_x),
+                "target_y_input": float(target_y),
+                "head_scale_input": float(head_scale),
+                "target_x_effective": resolved_x,
+                "target_y_effective": resolved_y,
+                "head_scale_effective": resolved_head_scale,
                 "scene_prompt_input": scene_prompt.strip(),
-                "scene_prompt": resolved_prompt,
-            }
+                "scene_prompt_effective": resolved_prompt,
+            },
         )
-        updated_report_json = json.dumps(report, indent=2)
-        report_path = (
-            Path(folder_paths.get_output_directory()) / output_folder / "report.json"
-        )
-        report_path.write_text(updated_report_json, encoding="utf-8")
-        response["result"] = (
-            photo,
-            layout_guide,
-            effective_prompt,
-            output_folder,
-            updated_report_json,
-        )
-        return response

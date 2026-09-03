@@ -2,38 +2,23 @@ const { app } = window.comfyAPI.app;
 
 const STYLE_ID = "mitch-klein9b-visual-preset-styles";
 const ASSET_ROOT = new URL("./assets/scene-presets/", import.meta.url);
+const ASSET_VERSION = "20260903-generated-previews-v2";
+const MANIFEST_URL = new URL("./assets/scene-presets/manifest.json", import.meta.url);
+MANIFEST_URL.searchParams.set("v", ASSET_VERSION);
+let manifestPromise;
 
-const IDENTITY_PRESETS = [
-  ["Custom — write your own scene", "identity-custom.jpg", "SOLO — front + right-facing angle"],
-  ["Founder editorial — modern studio", "identity-founder-editorial.jpg", "SOLO — front + right-facing angle"],
-  ["Cooking candid — warm modern kitchen", "identity-cooking-candid.jpg", "SOLO — front + right-facing angle"],
-  ["Golden-hour rooftop — linen shirt", "identity-golden-hour-rooftop.jpg", "SOLO — front + right-facing angle"],
-  ["Night city balcony — black open-collar shirt", "identity-night-city-balcony.jpg", "SOLO — front + right-facing angle"],
-  ["Rooftop cocktail — city lights", "identity-rooftop-cocktail.jpg", "SOLO — front + left-facing angle"],
-  ["Amalfi balcony — white linen", "identity-amalfi-balcony.jpg", "SOLO — front + right-facing angle"],
-  ["Italian lake boat — relaxed travel", "identity-italian-lake-boat.jpg", "FULL BODY — front + body proportions"],
-  ["Elegant restaurant — understated evening", "identity-elegant-restaurant.jpg", "SOLO — front + right-facing angle"],
-  ["Cat lover — Ragdoll", "identity-ragdoll-cat.jpg", "SOLO — front + left-facing angle"],
-  ["Toddler moment — warm family candid", "identity-toddler-moment.jpg", "GROUP — front only (one Mitch)"],
-  ["Dog lover — small Golden Shepherd puppy", "identity-golden-shepherd-puppy.jpg", "SOLO — front + left-facing angle"],
-  ["Golf course — tropical morning", "identity-golf-course.jpg", "FULL BODY — front + body proportions"],
-  ["Weekend lake — fitted T-shirt", "identity-weekend-lake.jpg", "FULL BODY — front + body proportions"],
-  ["Downtown menswear — sunrise", "identity-downtown-menswear.jpg", "FULL BODY — front + body proportions"],
-].map(([label, thumbnail, profile]) => ({ label, thumbnail, profile }));
-
-const GROUP_PRESETS = [
-  ["Custom — uploaded group photo", "group-custom.jpg", 0.50, 0.44, 0.92],
-  ["Approved lounge — central Mitch", "group-approved-lounge.jpg", 0.50, 0.44, 0.92],
-  ["Night out A — corner booth", "group-night-out-a.jpg", 0.52, 0.30, 0.92],
-  ["Night out B — group booth", "group-night-out-b.jpg", 0.46, 0.33, 0.92],
-  ["Amber booth — four friends", "group-amber-booth.jpg", 0.51, 0.45, 0.92],
-].map(([label, thumbnail, targetX, targetY, headScale]) => ({
-  label,
-  thumbnail,
-  targetX,
-  targetY,
-  headScale,
-}));
+async function loadManifest() {
+  manifestPromise ??= fetch(MANIFEST_URL).then(async (response) => {
+    if (!response.ok) throw new Error(`Preset manifest request failed: ${response.status}`);
+    const manifest = await response.json();
+    if (manifest.schema_version !== 1) throw new Error("Unsupported preset manifest schema");
+    if (!Array.isArray(manifest.identity) || !Array.isArray(manifest.group)) {
+      throw new Error("Preset manifest is missing Identity or Group records");
+    }
+    return manifest;
+  });
+  return manifestPromise;
+}
 
 function ensureStyles() {
   if (document.getElementById(STYLE_ID)) return;
@@ -128,7 +113,9 @@ function installGallery(node, presets, kind) {
     card.className = "mitch-preset-card";
     card.title = `Select ${preset.label}`;
     const image = document.createElement("img");
-    image.src = new URL(preset.thumbnail, ASSET_ROOT).href;
+    const imageUrl = new URL(preset.thumbnail, ASSET_ROOT);
+    imageUrl.searchParams.set("v", ASSET_VERSION);
+    image.src = imageUrl.href;
     image.alt = preset.label;
     image.loading = "lazy";
     image.draggable = false;
@@ -145,10 +132,10 @@ function installGallery(node, presets, kind) {
       presetWidget.callback?.(preset.label, node, presetWidget);
       if (kind === "identity") {
         setWidgetValue(node, "reference_profile", preset.profile);
-      } else if (preset.label !== "Custom — uploaded group photo") {
-        setWidgetValue(node, "target_x", preset.targetX);
-        setWidgetValue(node, "target_y", preset.targetY);
-        setWidgetValue(node, "head_scale", preset.headScale);
+      } else if (preset.key !== "custom-group") {
+        setWidgetValue(node, "target_x", preset.target_x);
+        setWidgetValue(node, "target_y", preset.target_y);
+        setWidgetValue(node, "head_scale", preset.head_scale);
       }
       refresh();
       node.setDirtyCanvas?.(true, true);
@@ -199,10 +186,12 @@ app.registerExtension({
           ? "group"
           : null;
     if (!kind) return;
+    const manifest = await loadManifest();
+    const presets = kind === "identity" ? manifest.identity : manifest.group;
     const previousCreated = nodeType.prototype.onNodeCreated;
     nodeType.prototype.onNodeCreated = function (...args) {
       const result = previousCreated?.apply(this, args);
-      installGallery(this, kind === "identity" ? IDENTITY_PRESETS : GROUP_PRESETS, kind);
+      installGallery(this, presets, kind);
       return result;
     };
   },

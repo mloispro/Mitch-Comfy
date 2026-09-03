@@ -1,11 +1,16 @@
 # Current workflow and model status
 
-Last audited: **2026-09-02**
+Last audited: **2026-09-03**
 
 This file is the canonical current-state inventory. Workflow JSON, the linked custom-node code, and the
 verification scripts are the implementation authority. Dated evaluation reports and checkpoint manifests are
 historical evidence; words such as “current,” “production,” or “selected” inside those reports describe the
 decision at that time unless their status banner says otherwise.
+
+Fresh shipped-default runs of Identity v1.1, Group v1.1, and native Upgrade v1 all passed on 2026-09-03. The exact
+prompt IDs, output hashes, six-genuine-reference scores, leakage results, structure diagnostic, report invariants,
+and visual checks are recorded in `docs/flux2-klein9b-production-revalidation-2026-09-03.md`. The frozen registry
+now tracks the three engines and the visual-preset shell as separate baselines.
 
 ## Visible Production workflows
 
@@ -15,7 +20,7 @@ decision at that time unless their status banner says otherwise.
 | `FLUX.2 Klein 9B Mitch Group Scene Studio v1.1 - Visual Presets` | **Default** source-matched group workflow; clickable layout gallery | Hash-frozen v1 group engine: face-interior-free Canny layout + protected V3 step-1600 identity LoRA + separate genuine identity photograph + smartphone-realism LoRA at `0.25` | RTX 3090, port `8188` |
 | `FLUX.2 Klein 9B Mitch Identity Studio v1` | Hash-frozen text-control rollback | Same identity engine as v1.1, without the visual preset shell | RTX 3090, port `8188` |
 | `FLUX.2 Klein 9B Mitch Group Scene Studio v1` | Hash-frozen manual-source rollback | Same group engine as v1.1, without the visual preset shell | RTX 3090, port `8188` |
-| `FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1` | Restored milestone one-person upgrade; handsome polish on; phone off gives natural-lens background separation | Four ordered native references + V3 step-1600 identity LoRA; deterministic face/iris/hair polish and edge-safe phone-off background finish; phone on uses Smartphone v13 at `0.25` and stays deep-focus | RTX 3090, port `8188` |
+| `FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1` | Restored milestone one-person upgrade; handsome polish and phone style on by default | Four ordered native references + V3 step-1600 identity LoRA; deterministic face/iris/hair polish; accepted Smartphone v13 deep-focus default at `0.25`; optional edge-safe phone-off background finish | RTX 3090, port `8188` |
 | `FLUX.2 Dev LoRA - 9 Dating Scenes v1` | Validated specialty workflow for the nine dating-scene templates or controlled scene restaging | FLUX.2 Dev + protected Dev V2 step-1000 LoRA; optional scene image is composition conditioning, not identity | RTX 3090 |
 | `Dataset gen - QWEN 2511 - 3-photo` | Dataset-generation utility | Qwen Image Edit 2511 Lightning + multiple-angle LoRA | Local ComfyUI |
 | `Train Generated Dataset - AI Toolkit` | Training submission/monitoring utility | AI-Toolkit durable job queue | Local AI-Toolkit |
@@ -30,7 +35,7 @@ Ten LoRA files are currently retained:
 | LoRA | Current reason to keep |
 | --- | --- |
 | `m1tch-flux2-klein9b-identity-v3-r32-dop-step1600.safetensors` | Current Klein 9B Identity, Group, and Upgrade workflows |
-| `smartphone-snapshot\FLUX.2-klein-base-9B_SmartphoneSnapshotPhotoReality_v13.safetensors` | Accepted subtle realism layer for Identity and Group; verified optional but not promoted in Upgrade |
+| `smartphone-snapshot\FLUX.2-klein-base-9B_SmartphoneSnapshotPhotoReality_v13.safetensors` | Accepted subtle realism layer for Identity and Group; visually accepted deep-focus default in Upgrade, with its automated tradeoffs documented |
 | `flux2-klein9b-turbo\Flux_Klein_9b_Turbo_lora_rank_256_bf16_standard.safetensors` | Validated default 8-step acceleration for Identity Studio and optional speed experiment in Group; rejected for Upgrade quality |
 | `flux2-dev-identity-v2-candidates\m1tch-flux2-dev-identity-v2-s1000.safetensors` | Current FLUX.2 Dev dating-scenes workflow |
 | `aitk\m1tch-flux2-klein-4b-identity-v1-best.safetensors` | Accepted One Reference/Easy Social rollback |
@@ -69,13 +74,17 @@ The following are not normal-use Production workflows:
 
 ## Acceptance rules that still apply
 
+- The v1.1 Identity and Group galleries are thin shells around the unchanged hash-frozen v1 engines. Their labels,
+  prompts, thumbnails, recommended identity profiles, group source assets, and target geometry come from the single
+  canonical `web/assets/scene-presets/manifest.json`. Prepared Identity presets enforce their recorded reference
+  profile on the backend; custom prompts retain the user's explicit profile selection.
 - The three Klein 9B production workflows expose a `Visible flattering enhancement` prompt-conditioning toggle.
   Identity Studio and Upgrade open with it enabled. Group Scene opens in the separately validated identity-first
   natural-appearance mode; its optional enabled clause is short and rendering-only. The toggle never switches models
   or references.
 - Identity Studio and Group Scene automatically load Smartphone Snapshot Photo Reality v13 after the identity LoRA at
   strength `0.25` and prepend its trained `casual snapshot` trigger. It is third when Turbo is active. Upgrade loads it
-  only when `Phone-camera realism` is on; the phone-off default uses the separate natural-lens background finish. The
+  by default when `Phone-camera realism` is on; its optional phone-off path uses the separate natural-lens background finish. The
   isolated same-seed 4070 A/B improved
   held-out identity centroid from `0.7891` to `0.8100` and weakest-view similarity from `0.6711` to `0.7029`, with
   a subtle realism gain and no visual hair or sharpening regression. This layer is independent of the appearance toggle.
@@ -90,7 +99,8 @@ The following are not normal-use Production workflows:
   is `0.7476` (`strong_match`) with a `0.5546` weakest view above the `0.5533` genuine floor. Protected pixels remain exact,
   and the detailed siding/tree, forehead, and three-quarter direction remain intact. It has no source-latent passes,
    generation masks, Turbo, face swap, restoration, or second model pass.
-- Upgrade phone-off now applies a deterministic natural-lens finish after the full detailed render. A hash-locked local
+- Upgrade defaults to the accepted deep-focus Smartphone v13 phone rendering. Turning phone style off optionally applies
+  a deterministic natural-lens finish after the full detailed render. A hash-locked local
   U2Net human matte excludes subject colors from normalized near/far Gaussian filters, uses a dilated safety rim, and
   copies protected subject pixels back exactly. On the accepted `1680×1008` v4 frame, `64.4717%` of the background was
   softened with `0 / 255` maximum protected-subject error and no visible cutout halo. Phone-on skips this stage and

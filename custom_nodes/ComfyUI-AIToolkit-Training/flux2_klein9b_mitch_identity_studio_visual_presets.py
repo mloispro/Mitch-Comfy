@@ -1,16 +1,16 @@
 from __future__ import annotations
 
-import json
-from pathlib import Path
-
 import folder_paths
 
 from .flux2_klein9b_mitch_identity_studio import Flux2Klein9BMitchIdentityStudioV1
 from .flux2_klein9b_scene_presets import (
     CUSTOM_IDENTITY_PRESET,
     IDENTITY_SCENE_PRESETS,
+    PRESET_MANIFEST_SHA256,
+    resolve_identity_profile,
     resolve_identity_scene,
 )
+from .flux2_klein9b_visual_preset_support import augment_visual_preset_report
 
 
 class Flux2Klein9BMitchIdentityStudioVisualPresetsV11(
@@ -43,10 +43,11 @@ class Flux2Klein9BMitchIdentityStudioVisualPresetsV11(
     ):
         try:
             resolved_prompt, _record = resolve_identity_scene(scene_preset, scene_prompt)
+            resolved_profile = resolve_identity_profile(scene_preset, reference_profile)
         except ValueError as exc:
             return str(exc)
         return super().VALIDATE_INPUTS(
-            reference_profile,
+            resolved_profile,
             resolved_prompt,
             appearance_polish,
             fast_turbo,
@@ -63,34 +64,25 @@ class Flux2Klein9BMitchIdentityStudioVisualPresetsV11(
         scene_preset=CUSTOM_IDENTITY_PRESET,
     ):
         resolved_prompt, record = resolve_identity_scene(scene_preset, scene_prompt)
+        resolved_profile = resolve_identity_profile(scene_preset, reference_profile)
         response = super().generate(
-            reference_profile,
+            resolved_profile,
             resolved_prompt,
             appearance_polish,
             fast_turbo,
             seed,
         )
-        photo, effective_prompt, output_folder, report_json = response["result"]
-        report = json.loads(report_json)
-        report.update(
-            {
-                "purpose": "flux2_klein9b_mitch_identity_studio_v1_1_visual_presets",
-                "scene_preset": scene_preset,
-                "scene_preset_key": record["key"],
-                "recommended_reference_profile": record["profile"],
+        return augment_visual_preset_report(
+            response,
+            output_directory=folder_paths.get_output_directory(),
+            shell_name="flux2_klein9b_mitch_identity_studio_v1_1_visual_presets",
+            preset={
+                "label": scene_preset,
+                "key": record["key"],
+                "manifest_sha256": PRESET_MANIFEST_SHA256,
+                "reference_profile_input": reference_profile,
+                "reference_profile_effective": resolved_profile,
                 "scene_prompt_input": scene_prompt.strip(),
-                "scene_prompt": resolved_prompt,
-            }
+                "scene_prompt_effective": resolved_prompt,
+            },
         )
-        updated_report_json = json.dumps(report, indent=2)
-        report_path = (
-            Path(folder_paths.get_output_directory()) / output_folder / "report.json"
-        )
-        report_path.write_text(updated_report_json, encoding="utf-8")
-        response["result"] = (
-            photo,
-            effective_prompt,
-            output_folder,
-            updated_report_json,
-        )
-        return response

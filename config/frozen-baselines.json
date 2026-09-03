@@ -115,8 +115,10 @@
       "active": true,
       "role": "primary",
       "accepted_on": "2026-08-30",
-      "revised_on": "2026-09-02",
-      "revision": "Identity Studio and Group Scene retain Smartphone Snapshot Photo Reality v13 at 0.25 and their reversible rank-256 BF16 Turbo routes. Upgrade remains the approved d58732a whole-frame Base 9B path with no Turbo, source-latent initialization, generation mask, or second model pass. Its default-on deterministic_face_and_hair_local_v4 postprocess adds the restrained closed-mouth, warmth, fatigue/line, eye, stubble, and cheek/jaw treatment, reduces isolated cheek/nose dark dots with sparse local-median replacement, reduces broad artificial hair grooves, and slightly lifts existing brighter hair material only inside an eroded semantic ParseNet mask. It protects the first eight hair-boundary pixels and changes zero pixels outside the face/hair/iris masks; final six-reference gaze-locked identity is 0.7476. Phone-off now applies a deterministic post-decode natural-lens background finish using the hash-locked local U2Net human matte, subject-excluding normalized Gaussian blur, and exact protected-subject copy-back; the accepted prototype changed 64.4717% of background pixels with 0 / 255 protected-subject error. Smartphone v13 remains the separate phone-on path at 0.25, preserves its accepted deep-focus rendering, and skips the background finish entirely. Earlier prompt-only, Turbo, generative masked, broad-inpaint, and auto-promoted Smartphone Upgrade routes remain rejected. Group Scene defaults Turbo off and keeps the concise identity-first prompt recovered from the approved PNG, with appearance enhancement disabled; its reloaded 50-step result scored 0.5958 against six genuine held-outs with no leakage failure.",
+      "revalidated_on": "2026-09-03",
+      "git_tag": "milestone-klein9b-production-revalidated-2026-09-03",
+      "evidence": "docs/flux2-klein9b-production-revalidation-2026-09-03.md",
+      "revision": "Identity Studio remains the protected Base 9B, step-1600 Mitch LoRA, genuine-reference, Smartphone v13, and optional rank-256 Turbo engine. Its shipped v1.1 rooftop default was freshly validated at 8 steps with a six-reference strong match and no bystander leakage.",
       "artifacts": [
         {
           "path": "workflows/production/FLUX.2 Klein 9B Mitch Identity Studio v1.json",
@@ -141,7 +143,22 @@
         {
           "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_turbo.py",
           "sha256": "AC70C96F24C2CFAC33D454DF1745E2136EF2B789773E7E94E99B22CFA07B7994"
-        },
+        }
+      ]
+    },
+    {
+      "id": "flux2-klein9b-mitch-group-scene-studio-v1",
+      "active": true,
+      "role": "primary",
+      "accepted_on": "2026-08-31",
+      "revalidated_on": "2026-09-03",
+      "git_tag": "milestone-klein9b-production-revalidated-2026-09-03",
+      "evidence": "docs/flux2-klein9b-production-revalidation-2026-09-03.md",
+      "depends_on": [
+        "flux2-klein9b-mitch-identity-studio-v1"
+      ],
+      "revision": "Group Scene remains the face-interior-cleared Canny layout plus separate genuine Mitch identity-reference engine. The shipped v1.1 approved-lounge card was freshly validated at 50 steps with one intended Mitch, passing main identity, leakage, duplicate-face, guide, and visual gates.",
+      "artifacts": [
         {
           "path": "workflows/production/FLUX.2 Klein 9B Mitch Group Scene Studio v1.json",
           "sha256": "2850D957F0D8B0FDA83B55F1B787432A884849E503DC09D18E91C3D3473A4D38"
@@ -149,14 +166,29 @@
         {
           "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_group_scene_studio.py",
           "sha256": "96C40B42BE4423E8F317A6F4F005B75C970C34F0EE0DDFF6F9B110F0217C3568"
-        },
+        }
+      ]
+    },
+    {
+      "id": "flux2-klein9b-upgrade-photo-detail-realism-v1",
+      "active": true,
+      "role": "primary",
+      "accepted_on": "2026-09-01",
+      "revalidated_on": "2026-09-03",
+      "git_tag": "milestone-klein9b-production-revalidated-2026-09-03",
+      "evidence": "docs/flux2-klein9b-production-revalidation-2026-09-03.md",
+      "depends_on": [
+        "flux2-klein9b-mitch-identity-studio-v1"
+      ],
+      "revision": "Upgrade remains the four-ordered-reference, native-size, 50-step Base 9B edit engine with no Turbo, source-latent initialization, generation mask, or second model pass. Appearance polish and the visually accepted Smartphone v13 deep-focus route are on by default. A fresh native run passed raw and final six-reference identity, structure, postprocess-invariant, and visual gates.",
+      "artifacts": [
         {
           "path": "workflows/production/FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1.json",
-          "sha256": "04D12768A02E9DADFF6AD989036AD1020DC7C4F66E707E057497E055992ABA24"
+          "sha256": "654C247797BDF3F31ECA1BEEDECC309E7BA991FF7F067DB384297FB2FB8A498C"
         },
         {
           "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_photo_realism_upgrade.py",
-          "sha256": "70CE79ED0FBC3539234A72E8E5244CA276138926774A4DE2916D87ECD6D84655"
+          "sha256": "59688876EA4907D086AF1A556D84D4B6418F6173E4FF5CAA836E3A8936C5BF23"
         },
         {
           "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_photo_realism_upgrade_presets.py",
@@ -173,6 +205,54 @@
         {
           "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_upgrade_masking.py",
           "sha256": "7AB8ABA5053EC73646F28C7EAF7E0195A69699246F662F070D828DA08ECD5BF3"
+        }
+      ]
+    },
+    {
+      "id": "flux2-klein9b-visual-preset-shells-v1.1",
+      "active": true,
+      "role": "ui_shell",
+      "accepted_on": "2026-09-03",
+      "revalidated_on": "2026-09-03",
+      "git_tag": "milestone-klein9b-production-revalidated-2026-09-03",
+      "evidence": "docs/flux2-klein9b-production-revalidation-2026-09-03.md",
+      "depends_on": [
+        "flux2-klein9b-mitch-identity-studio-v1",
+        "flux2-klein9b-mitch-group-scene-studio-v1"
+      ],
+      "revision": "Identity and Group retain separate user-facing workflow sheets over their frozen engines while sharing one canonical scene manifest and additive provenance helper. The exact shipped default card from each shell received a fresh production run.",
+      "artifacts": [
+        {
+          "path": "workflows/production/FLUX.2 Klein 9B Mitch Identity Studio v1.1 - Visual Presets.json",
+          "sha256": "4450A8937E33E75F197B950D5690D20BC0201C2A7E33351B0507068DB9ECC50A"
+        },
+        {
+          "path": "workflows/production/FLUX.2 Klein 9B Mitch Group Scene Studio v1.1 - Visual Presets.json",
+          "sha256": "C0ABE9083BB212F0237B3E4935C63A2282A91AFFE8388D3FC709F982368C02AF"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_mitch_identity_studio_visual_presets.py",
+          "sha256": "0E962B0B396254C112CE6A3E3348DB357827EBBF35F6C85F12A8E17681715C01"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_group_scene_studio_visual_presets.py",
+          "sha256": "2CFF368E314C22656D0E89CABC20473B3A0C8DD5881D7A4ACE5E53CC8AB74352"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_scene_presets.py",
+          "sha256": "A6B021A046FC18B42456025A454F34BA049FA7D233D3B0DD2E91C700398FA2F1"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_visual_preset_support.py",
+          "sha256": "043FD8F9B14FA5C12219FB333F402B1530815DC2E6A0AF3BC95217651E1B09B1"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/web/assets/scene-presets/manifest.json",
+          "sha256": "70CEAF391CEDD1A7B3F76FEA8CD22815A963820F319BA2763F7C801D667AF7CF"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/web/visual_scene_presets.js",
+          "sha256": "16E948BE0E6A9CF7F84C8DFC6FCE429C1FEFA50EB483A88282EBBCFBF4707467"
         }
       ]
     }

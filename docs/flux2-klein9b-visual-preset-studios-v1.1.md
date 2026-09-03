@@ -12,13 +12,14 @@ The Upgrade Photo workflow is intentionally unchanged and has no scene gallery.
 ## Identity Studio
 
 Click one of the 15 scene cards. The card supplies its prepared scene prompt and selects the matching genuine
-reference profile: group-safe frontal, the useful solo angle, or full-body. The preset combo is hidden visually but
-still serialized by ComfyUI. Use `Custom — write your own scene` to type a new prompt; for prepared cards, the prompt
-box is optional extra direction.
+reference profile: group-safe frontal, the useful solo angle, or full-body. The backend also resolves the preset's
+profile, so API calls and stale UI state cannot silently use a mismatched reference profile. The preset combo is
+hidden visually but still serialized by ComfyUI. Use `Custom — write your own scene` to type a new prompt; for
+prepared cards, the prompt box is optional extra direction.
 
-The gallery retains Ragdoll cat, removes tabby cat, adds separate toddler and small Golden Shepherd choices, and
-includes the supplied rooftop cocktail source as a visual target. Clicking a card does not use that thumbnail as an
-identity reference or img2img source.
+The gallery retains Ragdoll cat, removes tabby cat, includes the selected canyon-overlook and small Golden Shepherd
+results, and includes the supplied rooftop cocktail source as a visual target. Clicking a card does not use that
+thumbnail as an identity reference or img2img source.
 
 ## Group Scene Studio
 
@@ -34,4 +35,11 @@ Choose `Custom — uploaded group photo` to use the visible Load Image node and 
 Both shells call the unchanged hash-frozen v1 generators. Model, LoRA order and strength, reference policy, sampling,
 resolution, GPU lock, identity mechanism, and output paths are unchanged. The selector was verified on the local
 RTX 3090 ComfyUI instance: 15/15 Identity thumbnails and 5/5 Group thumbnails loaded, saved defaults restored
-correctly, and clicking cards updated their selected states. No generation was queued for this UI-only change.
+correctly, and clicking cards updated their selected states. The manifest and wrapper refactor did not queue a new
+generation or modify either frozen engine.
+
+`custom_nodes/ComfyUI-AIToolkit-Training/web/assets/scene-presets/manifest.json` is the single runtime source for
+labels, prompts, thumbnails, reference profiles, group source assets, target coordinates, and head scales. Python,
+the browser gallery, verification, and preview-candidate tooling consume that manifest rather than maintaining
+parallel copies. The PNG retains the hash-frozen engine report; `report.json` extends it with a clearly nested
+`visual_preset_shell` provenance block.

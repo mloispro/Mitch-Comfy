@@ -28,6 +28,8 @@ All four photo workflows are local and require visual review; none uses a hosted
 
 - `workflows/production` — visible Production workflows, including the v1.1 visual galleries and their hash-frozen v1 rollbacks.
 - `custom_nodes/ComfyUI-AIToolkit-Training` — local nodes used by the current workflows and retained rollback nodes.
+- `custom_nodes/ComfyUI-AIToolkit-Training/web/assets/scene-presets/manifest.json` — canonical Identity and Group
+  visual-preset data shared by the Python shells, browser gallery, verification, and preview-candidate tooling.
 - `docs` — current instructions plus dated evaluation evidence.
 - `checkpoints/legacy-workflows` — hidden rollback, rejected, and superseded graphs.
 - `checkpoints/legacy-scripts` — retired experiment tooling; archive only, not runnable in place.
@@ -47,6 +49,7 @@ Refresh the ComfyUI Workflows sidebar after adding or moving a workflow. Reopen 
 
 - Inspect the RTX 3090 and RTX 4070 queues before generation.
 - Never interrupt active GPU work.
+- If the preferred GPU is busy, use the other idle GPU when the workflow and VRAM requirements support it; keep explicit GPU locks intact.
 - Identity references must be genuine photographs.
 - Reference order and role are part of the workflow contract.
 - Automated identity scores do not replace full-size and thumbnail review.

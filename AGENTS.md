@@ -10,8 +10,9 @@
   - **Krea 2 / Krea2** is the local model family.
   - **Nano Banana** is Google's closed model and is not a local Krea 2 implementation.
 - Never upload Mitch's reference photographs or initiate a purchase without explicit confirmation.
-- Preserve active GPU work. Inspect both GPUs and queues before generation. When the RTX 3090 is
-  training, setup and smoke tests may use only the RTX 4070 worker unless Mitch says otherwise.
+- Preserve active GPU work. Inspect both GPUs and queues before generation. If the preferred GPU is
+  busy, use the other idle GPU whenever the workflow and its VRAM requirements are compatible; do
+  not wait unnecessarily or interrupt either card. Never bypass a workflow's explicit GPU lock.
 
 ## Research gate before building a new image workflow
 

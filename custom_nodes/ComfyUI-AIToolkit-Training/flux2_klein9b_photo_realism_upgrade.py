@@ -86,14 +86,15 @@ MILESTONE_COMMIT = "d58732a"
 MILESTONE_TAG = "milestone-good-identity-workflows-2026-09-01"
 APPEARANCE_LABEL_ON = "Subtle handsome polish (default)"
 APPEARANCE_LABEL_OFF = "Milestone appearance (exact)"
-PHONE_STYLE_LABEL_ON = "Deep-focus phone-camera realism"
-PHONE_STYLE_LABEL_OFF = "Natural lens background separation (default)"
+PHONE_STYLE_LABEL_ON = "Deep-focus phone-camera realism (default)"
+PHONE_STYLE_LABEL_OFF = "Natural lens background separation"
 UPGRADE_PHONE_STYLE_TEST_BASIS = (
     "Native same-seed restored-Upgrade A/B on 2026-09-02: raw identity centroid "
     "0.7816 to 0.7791, polished identity 0.7662 to 0.7397, tolerant structure F1 "
     "0.3076 to 0.2961, and background micro-luma 11.9536 to 12.3539. The adapter "
-    "is functional and optional, but remains off by default because its slight background "
-    "texture gain did not outweigh the polished-identity, structure, and skin-texture regressions."
+    "has that known automated-metric tradeoff, but its deep-focus v4 rendering was visually "
+    "accepted by Mitch and selected as the default on 2026-09-03. Phone-off natural-lens "
+    "background separation remains available as an explicit alternate rendering."
 )
 APPEARANCE_PROFILE = f"{POLISH_PROFILE}+{SOURCE_GAZE_LOCK_PROFILE}"
 
@@ -102,8 +103,8 @@ def _upgrade_phone_style_report() -> dict:
     result = smartphone_style_report()
     result.update(
         {
-            "upgrade_default": False,
-            "upgrade_status": "available_not_promoted",
+            "upgrade_default": True,
+            "upgrade_status": "accepted_default",
             "upgrade_acceptance_test": UPGRADE_PHONE_STYLE_TEST_BASIS,
         }
     )
@@ -223,7 +224,7 @@ class Flux2Klein9BPhotoRealismUpgradeV1:
                 "phone_camera_style": (
                     "BOOLEAN",
                     {
-                        "default": False,
+                        "default": True,
                         "label_on": PHONE_STYLE_LABEL_ON,
                         "label_off": PHONE_STYLE_LABEL_OFF,
                     },
@@ -557,8 +558,12 @@ class Flux2Klein9BPhotoRealismUpgradeV1:
                 "hairline, forehead, temple, ear, and back-of-head continuity without shadow bands or halos",
                 "natural skin, hair, fabric, and background material detail without smoothing or oversharpening",
                 "coherent whole-frame lighting, depth, sensor texture, and edge softness",
-                "phone-off background separation reads as optical blur without a cutout edge or subject-color halo",
-            ],
+            ]
+            + (
+                ["phone-camera rendering keeps the environment legible without synthetic sharpening"]
+                if phone_camera_style
+                else ["phone-off background separation reads as optical blur without a cutout edge or subject-color halo"]
+            ),
         }
         png_info = dict(extra_pnginfo) if isinstance(extra_pnginfo, dict) else {}
         png_info["flux2_klein9b_upgrade_photo_detail_realism_v1"] = report
