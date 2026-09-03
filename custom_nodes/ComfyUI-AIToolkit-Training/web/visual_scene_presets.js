@@ -7,17 +7,81 @@ const MANIFEST_URL = new URL("./assets/scene-presets/manifest.json", import.meta
 MANIFEST_URL.searchParams.set("v", ASSET_VERSION);
 let manifestPromise;
 
+async function fetchManifest() {
+  const response = await fetch(MANIFEST_URL, { cache: "no-store" });
+  if (!response.ok) throw new Error(`Preset manifest request failed: ${response.status}`);
+  const bytes = await response.arrayBuffer();
+  const digest = await crypto.subtle.digest("SHA-256", bytes);
+  const sha256 = Array.from(new Uint8Array(digest), (byte) =>
+    byte.toString(16).padStart(2, "0"),
+  ).join("").toUpperCase();
+  const manifest = JSON.parse(new TextDecoder().decode(bytes));
+  if (manifest.schema_version !== 1) throw new Error("Unsupported preset manifest schema");
+  if (!Array.isArray(manifest.identity) || !Array.isArray(manifest.group)) {
+    throw new Error("Preset manifest is missing Identity or Group records");
+  }
+  Object.defineProperty(manifest, "__sha256", { value: sha256 });
+  return manifest;
+}
+
 async function loadManifest() {
-  manifestPromise ??= fetch(MANIFEST_URL).then(async (response) => {
-    if (!response.ok) throw new Error(`Preset manifest request failed: ${response.status}`);
-    const manifest = await response.json();
-    if (manifest.schema_version !== 1) throw new Error("Unsupported preset manifest schema");
-    if (!Array.isArray(manifest.identity) || !Array.isArray(manifest.group)) {
-      throw new Error("Preset manifest is missing Identity or Group records");
-    }
-    return manifest;
-  });
+  if (!manifestPromise) {
+    manifestPromise = (async () => {
+      let lastError;
+      for (let attempt = 0; attempt < 2; attempt += 1) {
+        try {
+          return await fetchManifest();
+        } catch (error) {
+          lastError = error;
+          if (attempt === 0) {
+            await new Promise((resolve) => setTimeout(resolve, 250));
+          }
+        }
+      }
+      throw lastError;
+    })()
+      .catch((error) => {
+        manifestPromise = undefined;
+        throw error;
+      });
+  }
   return manifestPromise;
+}
+
+function assertLiveManifestParity(nodeData, presets, kind, manifest) {
+  const livePresetChoices = nodeData?.input?.optional?.scene_preset?.[0];
+  const liveManifestSha256 = nodeData?.input?.optional?.scene_preset?.[1]?.manifest_sha256;
+  const manifestLabels = presets.map((preset) => preset.label);
+  if (
+    !Array.isArray(livePresetChoices) ||
+    JSON.stringify(livePresetChoices) !== JSON.stringify(manifestLabels)
+  ) {
+    throw new Error(`${kind} preset choices do not match the live Python manifest`);
+  }
+  if (
+    typeof liveManifestSha256 !== "string" ||
+    liveManifestSha256.toUpperCase() !== manifest.__sha256
+  ) {
+    throw new Error(`${kind} preset manifest hash does not match the live Python node`);
+  }
+  if (kind !== "identity") return;
+  const liveProfileChoices = nodeData?.input?.required?.reference_profile?.[0];
+  const manifestProfiles = Object.values(manifest.reference_profiles ?? {});
+  if (
+    !Array.isArray(liveProfileChoices) ||
+    manifestProfiles.some((profile) => !liveProfileChoices.includes(profile))
+  ) {
+    throw new Error("Identity reference profiles do not match the live Python node");
+  }
+}
+
+function thumbnailUrl(preset) {
+  const url = new URL(preset.thumbnail, ASSET_ROOT);
+  if (!url.href.startsWith(ASSET_ROOT.href)) {
+    throw new Error(`Preset thumbnail escapes the visual asset root: ${preset.thumbnail}`);
+  }
+  url.searchParams.set("v", ASSET_VERSION);
+  return url.href;
 }
 
 function ensureStyles() {
@@ -113,9 +177,7 @@ function installGallery(node, presets, kind) {
     card.className = "mitch-preset-card";
     card.title = `Select ${preset.label}`;
     const image = document.createElement("img");
-    const imageUrl = new URL(preset.thumbnail, ASSET_ROOT);
-    imageUrl.searchParams.set("v", ASSET_VERSION);
-    image.src = imageUrl.href;
+    image.src = thumbnailUrl(preset);
     image.alt = preset.label;
     image.loading = "lazy";
     image.draggable = false;
@@ -131,7 +193,9 @@ function installGallery(node, presets, kind) {
       presetWidget.value = preset.label;
       presetWidget.callback?.(preset.label, node, presetWidget);
       if (kind === "identity") {
-        setWidgetValue(node, "reference_profile", preset.profile);
+        if (preset.key !== "custom") {
+          setWidgetValue(node, "reference_profile", preset.profile);
+        }
       } else if (preset.key !== "custom-group") {
         setWidgetValue(node, "target_x", preset.target_x);
         setWidgetValue(node, "target_y", preset.target_y);
@@ -188,6 +252,7 @@ app.registerExtension({
     if (!kind) return;
     const manifest = await loadManifest();
     const presets = kind === "identity" ? manifest.identity : manifest.group;
+    assertLiveManifestParity(nodeData, presets, kind, manifest);
     const previousCreated = nodeType.prototype.onNodeCreated;
     nodeType.prototype.onNodeCreated = function (...args) {
       const result = previousCreated?.apply(this, args);

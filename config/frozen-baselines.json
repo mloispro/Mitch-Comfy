@@ -175,12 +175,14 @@
       "role": "primary",
       "accepted_on": "2026-09-01",
       "revalidated_on": "2026-09-03",
-      "git_tag": "milestone-klein9b-production-revalidated-2026-09-03",
+      "git_tag": "klein9b-reuse-hardening-2026-09-03",
       "evidence": "docs/flux2-klein9b-production-revalidation-2026-09-03.md",
+      "hardened_on": "2026-09-03",
+      "hardening_evidence": "docs/flux2-klein9b-reuse-hardening-2026-09-03.md",
       "depends_on": [
         "flux2-klein9b-mitch-identity-studio-v1"
       ],
-      "revision": "Upgrade remains the four-ordered-reference, native-size, 50-step Base 9B edit engine with no Turbo, source-latent initialization, generation mask, or second model pass. Appearance polish and the visually accepted Smartphone v13 deep-focus route are on by default. A fresh native run passed raw and final six-reference identity, structure, postprocess-invariant, and visual gates.",
+      "revision": "Upgrade remains the freshly validated four-ordered-reference, native-size, 50-step Base 9B edit engine with no Turbo, source-latent initialization, generation mask, or second model pass. Its generation and postprocessing recipe is unchanged from the revalidation milestone. Report schema v2 now distinguishes intended reference roles from unisolated influence and accurately scopes historical lineage and optional paths.",
       "artifacts": [
         {
           "path": "workflows/production/FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1.json",
@@ -188,7 +190,7 @@
         },
         {
           "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_photo_realism_upgrade.py",
-          "sha256": "59688876EA4907D086AF1A556D84D4B6418F6173E4FF5CAA836E3A8936C5BF23"
+          "sha256": "3A712E7BBD53E0AF070CD5D986830C1EC7B1F87B0456032A065944E52A8C3412"
         },
         {
           "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_photo_realism_upgrade_presets.py",
@@ -214,13 +216,15 @@
       "role": "ui_shell",
       "accepted_on": "2026-09-03",
       "revalidated_on": "2026-09-03",
-      "git_tag": "milestone-klein9b-production-revalidated-2026-09-03",
+      "git_tag": "klein9b-reuse-hardening-2026-09-03",
       "evidence": "docs/flux2-klein9b-production-revalidation-2026-09-03.md",
+      "hardened_on": "2026-09-03",
+      "hardening_evidence": "docs/flux2-klein9b-reuse-hardening-2026-09-03.md",
       "depends_on": [
         "flux2-klein9b-mitch-identity-studio-v1",
         "flux2-klein9b-mitch-group-scene-studio-v1"
       ],
-      "revision": "Identity and Group retain separate user-facing workflow sheets over their frozen engines while sharing one canonical scene manifest and additive provenance helper. The exact shipped default card from each shell received a fresh production run.",
+      "revision": "Identity and Group retain separate user-facing workflow sheets over their frozen engines while sharing a strictly validated canonical scene manifest and additive provenance helper. Validation/execution geometry is aligned, prepared sources are rehashed before use, the browser verifies exact live-manifest parity, and maintenance tooling is fail-closed. The generation engines and tested default recipes are unchanged.",
       "artifacts": [
         {
           "path": "workflows/production/FLUX.2 Klein 9B Mitch Identity Studio v1.1 - Visual Presets.json",
@@ -232,19 +236,19 @@
         },
         {
           "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_mitch_identity_studio_visual_presets.py",
-          "sha256": "0E962B0B396254C112CE6A3E3348DB357827EBBF35F6C85F12A8E17681715C01"
+          "sha256": "DB233021ABF0929E66A3C7A2968C4CEC1E700F87878BD0728FCD7962ACA1BC79"
         },
         {
           "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_group_scene_studio_visual_presets.py",
-          "sha256": "2CFF368E314C22656D0E89CABC20473B3A0C8DD5881D7A4ACE5E53CC8AB74352"
+          "sha256": "ABDB5328AE6FE30279A139CF4AEE83E398028B169D4466D59D0ABC93B2EE8E76"
         },
         {
           "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_scene_presets.py",
-          "sha256": "A6B021A046FC18B42456025A454F34BA049FA7D233D3B0DD2E91C700398FA2F1"
+          "sha256": "2778F5A44BBD2BDD9B3B9896D3159F3B383FE2783370ACBDF98F782C5E7401ED"
         },
         {
           "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_visual_preset_support.py",
-          "sha256": "043FD8F9B14FA5C12219FB333F402B1530815DC2E6A0AF3BC95217651E1B09B1"
+          "sha256": "E0DBB09123DAF4D51C28FDA5A8E0E87A0EBC42C23C6F0A492144B2E412BDE60D"
         },
         {
           "path": "custom_nodes/ComfyUI-AIToolkit-Training/web/assets/scene-presets/manifest.json",
@@ -252,7 +256,7 @@
         },
         {
           "path": "custom_nodes/ComfyUI-AIToolkit-Training/web/visual_scene_presets.js",
-          "sha256": "16E948BE0E6A9CF7F84C8DFC6FCE429C1FEFA50EB483A88282EBBCFBF4707467"
+          "sha256": "6CBB936511009E7674670926232CE062B33D936FCE253D934377B1472B84D690"
         }
       ]
     }

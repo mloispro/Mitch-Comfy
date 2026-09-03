@@ -12,6 +12,12 @@ prompt IDs, output hashes, six-genuine-reference scores, leakage results, struct
 and visual checks are recorded in `docs/flux2-klein9b-production-revalidation-2026-09-03.md`. The frozen registry
 now tracks the three engines and the visual-preset shell as separate baselines.
 
+The subsequent reuse review kept all three workflows separate and hardened only shared, non-generative plumbing:
+manifest/path/hash validation, exact frontend/backend manifest parity, prepared-source geometry resolution, maintenance
+checks, GPU-service preflight, reporting, and the specialized verifiers. The generation recipes and shipped defaults
+were not changed. Rationale, exact conditioning roles, upstream references, and deferred v2 performance experiments
+are recorded in `docs/flux2-klein9b-reuse-hardening-2026-09-03.md`.
+
 ## Visible Production workflows
 
 | Workflow | Current role | Identity mechanism | Worker |
@@ -99,6 +105,9 @@ The following are not normal-use Production workflows:
   is `0.7476` (`strong_match`) with a `0.5546` weakest view above the `0.5533` genuine floor. Protected pixels remain exact,
   and the detailed siding/tree, forehead, and three-quarter direction remain intact. It has no source-latent passes,
    generation masks, Turbo, face swap, restoration, or second model pass.
+- Upgrade's report schema is now v2. Picture 3 plus the protected LoRA are the explicit identity mechanism. Picture 1
+  is intended for scene, pose, expression, clothing, lighting, and composition, but it contains the source face and is
+  encoded as a `ReferenceLatent`; its identity influence has not been isolated and must not be described as absent.
 - Upgrade defaults to the accepted deep-focus Smartphone v13 phone rendering. Turning phone style off optionally applies
   a deterministic natural-lens finish after the full detailed render. A hash-locked local
   U2Net human matte excludes subject colors from normalized near/far Gaussian filters, uses a dilated safety rim, and

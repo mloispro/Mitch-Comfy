@@ -13,6 +13,7 @@ from .flux2_klein9b_scene_presets import (
     GROUP_SCENE_PRESETS,
     PRESET_MANIFEST_SHA256,
     preset_asset_path,
+    resolve_group_geometry,
     resolve_group_scene,
 )
 from .flux2_klein9b_visual_preset_support import (
@@ -45,7 +46,10 @@ class Flux2Klein9BMitchGroupSceneStudioVisualPresetsV11(
             "optional": {
                 "scene_preset": (
                     list(GROUP_SCENE_PRESETS),
-                    {"default": CUSTOM_GROUP_PRESET},
+                    {
+                        "default": CUSTOM_GROUP_PRESET,
+                        "manifest_sha256": PRESET_MANIFEST_SHA256,
+                    },
                 )
             },
         }
@@ -65,18 +69,24 @@ class Flux2Klein9BMitchGroupSceneStudioVisualPresetsV11(
     ):
         try:
             resolved_prompt, record = resolve_group_scene(scene_preset, scene_prompt)
+            resolved_x, resolved_y, resolved_head_scale = resolve_group_geometry(
+                scene_preset, target_x, target_y, head_scale
+            )
             if scene_preset != CUSTOM_GROUP_PRESET:
                 path = preset_asset_path(record)
                 if path is None or not path.is_file():
                     return f"Missing preset source image: {path}"
-        except ValueError as exc:
+                verify_asset_sha256(
+                    path, record["source_sha256"], f"Group preset {record['key']}"
+                )
+        except (RuntimeError, ValueError) as exc:
             return str(exc)
         return super().VALIDATE_INPUTS(
             source_scene,
             resolved_prompt,
-            target_x,
-            target_y,
-            head_scale,
+            resolved_x,
+            resolved_y,
+            resolved_head_scale,
             appearance_polish,
             fast_turbo,
             seed,
@@ -96,15 +106,12 @@ class Flux2Klein9BMitchGroupSceneStudioVisualPresetsV11(
     ):
         resolved_prompt, record = resolve_group_scene(scene_preset, scene_prompt)
         resolved_source = source_scene
-        resolved_x = float(target_x)
-        resolved_y = float(target_y)
-        resolved_head_scale = float(head_scale)
+        resolved_x, resolved_y, resolved_head_scale = resolve_group_geometry(
+            scene_preset, target_x, target_y, head_scale
+        )
         source_path = None
         if scene_preset != CUSTOM_GROUP_PRESET:
             resolved_source, source_path = _load_group_preset_source(record)
-            resolved_x = float(record["target_x"])
-            resolved_y = float(record["target_y"])
-            resolved_head_scale = float(record["head_scale"])
 
         response = super().generate(
             resolved_source,

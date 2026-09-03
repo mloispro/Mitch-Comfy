@@ -5,25 +5,19 @@ import json
 from pathlib import Path
 
 
-_VERIFIED_SIGNATURES: dict[str, tuple[str, int, int]] = {}
-
-
 def verify_asset_sha256(path: Path, expected: str, label: str) -> Path:
     """Verify a visual-shell asset without depending on a frozen engine module."""
-    path = Path(path)
+    path = Path(path).resolve()
     if not path.is_file():
         raise RuntimeError(f"Missing {label}: {path}")
-    signature = (str(path.resolve()), int(path.stat().st_size), int(path.stat().st_mtime_ns))
-    cache_key = f"{label}:{path.resolve()}"
-    if _VERIFIED_SIGNATURES.get(cache_key) != signature:
-        digest = hashlib.sha256()
-        with path.open("rb") as handle:
-            for block in iter(lambda: handle.read(4 * 1024 * 1024), b""):
-                digest.update(block)
-        actual = digest.hexdigest().upper()
-        if actual != expected.upper():
-            raise RuntimeError(f"{label} hash mismatch. Expected {expected}, found {actual}.")
-        _VERIFIED_SIGNATURES[cache_key] = signature
+    normalized_expected = expected.upper()
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(4 * 1024 * 1024), b""):
+            digest.update(block)
+    actual = digest.hexdigest().upper()
+    if actual != normalized_expected:
+        raise RuntimeError(f"{label} hash mismatch. Expected {expected}, found {actual}.")
     return path
 
 

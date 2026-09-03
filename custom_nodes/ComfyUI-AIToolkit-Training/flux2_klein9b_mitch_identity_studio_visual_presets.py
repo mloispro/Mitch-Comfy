@@ -26,7 +26,10 @@ class Flux2Klein9BMitchIdentityStudioVisualPresetsV11(
             "optional": {
                 "scene_preset": (
                     list(IDENTITY_SCENE_PRESETS),
-                    {"default": CUSTOM_IDENTITY_PRESET},
+                    {
+                        "default": CUSTOM_IDENTITY_PRESET,
+                        "manifest_sha256": PRESET_MANIFEST_SHA256,
+                    },
                 )
             },
         }

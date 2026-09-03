@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import argparse
+import json
 import textwrap
 from pathlib import Path
 
@@ -16,6 +18,7 @@ OUTPUT = (
     / "scene-presets"
 )
 PREVIEW_OUTPUT = ROOT / "work" / "flux2-klein9b-visual-presets"
+MANIFEST = OUTPUT / "manifest.json"
 SIZE = (300, 210)
 
 
@@ -174,7 +177,9 @@ def build_card(
     color: tuple[int, int, int],
     focal_y: float = 0.38,
 ) -> Image.Image:
-    if source is not None and source.is_file():
+    if source is not None:
+        if not source.is_file():
+            raise FileNotFoundError(f"Missing non-custom thumbnail source: {source}")
         with Image.open(source) as opened:
             image = ImageOps.fit(
                 ImageOps.exif_transpose(opened).convert("RGB"),
@@ -211,7 +216,31 @@ def build_preview_sheet(filenames: list[str], title: str, output_name: str) -> N
     sheet.save(PREVIEW_OUTPUT / output_name, quality=91, optimize=True)
 
 
-def main() -> None:
+def validate_configuration() -> None:
+    manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+    manifest_thumbnails = {
+        record["thumbnail"]
+        for collection in ("identity", "group")
+        for record in manifest[collection]
+    }
+    if set(CARDS) != manifest_thumbnails:
+        missing = sorted(manifest_thumbnails - set(CARDS))
+        stale = sorted(set(CARDS) - manifest_thumbnails)
+        raise RuntimeError(
+            f"Thumbnail builder and manifest differ; missing={missing}, stale={stale}"
+        )
+    for filename, (_label, source, _color) in CARDS.items():
+        if source is None and filename not in {"identity-custom.jpg", "group-custom.jpg"}:
+            raise RuntimeError(f"Only a Custom card may use a placeholder: {filename}")
+        if source is not None and not source.is_file():
+            raise FileNotFoundError(f"Missing non-custom thumbnail source: {source}")
+
+
+def main(*, check_only: bool = False) -> None:
+    validate_configuration()
+    if check_only:
+        print(f"Verified {len(CARDS)} visual preset card sources against {MANIFEST}")
+        return
     OUTPUT.mkdir(parents=True, exist_ok=True)
     for filename, (label, source, color) in CARDS.items():
         card = build_card(label, source, color, CARD_FOCAL_Y.get(filename, 0.38))
@@ -230,4 +259,10 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="Validate manifest coverage and every non-custom source without writing files.",
+    )
+    main(check_only=parser.parse_args().check)

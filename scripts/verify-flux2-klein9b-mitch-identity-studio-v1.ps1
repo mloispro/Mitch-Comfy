@@ -20,26 +20,175 @@ function Assert-FileHash {
     }
 }
 
-$workflowPath = Join-Path $repoRoot "workflows\production\FLUX.2 Klein 9B Mitch Identity Studio v1.json"
-if (-not (Test-Path -LiteralPath $workflowPath -PathType Leaf)) {
-    $errors.Add("Missing winning Production workflow: $workflowPath")
+function Assert-FrozenArtifactHash {
+    param(
+        [object]$Registry,
+        [string]$BaselineId,
+        [string]$RelativePath,
+        [string]$Label
+    )
+    $baselines = @($Registry.baselines | Where-Object id -eq $BaselineId)
+    if ($baselines.Count -ne 1) {
+        $errors.Add("Frozen-baseline registry must contain exactly one $BaselineId entry.")
+        return
+    }
+    $artifacts = @($baselines[0].artifacts | Where-Object path -eq $RelativePath)
+    if ($artifacts.Count -ne 1 -or -not $artifacts[0].sha256) {
+        $errors.Add("Frozen baseline $BaselineId is missing one SHA-256 entry for $RelativePath.")
+        return
+    }
+    Assert-FileHash (
+        Join-Path $repoRoot $RelativePath.Replace("/", "\")
+    ) ([string]$artifacts[0].sha256) $Label
+}
+
+function Assert-ExactSequence {
+    param([object[]]$Actual, [object[]]$Expected, [string]$Label)
+    $actualText = @($Actual) -join "`n"
+    $expectedText = @($Expected) -join "`n"
+    if ($actualText -cne $expectedText) {
+        $errors.Add("$Label drifted. Expected [$(@($Expected) -join ', ')], found [$(@($Actual) -join ', ')].")
+    }
+}
+
+$frozenWorkflowRelative = "workflows/production/FLUX.2 Klein 9B Mitch Identity Studio v1.json"
+$visualWorkflowRelative = "workflows/production/FLUX.2 Klein 9B Mitch Identity Studio v1.1 - Visual Presets.json"
+$visualWrapperRelative = "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_mitch_identity_studio_visual_presets.py"
+$scenePresetsRelative = "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_scene_presets.py"
+$visualSupportRelative = "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_visual_preset_support.py"
+$presetManifestRelative = "custom_nodes/ComfyUI-AIToolkit-Training/web/assets/scene-presets/manifest.json"
+$visualScriptRelative = "custom_nodes/ComfyUI-AIToolkit-Training/web/visual_scene_presets.js"
+$frozenWorkflowPath = Join-Path $repoRoot $frozenWorkflowRelative.Replace("/", "\")
+$visualWorkflowPath = Join-Path $repoRoot $visualWorkflowRelative.Replace("/", "\")
+$visualWrapperPath = Join-Path $repoRoot $visualWrapperRelative.Replace("/", "\")
+$presetManifestPath = Join-Path $repoRoot $presetManifestRelative.Replace("/", "\")
+$frozenNodeName = "Flux2Klein9BMitchIdentityStudioV1"
+$visualNodeName = "Flux2Klein9BMitchIdentityStudioVisualPresetsV11"
+$defaultPresetKey = "rooftop-cocktail-city-lights"
+
+if (-not (Test-Path -LiteralPath $frozenWorkflowPath -PathType Leaf)) {
+    $errors.Add("Missing frozen v1 Production workflow: $frozenWorkflowPath")
 } else {
     try {
-        $workflow = Get-Content -Raw -LiteralPath $workflowPath | ConvertFrom-Json
-        if (@($workflow.nodes).Count -ne 3) { $errors.Add("Winning workflow must contain exactly three visible nodes.") }
-        foreach ($nodeType in "MarkdownNote", "Flux2Klein9BMitchIdentityStudioV1", "PreviewImage") {
-            if ($nodeType -notin @($workflow.nodes.type)) { $errors.Add("Winning workflow is missing node: $nodeType") }
+        $frozenWorkflow = Get-Content -Raw -LiteralPath $frozenWorkflowPath | ConvertFrom-Json
+        if (@($frozenWorkflow.nodes).Count -ne 3) { $errors.Add("Frozen v1 workflow must contain exactly three visible nodes.") }
+        foreach ($nodeType in "MarkdownNote", $frozenNodeName, "PreviewImage") {
+            if ($nodeType -notin @($frozenWorkflow.nodes.type)) { $errors.Add("Frozen v1 workflow is missing node: $nodeType") }
         }
-        $studioNode = @($workflow.nodes | Where-Object type -eq "Flux2Klein9BMitchIdentityStudioV1")[0]
+        $studioNode = @($frozenWorkflow.nodes | Where-Object type -eq $frozenNodeName)[0]
         if ($studioNode) {
-            if (@($studioNode.inputs).Count -ne 5) { $errors.Add("Winning workflow must expose only reference_profile, scene_prompt, appearance_polish, fast_turbo, and seed.") }
-            if ([string]$studioNode.widgets_values[0] -notmatch "^GROUP") { $errors.Add("Winning workflow must open in the one-reference group-safe profile.") }
-            if ([string]$studioNode.widgets_values[1] -notmatch "(?i)(Only the foreground man is m1tch_person|m1tch_person is the one foreground man)") { $errors.Add("Winning workflow default must explicitly scope Mitch to the main group subject.") }
-            if ([bool]$studioNode.widgets_values[2] -ne $true) { $errors.Add("Winning workflow must open with subtle appearance polish enabled.") }
-            if ([bool]$studioNode.widgets_values[3] -ne $true) { $errors.Add("Winning workflow must open in the validated 8-step Turbo mode.") }
+            if (@($studioNode.inputs).Count -ne 5) { $errors.Add("Frozen v1 workflow must expose only reference_profile, scene_prompt, appearance_polish, fast_turbo, and seed.") }
+            if ([string]$studioNode.widgets_values[0] -notmatch "^GROUP") { $errors.Add("Frozen v1 workflow must open in the one-reference group-safe profile.") }
+            if ([string]$studioNode.widgets_values[1] -notmatch "(?i)(Only the foreground man is m1tch_person|m1tch_person is the one foreground man)") { $errors.Add("Frozen v1 workflow default must explicitly scope Mitch to the main group subject.") }
+            if ([bool]$studioNode.widgets_values[2] -ne $true) { $errors.Add("Frozen v1 workflow must open with subtle appearance polish enabled.") }
+            if ([bool]$studioNode.widgets_values[3] -ne $true) { $errors.Add("Frozen v1 workflow must open in the validated 8-step Turbo mode.") }
         }
     } catch {
-        $errors.Add("Winning workflow JSON is invalid: $($_.Exception.Message)")
+        $errors.Add("Frozen v1 workflow JSON is invalid: $($_.Exception.Message)")
+    }
+}
+
+$presetManifest = $null
+$defaultPreset = $null
+$customPreset = $null
+$identityPresetLabels = @()
+if (-not (Test-Path -LiteralPath $presetManifestPath -PathType Leaf)) {
+    $errors.Add("Missing canonical visual-preset manifest: $presetManifestPath")
+} else {
+    try {
+        $presetManifest = Get-Content -Raw -LiteralPath $presetManifestPath | ConvertFrom-Json
+        if ([int]$presetManifest.schema_version -ne 1) { $errors.Add("Unsupported visual-preset manifest schema.") }
+        $identityPresetLabels = @($presetManifest.identity | ForEach-Object { [string]$_.label })
+        $customPresets = @($presetManifest.identity | Where-Object key -eq "custom")
+        if ($customPresets.Count -ne 1) {
+            $errors.Add("Visual-preset manifest must contain exactly one custom Identity preset.")
+        } else {
+            $customPreset = $customPresets[0]
+        }
+        $defaultPresets = @($presetManifest.identity | Where-Object key -eq $defaultPresetKey)
+        if ($defaultPresets.Count -ne 1) {
+            $errors.Add("Visual-preset manifest must contain exactly one Identity preset keyed $defaultPresetKey.")
+        } else {
+            $defaultPreset = $defaultPresets[0]
+            if (-not [string]$defaultPreset.prompt) { $errors.Add("Primary Identity visual preset must include its complete tested prompt.") }
+        }
+    } catch {
+        $errors.Add("Visual-preset manifest is invalid: $($_.Exception.Message)")
+    }
+}
+
+if (-not (Test-Path -LiteralPath $visualWorkflowPath -PathType Leaf)) {
+    $errors.Add("Missing primary v1.1 visual-preset workflow: $visualWorkflowPath")
+} else {
+    try {
+        $visualWorkflow = Get-Content -Raw -LiteralPath $visualWorkflowPath | ConvertFrom-Json
+        if (@($visualWorkflow.nodes).Count -ne 3) { $errors.Add("Primary v1.1 workflow must contain exactly three visible nodes.") }
+        foreach ($nodeType in "MarkdownNote", $visualNodeName, "PreviewImage") {
+            if ($nodeType -notin @($visualWorkflow.nodes.type)) { $errors.Add("Primary v1.1 workflow is missing node: $nodeType") }
+        }
+        $visualNode = @($visualWorkflow.nodes | Where-Object type -eq $visualNodeName)[0]
+        if ($visualNode) {
+            Assert-ExactSequence -Actual @($visualNode.inputs.name) -Expected @(
+                "reference_profile", "scene_prompt", "appearance_polish", "fast_turbo", "seed", "scene_preset"
+            ) -Label "Primary v1.1 Identity input contract"
+            if (@($visualNode.widgets_values).Count -lt 7) { $errors.Add("Primary v1.1 Identity workflow is missing saved preset widgets.") }
+            if ($defaultPreset) {
+                if ([string]$visualNode.widgets_values[6] -cne [string]$defaultPreset.label) { $errors.Add("Primary v1.1 Identity workflow must open on $($defaultPreset.label).") }
+                if ([string]$visualNode.widgets_values[0] -cne [string]$defaultPreset.profile) { $errors.Add("Primary v1.1 Identity workflow reference profile must match the saved preset profile.") }
+            }
+            if ([string]$visualNode.widgets_values[1] -cne "") { $errors.Add("Primary v1.1 Identity workflow must leave extra scene direction blank by default.") }
+            if ([bool]$visualNode.widgets_values[2] -ne $true) { $errors.Add("Primary v1.1 Identity workflow must open with appearance polish enabled.") }
+            if ([bool]$visualNode.widgets_values[3] -ne $true) { $errors.Add("Primary v1.1 Identity workflow must open in validated Turbo mode.") }
+            if ([int64]$visualNode.widgets_values[4] -ne 8675411) { $errors.Add("Primary v1.1 Identity workflow seed drifted.") }
+        }
+    } catch {
+        $errors.Add("Primary v1.1 Identity workflow JSON is invalid: $($_.Exception.Message)")
+    }
+}
+
+if (-not (Test-Path -LiteralPath $visualWrapperPath -PathType Leaf)) {
+    $errors.Add("Missing primary v1.1 Identity visual-preset wrapper: $visualWrapperPath")
+} else {
+    $visualWrapperSource = Get-Content -Raw -LiteralPath $visualWrapperPath
+    foreach ($provenanceContract in @(
+        "class Flux2Klein9BMitchIdentityStudioVisualPresetsV11",
+        "Flux2Klein9BMitchIdentityStudioV1",
+        "PRESET_MANIFEST_SHA256",
+        'shell_name="flux2_klein9b_mitch_identity_studio_v1_1_visual_presets"',
+        '"label": scene_preset',
+        '"key": record["key"]',
+        '"manifest_sha256": PRESET_MANIFEST_SHA256',
+        '"reference_profile_input": reference_profile',
+        '"reference_profile_effective": resolved_profile',
+        '"scene_prompt_input": scene_prompt.strip()',
+        '"scene_prompt_effective": resolved_prompt'
+    )) {
+        if ($visualWrapperSource -notmatch [regex]::Escape($provenanceContract)) {
+            $errors.Add("Primary v1.1 Identity wrapper is missing provenance contract: $provenanceContract")
+        }
+    }
+}
+
+$frozenRegistryPath = Join-Path $repoRoot "config\frozen-baselines.json"
+if (-not (Test-Path -LiteralPath $frozenRegistryPath -PathType Leaf)) {
+    $errors.Add("Missing frozen-baseline registry: $frozenRegistryPath")
+} else {
+    try {
+        $frozenRegistry = Get-Content -Raw -LiteralPath $frozenRegistryPath | ConvertFrom-Json
+        foreach ($artifact in @(
+            @{ Baseline = "flux2-klein9b-mitch-identity-studio-v1"; Path = $frozenWorkflowRelative; Label = "frozen v1 Identity workflow" },
+            @{ Baseline = "flux2-klein9b-mitch-identity-studio-v1"; Path = "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_mitch_identity_studio.py"; Label = "frozen v1 Identity engine" },
+            @{ Baseline = "flux2-klein9b-visual-preset-shells-v1.1"; Path = $visualWorkflowRelative; Label = "primary v1.1 Identity workflow" },
+            @{ Baseline = "flux2-klein9b-visual-preset-shells-v1.1"; Path = $visualWrapperRelative; Label = "primary v1.1 Identity wrapper" },
+            @{ Baseline = "flux2-klein9b-visual-preset-shells-v1.1"; Path = $scenePresetsRelative; Label = "canonical visual-preset resolver" },
+            @{ Baseline = "flux2-klein9b-visual-preset-shells-v1.1"; Path = $visualSupportRelative; Label = "visual-preset provenance helper" },
+            @{ Baseline = "flux2-klein9b-visual-preset-shells-v1.1"; Path = $presetManifestRelative; Label = "canonical visual-preset manifest" },
+            @{ Baseline = "flux2-klein9b-visual-preset-shells-v1.1"; Path = $visualScriptRelative; Label = "visual-preset browser extension" }
+        )) {
+            Assert-FrozenArtifactHash -Registry $frozenRegistry -BaselineId $artifact.Baseline -RelativePath $artifact.Path -Label $artifact.Label
+        }
+    } catch {
+        $errors.Add("Frozen-baseline registry is invalid: $($_.Exception.Message)")
     }
 }
 
@@ -88,6 +237,9 @@ if (-not (Test-Path -LiteralPath $styleSourcePath -PathType Leaf)) {
     }
 }
 
+Assert-FileHash (Join-Path $ComfyRoot "models\diffusion_models\flux-2-klein-base-9b-bf16.safetensors") "4A54FAD7F5F741B99EEE217198DAAC20B8D8E515E2A1F5B064FD51CF074F95BD" "Klein Base 9B BF16 model"
+Assert-FileHash (Join-Path $ComfyRoot "models\text_encoders\qwen_3_8b_fp8mixed.safetensors") "ABAD16806E0CBABC54E0325D6565847443FE396D5F0BE38BB3CD3FE75A1201D6" "Qwen 3 8B text encoder"
+Assert-FileHash (Join-Path $ComfyRoot "models\vae\flux2-vae.safetensors") "D64F3A68E1CC4F9F4E29B6E0DA38A0204FE9A49F2D4053F0EC1FA1CA02F9C4B5" "FLUX.2 VAE"
 Assert-FileHash (Join-Path $ComfyRoot "models\loras\m1tch-flux2-klein9b-identity-v3-r32-dop-step1600.safetensors") "D24907A84B8644A70C07611016A9D2FF8FAD2D2C761A8F97B213AE1D36088EEC" "protected Klein 9B step-1600 LoRA"
 Assert-FileHash (Join-Path $ComfyRoot "models\loras\smartphone-snapshot\FLUX.2-klein-base-9B_SmartphoneSnapshotPhotoReality_v13.safetensors") "1E0B419B1448F77CF7AEF430625325E46B16D1515CBF6C5C7E8C14D938CF1A90" "locked Smartphone Snapshot v13 LoRA"
 Assert-FileHash (Join-Path $ComfyRoot "models\loras\flux2-klein9b-turbo\Flux_Klein_9b_Turbo_lora_rank_256_bf16_standard.safetensors") "A3BFA40E936AF059C2D0814DE8E9E5531FA0EB135087ADD22C27510685585600" "locked rank-256 BF16 Turbo LoRA"
@@ -133,11 +285,54 @@ try {
     if ($device -notmatch "RTX 3090") { $errors.Add("Selected live worker is not the RTX 3090: $device") }
     $queue = Invoke-RestMethod -Uri "$Server/queue" -TimeoutSec 10
     if (@($queue.queue_running).Count -gt 0 -or @($queue.queue_pending).Count -gt 0) { $errors.Add("RTX 3090 queue is not idle.") }
-    $nodeInfo = Invoke-RestMethod -Uri "$Server/object_info/Flux2Klein9BMitchIdentityStudioV1" -TimeoutSec 30
-    if (-not $nodeInfo.Flux2Klein9BMitchIdentityStudioV1) { $errors.Add("Live RTX 3090 worker does not expose Flux2Klein9BMitchIdentityStudioV1.") }
-    $requiredInputs = @($nodeInfo.Flux2Klein9BMitchIdentityStudioV1.input_order.required)
+    $nodeInfo = Invoke-RestMethod -Uri "$Server/object_info/$frozenNodeName" -TimeoutSec 30
+    if (-not $nodeInfo.PSObject.Properties[$frozenNodeName]) { $errors.Add("Live RTX 3090 worker does not expose $frozenNodeName.") }
+    $requiredInputs = @($nodeInfo.$frozenNodeName.input_order.required)
     if (($requiredInputs -join ",") -ne "reference_profile,scene_prompt,appearance_polish,fast_turbo,seed") {
-        $errors.Add("Live Identity Studio input contract drifted: $($requiredInputs -join ', ')")
+        $errors.Add("Live frozen v1 Identity Studio input contract drifted: $($requiredInputs -join ', ')")
+    }
+
+    $visualNodeInfo = Invoke-RestMethod -Uri "$Server/object_info/$visualNodeName" -TimeoutSec 30
+    if (-not $visualNodeInfo.PSObject.Properties[$visualNodeName]) {
+        $errors.Add("Live RTX 3090 worker does not expose primary wrapper $visualNodeName.")
+    } else {
+        $liveVisualNode = $visualNodeInfo.$visualNodeName
+        Assert-ExactSequence -Actual @($liveVisualNode.input_order.required) -Expected @(
+            "reference_profile", "scene_prompt", "appearance_polish", "fast_turbo", "seed"
+        ) -Label "Live primary v1.1 Identity required-input contract"
+        Assert-ExactSequence -Actual @($liveVisualNode.input_order.optional) -Expected @("scene_preset") -Label "Live primary v1.1 Identity optional-input contract"
+
+        $scenePresetSpec = $liveVisualNode.input.optional.scene_preset
+        if (-not $scenePresetSpec) {
+            $errors.Add("Live primary v1.1 Identity wrapper does not expose scene_preset metadata.")
+        } else {
+            Assert-ExactSequence -Actual @($scenePresetSpec[0]) -Expected $identityPresetLabels -Label "Live primary v1.1 Identity preset choices"
+            if ($customPreset -and [string]$scenePresetSpec[1].default -cne [string]$customPreset.label) {
+                $errors.Add("Live primary v1.1 Identity wrapper scene_preset default must be $($customPreset.label).")
+            }
+            $expectedManifestHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $presetManifestPath).Hash.ToUpperInvariant()
+            if ([string]$scenePresetSpec[1].manifest_sha256 -cne $expectedManifestHash) {
+                $errors.Add("Live primary v1.1 Identity wrapper manifest hash metadata drifted.")
+            }
+        }
+
+        if ($presetManifest) {
+            $expectedProfiles = @(
+                [string]$presetManifest.reference_profiles.group,
+                [string]$presetManifest.reference_profiles.solo_left,
+                [string]$presetManifest.reference_profiles.solo_right,
+                [string]$presetManifest.reference_profiles.full_body
+            )
+            $referenceProfileSpec = $liveVisualNode.input.required.reference_profile
+            Assert-ExactSequence -Actual @($referenceProfileSpec[0]) -Expected $expectedProfiles -Label "Live primary v1.1 Identity reference-profile choices"
+            if ([string]$referenceProfileSpec[1].default -cne [string]$presetManifest.reference_profiles.group) {
+                $errors.Add("Live primary v1.1 Identity reference_profile default drifted from the frozen engine.")
+            }
+        }
+        if ([string]$liveVisualNode.input.required.scene_prompt[1].default -cne "") { $errors.Add("Live primary v1.1 Identity extra scene direction must default blank.") }
+        if ([bool]$liveVisualNode.input.required.appearance_polish[1].default -ne $true) { $errors.Add("Live primary v1.1 Identity appearance polish must default on.") }
+        if ([bool]$liveVisualNode.input.required.fast_turbo[1].default -ne $true) { $errors.Add("Live primary v1.1 Identity Turbo must default on.") }
+        if ([int64]$liveVisualNode.input.required.seed[1].default -ne 8675411) { $errors.Add("Live primary v1.1 Identity seed default drifted.") }
     }
     foreach ($requirement in @(
         @{ Class = "UNETLoader"; Field = "unet_name"; Value = "flux-2-klein-base-9b-bf16.safetensors" },

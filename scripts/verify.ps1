@@ -184,6 +184,21 @@ if (-not (Test-Path -LiteralPath $visualPresetScript -PathType Leaf)) {
     if ($visualPresetScriptSource -notmatch [regex]::Escape("assets/scene-presets/manifest.json")) {
         $errors.Add("Klein 9B visual preset extension must load the canonical preset manifest.")
     }
+    foreach ($requiredVisualBehavior in @(
+        'fetch(MANIFEST_URL, { cache: "no-store" })',
+        'crypto.subtle.digest("SHA-256", bytes)',
+        'manifestPromise = undefined;',
+        'setTimeout(resolve, 250)',
+        'assertLiveManifestParity(nodeData, presets, kind, manifest);',
+        'manifest_sha256',
+        'thumbnailUrl(preset)',
+        'if (kind === "identity") {',
+        'preset.key !== "custom"'
+    )) {
+        if ($visualPresetScriptSource -notmatch [regex]::Escape($requiredVisualBehavior)) {
+            $errors.Add("Klein 9B visual preset extension is missing hardened behavior: $requiredVisualBehavior")
+        }
+    }
 }
 if (-not (Test-Path -LiteralPath $visualPresetRoot -PathType Container) -or
     @(Get-ChildItem -LiteralPath $visualPresetRoot -File -Filter "*.jpg").Count -ne 20) {
@@ -395,11 +410,43 @@ if (-not (Test-Path -LiteralPath $comfyPython)) {
     if ($LASTEXITCODE -ne 0) {
         $errors.Add("ComfyUI requires ultralytics 8.4.76 and rembg 2.0.69 for v1.0.4 complex routing.")
     }
+    & $comfyPython (Join-Path $RepoRoot "scripts\build-flux2-klein9b-preset-thumbnails.py") --check
+    if ($LASTEXITCODE -ne 0) {
+        $errors.Add("Klein 9B thumbnail sources do not match the canonical scene-preset manifest.")
+    }
+}
+
+$previewCandidateScript = Join-Path $RepoRoot "scripts\generate-flux2-klein9b-preset-preview-candidates.ps1"
+if (-not (Test-Path -LiteralPath $previewCandidateScript -PathType Leaf)) {
+    $errors.Add("Missing Klein 9B visual-preset candidate runner.")
+} else {
+    $previewCandidateSource = Get-Content -Raw -LiteralPath $previewCandidateScript
+    foreach ($requiredSafetyCheck in @(
+        '[string]$SharedGpuComfyUrl = "http://127.0.0.1:8190"',
+        '[string]$ForgeUrl = "http://127.0.0.1:7860"',
+        'Get-ComfyWorkerSnapshot $SharedGpuComfyUrl',
+        'Assert-GenerationServicesIdle',
+        'Assert-Hardware3090Idle',
+        'Assert-LiveManifestHash',
+        'Get-ForgeSnapshot',
+        '$ForgeUrl/sdapi/v1/progress?skip_current_image=true',
+        'nvidia-smi --query-gpu=index,name,memory.used,memory.free,utilization.gpu,pstate',
+        'RunLabel -cnotmatch',
+        'Candidate run directory already exists',
+        '[switch]$PreflightOnly',
+        'status = "preflight_passed"',
+        'TimeoutSeconds -le 0',
+        'preset_manifest_sha256'
+    )) {
+        if ($previewCandidateSource -notmatch [regex]::Escape($requiredSafetyCheck)) {
+            $errors.Add("Klein 9B candidate runner is missing GPU-safety behavior: $requiredSafetyCheck")
+        }
+    }
 }
 
 Push-Location (Join-Path $RepoRoot "custom_nodes\ComfyUI-AIToolkit-Training")
 try {
-    & python -m unittest test_integration.py test_social_photo_core.py test_reference_photo_presets.py test_phone_lens_optics.py test_scene_quality.py test_identity_scope.py test_identity_leakage.py test_scene_crop.py test_scene_constraints.py test_scene_objects.py test_camera_finish.py test_head_integrity.py test_minimal_flux2_reality_test.py test_flux2_model_benchmark.py test_flux2_klein9b_appearance_polish.py test_flux2_klein9b_deterministic_polish.py test_flux2_klein9b_smartphone_style.py test_flux2_klein9b_turbo.py test_flux2_klein9b_upgrade_reference_policy.py test_flux2_klein9b_upgrade_masking.py test_flux2_klein9b_source_gaze_lock.py test_flux2_klein9b_mitch_identity_studio_presets.py test_flux2_klein9b_scene_presets.py test_flux2_klein9b_visual_preset_support.py test_flux2_klein9b_photo_realism_upgrade_presets.py
+    & python -m unittest test_integration.py test_social_photo_core.py test_reference_photo_presets.py test_phone_lens_optics.py test_scene_quality.py test_identity_scope.py test_identity_leakage.py test_scene_crop.py test_scene_constraints.py test_scene_objects.py test_camera_finish.py test_head_integrity.py test_minimal_flux2_reality_test.py test_flux2_model_benchmark.py test_flux2_klein9b_appearance_polish.py test_flux2_klein9b_deterministic_polish.py test_flux2_klein9b_smartphone_style.py test_flux2_klein9b_turbo.py test_flux2_klein9b_upgrade_reference_policy.py test_flux2_klein9b_upgrade_masking.py test_flux2_klein9b_source_gaze_lock.py test_flux2_klein9b_mitch_identity_studio_presets.py test_flux2_klein9b_scene_presets.py test_flux2_klein9b_visual_preset_support.py test_flux2_klein9b_photo_realism_upgrade_presets.py test_flux2_klein9b_photo_realism_upgrade_reporting.py
     if ($LASTEXITCODE -ne 0) {
         $errors.Add("Python unit tests failed.")
     }

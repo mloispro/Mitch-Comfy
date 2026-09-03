@@ -84,6 +84,8 @@ OUTPUT_ROOT = "flux2-klein9b-upgrade-photo-detail-realism-v1"
 PROMPTING_STRATEGY = "bfl-flux2-four-role-existing-photo-upgrade-v1"
 MILESTONE_COMMIT = "d58732a"
 MILESTONE_TAG = "milestone-good-identity-workflows-2026-09-01"
+REVALIDATION_COMMIT = "b32ecb9"
+REVALIDATION_TAG = "milestone-klein9b-production-revalidated-2026-09-03"
 APPEARANCE_LABEL_ON = "Subtle handsome polish (default)"
 APPEARANCE_LABEL_OFF = "Milestone appearance (exact)"
 PHONE_STYLE_LABEL_ON = "Deep-focus phone-camera realism (default)"
@@ -437,18 +439,60 @@ class Flux2Klein9BPhotoRealismUpgradeV1:
         run_stamp = datetime.now().strftime("%Y%m%d-%H%M%S-%f")
         output_folder = f"{OUTPUT_ROOT}/{run_stamp}"
         report = {
-            "schema_version": 1,
+            "schema_version": 2,
             "purpose": "flux2_klein9b_upgrade_photo_detail_and_realism_v1",
             "approval_basis": (
-                "Sampling and four-reference conditioning restored from Mitch-approved "
-                "candidate-klein9b-iphone-structure-v4-seed-8675416.png"
+                (
+                    f"The current phone-on default was freshly revalidated at {REVALIDATION_COMMIT} "
+                    f"({REVALIDATION_TAG}). "
+                    if phone_camera_style
+                    else f"The phone-off route is present at {REVALIDATION_COMMIT} ({REVALIDATION_TAG}) "
+                    "but was not part of that exact shipped-default generation run. "
+                )
+                + f"Relative to historical milestone {MILESTONE_COMMIT}, "
+                "both modes include prompt drift; "
+                + (
+                    "phone-on additionally changes generation with the Smartphone Snapshot v13 LoRA"
+                    if phone_camera_style
+                    else "phone-off does not add the Smartphone Snapshot LoRA"
+                )
             ),
             "milestone_commit": MILESTONE_COMMIT,
             "milestone_tag": MILESTONE_TAG,
-            "milestone_sampling_path_preserved": True,
+            "milestone_sampling_path_preserved": False,
+            "milestone_sampling_path_status": (
+                "unpreserved_phone_on_prompt_and_smartphone_lora_drift"
+                if phone_camera_style
+                else "unpreserved_phone_off_prompt_drift"
+            ),
+            "milestone_generation_prompt_changed": True,
+            "milestone_smartphone_lora_changed": bool(phone_camera_style),
             "graph_delta_from_milestone": (
-                "deterministic face, iris, and hair-local appearance polish after the unchanged generation; "
-                "phone-off additionally applies an edge-safe background-only natural-lens finish"
+                (
+                    "phone-on differs from d58732a through prompt drift and the Smartphone "
+                    "Snapshot v13 LoRA; "
+                    if phone_camera_style
+                    else "phone-off differs from d58732a through prompt drift; it does not use "
+                    "the Smartphone Snapshot LoRA; "
+                )
+                + (
+                    "deterministic face, iris, and hair-local appearance polish runs after sampling; "
+                    if appearance_polish
+                    else "appearance polish is disabled; no face, iris, or hair-local polish runs; "
+                )
+                + (
+                    "phone-on skips the optional background postprocess"
+                    if phone_camera_style
+                    else "phone-off additionally applies an edge-safe background-only natural-lens finish"
+                )
+            ),
+            "revalidation_commit": REVALIDATION_COMMIT,
+            "revalidation_tag": REVALIDATION_TAG,
+            "revalidation_sampling_path_preserved": True,
+            "revalidation_comparison_scope": (
+                "Compared with b32ecb9, this report-only hardening changes reporting semantics "
+                "and validation tests only; generation prompt, model and LoRA selection, reference "
+                "order, seed, sampler, scheduler, and postprocessing are unchanged."
             ),
             "gpu": gpu,
             "worker_requirement": "RTX 3090 / standard ComfyUI port 8188",
@@ -497,24 +541,46 @@ class Flux2Klein9BPhotoRealismUpgradeV1:
             "hair_reference_sha256": HAIR_REFERENCE_SHA256,
             "source_decoded_pixel_sha256": _decoded_pixel_sha256(source),
             "reference_order": [
-                "Picture 1: exact source scene, pose, expression, clothing, lighting layout, and composition at 1.00 MP",
+                "Picture 1: full source photograph intended to guide scene, pose, expression, clothing, lighting layout, and composition at 1.00 MP; because it contains the source face and is encoded as a ReferenceLatent, identity influence is not isolated or proven absent",
                 "Picture 2: automatically generated face-interior-free Canny structure guide at 0.50 MP",
                 "Picture 3: protected genuine frontal Mitch identity photograph at 0.50 MP",
                 "Picture 4: protected genuine isolated hair-material crop at 0.10 MP",
             ],
             "reference_encoded_sizes": reference_sizes,
             "identity_mechanism": (
-                "protected Base-9B step-1600 identity LoRA plus genuine-photo native ReferenceLatent"
+                "explicit identity mechanism: protected Base-9B step-1600 identity LoRA plus "
+                "the genuine-photo Picture 3 ReferenceLatent"
             ),
-            "source_semantic_role": "scene, pose, expression, clothing, lighting layout, and composition",
-            "source_used_as_identity": False,
+            "source_semantic_role": (
+                "intended scene, pose, expression, clothing, lighting-layout, and composition "
+                "conditioning; not an explicit identity-reference role"
+            ),
+            "source_used_as_identity": None,
+            "source_used_as_identity_scope": (
+                "legacy field retained as null because actual identity contribution is unproven; "
+                "the source is not intended as the explicit identity reference"
+            ),
+            "source_intended_as_identity_reference": False,
+            "source_identity_influence_status": "unisolated_not_proven_absent",
+            "source_identity_influence_note": (
+                "The full source photograph contains the source face and is encoded as a "
+                "ReferenceLatent, so its identity contribution has not been isolated and cannot "
+                "be claimed absent."
+            ),
             "guide": guide_report,
             "source_latent_initialization": False,
             "face_swap": False,
             "generation_spatial_mask": False,
             "appearance_postprocess_mask": bool(appearance_polish),
             "background_postprocess_mask": not bool(phone_camera_style),
-            "background_generation_prompt_changed": False,
+            "background_generation_prompt_changed": True,
+            "background_generation_prompt_changed_scope": (
+                "legacy field comparing the current recipe with d58732a: both modes have prompt "
+                "drift; phone_style_generation_prompt_changed separately reports the extra "
+                "phone-on trigger, while the phone-off camera finish remains postprocess-only"
+            ),
+            "phone_style_generation_prompt_changed": bool(phone_camera_style),
+            "revalidation_generation_prompt_changed_by_report_hardening": False,
             "camera_finish_second_model_pass": False,
             "restoration": False,
             "generation_selective_sharpening": False,
@@ -527,8 +593,13 @@ class Flux2Klein9BPhotoRealismUpgradeV1:
             "appearance_profile": APPEARANCE_PROFILE if appearance_polish else None,
             "appearance_generation_prompt_changed": False,
             "appearance_scope": (
-                "deterministic face-local, iris-interior source-gaze, and eroded semantic-hair-interior postprocess; "
-                "generation model, prompt, references, seed, sampler, eyelid boundary, head outline, and hairline are unchanged; "
+                (
+                    "deterministic face-local, iris-interior source-gaze, and eroded semantic-hair-interior postprocess; "
+                    "the appearance-polish stage runs after sampling and does not alter the selected generation model, prompt, references, seed, or sampler; "
+                    "eyelid boundary, head outline, and hairline remain protected; "
+                    if appearance_polish
+                    else "appearance polish is disabled, so no face, iris, or hair-local appearance postprocess runs; "
+                )
                 + (
                     "phone-camera mode leaves the post-generated background unchanged"
                     if phone_camera_style

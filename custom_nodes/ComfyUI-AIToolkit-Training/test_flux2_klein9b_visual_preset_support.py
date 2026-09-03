@@ -1,5 +1,6 @@
 import hashlib
 import json
+import os
 import tempfile
 import unittest
 from pathlib import Path
@@ -18,7 +19,13 @@ class Klein9BVisualPresetSupportTests(unittest.TestCase):
             digest = hashlib.sha256(path.read_bytes()).hexdigest()
             self.assertEqual(verify_asset_sha256(path, digest, "test asset"), path)
             with self.assertRaisesRegex(RuntimeError, "hash mismatch"):
-                verify_asset_sha256(path, "0" * 64, "different cache key")
+                verify_asset_sha256(path, "0" * 64, "test asset")
+
+            original = path.stat()
+            path.write_bytes(b"x" * len(b"locked preset asset"))
+            os.utime(path, ns=(original.st_atime_ns, original.st_mtime_ns))
+            with self.assertRaisesRegex(RuntimeError, "hash mismatch"):
+                verify_asset_sha256(path, digest, "test asset")
 
     def test_report_augmentation_preserves_engine_purpose(self):
         with tempfile.TemporaryDirectory() as directory:

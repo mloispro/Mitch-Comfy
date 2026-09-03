@@ -2,9 +2,12 @@
 param(
     [string]$Server = "http://127.0.0.1:8188",
     [string]$ComfyRoot = "C:\projects\AI-Tools\ComfyUI",
+    [string]$ForgeUrl = "http://127.0.0.1:7860",
     [switch]$Smoke,
     [switch]$Native,
-    [int]$TimeoutSeconds = 1800
+    [int]$TimeoutSeconds = 1800,
+    [int]$MaxIdle3090MemoryMiB = 4096,
+    [int]$MaxIdle3090Utilization = 10
 )
 
 $ErrorActionPreference = "Stop"
@@ -19,6 +22,23 @@ $NodeName = "Flux2Klein9BPhotoRealismUpgradeV1"
 $SourceName = "mitch-photo2-source-aef87048.png"
 $Detail = "For this included example, the man remains in the exact source three-quarter view and looks past the camera toward image-right. Preserve the exact raised-collar coat silhouette, shirt opening, building-wall diagonals, roof edge, bare-tree layout, and every foreground/background boundary. Render the same real house exterior with separate horizontal siding boards, narrow straight seams, subtle matte painted texture, and minor surface variation. Render the same leafless tree with tapered limbs, bark ridges, irregular forks, progressively thinner twigs, tiny buds, and distinct overlapping depth layers. Keep the whole environment legible with natural small-sensor depth of field; distant elements soften gradually but remain structurally readable instead of becoming portrait-mode bokeh."
 
+function Test-LocalTcpListener([int]$Port) {
+    $client = [Net.Sockets.TcpClient]::new()
+    try {
+        $task = $client.ConnectAsync("127.0.0.1", $Port)
+        return ($task.Wait(1000) -and $client.Connected)
+    }
+    catch { return $false }
+    finally { $client.Dispose() }
+}
+
+function Assert-LocalEndpoint([string]$Endpoint, [int]$ExpectedPort, [string]$Label) {
+    $uri = [Uri]$Endpoint
+    if ($uri.Scheme -ne "http" -or $uri.Host -notin @("127.0.0.1", "localhost", "::1") -or $uri.Port -ne $ExpectedPort) {
+        throw "$Label must be the local HTTP endpoint on port $ExpectedPort`: $Endpoint"
+    }
+}
+
 function Get-WorkerSnapshot([int]$Port) {
     try {
         $base = "http://127.0.0.1:$Port"
@@ -27,6 +47,7 @@ function Get-WorkerSnapshot([int]$Port) {
         [ordered]@{
             port = $Port
             online = $true
+            listener = $true
             device = [string]$stats.devices[0].name
             running = @($queue.queue_running).Count
             pending = @($queue.queue_pending).Count
@@ -35,8 +56,87 @@ function Get-WorkerSnapshot([int]$Port) {
         }
     }
     catch {
-        [ordered]@{ port = $Port; online = $false; device = "offline"; running = 0; pending = 0; vram_total = 0; vram_free = 0 }
+        [ordered]@{ port = $Port; online = $false; listener = (Test-LocalTcpListener $Port); device = "offline"; running = 0; pending = 0; vram_total = 0; vram_free = 0; error = $_.Exception.Message }
     }
+}
+
+function Get-ForgeSnapshot {
+    try {
+        $progress = Invoke-RestMethod -Uri "$ForgeUrl/sdapi/v1/progress?skip_current_image=true" -TimeoutSec 5
+        $job = [string]$progress.state.job
+        $jobCount = if ($null -ne $progress.state.PSObject.Properties["job_count"]) { [int]$progress.state.job_count } else { 0 }
+        [ordered]@{
+            online = $true
+            listener = $true
+            active = ([double]$progress.progress -gt 0 -or $jobCount -gt 0 -or -not [string]::IsNullOrWhiteSpace($job))
+            progress = [double]$progress.progress
+            job_count = $jobCount
+        }
+    }
+    catch {
+        [ordered]@{ online = $false; listener = (Test-LocalTcpListener ([Uri]$ForgeUrl).Port); active = $false; progress = 0.0; job_count = 0; error = $_.Exception.Message }
+    }
+}
+
+function Assert-Shared3090Idle([object[]]$Workers, [object]$Forge, [string]$Phase) {
+    $targetWorker = @($Workers | Where-Object port -eq 8188)[0]
+    if (-not $targetWorker.online -or $targetWorker.device -notmatch "RTX 3090") {
+        throw "Port 8188 is not the RTX 3090 worker during $Phase."
+    }
+    if ($targetWorker.running -gt 0 -or $targetWorker.pending -gt 0) {
+        throw "RTX 3090 queue at port 8188 is active during $Phase."
+    }
+
+    $sharedWorker = @($Workers | Where-Object port -eq 8190)[0]
+    if ($sharedWorker.online) {
+        if ($sharedWorker.device -notmatch "RTX 3090") { throw "Port 8190 is not the shared RTX 3090 worker during $Phase." }
+        if ($sharedWorker.running -gt 0 -or $sharedWorker.pending -gt 0) {
+            throw "Shared RTX 3090 queue at port 8190 is active during $Phase."
+        }
+    }
+    elseif ($sharedWorker.listener) {
+        throw "Port 8190 is listening but its shared RTX 3090 queue could not be verified during $Phase."
+    }
+
+    if ($Forge.online -and $Forge.active) { throw "Forge has active RTX 3090 work during $Phase." }
+    if (-not $Forge.online -and $Forge.listener) {
+        throw "Forge is listening but its RTX 3090 activity could not be verified during $Phase."
+    }
+}
+
+function Get-GpuHardwareSnapshots {
+    $rows = @(& nvidia-smi --query-gpu=index,name,memory.used,memory.free,utilization.gpu,pstate --format=csv,noheader,nounits)
+    if ($LASTEXITCODE -ne 0 -or $rows.Count -eq 0) { throw "Could not inspect GPU hardware state." }
+    return @($rows | ForEach-Object {
+        $parts = @($_ -split ",\s*", 6)
+        if ($parts.Count -ne 6) { throw "Unexpected nvidia-smi row: $_" }
+        [ordered]@{
+            index = [int]$parts[0]
+            name = [string]$parts[1]
+            memory_used_mib = [int]$parts[2]
+            memory_free_mib = [int]$parts[3]
+            utilization_percent = [int]$parts[4]
+            pstate = [string]$parts[5]
+        }
+    })
+}
+
+function Assert-Hardware3090Idle([object[]]$Snapshots, [string]$Phase) {
+    $gpu = @($Snapshots | Where-Object name -match "RTX 3090")
+    if ($gpu.Count -ne 1) { throw "Expected exactly one RTX 3090 hardware row during $Phase." }
+    if ($gpu[0].utilization_percent -gt $MaxIdle3090Utilization) {
+        throw "RTX 3090 utilization is $($gpu[0].utilization_percent)% during $Phase."
+    }
+    if ($gpu[0].memory_used_mib -gt $MaxIdle3090MemoryMiB) {
+        throw "RTX 3090 uses $($gpu[0].memory_used_mib) MiB during $Phase."
+    }
+}
+
+Assert-LocalEndpoint $Server 8188 "Server"
+Assert-LocalEndpoint $ForgeUrl 7860 "ForgeUrl"
+if ($TimeoutSeconds -le 0) { throw "TimeoutSeconds must be greater than zero before any smoke work is queued." }
+if ($MaxIdle3090MemoryMiB -lt 1024 -or $MaxIdle3090Utilization -lt 0 -or $MaxIdle3090Utilization -gt 100) {
+    throw "GPU idle thresholds are outside their supported range."
 }
 
 function Assert-Hash([string]$Path, [string]$Expected, [string]$Label) {
@@ -68,6 +168,7 @@ $polishSource = Get-Content -Raw -LiteralPath $PolishPath
 $gazeSource = Get-Content -Raw -LiteralPath $GazePath
 $maskingSource = Get-Content -Raw -LiteralPath $MaskingPath
 foreach ($requiredMechanism in @(
+    '"schema_version": 2',
     'build_face_free_guide\(source\)',
     'SOURCE_REFERENCE_MEGAPIXELS, "bicubic"',
     'GUIDE_REFERENCE_MEGAPIXELS, "nearest-exact"',
@@ -90,13 +191,50 @@ foreach ($requiredMechanism in @(
     'apply_natural_lens_background_blur',
     'NATURAL_LENS_BLUR_PROFILE',
     '"appearance_generation_prompt_changed": False',
-    '"background_generation_prompt_changed": False',
+    '"background_generation_prompt_changed": True',
+    '"background_generation_prompt_changed_scope": \(',
+    '"phone_style_generation_prompt_changed": bool\(phone_camera_style\)',
+    '"revalidation_generation_prompt_changed_by_report_hardening": False',
     '"generation_spatial_mask": False',
     '"appearance_postprocess_mask": bool\(appearance_polish\)',
     '"background_postprocess_mask": not bool\(phone_camera_style\)',
-    '"camera_finish_second_model_pass": False'
+    '"camera_finish_second_model_pass": False',
+    'MILESTONE_COMMIT = "d58732a"',
+    'MILESTONE_TAG = "milestone-good-identity-workflows-2026-09-01"',
+    'REVALIDATION_COMMIT = "b32ecb9"',
+    'REVALIDATION_TAG = "milestone-klein9b-production-revalidated-2026-09-03"',
+    '"milestone_sampling_path_preserved": False',
+    '"milestone_sampling_path_status": \(',
+    'unpreserved_phone_on_prompt_and_smartphone_lora_drift',
+    'unpreserved_phone_off_prompt_drift',
+    '"milestone_generation_prompt_changed": True',
+    '"milestone_smartphone_lora_changed": bool\(phone_camera_style\)',
+    'phone-on differs from d58732a through prompt drift',
+    'phone-off differs from d58732a through prompt drift',
+    '"revalidation_sampling_path_preserved": True',
+    'Compared with b32ecb9, this report-only hardening changes reporting semantics',
+    '"source_used_as_identity": None',
+    '"source_used_as_identity_scope": \(',
+    '"source_intended_as_identity_reference": False',
+    '"source_identity_influence_status": "unisolated_not_proven_absent"',
+    'identity contribution has not been isolated and cannot',
+    'explicit identity mechanism:',
+    'not part of that exact shipped-default generation run',
+    'appearance polish is disabled; no face, iris, or hair-local polish runs',
+    'appearance polish is disabled, so no face, iris, or hair-local appearance postprocess runs'
 )) {
     if ($nodeSource -notmatch $requiredMechanism) { throw "Upgrade node is missing a milestone mechanism: $requiredMechanism" }
+}
+foreach ($incorrectReportClaim in @(
+    '"milestone_sampling_path_preserved": True',
+    '"milestone_sampling_path_preserved": not bool\(phone_camera_style\)',
+    '"source_used_as_identity": False',
+    'after the unchanged generation',
+    '"background_generation_prompt_changed": False',
+    'phone-off preserves the milestone core sampling path',
+    'phone-off recipe retains that core sampling path'
+)) {
+    if ($nodeSource -match $incorrectReportClaim) { throw "Upgrade report retains an overclaim: $incorrectReportClaim" }
 }
 foreach ($requiredGazeMechanism in @(
     'SOURCE_GAZE_LOCK_PROFILE = "mediapipe_refined_iris_source_lock_v1"',
@@ -177,10 +315,10 @@ foreach ($unsafePrompt in @(
 }
 
 $workers = @(@(8188, 8189, 8190) | ForEach-Object { Get-WorkerSnapshot $_ })
-$target = @($workers | Where-Object port -eq 8188)[0]
-if (-not $target.online -or $target.device -notmatch "RTX 3090") { throw "Port 8188 is not the RTX 3090 worker." }
-if ($target.running -gt 0 -or $target.pending -gt 0) { throw "RTX 3090 queue is active; refusing validation submission." }
-if (([Uri]$Server).Port -ne 8188) { throw "This workflow is locked to the RTX 3090 worker on port 8188." }
+$forge = Get-ForgeSnapshot
+Assert-Shared3090Idle $workers $forge "preflight"
+$hardware = Get-GpuHardwareSnapshots
+if ($Smoke) { Assert-Hardware3090Idle $hardware "preflight" }
 
 $nodeInfo = Invoke-RestMethod -Uri "$Server/object_info/$NodeName" -TimeoutSec 30
 if (-not $nodeInfo.$NodeName) { throw "Live RTX 3090 worker does not expose $NodeName; restart the worker after installing the workflow." }
@@ -226,10 +364,12 @@ $validation = [ordered]@{
     workflow = $WorkflowPath
     node = $NodeName
     workers = $workers
-    nvidia_smi = @(& nvidia-smi --query-gpu=index,name,uuid,memory.total,memory.used,memory.free,utilization.gpu,pstate --format=csv,noheader,nounits)
+    forge = $forge
+    nvidia_smi = $hardware
     hashes = $hashes
-    milestone = [ordered]@{ commit = "d58732a"; tag = "milestone-good-identity-workflows-2026-09-01"; sampling_path_preserved = $true; included_example_prompt_matches_approved_png = $true; included_example_guide_pixels_match_approved_guide = $true }
-    appearance = [ordered]@{ default = $true; profile = "deterministic_face_and_hair_local_v4+mediapipe_refined_iris_source_lock_v1"; mechanism = "deterministic face-local, source-relative iris-interior, and eroded semantic-hair-interior postprocess after unchanged generation"; generation_prompt_changed = $false; protected_pixels_exact = $true; dark_dots_and_freckles_reduced = $true; existing_hair_highlights_enhanced = $true; hairline_unchanged = $true; eyelids_unchanged = $true; source_gaze_lock = $true }
+    milestone = [ordered]@{ commit = "d58732a"; tag = "milestone-good-identity-workflows-2026-09-01"; sampling_path_preserved = $false; phone_off_delta = "prompt drift"; phone_on_delta = "prompt drift plus Smartphone Snapshot v13 LoRA"; included_example_base_prompt_matches_approved_png = $true; current_effective_prompt_matches_milestone = $false; included_example_guide_pixels_match_approved_guide = $true }
+    revalidation = [ordered]@{ commit = "b32ecb9"; tag = "milestone-klein9b-production-revalidated-2026-09-03"; report_only_hardening = $true; sampling_path_preserved = $true; generation_prompt_changed = $false; model_or_lora_selection_changed = $false; reference_order_changed = $false; postprocessing_changed = $false }
+    appearance = [ordered]@{ default = $true; profile = "deterministic_face_and_hair_local_v4+mediapipe_refined_iris_source_lock_v1"; mechanism = "deterministic face-local, source-relative iris-interior, and eroded semantic-hair-interior postprocess after sampling; this appearance stage does not resample"; appearance_stage_changes_generation_prompt = $false; protected_pixels_exact = $true; dark_dots_and_freckles_reduced = $true; existing_hair_highlights_enhanced = $true; hairline_unchanged = $true; eyelids_unchanged = $true; source_gaze_lock = $true }
     phone_camera_style = [ordered]@{ available = $true; default = $true; strength = 0.25; trigger = "casual snapshot"; rendering = "deep_focus"; background_blur_skipped = $true; decision = "visually accepted by Mitch" }
     phone_off_camera_finish = [ordered]@{ available = $true; default = $false; profile = "u2net_human_edge_safe_depth_ramp_v1"; mechanism = "local U2Net human matte plus subject-excluding normalized near/far Gaussian depth ramp"; protected_subject_pixels_exact = $true; subject_colors_excluded = $true; second_model_pass = $false }
     locked_settings = [ordered]@{ model_dtype = "fp8_e4m3fn"; lora_strength = 0.90; steps = 50; cfg = 4.0; sampler = "euler"; scheduler = "Flux2Scheduler"; references = 4 }
@@ -245,10 +385,13 @@ if (-not $Smoke) {
 $sourcePath = Join-Path $ComfyRoot "input\$SourceName"
 Assert-Hash $sourcePath $hashes.smoke_source "smoke source"
 $workersAtSubmit = @(@(8188, 8189, 8190) | ForEach-Object { Get-WorkerSnapshot $_ })
-$targetAtSubmit = @($workersAtSubmit | Where-Object port -eq 8188)[0]
-if (-not $targetAtSubmit.online -or $targetAtSubmit.device -notmatch "RTX 3090") { throw "Port 8188 changed before smoke submission." }
-if ($targetAtSubmit.running -gt 0 -or $targetAtSubmit.pending -gt 0) { throw "RTX 3090 queue became active before smoke submission." }
+$forgeAtSubmit = Get-ForgeSnapshot
+Assert-Shared3090Idle $workersAtSubmit $forgeAtSubmit "smoke submission"
+$hardwareAtSubmit = Get-GpuHardwareSnapshots
+Assert-Hardware3090Idle $hardwareAtSubmit "smoke submission"
 $validation.workers_at_submit = $workersAtSubmit
+$validation.forge_at_submit = $forgeAtSubmit
+$validation.nvidia_smi_at_submit = $hardwareAtSubmit
 $prompt = [ordered]@{ "1" = @{ class_type = "LoadImage"; inputs = @{ image = $SourceName } } }
 if ($Native) {
     $outputNodeId = "2"
