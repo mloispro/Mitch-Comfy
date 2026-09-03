@@ -32,9 +32,11 @@ if (-not (Test-Path -LiteralPath $workflowPath -PathType Leaf)) {
         }
         $studioNode = @($workflow.nodes | Where-Object type -eq "Flux2Klein9BMitchIdentityStudioV1")[0]
         if ($studioNode) {
-            if (@($studioNode.inputs).Count -ne 3) { $errors.Add("Winning workflow must expose only reference_profile, scene_prompt, and seed.") }
+            if (@($studioNode.inputs).Count -ne 5) { $errors.Add("Winning workflow must expose only reference_profile, scene_prompt, appearance_polish, fast_turbo, and seed.") }
             if ([string]$studioNode.widgets_values[0] -notmatch "^GROUP") { $errors.Add("Winning workflow must open in the one-reference group-safe profile.") }
             if ([string]$studioNode.widgets_values[1] -notmatch "(?i)(Only the foreground man is m1tch_person|m1tch_person is the one foreground man)") { $errors.Add("Winning workflow default must explicitly scope Mitch to the main group subject.") }
+            if ([bool]$studioNode.widgets_values[2] -ne $true) { $errors.Add("Winning workflow must open with subtle appearance polish enabled.") }
+            if ([bool]$studioNode.widgets_values[3] -ne $true) { $errors.Add("Winning workflow must open in the validated 8-step Turbo mode.") }
         }
     } catch {
         $errors.Add("Winning workflow JSON is invalid: $($_.Exception.Message)")
@@ -42,6 +44,8 @@ if (-not (Test-Path -LiteralPath $workflowPath -PathType Leaf)) {
 }
 
 $nodeSourcePath = Join-Path $repoRoot "custom_nodes\ComfyUI-AIToolkit-Training\flux2_klein9b_mitch_identity_studio.py"
+$styleSourcePath = Join-Path $repoRoot "custom_nodes\ComfyUI-AIToolkit-Training\flux2_klein9b_smartphone_style.py"
+$turboSourcePath = Join-Path $repoRoot "custom_nodes\ComfyUI-AIToolkit-Training\flux2_klein9b_turbo.py"
 if (-not (Test-Path -LiteralPath $nodeSourcePath -PathType Leaf)) {
     $errors.Add("Missing Klein 9B Studio implementation: $nodeSourcePath")
 } else {
@@ -50,13 +54,43 @@ if (-not (Test-Path -LiteralPath $nodeSourcePath -PathType Leaf)) {
         'MODEL_NAME = "flux-2-klein-base-9b-bf16.safetensors"',
         'LORA_NAME = "m1tch-flux2-klein9b-identity-v3-r32-dop-step1600.safetensors"',
         'LORA_STRENGTH = 0.90', 'WIDTH = 832', 'HEIGHT = 1216', 'STEPS = 50', 'GUIDANCE = 4.0',
-        'KSamplerSelect.execute("euler")', 'Flux2Scheduler.execute(STEPS, WIDTH, HEIGHT)', '"RTX 3090" not in device_name'
+        '"appearance_polish": (', '"fast_turbo": (', '"default": True',
+        'sampling_settings(fast_turbo, STEPS, GUIDANCE)',
+        'KSamplerSelect.execute("euler")', 'Flux2Scheduler.execute(steps, WIDTH, HEIGHT)', '"RTX 3090" not in device_name'
     )) {
         if ($source -notmatch [regex]::Escape($lockedText)) { $errors.Add("Klein 9B Studio is missing locked setting: $lockedText") }
     }
 }
+if (-not (Test-Path -LiteralPath $turboSourcePath -PathType Leaf)) {
+    $errors.Add("Missing locked Klein 9B Turbo contract: $turboSourcePath")
+} else {
+    $turboSource = Get-Content -Raw -LiteralPath $turboSourcePath
+    foreach ($lockedText in @(
+        'TURBO_LORA_BYTES = 1_386_477_008',
+        'TURBO_LORA_STRENGTH = 1.0',
+        'TURBO_STEPS = 8',
+        'TURBO_GUIDANCE = 1.0'
+    )) {
+        if ($turboSource -notmatch [regex]::Escape($lockedText)) { $errors.Add("Turbo contract is missing locked setting: $lockedText") }
+    }
+}
+if (-not (Test-Path -LiteralPath $styleSourcePath -PathType Leaf)) {
+    $errors.Add("Missing locked Smartphone Snapshot style contract: $styleSourcePath")
+} else {
+    $styleSource = Get-Content -Raw -LiteralPath $styleSourcePath
+    foreach ($lockedText in @(
+        'SMARTPHONE_STYLE_LORA_STRENGTH = 0.25',
+        'SMARTPHONE_STYLE_TRIGGER = "casual snapshot"',
+        'SMARTPHONE_STYLE_BASE_MODEL = "flux2_klein_9b"',
+        'SMARTPHONE_STYLE_CIVITAI_VERSION_ID = 2916530'
+    )) {
+        if ($styleSource -notmatch [regex]::Escape($lockedText)) { $errors.Add("Smartphone style contract is missing locked setting: $lockedText") }
+    }
+}
 
 Assert-FileHash (Join-Path $ComfyRoot "models\loras\m1tch-flux2-klein9b-identity-v3-r32-dop-step1600.safetensors") "D24907A84B8644A70C07611016A9D2FF8FAD2D2C761A8F97B213AE1D36088EEC" "protected Klein 9B step-1600 LoRA"
+Assert-FileHash (Join-Path $ComfyRoot "models\loras\smartphone-snapshot\FLUX.2-klein-base-9B_SmartphoneSnapshotPhotoReality_v13.safetensors") "1E0B419B1448F77CF7AEF430625325E46B16D1515CBF6C5C7E8C14D938CF1A90" "locked Smartphone Snapshot v13 LoRA"
+Assert-FileHash (Join-Path $ComfyRoot "models\loras\flux2-klein9b-turbo\Flux_Klein_9b_Turbo_lora_rank_256_bf16_standard.safetensors") "A3BFA40E936AF059C2D0814DE8E9E5531FA0EB135087ADD22C27510685585600" "locked rank-256 BF16 Turbo LoRA"
 
 foreach ($reference in @(
     @{ File = "mitch-klein9b-ref-front-neutral-v2.jpg"; Hash = "28DF2AE0D717A788370CC825F7BB24CF38DB9C7CDA3F66BAEFAB58BE86D8AF33" },
@@ -101,9 +135,15 @@ try {
     if (@($queue.queue_running).Count -gt 0 -or @($queue.queue_pending).Count -gt 0) { $errors.Add("RTX 3090 queue is not idle.") }
     $nodeInfo = Invoke-RestMethod -Uri "$Server/object_info/Flux2Klein9BMitchIdentityStudioV1" -TimeoutSec 30
     if (-not $nodeInfo.Flux2Klein9BMitchIdentityStudioV1) { $errors.Add("Live RTX 3090 worker does not expose Flux2Klein9BMitchIdentityStudioV1.") }
+    $requiredInputs = @($nodeInfo.Flux2Klein9BMitchIdentityStudioV1.input_order.required)
+    if (($requiredInputs -join ",") -ne "reference_profile,scene_prompt,appearance_polish,fast_turbo,seed") {
+        $errors.Add("Live Identity Studio input contract drifted: $($requiredInputs -join ', ')")
+    }
     foreach ($requirement in @(
         @{ Class = "UNETLoader"; Field = "unet_name"; Value = "flux-2-klein-base-9b-bf16.safetensors" },
         @{ Class = "LoraLoaderModelOnly"; Field = "lora_name"; Value = "m1tch-flux2-klein9b-identity-v3-r32-dop-step1600.safetensors" },
+        @{ Class = "LoraLoaderModelOnly"; Field = "lora_name"; Value = "smartphone-snapshot\FLUX.2-klein-base-9B_SmartphoneSnapshotPhotoReality_v13.safetensors" },
+        @{ Class = "LoraLoaderModelOnly"; Field = "lora_name"; Value = "flux2-klein9b-turbo\Flux_Klein_9b_Turbo_lora_rank_256_bf16_standard.safetensors" },
         @{ Class = "CLIPLoader"; Field = "clip_name"; Value = "qwen_3_8b_fp8mixed.safetensors" },
         @{ Class = "VAELoader"; Field = "vae_name"; Value = "flux2-vae.safetensors" }
     )) {

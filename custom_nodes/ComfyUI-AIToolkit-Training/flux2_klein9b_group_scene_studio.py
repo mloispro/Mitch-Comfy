@@ -23,6 +23,10 @@ from kornia.filters import canny
 from PIL import Image, ImageDraw
 
 from . import one_reference_photo as baseline
+from .flux2_klein9b_appearance_polish import (
+    APPEARANCE_POLISH_LABEL_OFF,
+    APPEARANCE_POLISH_LABEL_ON,
+)
 from .flux2_klein9b_mitch_identity_studio import (
     CLIP_NAME,
     GUIDANCE,
@@ -37,6 +41,22 @@ from .flux2_klein9b_mitch_identity_studio import (
     _assert_rtx3090,
     _verify_sha256,
 )
+from .flux2_klein9b_smartphone_style import (
+    SMARTPHONE_STYLE_LORA_NAME,
+    SMARTPHONE_STYLE_LORA_STRENGTH,
+    apply_smartphone_style_trigger,
+    smartphone_style_report,
+    verify_smartphone_style_lora,
+)
+from .flux2_klein9b_turbo import (
+    TURBO_LORA_NAME,
+    TURBO_LORA_STRENGTH,
+    TURBO_MODE_LABEL_OFF,
+    TURBO_MODE_LABEL_ON,
+    sampling_settings,
+    turbo_mode_report,
+    verify_turbo_lora,
+)
 
 
 IDENTITY_REFERENCE = "mitch-klein9b-ref-training04-front-neutral.jpg"
@@ -49,7 +69,23 @@ DEFAULT_TARGET_Y = 0.44
 DEFAULT_CANNY_LOW = 0.20
 DEFAULT_CANNY_HIGH = 0.60
 OUTPUT_ROOT = "flux2-klein9b-mitch-group-scene-studio-v1"
-PROMPTING_STRATEGY = "bfl-flux2-face-free-layout-native-identity-v1"
+PROMPTING_STRATEGY = "bfl-flux2-concise-face-free-layout-native-identity-v2"
+DEFAULT_SCENE_PROMPT = (
+    "Create one photorealistic vertical phone-flash group photograph matching Picture 1. Four adults sit closely "
+    "on the rust-orange booth, with a partial fifth person at the extreme image-right edge. The central seated man "
+    "is m1tch_person from Picture 2, wearing a fitted dark navy suit and crisp white open-collar shirt. Match his real "
+    "balanced head width, moderately broad forehead and upper cheeks, straight jaw sides, rounded chin, facial-feature "
+    "spacing, hairline, apparent age, and natural skin. Give him a calm pleasant expression: his lips rest gently "
+    "together, their corners rise only slightly, his jaw and cheeks remain relaxed, and his eyes engage softly with "
+    "the camera. Both complete forearms extend down and his separate hands rest on his thighs. Keep every surrounding "
+    "person distinct and unrelated. Preserve the copper wall, amber perimeter light, booth, low table, ordinary "
+    "smartphone perspective, direct flash, and seamless natural detail."
+)
+GROUP_IDENTITY_SAFE_POLISH = (
+    "Keep the same recognizable current-age face and expression. Improve only photographic presentation with natural "
+    "pores, tidy faint stubble, healthy but authentic skin color, and clean natural eye catchlights. Do not change the "
+    "head shape, facial geometry, feature spacing, apparent age, or expression supplied by Picture 2."
+)
 
 
 def _file_sha256(path: Path) -> str:
@@ -195,29 +231,21 @@ def build_face_free_layout(
     return guide, report
 
 
-def compose_group_prompt(scene_prompt: str) -> str:
+def compose_group_prompt(scene_prompt: str, appearance_polish: bool = False) -> str:
     scene = " ".join(scene_prompt.strip().split())
     if not scene:
         raise ValueError("Describe the complete group photograph before queuing.")
     contract = (
-        "Picture 1 is a face-free edge layout derived from the source group photograph. It supplies camera framing, "
-        "person positions, body poses, outer head sizes, objects, and scene geometry. The selected source person's "
-        "internal eye, nose, and mouth edges are absent, so Picture 1 supplies no identity for that person. Picture 2 "
-        "is a genuine photograph of m1tch_person and exclusively supplies the selected man's identity and internal "
-        "facial geometry."
+        "Picture 1 is a Canny edge map derived from the source photograph and supplies its camera framing, person "
+        "positions, seated body poses, outer head sizes, arm positions, booth geometry, table placement, and spatial "
+        "layout. The selected source person's internal eye, nose, and mouth edges were intentionally removed so "
+        "Picture 1 does not supply his identity. Picture 2 is a genuine photograph of m1tch_person and exclusively "
+        "supplies the selected man's identity and internal facial geometry."
     )
-    identity = (
-        "Render the selected man as m1tch_person with his balanced head width, moderately broad forehead and upper "
-        "cheeks, straight jaw sides, rounded chin, natural feature spacing, hairline, apparent age, and skin. Give him "
-        "a calm pleasant expression with lips resting gently together, mouth corners raised only slightly, relaxed jaw "
-        "and cheeks, and eyes softly engaged with the camera. Every other person is unrelated and visually distinct; "
-        "the photograph contains exactly one Mitch."
-    )
-    finish = (
-        "Create one coherent photorealistic whole-frame phone photograph with natural detail, complete limbs, coherent "
-        "hands, believable body proportions, and seamless integration. The final image is uncaptioned and unbranded."
-    )
-    return " ".join((contract, scene, identity, finish))
+    parts = [contract, scene]
+    if appearance_polish:
+        parts.append(GROUP_IDENTITY_SAFE_POLISH)
+    return " ".join(parts)
 
 
 class Flux2Klein9BMitchGroupSceneStudioV1:
@@ -231,12 +259,7 @@ class Flux2Klein9BMitchGroupSceneStudioV1:
                 "scene_prompt": (
                     "STRING",
                     {
-                        "default": (
-                            "A photorealistic vertical phone-flash group photograph. Replace the person nearest the "
-                            "target position with Mitch, seated naturally among distinct unrelated friends. Preserve "
-                            "the source camera framing, people count, body poses, furniture, objects, and setting. "
-                            "Mitch wears a fitted dark navy suit and crisp white open-collar shirt."
-                        ),
+                        "default": DEFAULT_SCENE_PROMPT,
                         "multiline": True,
                     },
                 ),
@@ -252,6 +275,22 @@ class Flux2Klein9BMitchGroupSceneStudioV1:
                     "FLOAT",
                     {"default": DEFAULT_HEAD_SCALE, "min": 0.75, "max": 1.0, "step": 0.01},
                 ),
+                "appearance_polish": (
+                    "BOOLEAN",
+                    {
+                        "default": False,
+                        "label_on": APPEARANCE_POLISH_LABEL_ON,
+                        "label_off": APPEARANCE_POLISH_LABEL_OFF,
+                    },
+                ),
+                "fast_turbo": (
+                    "BOOLEAN",
+                    {
+                        "default": False,
+                        "label_on": TURBO_MODE_LABEL_ON,
+                        "label_off": TURBO_MODE_LABEL_OFF,
+                    },
+                ),
                 "seed": (
                     "INT",
                     {
@@ -265,9 +304,19 @@ class Flux2Klein9BMitchGroupSceneStudioV1:
         }
 
     @classmethod
-    def VALIDATE_INPUTS(cls, source_scene, scene_prompt, target_x, target_y, head_scale, seed):
+    def VALIDATE_INPUTS(
+        cls,
+        source_scene,
+        scene_prompt,
+        target_x,
+        target_y,
+        head_scale,
+        appearance_polish,
+        fast_turbo,
+        seed,
+    ):
         try:
-            compose_group_prompt(scene_prompt)
+            compose_group_prompt(scene_prompt, appearance_polish)
             if not 0.0 <= float(target_x) <= 1.0 or not 0.0 <= float(target_y) <= 1.0:
                 return "target_x and target_y must be between 0 and 1"
             if not 0.75 <= float(head_scale) <= 1.0:
@@ -286,9 +335,26 @@ class Flux2Klein9BMitchGroupSceneStudioV1:
     CATEGORY = "image/generation/FLUX.2 Identity"
     OUTPUT_NODE = True
 
-    def generate(self, source_scene, scene_prompt, target_x, target_y, head_scale, seed):
+    def generate(
+        self,
+        source_scene,
+        scene_prompt,
+        target_x,
+        target_y,
+        head_scale,
+        appearance_polish,
+        fast_turbo,
+        seed,
+    ):
         validation = self.VALIDATE_INPUTS(
-            source_scene, scene_prompt, target_x, target_y, head_scale, seed
+            source_scene,
+            scene_prompt,
+            target_x,
+            target_y,
+            head_scale,
+            appearance_polish,
+            fast_turbo,
+            seed,
         )
         if validation is not True:
             raise RuntimeError(validation)
@@ -298,16 +364,28 @@ class Flux2Klein9BMitchGroupSceneStudioV1:
         baseline._require_model("text_encoders", CLIP_NAME)
         baseline._require_model("vae", VAE_NAME)
         lora_path = _lora_path()
+        smartphone_style_path = verify_smartphone_style_lora()
+        turbo_path = verify_turbo_lora() if fast_turbo else None
+        steps, guidance = sampling_settings(fast_turbo, STEPS, GUIDANCE)
         identity_path = _identity_reference_path()
-        effective_prompt = compose_group_prompt(scene_prompt)
+        effective_prompt = apply_smartphone_style_trigger(
+            compose_group_prompt(scene_prompt, appearance_polish)
+        )
         layout_guide, guide_report = build_face_free_layout(
             source_scene, target_x, target_y, head_scale
         )
         started = time.perf_counter()
 
         model = comfy_nodes.UNETLoader().load_unet(MODEL_NAME, "default")[0]
+        if fast_turbo:
+            model = comfy_nodes.LoraLoaderModelOnly().load_lora_model_only(
+                model, TURBO_LORA_NAME, TURBO_LORA_STRENGTH
+            )[0]
         model = comfy_nodes.LoraLoaderModelOnly().load_lora_model_only(
             model, LORA_NAME, LORA_STRENGTH
+        )[0]
+        model = comfy_nodes.LoraLoaderModelOnly().load_lora_model_only(
+            model, SMARTPHONE_STYLE_LORA_NAME, SMARTPHONE_STYLE_LORA_STRENGTH
         )[0]
         clip = comfy_nodes.CLIPLoader().load_clip(CLIP_NAME, "flux2", "default")[0]
         vae = comfy_nodes.VAELoader().load_vae(VAE_NAME)[0]
@@ -329,9 +407,9 @@ class Flux2Klein9BMitchGroupSceneStudioV1:
         positive = node_helpers.conditioning_set_values(positive, values, append=True)
         negative = node_helpers.conditioning_set_values(negative, values, append=True)
 
-        guider = CFGGuider.execute(model, positive, negative, GUIDANCE)[0]
+        guider = CFGGuider.execute(model, positive, negative, guidance)[0]
         sampler = KSamplerSelect.execute("euler")[0]
-        sigmas = Flux2Scheduler.execute(STEPS, WIDTH, HEIGHT)[0]
+        sigmas = Flux2Scheduler.execute(steps, WIDTH, HEIGHT)[0]
         noise = RandomNoise.execute(int(seed))[0]
         latent_image = EmptyFlux2LatentImage.execute(WIDTH, HEIGHT, 1)[0]
         sampled = SamplerCustomAdvanced.execute(
@@ -341,10 +419,32 @@ class Flux2Klein9BMitchGroupSceneStudioV1:
 
         run_stamp = datetime.now().strftime("%Y%m%d-%H%M%S-%f")
         output_folder = f"{OUTPUT_ROOT}/{run_stamp}"
+        lora_load_order = []
+        if fast_turbo:
+            lora_load_order.append(
+                {
+                    "name": TURBO_LORA_NAME,
+                    "strength": TURBO_LORA_STRENGTH,
+                    "role": "8-step acceleration",
+                }
+            )
+        lora_load_order.extend(
+            [
+                {"name": LORA_NAME, "strength": LORA_STRENGTH, "role": "identity"},
+                {
+                    "name": SMARTPHONE_STYLE_LORA_NAME,
+                    "strength": SMARTPHONE_STYLE_LORA_STRENGTH,
+                    "role": "whole-frame smartphone realism",
+                },
+            ]
+        )
         report = {
             "schema_version": 1,
             "purpose": "flux2_klein9b_mitch_group_scene_studio_v1",
-            "approval_basis": "Mitch visually approved the locked lounge result on 2026-08-31",
+            "approval_basis": (
+                "Mitch visually approved the locked lounge result on 2026-08-31; the concise identity-first prompt "
+                "with Smartphone Snapshot v13 was revalidated on 2026-09-01"
+            ),
             "gpu": gpu,
             "model": MODEL_NAME,
             "text_encoder": CLIP_NAME,
@@ -354,6 +454,13 @@ class Flux2Klein9BMitchGroupSceneStudioV1:
             "lora_sha256": LORA_SHA256,
             "lora_strength": LORA_STRENGTH,
             "trigger": "m1tch_person",
+            "turbo_mode": turbo_mode_report(fast_turbo, turbo_path, 1 if fast_turbo else None),
+            "smartphone_style": {
+                **smartphone_style_report(),
+                "path": smartphone_style_path,
+                "load_order": 3 if fast_turbo else 2,
+            },
+            "lora_load_order": lora_load_order,
             "identity_reference": IDENTITY_REFERENCE,
             "identity_reference_path": str(identity_path),
             "identity_reference_sha256": IDENTITY_REFERENCE_SHA256,
@@ -368,18 +475,21 @@ class Flux2Klein9BMitchGroupSceneStudioV1:
             "restoration": False,
             "sharpening": False,
             "prompting_strategy": PROMPTING_STRATEGY,
+            "appearance_polish": bool(appearance_polish),
+            "fast_turbo": bool(fast_turbo),
             "scene_prompt": scene_prompt.strip(),
             "effective_prompt": effective_prompt,
             "width": WIDTH,
             "height": HEIGHT,
-            "steps": STEPS,
-            "guidance": GUIDANCE,
+            "steps": steps,
+            "guidance": guidance,
             "sampler": "euler",
             "scheduler": "Flux2Scheduler",
             "seed": int(seed),
             "seconds": round(time.perf_counter() - started, 3),
             "manual_review_required": [
                 "identity at full size and thumbnail",
+                "internal eye, nose, mouth, cheek, and jaw relationships against genuine references",
                 "exactly one Mitch",
                 "selected target face and head scale",
                 "complete limbs, coherent hands, and body proportions",

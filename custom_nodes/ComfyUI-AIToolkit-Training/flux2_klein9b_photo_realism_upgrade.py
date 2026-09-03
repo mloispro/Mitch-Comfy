@@ -23,6 +23,11 @@ from comfy_extras.nodes_custom_sampler import (
 from comfy_extras.nodes_flux import EmptyFlux2LatentImage, Flux2Scheduler
 
 from . import one_reference_photo as baseline
+from .flux2_klein9b_deterministic_polish import (
+    POLISH_PROFILE,
+    apply_deterministic_face_polish,
+    build_semantic_hair_mask,
+)
 from .flux2_klein9b_mitch_identity_studio import (
     CLIP_NAME,
     GUIDANCE,
@@ -40,6 +45,24 @@ from .flux2_klein9b_photo_realism_upgrade_presets import (
     compose_upgrade_prompt,
     compute_output_dimensions,
     face_interior_rectangle,
+)
+from .flux2_klein9b_smartphone_style import (
+    SMARTPHONE_STYLE_LORA_NAME,
+    SMARTPHONE_STYLE_LORA_STRENGTH,
+    apply_smartphone_style_trigger,
+    smartphone_style_report,
+    verify_smartphone_style_lora,
+)
+from .flux2_klein9b_source_gaze_lock import (
+    SOURCE_GAZE_LOCK_PROFILE,
+    apply_source_gaze_lock,
+)
+from .flux2_klein9b_upgrade_masking import (
+    HUMAN_SEGMENTATION_MODEL,
+    HUMAN_SEGMENTATION_SHA256,
+    NATURAL_LENS_BLUR_PROFILE,
+    apply_natural_lens_background_blur,
+    human_foreground_mask,
 )
 
 
@@ -59,6 +82,32 @@ CANNY_LOW = 0.20
 CANNY_HIGH = 0.60
 OUTPUT_ROOT = "flux2-klein9b-upgrade-photo-detail-realism-v1"
 PROMPTING_STRATEGY = "bfl-flux2-four-role-existing-photo-upgrade-v1"
+MILESTONE_COMMIT = "d58732a"
+MILESTONE_TAG = "milestone-good-identity-workflows-2026-09-01"
+APPEARANCE_LABEL_ON = "Subtle handsome polish (default)"
+APPEARANCE_LABEL_OFF = "Milestone appearance (exact)"
+PHONE_STYLE_LABEL_ON = "Deep-focus phone-camera realism"
+PHONE_STYLE_LABEL_OFF = "Natural lens background separation (default)"
+UPGRADE_PHONE_STYLE_TEST_BASIS = (
+    "Native same-seed restored-Upgrade A/B on 2026-09-02: raw identity centroid "
+    "0.7816 to 0.7791, polished identity 0.7662 to 0.7397, tolerant structure F1 "
+    "0.3076 to 0.2961, and background micro-luma 11.9536 to 12.3539. The adapter "
+    "is functional and optional, but remains off by default because its slight background "
+    "texture gain did not outweigh the polished-identity, structure, and skin-texture regressions."
+)
+APPEARANCE_PROFILE = f"{POLISH_PROFILE}+{SOURCE_GAZE_LOCK_PROFILE}"
+
+
+def _upgrade_phone_style_report() -> dict:
+    result = smartphone_style_report()
+    result.update(
+        {
+            "upgrade_default": False,
+            "upgrade_status": "available_not_promoted",
+            "upgrade_acceptance_test": UPGRADE_PHONE_STYLE_TEST_BASIS,
+        }
+    )
+    return result
 
 
 def _required_input(name: str, expected_sha256: str, label: str) -> Path:
@@ -148,7 +197,7 @@ def build_face_free_guide(source_photo: torch.Tensor) -> tuple[torch.Tensor, dic
 
 
 class Flux2Klein9BPhotoRealismUpgradeV1:
-    """Locked four-role whole-frame upgrade for an existing one-person photograph."""
+    """Milestone four-role upgrade with face polish and a deterministic camera finish."""
 
     @classmethod
     def INPUT_TYPES(cls):
@@ -161,6 +210,22 @@ class Flux2Klein9BPhotoRealismUpgradeV1:
                         "default": DEFAULT_DETAIL_INSTRUCTIONS,
                         "multiline": True,
                         "placeholder": "Describe the background/material detail that should become more realistic.",
+                    },
+                ),
+                "appearance_polish": (
+                    "BOOLEAN",
+                    {
+                        "default": True,
+                        "label_on": APPEARANCE_LABEL_ON,
+                        "label_off": APPEARANCE_LABEL_OFF,
+                    },
+                ),
+                "phone_camera_style": (
+                    "BOOLEAN",
+                    {
+                        "default": False,
+                        "label_on": PHONE_STYLE_LABEL_ON,
+                        "label_off": PHONE_STYLE_LABEL_OFF,
                     },
                 ),
                 "seed": (
@@ -177,7 +242,14 @@ class Flux2Klein9BPhotoRealismUpgradeV1:
         }
 
     @classmethod
-    def VALIDATE_INPUTS(cls, source_photo, detail_instructions, seed):
+    def VALIDATE_INPUTS(
+        cls,
+        source_photo,
+        detail_instructions,
+        appearance_polish,
+        phone_camera_style,
+        seed,
+    ):
         try:
             compose_upgrade_prompt(detail_instructions)
         except ValueError as exc:
@@ -198,11 +270,19 @@ class Flux2Klein9BPhotoRealismUpgradeV1:
         self,
         source_photo,
         detail_instructions,
+        appearance_polish,
+        phone_camera_style,
         seed,
         prompt=None,
         extra_pnginfo=None,
     ):
-        validation = self.VALIDATE_INPUTS(source_photo, detail_instructions, seed)
+        validation = self.VALIDATE_INPUTS(
+            source_photo,
+            detail_instructions,
+            appearance_polish,
+            phone_camera_style,
+            seed,
+        )
         if validation is not True:
             raise RuntimeError(validation)
         if source_photo.ndim != 4 or source_photo.shape[0] != 1 or source_photo.shape[-1] < 3:
@@ -214,11 +294,16 @@ class Flux2Klein9BPhotoRealismUpgradeV1:
         output_width, output_height = compute_output_dimensions(source_width, source_height)
         guide, guide_report = build_face_free_guide(source)
         effective_prompt = compose_upgrade_prompt(detail_instructions)
+        if phone_camera_style:
+            effective_prompt = apply_smartphone_style_trigger(effective_prompt)
 
         model_path = _required_model("diffusion_models", MODEL_NAME, MODEL_SHA256, "Klein Base 9B model")
         clip_path = _required_model("text_encoders", CLIP_NAME, CLIP_SHA256, "Qwen 3 8B text encoder")
         vae_path = _required_model("vae", VAE_NAME, VAE_SHA256, "FLUX.2 VAE")
         lora_path = _required_model("loras", LORA_NAME, LORA_SHA256, "protected step-1600 LoRA")
+        smartphone_lora_path = None
+        if phone_camera_style:
+            smartphone_lora_path = Path(verify_smartphone_style_lora())
         identity_path = _required_input(
             IDENTITY_REFERENCE, IDENTITY_REFERENCE_SHA256, "genuine identity reference"
         )
@@ -229,6 +314,12 @@ class Flux2Klein9BPhotoRealismUpgradeV1:
         model = comfy_nodes.LoraLoaderModelOnly().load_lora_model_only(
             model, LORA_NAME, LORA_STRENGTH
         )[0]
+        if phone_camera_style:
+            model = comfy_nodes.LoraLoaderModelOnly().load_lora_model_only(
+                model,
+                SMARTPHONE_STYLE_LORA_NAME,
+                SMARTPHONE_STYLE_LORA_STRENGTH,
+            )[0]
         clip = comfy_nodes.CLIPLoader().load_clip(CLIP_NAME, "flux2", "default")[0]
         vae = comfy_nodes.VAELoader().load_vae(VAE_NAME)[0]
 
@@ -274,7 +365,73 @@ class Flux2Klein9BPhotoRealismUpgradeV1:
         sampled = SamplerCustomAdvanced.execute(
             noise, guider, sampler, sigmas, latent_image
         )[0]
-        photo = comfy_nodes.VAEDecode().decode(vae, sampled)[0]
+        raw_photo = comfy_nodes.VAEDecode().decode(vae, sampled)[0][:1, :, :, :3].detach().float().cpu()
+        polish_report = None
+        polish_mask = torch.zeros_like(raw_photo)
+        if appearance_polish:
+            generated_rgb = np.clip(
+                raw_photo[0].numpy() * 255.0, 0, 255
+            ).round().astype(np.uint8)
+            generated_faces = baseline._face_analyzer().get(
+                cv2.cvtColor(generated_rgb, cv2.COLOR_RGB2BGR)
+            )
+            if not generated_faces:
+                raise RuntimeError(
+                    "No face was detected in the generated photograph for deterministic appearance polish."
+                )
+            generated_face = max(
+                generated_faces,
+                key=lambda item: float(
+                    (item.bbox[2] - item.bbox[0]) * (item.bbox[3] - item.bbox[1])
+                ),
+            )
+            semantic_hair_mask = build_semantic_hair_mask(
+                generated_rgb, generated_face.bbox
+            )
+            photo, polish_mask, polish_report = apply_deterministic_face_polish(
+                raw_photo,
+                generated_face.bbox,
+                generated_face.kps,
+                semantic_hair_mask=semantic_hair_mask,
+            )
+            photo, gaze_mask, gaze_report = apply_source_gaze_lock(source, photo)
+            polish_mask = torch.maximum(polish_mask, gaze_mask)
+            polish_report["source_gaze_lock"] = gaze_report
+            polish_report["profile"] = APPEARANCE_PROFILE
+        else:
+            photo = raw_photo
+
+        pre_background_blur_photo = photo
+        background_blur_mask = torch.zeros_like(photo)
+        background_blur_report = None
+        human_segmentation_path = None
+        if not phone_camera_style:
+            human_segmentation_path = (
+                Path(folder_paths.models_dir) / "rembg" / HUMAN_SEGMENTATION_MODEL
+            )
+            if not human_segmentation_path.is_file():
+                raise RuntimeError(
+                    f"Missing local human segmentation model: {human_segmentation_path}"
+                )
+            _verify_sha256(
+                human_segmentation_path,
+                HUMAN_SEGMENTATION_SHA256,
+                "U2Net human segmentation model",
+            )
+            final_rgb = np.clip(photo[0].numpy(), 0.0, 1.0).astype(np.float32)
+            human_foreground = human_foreground_mask(
+                final_rgb, human_segmentation_path
+            )
+            blurred_rgb, background_blur_alpha, background_blur_report = (
+                apply_natural_lens_background_blur(final_rgb, human_foreground)
+            )
+            photo = torch.from_numpy(blurred_rgb).unsqueeze(0)
+            background_blur_mask = (
+                torch.from_numpy(background_blur_alpha)
+                .unsqueeze(0)
+                .unsqueeze(-1)
+                .repeat(1, 1, 1, 3)
+            )
 
         run_stamp = datetime.now().strftime("%Y%m%d-%H%M%S-%f")
         output_folder = f"{OUTPUT_ROOT}/{run_stamp}"
@@ -282,7 +439,15 @@ class Flux2Klein9BPhotoRealismUpgradeV1:
             "schema_version": 1,
             "purpose": "flux2_klein9b_upgrade_photo_detail_and_realism_v1",
             "approval_basis": (
-                "Locked from Mitch-approved candidate-klein9b-iphone-structure-v4-seed-8675416.png"
+                "Sampling and four-reference conditioning restored from Mitch-approved "
+                "candidate-klein9b-iphone-structure-v4-seed-8675416.png"
+            ),
+            "milestone_commit": MILESTONE_COMMIT,
+            "milestone_tag": MILESTONE_TAG,
+            "milestone_sampling_path_preserved": True,
+            "graph_delta_from_milestone": (
+                "deterministic face, iris, and hair-local appearance polish after the unchanged generation; "
+                "phone-off additionally applies an edge-safe background-only natural-lens finish"
             ),
             "gpu": gpu,
             "worker_requirement": "RTX 3090 / standard ComfyUI port 8188",
@@ -300,6 +465,29 @@ class Flux2Klein9BPhotoRealismUpgradeV1:
             "lora_path": str(lora_path),
             "lora_sha256": LORA_SHA256,
             "lora_strength": LORA_STRENGTH,
+            "additional_loras": (
+                [_upgrade_phone_style_report()] if phone_camera_style else []
+            ),
+            "phone_camera_style": bool(phone_camera_style),
+            "phone_camera_style_path": (
+                str(smartphone_lora_path) if smartphone_lora_path else None
+            ),
+            "background_rendering_mode": (
+                "deep_focus_smartphone_lora"
+                if phone_camera_style
+                else NATURAL_LENS_BLUR_PROFILE
+            ),
+            "natural_lens_background_blur": background_blur_report,
+            "human_segmentation_model": (
+                HUMAN_SEGMENTATION_MODEL if human_segmentation_path else None
+            ),
+            "human_segmentation_model_path": (
+                str(human_segmentation_path) if human_segmentation_path else None
+            ),
+            "human_segmentation_model_sha256": (
+                HUMAN_SEGMENTATION_SHA256 if human_segmentation_path else None
+            ),
+            "turbo": False,
             "identity_reference": IDENTITY_REFERENCE,
             "identity_reference_path": str(identity_path),
             "identity_reference_sha256": IDENTITY_REFERENCE_SHA256,
@@ -322,13 +510,31 @@ class Flux2Klein9BPhotoRealismUpgradeV1:
             "guide": guide_report,
             "source_latent_initialization": False,
             "face_swap": False,
-            "output_mask": False,
+            "generation_spatial_mask": False,
+            "appearance_postprocess_mask": bool(appearance_polish),
+            "background_postprocess_mask": not bool(phone_camera_style),
+            "background_generation_prompt_changed": False,
+            "camera_finish_second_model_pass": False,
             "restoration": False,
-            "selective_sharpening": False,
+            "generation_selective_sharpening": False,
+            "appearance_local_detail_contrast": bool(appearance_polish),
             "upscaling": False,
             "film_grain_stage": False,
             "second_model_pass": False,
             "prompting_strategy": PROMPTING_STRATEGY,
+            "appearance_polish": bool(appearance_polish),
+            "appearance_profile": APPEARANCE_PROFILE if appearance_polish else None,
+            "appearance_generation_prompt_changed": False,
+            "appearance_scope": (
+                "deterministic face-local, iris-interior source-gaze, and eroded semantic-hair-interior postprocess; "
+                "generation model, prompt, references, seed, sampler, eyelid boundary, head outline, and hairline are unchanged; "
+                + (
+                    "phone-camera mode leaves the post-generated background unchanged"
+                    if phone_camera_style
+                    else "phone-off mode changes only the segmented background with an edge-safe natural-lens blur"
+                )
+            ),
+            "appearance_report": polish_report,
             "prompt_graph": "prompt-api.json",
             "workflow_snapshot": "workflow-snapshot.json" if extra_pnginfo else None,
             "detail_instructions": str(detail_instructions).strip(),
@@ -346,10 +552,12 @@ class Flux2Klein9BPhotoRealismUpgradeV1:
             "seconds": round(time.perf_counter() - started, 3),
             "manual_review_required": [
                 "identity and apparent age at full size and thumbnail",
-                "unchanged head yaw, pitch, roll, gaze, expression, pose, crop, and scene geometry",
+                "unchanged head yaw, pitch, roll, gaze, pose, crop, and scene geometry",
+                "closed lips with no visible teeth when appearance polish is enabled",
                 "hairline, forehead, temple, ear, and back-of-head continuity without shadow bands or halos",
-                "natural skin, hair, fabric, and background material detail without oversharpening",
+                "natural skin, hair, fabric, and background material detail without smoothing or oversharpening",
                 "coherent whole-frame lighting, depth, sensor texture, and edge softness",
+                "phone-off background separation reads as optical blur without a cutout edge or subject-color halo",
             ],
         }
         png_info = dict(extra_pnginfo) if isinstance(extra_pnginfo, dict) else {}
@@ -359,6 +567,28 @@ class Flux2Klein9BPhotoRealismUpgradeV1:
             f"{output_folder}/photo",
             extra_pnginfo=png_info,
         )
+        if appearance_polish:
+            comfy_nodes.SaveImage().save_images(
+                raw_photo,
+                f"{output_folder}/before-polish",
+                extra_pnginfo=png_info,
+            )
+            comfy_nodes.SaveImage().save_images(
+                polish_mask,
+                f"{output_folder}/polish-mask",
+                extra_pnginfo=png_info,
+            )
+        if not phone_camera_style:
+            comfy_nodes.SaveImage().save_images(
+                pre_background_blur_photo,
+                f"{output_folder}/before-background-blur",
+                extra_pnginfo=png_info,
+            )
+            comfy_nodes.SaveImage().save_images(
+                background_blur_mask,
+                f"{output_folder}/background-blur-mask",
+                extra_pnginfo=png_info,
+            )
         comfy_nodes.SaveImage().save_images(
             guide,
             f"{output_folder}/structure-guide",

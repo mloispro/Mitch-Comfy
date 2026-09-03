@@ -1,0 +1,122 @@
+{
+  "id": "flux2-klein9b-mitch-group-scene-studio-v1-1-visual-presets",
+  "revision": 0,
+  "last_node_id": 5,
+  "last_link_id": 3,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "MarkdownNote",
+      "pos": [-1120, -40],
+      "size": [590, 760],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "LOCKED MITCH GROUP-SCENE RECIPE",
+      "properties": {"Node name for S&R": "MarkdownNote", "cnr_id": "comfy-core"},
+      "widgets_values": ["# FLUX.2 Klein 9B Mitch Group Scene Studio v1.1 — Visual Presets\n\nClick a group-layout thumbnail in the green node. Each prepared card loads its preserved source photograph, target position, head scale, and tested prompt automatically. The default card is the approved lounge result.\n\nChoose `Custom — uploaded group photo` to use the Load Image node and manual target controls. For a prepared card, the Load Image node is ignored and the text box is optional extra direction.\n\n- Prepared cards: approved lounge, Night out A, Night out B, and the new amber-booth group\n- V3 step-1600 Mitch identity LoRA at `0.90`\n- One genuine front-neutral Mitch reference prevents identity duplication\n- Face-free Canny source controls composition only\n- `832 × 1216`, 50 Euler steps, CFG `4.0`\n- RTX 3090 only\n\nThis revision is a preset shell around the hash-frozen v1 group generator. It does not use face swap, restoration, sharpening, or a post-generation identity pass. Review every result for exactly one Mitch, correct target selection, head scale, hands, and full-frame integration."],
+      "color": "#5b4524",
+      "bgcolor": "#3c2d18"
+    },
+    {
+      "id": 2,
+      "type": "LoadImage",
+      "pos": [-450, -40],
+      "size": [330, 520],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {"name": "IMAGE", "type": "IMAGE", "links": [1], "slot_index": 0},
+        {"name": "MASK", "type": "MASK", "links": null, "slot_index": 1}
+      ],
+      "title": "CUSTOM UPLOAD ONLY — USED BY CUSTOM CARD",
+      "properties": {"Node name for S&R": "LoadImage", "cnr_id": "comfy-core"},
+      "widgets_values": ["mitch-klein9b-layout-lounge-center-source.png", "image"],
+      "color": "#4f3b22",
+      "bgcolor": "#6a5030"
+    },
+    {
+      "id": 3,
+      "type": "Flux2Klein9BMitchGroupSceneStudioVisualPresetsV11",
+      "pos": [-30, -40],
+      "size": [820, 850],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {"name": "source_scene", "type": "IMAGE", "link": 1},
+        {"name": "scene_prompt", "type": "STRING", "widget": {"name": "scene_prompt"}, "link": null},
+        {"name": "target_x", "type": "FLOAT", "widget": {"name": "target_x"}, "link": null},
+        {"name": "target_y", "type": "FLOAT", "widget": {"name": "target_y"}, "link": null},
+        {"name": "head_scale", "type": "FLOAT", "widget": {"name": "head_scale"}, "link": null},
+        {"name": "appearance_polish", "type": "BOOLEAN", "widget": {"name": "appearance_polish"}, "link": null},
+        {"name": "fast_turbo", "type": "BOOLEAN", "widget": {"name": "fast_turbo"}, "link": null},
+        {"name": "seed", "type": "INT", "widget": {"name": "seed"}, "link": null},
+        {"name": "scene_preset", "type": "COMBO", "widget": {"name": "scene_preset"}, "link": null}
+      ],
+      "outputs": [
+        {"name": "photo", "type": "IMAGE", "links": [2], "slot_index": 0},
+        {"name": "layout_guide", "type": "IMAGE", "links": [3], "slot_index": 1},
+        {"name": "effective_prompt", "type": "STRING", "links": null, "slot_index": 2},
+        {"name": "output_folder", "type": "STRING", "links": null, "slot_index": 3},
+        {"name": "report_json", "type": "STRING", "links": null, "slot_index": 4}
+      ],
+      "title": "VISUAL PRESETS — APPROVED KLEIN 9B GROUP STUDIO",
+      "properties": {"Node name for S&R": "Flux2Klein9BMitchGroupSceneStudioVisualPresetsV11", "cnr_id": "ComfyUI-AIToolkit-Training"},
+      "widgets_values": [
+        "",
+        0.5,
+        0.44,
+        0.92,
+        false,
+        false,
+        8675412,
+        "fixed",
+        "Approved lounge — central Mitch"
+      ],
+      "color": "#285744",
+      "bgcolor": "#36745a"
+    },
+    {
+      "id": 4,
+      "type": "PreviewImage",
+      "pos": [780, -40],
+      "size": [560, 760],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [{"name": "images", "type": "IMAGE", "link": 2}],
+      "outputs": [],
+      "title": "GENERATED GROUP PHOTO",
+      "properties": {"Node name for S&R": "PreviewImage", "cnr_id": "comfy-core"},
+      "widgets_values": []
+    },
+    {
+      "id": 5,
+      "type": "PreviewImage",
+      "pos": [780, 800],
+      "size": [560, 610],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [{"name": "images", "type": "IMAGE", "link": 3}],
+      "outputs": [],
+      "title": "FACE-FREE STRUCTURAL GUIDE — VERIFY TARGET",
+      "properties": {"Node name for S&R": "PreviewImage", "cnr_id": "comfy-core"},
+      "widgets_values": []
+    }
+  ],
+  "links": [
+    [1, 2, 0, 3, 0, "IMAGE"],
+    [2, 3, 0, 4, 0, "IMAGE"],
+    [3, 3, 1, 5, 0, "IMAGE"]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {"frontendVersion": "1.45.19", "ds": {"scale": 0.70, "offset": [870, 290]}},
+  "version": 0.4
+}

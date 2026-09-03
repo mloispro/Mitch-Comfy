@@ -19,12 +19,32 @@ from comfy_extras.nodes_custom_sampler import (
 from comfy_extras.nodes_flux import EmptyFlux2LatentImage, Flux2Scheduler
 
 from . import one_reference_photo as baseline
+from .flux2_klein9b_appearance_polish import (
+    APPEARANCE_POLISH_LABEL_OFF,
+    APPEARANCE_POLISH_LABEL_ON,
+)
 from .flux2_klein9b_mitch_identity_studio_presets import (
     GROUP_PROFILE,
     PROMPTING_STRATEGY,
     REFERENCE_CATALOG,
     REFERENCE_PROFILES,
     compose_effective_prompt,
+)
+from .flux2_klein9b_smartphone_style import (
+    SMARTPHONE_STYLE_LORA_NAME,
+    SMARTPHONE_STYLE_LORA_STRENGTH,
+    apply_smartphone_style_trigger,
+    smartphone_style_report,
+    verify_smartphone_style_lora,
+)
+from .flux2_klein9b_turbo import (
+    TURBO_LORA_NAME,
+    TURBO_LORA_STRENGTH,
+    TURBO_MODE_LABEL_OFF,
+    TURBO_MODE_LABEL_ON,
+    sampling_settings,
+    turbo_mode_report,
+    verify_turbo_lora,
 )
 
 
@@ -101,6 +121,22 @@ class Flux2Klein9BMitchIdentityStudioV1:
                         "placeholder": "Describe the complete new photograph, people, pose, clothing, and setting.",
                     },
                 ),
+                "appearance_polish": (
+                    "BOOLEAN",
+                    {
+                        "default": True,
+                        "label_on": APPEARANCE_POLISH_LABEL_ON,
+                        "label_off": APPEARANCE_POLISH_LABEL_OFF,
+                    },
+                ),
+                "fast_turbo": (
+                    "BOOLEAN",
+                    {
+                        "default": True,
+                        "label_on": TURBO_MODE_LABEL_ON,
+                        "label_off": TURBO_MODE_LABEL_OFF,
+                    },
+                ),
                 "seed": (
                     "INT",
                     {
@@ -114,9 +150,11 @@ class Flux2Klein9BMitchIdentityStudioV1:
         }
 
     @classmethod
-    def VALIDATE_INPUTS(cls, reference_profile, scene_prompt, seed):
+    def VALIDATE_INPUTS(
+        cls, reference_profile, scene_prompt, appearance_polish, fast_turbo, seed
+    ):
         try:
-            compose_effective_prompt(reference_profile, scene_prompt)
+            compose_effective_prompt(reference_profile, scene_prompt, appearance_polish)
         except ValueError as exc:
             return str(exc)
         return True
@@ -131,8 +169,10 @@ class Flux2Klein9BMitchIdentityStudioV1:
     CATEGORY = "image/generation/FLUX.2 Identity"
     OUTPUT_NODE = True
 
-    def generate(self, reference_profile, scene_prompt, seed):
-        validation = self.VALIDATE_INPUTS(reference_profile, scene_prompt, seed)
+    def generate(self, reference_profile, scene_prompt, appearance_polish, fast_turbo, seed):
+        validation = self.VALIDATE_INPUTS(
+            reference_profile, scene_prompt, appearance_polish, fast_turbo, seed
+        )
         if validation is not True:
             raise RuntimeError(validation)
 
@@ -141,14 +181,26 @@ class Flux2Klein9BMitchIdentityStudioV1:
         baseline._require_model("text_encoders", CLIP_NAME)
         baseline._require_model("vae", VAE_NAME)
         lora_path = _verify_lora()
+        smartphone_style_path = verify_smartphone_style_lora()
+        turbo_path = verify_turbo_lora() if fast_turbo else None
+        steps, guidance = sampling_settings(fast_turbo, STEPS, GUIDANCE)
         reference_keys = REFERENCE_PROFILES[reference_profile]
         reference_paths = {key: _verify_reference(key) for key in reference_keys}
-        effective_prompt = compose_effective_prompt(reference_profile, scene_prompt)
+        effective_prompt = apply_smartphone_style_trigger(
+            compose_effective_prompt(reference_profile, scene_prompt, appearance_polish)
+        )
         started = time.perf_counter()
 
         model = comfy_nodes.UNETLoader().load_unet(MODEL_NAME, "default")[0]
+        if fast_turbo:
+            model = comfy_nodes.LoraLoaderModelOnly().load_lora_model_only(
+                model, TURBO_LORA_NAME, TURBO_LORA_STRENGTH
+            )[0]
         model = comfy_nodes.LoraLoaderModelOnly().load_lora_model_only(
             model, LORA_NAME, LORA_STRENGTH
+        )[0]
+        model = comfy_nodes.LoraLoaderModelOnly().load_lora_model_only(
+            model, SMARTPHONE_STYLE_LORA_NAME, SMARTPHONE_STYLE_LORA_STRENGTH
         )[0]
         clip = comfy_nodes.CLIPLoader().load_clip(CLIP_NAME, "flux2", "default")[0]
         vae = comfy_nodes.VAELoader().load_vae(VAE_NAME)[0]
@@ -174,9 +226,9 @@ class Flux2Klein9BMitchIdentityStudioV1:
                 }
             )
 
-        guider = CFGGuider.execute(model, positive, negative, GUIDANCE)[0]
+        guider = CFGGuider.execute(model, positive, negative, guidance)[0]
         sampler = KSamplerSelect.execute("euler")[0]
-        sigmas = Flux2Scheduler.execute(STEPS, WIDTH, HEIGHT)[0]
+        sigmas = Flux2Scheduler.execute(steps, WIDTH, HEIGHT)[0]
         noise = RandomNoise.execute(int(seed))[0]
         latent_image = EmptyFlux2LatentImage.execute(WIDTH, HEIGHT, 1)[0]
         sampled = SamplerCustomAdvanced.execute(
@@ -186,6 +238,25 @@ class Flux2Klein9BMitchIdentityStudioV1:
 
         run_stamp = datetime.now().strftime("%Y%m%d-%H%M%S-%f")
         output_folder = f"{OUTPUT_ROOT}/{run_stamp}"
+        lora_load_order = []
+        if fast_turbo:
+            lora_load_order.append(
+                {
+                    "name": TURBO_LORA_NAME,
+                    "strength": TURBO_LORA_STRENGTH,
+                    "role": "8-step acceleration",
+                }
+            )
+        lora_load_order.extend(
+            [
+                {"name": LORA_NAME, "strength": LORA_STRENGTH, "role": "identity"},
+                {
+                    "name": SMARTPHONE_STYLE_LORA_NAME,
+                    "strength": SMARTPHONE_STYLE_LORA_STRENGTH,
+                    "role": "whole-frame smartphone realism",
+                },
+            ]
+        )
         report = {
             "schema_version": 1,
             "purpose": "flux2_klein9b_mitch_identity_studio_v1",
@@ -198,11 +269,20 @@ class Flux2Klein9BMitchIdentityStudioV1:
             "lora_sha256": LORA_SHA256,
             "lora_strength": LORA_STRENGTH,
             "trigger": "m1tch_person",
+            "turbo_mode": turbo_mode_report(fast_turbo, turbo_path, 1 if fast_turbo else None),
+            "smartphone_style": {
+                **smartphone_style_report(),
+                "path": smartphone_style_path,
+                "load_order": 3 if fast_turbo else 2,
+            },
+            "lora_load_order": lora_load_order,
             "reference_profile": reference_profile,
             "reference_count": len(reference_keys),
             "references": reference_report,
             "identity_mechanism": "Base-9B identity LoRA plus genuine-photo native reference latents",
             "prompting_strategy": PROMPTING_STRATEGY,
+            "appearance_polish": bool(appearance_polish),
+            "fast_turbo": bool(fast_turbo),
             "source_scene_conditioning": False,
             "identity_pass": False,
             "face_swap": False,
@@ -212,8 +292,8 @@ class Flux2Klein9BMitchIdentityStudioV1:
             "effective_prompt": effective_prompt,
             "width": WIDTH,
             "height": HEIGHT,
-            "steps": STEPS,
-            "guidance": GUIDANCE,
+            "steps": steps,
+            "guidance": guidance,
             "sampler": "euler",
             "scheduler": "Flux2Scheduler",
             "reference_megapixels_each": 0.25,

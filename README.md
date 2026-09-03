@@ -12,8 +12,8 @@ Start here:
 
 | Need | Workflow |
 | --- | --- |
-| Create a completely new solo, full-body, or prompt-defined group photograph | `Mitch/production/FLUX.2 Klein 9B Mitch Identity Studio v1` |
-| Match the composition of a real group photograph | `Mitch/production/FLUX.2 Klein 9B Mitch Group Scene Studio v1` |
+| Create a completely new solo, full-body, or lifestyle photograph | `Mitch/production/FLUX.2 Klein 9B Mitch Identity Studio v1.1 - Visual Presets` |
+| Match one of the prepared or custom group compositions | `Mitch/production/FLUX.2 Klein 9B Mitch Group Scene Studio v1.1 - Visual Presets` |
 | Improve an existing one-person Mitch image without intentionally changing its layout | `Mitch/production/FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1` |
 | Restage one of the validated dating templates with FLUX.2 Dev | `Mitch/production/FLUX.2 Dev LoRA - 9 Dating Scenes v1` |
 
@@ -26,7 +26,7 @@ All four photo workflows are local and require visual review; none uses a hosted
 
 ## Repository layout
 
-- `workflows/production` — the six visible Production workflows.
+- `workflows/production` — visible Production workflows, including the v1.1 visual galleries and their hash-frozen v1 rollbacks.
 - `custom_nodes/ComfyUI-AIToolkit-Training` — local nodes used by the current workflows and retained rollback nodes.
 - `docs` — current instructions plus dated evaluation evidence.
 - `checkpoints/legacy-workflows` — hidden rollback, rejected, and superseded graphs.

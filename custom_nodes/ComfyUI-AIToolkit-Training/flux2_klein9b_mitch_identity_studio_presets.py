@@ -1,5 +1,10 @@
 from __future__ import annotations
 
+try:
+    from .flux2_klein9b_appearance_polish import compose_appearance_polish
+except ImportError:  # Direct import used by the lightweight unit tests.
+    from flux2_klein9b_appearance_polish import compose_appearance_polish
+
 
 GROUP_PROFILE = "GROUP — front only (one Mitch)"
 SOLO_LEFT_PROFILE = "SOLO — front + left-facing angle"
@@ -40,7 +45,11 @@ REFERENCE_PROFILES = {
 }
 
 
-def compose_effective_prompt(reference_profile: str, scene_prompt: str) -> str:
+def compose_effective_prompt(
+    reference_profile: str,
+    scene_prompt: str,
+    appearance_polish: bool = True,
+) -> str:
     if reference_profile not in REFERENCE_PROFILES:
         raise ValueError(f"Unknown reference profile: {reference_profile}")
     scene = " ".join(scene_prompt.strip().split())
@@ -49,31 +58,64 @@ def compose_effective_prompt(reference_profile: str, scene_prompt: str) -> str:
 
     keys = REFERENCE_PROFILES[reference_profile]
     if keys == ("front",):
-        reference_contract = (
-            "Picture 1 shows m1tch_person, the one named central or foreground man. Match his identity, "
-            "apparent age, face proportions, hairline, and natural skin. Use the new scene description "
-            "for his clothing, pose, lighting, and setting. Every other adult is an unrelated individual "
-            "with a clearly different face, hair, and age. The final photograph contains one Mitch."
-        )
+        if appearance_polish:
+            reference_contract = (
+                "Picture 1 shows m1tch_person, the one named central or foreground man. Use it as the identity and "
+                "adult-age anchor for his recognizable face proportions and hairline. Use the new scene description "
+                "for his clothing, pose, lighting, and setting. Every other adult is an unrelated individual with a "
+                "clearly different face, hair, and age. The final photograph contains one Mitch."
+            )
+        else:
+            reference_contract = (
+                "Picture 1 shows m1tch_person, the one named central or foreground man. Match his identity, "
+                "apparent age, face proportions, hairline, and natural skin. Use the new scene description "
+                "for his clothing, pose, lighting, and setting. Every other adult is an unrelated individual "
+                "with a clearly different face, hair, and age. The final photograph contains one Mitch."
+            )
     else:
         roles = "; ".join(
             f"Picture {index} {REFERENCE_CATALOG[key]['role']}"
             for index, key in enumerate(keys, start=1)
         )
-        reference_contract = (
-            f"All reference pictures show the same real man, m1tch_person. {roles}. Match his identity, "
-            "apparent age, face proportions, hairline, and body proportions. Use the new scene description "
-            "for clothing, background, camera, pose, and lighting. Render one Mitch."
-        )
+        if appearance_polish:
+            reference_contract = (
+                f"All reference pictures show the same real man, m1tch_person. {roles}. Use them as the identity and "
+                "adult-age anchor for his recognizable face, hairline, and body proportions. Use the new scene "
+                "description for clothing, background, camera, pose, and lighting. Render one Mitch."
+            )
+        else:
+            reference_contract = (
+                f"All reference pictures show the same real man, m1tch_person. {roles}. Match his identity, "
+                "apparent age, face proportions, hairline, and body proportions. Use the new scene description "
+                "for clothing, background, camera, pose, and lighting. Render one Mitch."
+            )
 
-    return " ".join(
+    parts = [reference_contract]
+    polish = compose_appearance_polish(
+        appearance_polish,
+        expression_authority="the expression requested by the scene description",
+    )
+    if polish:
+        parts.append(polish)
+    parts.extend(
         (
-            reference_contract,
             scene,
             "His neck is bare, with no necklace, chain, pendant, or neck jewelry.",
+        )
+    )
+    if appearance_polish:
+        finish = (
+            "Create one coherent photorealistic whole-frame image with natural skin texture, a recognizably adult "
+            "and modestly younger appearance, short brown hair and hairline, recognizable core face geometry, "
+            "complete limbs, coherent hands, believable body proportions, and seamless photographic integration. "
+            "The final image is an uncaptioned, unbranded photograph."
+        )
+    else:
+        finish = (
             "Create one coherent photorealistic whole-frame image with natural skin texture, current apparent age, "
             "short brown hair and hairline, recognizable face geometry, complete limbs, coherent hands, believable "
             "body proportions, and seamless photographic integration. The final image is an uncaptioned, unbranded "
-            "photograph.",
+            "photograph."
         )
-    )
+    parts.append(finish)
+    return " ".join(parts)

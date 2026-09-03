@@ -38,6 +38,8 @@ $expectedWorkflows = @(
     "workflows\production\FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1.json",
     "workflows\production\FLUX.2 Klein 9B Mitch Group Scene Studio v1.json",
     "workflows\production\FLUX.2 Klein 9B Mitch Identity Studio v1.json",
+    "workflows\production\FLUX.2 Klein 9B Mitch Group Scene Studio v1.1 - Visual Presets.json",
+    "workflows\production\FLUX.2 Klein 9B Mitch Identity Studio v1.1 - Visual Presets.json",
     "workflows\production\FLUX.2 Dev LoRA - 9 Dating Scenes v1.json",
     "checkpoints\legacy-workflows\production\Social Photo Studio - FLUX.2 Klein 9B KV (superseded).json",
     "workflows\production\Dataset gen - QWEN 2511 - 3-photo.json",
@@ -114,15 +116,72 @@ if (Test-Path -LiteralPath $klein9bStudioWorkflowPath) {
             }
         }
         $studioNode = @($klein9bStudioWorkflow.nodes | Where-Object { $_.type -eq "Flux2Klein9BMitchIdentityStudioV1" })[0]
-        if ($studioNode -and @($studioNode.inputs).Count -ne 3) {
-            $errors.Add("FLUX.2 Klein 9B Mitch Identity Studio v1 must expose only profile, prompt, and seed.")
+        if ($studioNode -and @($studioNode.inputs).Count -ne 5) {
+            $errors.Add("FLUX.2 Klein 9B Mitch Identity Studio v1 must expose only profile, prompt, appearance polish, Fast Turbo, and seed.")
         }
         if ($studioNode -and [string]$studioNode.widgets_values[0] -notmatch "^GROUP") {
             $errors.Add("FLUX.2 Klein 9B Mitch Identity Studio v1 must open in its group-safe one-reference profile.")
         }
+        if ($studioNode -and [bool]$studioNode.widgets_values[2] -ne $true) {
+            $errors.Add("FLUX.2 Klein 9B Mitch Identity Studio v1 must open with subtle appearance polish enabled.")
+        }
+        if ($studioNode -and [bool]$studioNode.widgets_values[3] -ne $true) {
+            $errors.Add("FLUX.2 Klein 9B Mitch Identity Studio v1 must open with validated 8-step Turbo enabled.")
+        }
     } catch {
         $errors.Add("FLUX.2 Klein 9B Mitch Identity Studio v1 workflow JSON is invalid: $($_.Exception.Message)")
     }
+}
+
+$klein9bVisualStudioPath = Join-Path $RepoRoot "workflows\production\FLUX.2 Klein 9B Mitch Identity Studio v1.1 - Visual Presets.json"
+if (Test-Path -LiteralPath $klein9bVisualStudioPath) {
+    try {
+        $visualWorkflow = Get-Content -Raw -LiteralPath $klein9bVisualStudioPath | ConvertFrom-Json
+        $visualNode = @($visualWorkflow.nodes | Where-Object { $_.type -eq "Flux2Klein9BMitchIdentityStudioVisualPresetsV11" })[0]
+        if (-not $visualNode -or @($visualNode.inputs).Count -ne 6) {
+            $errors.Add("Identity Studio v1.1 visual workflow must expose the five frozen controls plus scene preset.")
+        }
+        if ($visualNode -and [string]$visualNode.widgets_values[0] -ne "SOLO — front + left-facing angle") {
+            $errors.Add("Identity Studio v1.1 must open with the rooftop preset's left-facing reference profile.")
+        }
+        if ($visualNode -and [string]$visualNode.widgets_values[1] -ne "") {
+            $errors.Add("Identity Studio v1.1 must leave optional extra scene direction empty.")
+        }
+        if ($visualNode -and [string]$visualNode.widgets_values[6] -ne "Rooftop cocktail — city lights") {
+            $errors.Add("Identity Studio v1.1 must open on the rooftop-cocktail visual preset.")
+        }
+    } catch {
+        $errors.Add("Identity Studio v1.1 visual workflow JSON is invalid: $($_.Exception.Message)")
+    }
+}
+
+$klein9bGroupWorkflowPath = Join-Path $RepoRoot "workflows\production\FLUX.2 Klein 9B Mitch Group Scene Studio v1.1 - Visual Presets.json"
+if (Test-Path -LiteralPath $klein9bGroupWorkflowPath) {
+    try {
+        $groupWorkflow = Get-Content -Raw -LiteralPath $klein9bGroupWorkflowPath | ConvertFrom-Json
+        $groupNode = @($groupWorkflow.nodes | Where-Object { $_.type -eq "Flux2Klein9BMitchGroupSceneStudioVisualPresetsV11" })[0]
+        if (-not $groupNode -or @($groupNode.inputs).Count -ne 9) {
+            $errors.Add("Group Scene Studio v1.1 must expose source, prompt, target controls, toggles, seed, and visual scene preset.")
+        }
+        if ($groupNode -and [string]$groupNode.widgets_values[0] -ne "") {
+            $errors.Add("Group Scene Studio v1.1 must leave optional extra scene direction empty.")
+        }
+        if ($groupNode -and [string]$groupNode.widgets_values[8] -ne "Approved lounge — central Mitch") {
+            $errors.Add("Group Scene Studio v1.1 must open on the approved lounge visual preset.")
+        }
+    } catch {
+        $errors.Add("Group Scene Studio v1.1 visual workflow JSON is invalid: $($_.Exception.Message)")
+    }
+}
+
+$visualPresetRoot = Join-Path $RepoRoot "custom_nodes\ComfyUI-AIToolkit-Training\web\assets\scene-presets"
+$visualPresetScript = Join-Path $RepoRoot "custom_nodes\ComfyUI-AIToolkit-Training\web\visual_scene_presets.js"
+if (-not (Test-Path -LiteralPath $visualPresetScript -PathType Leaf)) {
+    $errors.Add("Missing Klein 9B visual preset extension: $visualPresetScript")
+}
+if (-not (Test-Path -LiteralPath $visualPresetRoot -PathType Container) -or
+    @(Get-ChildItem -LiteralPath $visualPresetRoot -File -Filter "*.jpg").Count -ne 20) {
+    $errors.Add("Klein 9B visual preset gallery must contain exactly 20 thumbnail cards.")
 }
 
 $frozenBaselinesPath = Join-Path $RepoRoot "config\frozen-baselines.json"
@@ -263,6 +322,8 @@ foreach ($model in @(
     @{ Path = "models\diffusion_models\flux-2-klein-base-4b-fp8.safetensors"; Sha256 = "44BAB3A86FE98B85D21DD2A4729EBDC3AE51FB8A39F76E457E18C724219E6840" },
     @{ Path = "models\text_encoders\qwen_3_4b_fp8_mixed.safetensors"; Sha256 = "72450B19758172C5A7273CF7DE729D1C17E7F434A104A00167624CBA94F68F15" },
     @{ Path = "models\loras\aitk\m1tch-flux2-klein-4b-identity-v1-best.safetensors"; Sha256 = "8A7D1477914D0A5262BF219F71F303418130449841CF220226B4E979D7232F87" },
+    @{ Path = "models\loras\smartphone-snapshot\FLUX.2-klein-base-9B_SmartphoneSnapshotPhotoReality_v13.safetensors"; Sha256 = "1E0B419B1448F77CF7AEF430625325E46B16D1515CBF6C5C7E8C14D938CF1A90" },
+    @{ Path = "models\loras\flux2-klein9b-turbo\Flux_Klein_9b_Turbo_lora_rank_256_bf16_standard.safetensors"; Sha256 = "A3BFA40E936AF059C2D0814DE8E9E5531FA0EB135087ADD22C27510685585600" },
     @{ Path = "models\vae\flux2-vae.safetensors"; Sha256 = "D64F3A68E1CC4F9F4E29B6E0DA38A0204FE9A49F2D4053F0EC1FA1CA02F9C4B5" },
     @{ Path = "models\vae\ae.safetensors"; Sha256 = "AFC8E28272CD15DB3919BACDB6918CE9C1ED22E96CB12C4D5ED0FBA823529E38" },
     @{ Path = "models\ultralytics\bbox\yolo11n.pt"; Sha256 = "0EBBC80D4A7680D14987A577CD21342B65ECFD94632BD9A8DA63AE6417644EE1" },
@@ -291,7 +352,7 @@ if (-not (Test-Path -LiteralPath $comfyPython)) {
 
 Push-Location (Join-Path $RepoRoot "custom_nodes\ComfyUI-AIToolkit-Training")
 try {
-    & python -m unittest test_integration.py test_social_photo_core.py test_reference_photo_presets.py test_phone_lens_optics.py test_scene_quality.py test_identity_scope.py test_identity_leakage.py test_scene_crop.py test_scene_constraints.py test_scene_objects.py test_camera_finish.py test_head_integrity.py test_minimal_flux2_reality_test.py test_flux2_model_benchmark.py test_flux2_klein9b_mitch_identity_studio_presets.py test_flux2_klein9b_photo_realism_upgrade_presets.py
+    & python -m unittest test_integration.py test_social_photo_core.py test_reference_photo_presets.py test_phone_lens_optics.py test_scene_quality.py test_identity_scope.py test_identity_leakage.py test_scene_crop.py test_scene_constraints.py test_scene_objects.py test_camera_finish.py test_head_integrity.py test_minimal_flux2_reality_test.py test_flux2_model_benchmark.py test_flux2_klein9b_appearance_polish.py test_flux2_klein9b_deterministic_polish.py test_flux2_klein9b_smartphone_style.py test_flux2_klein9b_turbo.py test_flux2_klein9b_upgrade_reference_policy.py test_flux2_klein9b_upgrade_masking.py test_flux2_klein9b_source_gaze_lock.py test_flux2_klein9b_mitch_identity_studio_presets.py test_flux2_klein9b_scene_presets.py test_flux2_klein9b_photo_realism_upgrade_presets.py
     if ($LASTEXITCODE -ne 0) {
         $errors.Add("Python unit tests failed.")
     }
@@ -311,6 +372,9 @@ try {
         "Flux2ModelBenchmark",
         "Flux2MinimalRealityTest",
         "Flux2Klein9BMitchIdentityStudioV1",
+        "Flux2Klein9BMitchGroupSceneStudioV1",
+        "Flux2Klein9BMitchIdentityStudioVisualPresetsV11",
+        "Flux2Klein9BMitchGroupSceneStudioVisualPresetsV11",
         "Flux2Klein9BPhotoRealismUpgradeV1",
         "Klein9BKVIdentityProof",
         "KSampler"

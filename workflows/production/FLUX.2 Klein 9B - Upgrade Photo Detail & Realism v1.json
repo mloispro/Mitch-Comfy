@@ -8,7 +8,7 @@
       "id": 1,
       "type": "MarkdownNote",
       "pos": [-1120, -40],
-      "size": [590, 760],
+      "size": [590, 900],
       "flags": {},
       "order": 0,
       "mode": 0,
@@ -16,7 +16,7 @@
       "outputs": [],
       "title": "LOCKED PHOTO DETAIL + REALISM RECIPE",
       "properties": {"Node name for S&R": "MarkdownNote", "cnr_id": "comfy-core"},
-      "widgets_values": ["# FLUX.2 Klein 9B – Upgrade Photo Detail & Realism v1\n\nUse this to make an existing one-person Mitch photo more realistic and detailed while keeping its pose, head direction, gaze, expression, crop, clothing, and scene layout.\n\n1. Load the exact photo to improve.\n2. In `detail_instructions`, name any source-specific materials that need extra realism: canyon rock and water, siding and branches, fabric, vegetation, and so on. Do not ask for a new pose or scene.\n3. Keep seed `8675416` first. If identity or a local artifact fails visual review, use only seed `8675412` as the single controlled retry.\n4. Queue only on the standard RTX 3090 worker at port `8188`.\n\nThe node automatically creates a face-interior-free Canny guide and supplies four locked references in this exact order:\n- exact source photo at `1.00 MP` for scene, pose, expression, clothing, and composition\n- face-interior-free structure guide at `0.50 MP`\n- protected genuine Mitch identity photo at `0.50 MP`\n- protected isolated genuine hair crop at `0.10 MP`\n\nLocked generation settings:\n- FLUX.2 Klein Base 9B dynamically loaded as `fp8_e4m3fn`\n- protected V3 step-1600 Mitch LoRA at `0.90`\n- Qwen 3 8B FP8 text encoder and FLUX.2 VAE\n- 50 Euler steps, CFG `4.0`, `Flux2Scheduler`\n- source-native dimensions up to `1.70 MP`, then aspect-preserving downscale\n- RTX 3090 only\n\nThis is one whole-frame generation pass. It has no source latent initialization, face swap, output mask, restoration, selective sharpening, upscaling, film grain stage, or second model pass. The node saves the raw photo, guide, exact effective prompt, hashes, settings, timing, and report. Always review identity, hair/forehead continuity, pose, background detail, lighting, and halos at full size and thumbnail."],
+      "widgets_values": ["# FLUX.2 Klein 9B – Upgrade Photo Detail & Realism v1\n\nThis restores the proven `milestone-good-identity-workflows-2026-09-01` whole-frame graph. For the included source, it also selects the exact prompt embedded in the approved PNG and rebuilds the same guide pixels.\n\n1. Load the exact photo to improve.\n2. When changing the photo, replace the included source-specific pose, gaze, clothing, and material description in `detail_instructions`. Changed text selects the generic four-role prompt; generic preserve-everything wording was not enough for the included example.\n3. Keep `Subtle handsome polish` on for the tested default treatment. Generation stays identical. After decoding, the deterministic polish keeps the closed-mouth expression, fatigue/line reduction, subtle warmth, eyes, stubble, cheek/jaw definition, sparse dark-dot/freckle reduction, naturalized hair, and subtle existing-light hair highlights. It also measures both source irises with MediaPipe and moves only generated iris material toward the source-relative pupil direction; it copies no source pixels and keeps the eyelid boundary exact. Turn it off to skip that face/iris/hair treatment.\n4. Choose the camera rendering with `Phone-camera realism`. Off (default) now gives gentle, optical-looking background separation using a local U2Net human matte and subject-excluding depth-ramped blur after generation. The subject pixels are copied back exactly, avoiding face, hair, clothing, and silhouette changes. On keeps the previously accepted deep-focus Smartphone Snapshot v13 LoRA at `0.25` with its trained `casual snapshot` trigger and skips the background-blur stage entirely.\n5. Keep seed `8675416` first. Use `8675412` only as one controlled retry.\n6. Queue only on the RTX 3090 worker at port `8188`.\n\nThe node automatically supplies four locked references in this exact order:\n- source photo at `1.00 MP` for scene, pose, expression, clothing, and composition\n- face-interior-free Canny guide at `0.50 MP` for geometry\n- protected genuine Mitch identity photo at `0.50 MP`\n- protected isolated genuine hair crop at `0.10 MP`\n\nLocked default generation settings: Base 9B `fp8_e4m3fn`, identity LoRA `0.90`, 50 Euler steps, CFG `4.0`, `Flux2Scheduler`, and one empty-latent whole-frame pass. There is no Turbo, source-latent init, generation mask, face swap, restoration, upscaling, or second model pass. With phone off, the node additionally saves the detailed pre-blur image and exact background-blur mask; handsome polish saves its raw before image and face/iris/hair mask. Always review identity, pupil direction, head direction, forehead/hairline, skin, background separation, subject edges, and realism at full size and thumbnail."],
       "color": "#5b4524",
       "bgcolor": "#3c2d18"
     },
@@ -43,13 +43,15 @@
       "id": 3,
       "type": "Flux2Klein9BPhotoRealismUpgradeV1",
       "pos": [-30, -40],
-      "size": [720, 760],
+      "size": [720, 800],
       "flags": {},
       "order": 2,
       "mode": 0,
       "inputs": [
         {"name": "source_photo", "type": "IMAGE", "link": 1},
         {"name": "detail_instructions", "type": "STRING", "widget": {"name": "detail_instructions"}, "link": null},
+        {"name": "appearance_polish", "type": "BOOLEAN", "widget": {"name": "appearance_polish"}, "link": null},
+        {"name": "phone_camera_style", "type": "BOOLEAN", "widget": {"name": "phone_camera_style"}, "link": null},
         {"name": "seed", "type": "INT", "widget": {"name": "seed"}, "link": null}
       ],
       "outputs": [
@@ -59,10 +61,12 @@
         {"name": "output_folder", "type": "STRING", "links": null, "slot_index": 3},
         {"name": "report_json", "type": "STRING", "links": null, "slot_index": 4}
       ],
-      "title": "UPGRADE PHOTO DETAIL & REALISM — LOCKED V1",
+      "title": "UPGRADE PHOTO DETAIL & REALISM — SAFE POLISH + OPTIONAL PHONE STYLE",
       "properties": {"Node name for S&R": "Flux2Klein9BPhotoRealismUpgradeV1", "cnr_id": "ComfyUI-AIToolkit-Training"},
       "widgets_values": [
-        "Reconstruct every visible background material with natural, irregular fine detail while preserving the exact objects, boundaries, depth ordering, and lighting in the source. Keep distant detail softer than the face but materially recognizable.",
+        "For this included example, the man remains in the exact source three-quarter view and looks past the camera toward image-right. Preserve the exact raised-collar coat silhouette, shirt opening, building-wall diagonals, roof edge, bare-tree layout, and every foreground/background boundary. Render the same real house exterior with separate horizontal siding boards, narrow straight seams, subtle matte painted texture, and minor surface variation. Render the same leafless tree with tapered limbs, bark ridges, irregular forks, progressively thinner twigs, tiny buds, and distinct overlapping depth layers. Keep the whole environment legible with natural small-sensor depth of field; distant elements soften gradually but remain structurally readable instead of becoming portrait-mode bokeh.",
+        true,
+        false,
         8675416,
         "fixed"
       ],

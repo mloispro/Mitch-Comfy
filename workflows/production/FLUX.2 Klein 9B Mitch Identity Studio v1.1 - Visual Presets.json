@@ -1,0 +1,78 @@
+{
+  "id": "flux2-klein9b-mitch-identity-studio-v1-1-visual-presets",
+  "revision": 0,
+  "last_node_id": 3,
+  "last_link_id": 1,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "MarkdownNote",
+      "pos": [-790, -20],
+      "size": [620, 730],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "VISUAL PRESETS — FROZEN V1 IDENTITY ENGINE",
+      "properties": {"Node name for S&R": "MarkdownNote", "cnr_id": "comfy-core"},
+      "widgets_values": ["# FLUX.2 Klein 9B Mitch Identity Studio v1.1 — Visual Presets\n\nClick a scene thumbnail in the green node. The selected card supplies the tested scene prompt and automatically selects the matching genuine-reference profile. The hidden saved preset value keeps the workflow reproducible.\n\nUse `Custom — write your own scene` when you want to type a new scene. For any other card, the text box below the gallery is optional extra direction; leave it blank to use the preset exactly.\n\n- **15 visual choices:** Custom plus 14 prepared solo/lifestyle scenes\n- Tabby-cat was removed; toddler and small Golden Shepherd are separate choices\n- The new rooftop-cocktail reference is included\n- `Fast Turbo — 8 steps`: on by default\n- `Quality — 50 steps`: turn Fast Turbo off\n- Output: `832 × 1216`\n- V3 step-1600 Mitch identity LoRA at `0.90`\n- RTX 3090 only\n\nThis revision is a preset shell around the hash-frozen v1 generator. The visual selector changes only scene/profile inputs. It does not change the proven identity mechanism: FLUX.2 Klein Base 9B, the protected LoRA, and genuine native reference photographs. There is no source-scene img2img, face swap, identity pass, restoration, or sharpening."],
+      "color": "#2d5339",
+      "bgcolor": "#1f3c29"
+    },
+    {
+      "id": 2,
+      "type": "Flux2Klein9BMitchIdentityStudioVisualPresetsV11",
+      "pos": [-80, -20],
+      "size": [920, 1120],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {"name": "reference_profile", "type": "COMBO", "widget": {"name": "reference_profile"}, "link": null},
+        {"name": "scene_prompt", "type": "STRING", "widget": {"name": "scene_prompt"}, "link": null},
+        {"name": "appearance_polish", "type": "BOOLEAN", "widget": {"name": "appearance_polish"}, "link": null},
+        {"name": "fast_turbo", "type": "BOOLEAN", "widget": {"name": "fast_turbo"}, "link": null},
+        {"name": "seed", "type": "INT", "widget": {"name": "seed"}, "link": null},
+        {"name": "scene_preset", "type": "COMBO", "widget": {"name": "scene_preset"}, "link": null}
+      ],
+      "outputs": [
+        {"name": "photo", "type": "IMAGE", "links": [1], "slot_index": 0},
+        {"name": "effective_prompt", "type": "STRING", "links": null, "slot_index": 1},
+        {"name": "output_folder", "type": "STRING", "links": null, "slot_index": 2},
+        {"name": "report_json", "type": "STRING", "links": null, "slot_index": 3}
+      ],
+      "title": "VISUAL PRESETS — KLEIN 9B MITCH IDENTITY STUDIO",
+      "properties": {"Node name for S&R": "Flux2Klein9BMitchIdentityStudioVisualPresetsV11", "cnr_id": "ComfyUI-AIToolkit-Training"},
+      "widgets_values": [
+        "SOLO — front + left-facing angle",
+        "",
+        true,
+        true,
+        8675411,
+        "fixed",
+        "Rooftop cocktail — city lights"
+      ],
+      "color": "#285744",
+      "bgcolor": "#36745a"
+    },
+    {
+      "id": 3,
+      "type": "PreviewImage",
+      "pos": [680, -20],
+      "size": [560, 690],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [{"name": "images", "type": "IMAGE", "link": 1}],
+      "outputs": [],
+      "properties": {"Node name for S&R": "PreviewImage", "cnr_id": "comfy-core"},
+      "widgets_values": []
+    }
+  ],
+  "links": [[1, 2, 0, 3, 0, "IMAGE"]],
+  "groups": [],
+  "config": {},
+  "extra": {"frontendVersion": "1.45.19", "ds": {"scale": 0.76, "offset": [830, 360]}},
+  "version": 0.4
+}

@@ -115,18 +115,64 @@
       "active": true,
       "role": "primary",
       "accepted_on": "2026-08-30",
+      "revised_on": "2026-09-02",
+      "revision": "Identity Studio and Group Scene retain Smartphone Snapshot Photo Reality v13 at 0.25 and their reversible rank-256 BF16 Turbo routes. Upgrade remains the approved d58732a whole-frame Base 9B path with no Turbo, source-latent initialization, generation mask, or second model pass. Its default-on deterministic_face_and_hair_local_v4 postprocess adds the restrained closed-mouth, warmth, fatigue/line, eye, stubble, and cheek/jaw treatment, reduces isolated cheek/nose dark dots with sparse local-median replacement, reduces broad artificial hair grooves, and slightly lifts existing brighter hair material only inside an eroded semantic ParseNet mask. It protects the first eight hair-boundary pixels and changes zero pixels outside the face/hair/iris masks; final six-reference gaze-locked identity is 0.7476. Phone-off now applies a deterministic post-decode natural-lens background finish using the hash-locked local U2Net human matte, subject-excluding normalized Gaussian blur, and exact protected-subject copy-back; the accepted prototype changed 64.4717% of background pixels with 0 / 255 protected-subject error. Smartphone v13 remains the separate phone-on path at 0.25, preserves its accepted deep-focus rendering, and skips the background finish entirely. Earlier prompt-only, Turbo, generative masked, broad-inpaint, and auto-promoted Smartphone Upgrade routes remain rejected. Group Scene defaults Turbo off and keeps the concise identity-first prompt recovered from the approved PNG, with appearance enhancement disabled; its reloaded 50-step result scored 0.5958 against six genuine held-outs with no leakage failure.",
       "artifacts": [
         {
           "path": "workflows/production/FLUX.2 Klein 9B Mitch Identity Studio v1.json",
-          "sha256": "9F5B5B9F7FB12EA90D6E7A948FBB81DCDF2FC9C73B330499B70FB7553A3C4425"
+          "sha256": "08B78D3D055879A49695ED40D4395B94F8E4E55D02061EFA2F04B86E1C3AF1AC"
         },
         {
           "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_mitch_identity_studio.py",
-          "sha256": "CAA9344F2A29FE23130E7837F9D0C17208CD1B6BD409A495CC96A894AE193EC9"
+          "sha256": "DA5AAD8D3443606B7FE552A301085C5DF98813D2F87136F4536B84D1551EC8EF"
         },
         {
           "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_mitch_identity_studio_presets.py",
-          "sha256": "6AE31BF840B070DA801723DA994BBD9248CA99FA60326EB98F7B0B42F0D2E1A9"
+          "sha256": "62CD97DBE17A57E0A3A7B42478E80B9929D9C2E14AC8FC601EF7CF6A4C7F8E15"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_smartphone_style.py",
+          "sha256": "04C64C6D78FB5C9024515882EA1771EFF0BAE3CF7361AD063F8E2C1CAA2D1C22"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_appearance_polish.py",
+          "sha256": "9D8D3E61B4FC83AE6840ACFAE42F087CC0F179CE6B67D62F9CFD9FCD28BAE88B"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_turbo.py",
+          "sha256": "AC70C96F24C2CFAC33D454DF1745E2136EF2B789773E7E94E99B22CFA07B7994"
+        },
+        {
+          "path": "workflows/production/FLUX.2 Klein 9B Mitch Group Scene Studio v1.json",
+          "sha256": "2850D957F0D8B0FDA83B55F1B787432A884849E503DC09D18E91C3D3473A4D38"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_group_scene_studio.py",
+          "sha256": "96C40B42BE4423E8F317A6F4F005B75C970C34F0EE0DDFF6F9B110F0217C3568"
+        },
+        {
+          "path": "workflows/production/FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1.json",
+          "sha256": "04D12768A02E9DADFF6AD989036AD1020DC7C4F66E707E057497E055992ABA24"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_photo_realism_upgrade.py",
+          "sha256": "70CE79ED0FBC3539234A72E8E5244CA276138926774A4DE2916D87ECD6D84655"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_photo_realism_upgrade_presets.py",
+          "sha256": "B9B53706E74308386456D29B9153E668F97E415831B1522B87251B7A8B751ADC"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_deterministic_polish.py",
+          "sha256": "D970934CE4CF0B640A4BD24ABD7DA3BFA16A67F23842CBC81B14B4323793977B"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_source_gaze_lock.py",
+          "sha256": "3C68D54C4E94DFF8A2CD4D308C282F441A98916717D6DF4DC57F81889AF50275"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_upgrade_masking.py",
+          "sha256": "7AB8ABA5053EC73646F28C7EAF7E0195A69699246F662F070D828DA08ECD5BF3"
         }
       ]
     }

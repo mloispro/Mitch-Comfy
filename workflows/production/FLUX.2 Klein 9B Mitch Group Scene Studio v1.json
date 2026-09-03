@@ -16,7 +16,7 @@
       "outputs": [],
       "title": "LOCKED MITCH GROUP-SCENE RECIPE",
       "properties": {"Node name for S&R": "MarkdownNote", "cnr_id": "comfy-core"},
-      "widgets_values": ["# FLUX.2 Klein 9B Mitch Group Scene Studio v1\n\nThis is the reusable version of the group result Mitch approved on 2026-08-31.\n\n1. Load a genuine source group photograph.\n2. Set `target_x` and `target_y` near the person who should become Mitch (`0` is left/top; `1` is right/bottom). The default `0.50, 0.44` selects the central lounge person.\n3. Describe the entire desired group photo. State where Mitch is, his clothing, and any scene-specific details.\n4. Keep `head_scale 0.92` unless a new source needs a measured adjustment.\n\nThe node automatically detects the target face, builds a Canny layout, removes the source person's internal eye/nose/mouth edges, scales only the outer target-head contour, and then supplies the locked genuine Mitch reference separately.\n\nLocked generation settings:\n- FLUX.2 Klein Base 9B\n- V3 step-1600 Mitch LoRA at `0.90`\n- Genuine native front-neutral reference at `1.00 MP`\n- Face-free scene layout at `0.25 MP`\n- `832 × 1216`, 50 Euler steps, CFG `4.0`\n- RTX 3090 only\n\nThis is whole-frame native generation. It does not use face swap, restoration, sharpening, or a post-generation identity pass. Review every result for exactly one Mitch, correct target selection, anatomy, hands, and full-frame integration."],
+      "widgets_values": ["# FLUX.2 Klein 9B Mitch Group Scene Studio v1\n\nThis is the reusable version of the group result Mitch approved on 2026-08-31, with the identity-first prompt revalidated on 2026-09-01.\n\n1. Load a genuine source group photograph.\n2. Set `target_x` and `target_y` near the person who should become Mitch (`0` is left/top; `1` is right/bottom). The default `0.50, 0.44` selects the central lounge person.\n3. Describe the entire desired group photo. State where Mitch is, his clothing, expression, and scene-specific details. Keep identity wording concise.\n4. Keep `head_scale 0.92` unless a new source needs a measured adjustment. The face-free Canny guide controls composition and approximate outer-head scale; the separate genuine photograph supplies Mitch's identity and internal facial geometry.\n5. Leave `Visible flattering enhancement` off for the validated identity-first default. It remains available as a short rendering-only option that may improve pores, stubble, skin color, and catchlights without requesting a younger age, stronger jaw, different cheekbones, or changed expression.\n6. Leave Fast Turbo off for the validated 50-step quality path; the optional fast path remains available separately.\n\nWhy this changed: verbose face-shape, age, expression, and beautification instructions reduced six-photo likeness from the approved `0.5946` to `0.5465`. Restoring the concise approved identity contract while retaining Smartphone Snapshot v13 raised it to `0.6007` with no bystander-leakage failure.\n\nLocked quality settings:\n- FLUX.2 Klein Base 9B\n- V3 step-1600 Mitch identity LoRA at `0.90`\n- Smartphone Snapshot Photo Reality v13 at `0.25`; trained trigger applied automatically\n- Genuine native front-neutral reference at `1.00 MP`\n- Face-free scene layout at `0.25 MP`\n- `832 × 1216`, 50 Euler steps, CFG `4.0`\n- RTX 3090 only\n\nThis is whole-frame native generation. It does not use face swap, restoration, sharpening, or a post-generation identity pass. Review every result for exactly one Mitch, correct target selection, internal facial relationships, head scale, skin, anatomy, hands, and full-frame integration."],
       "color": "#5b4524",
       "bgcolor": "#3c2d18"
     },
@@ -53,6 +53,8 @@
         {"name": "target_x", "type": "FLOAT", "widget": {"name": "target_x"}, "link": null},
         {"name": "target_y", "type": "FLOAT", "widget": {"name": "target_y"}, "link": null},
         {"name": "head_scale", "type": "FLOAT", "widget": {"name": "head_scale"}, "link": null},
+        {"name": "appearance_polish", "type": "BOOLEAN", "widget": {"name": "appearance_polish"}, "link": null},
+        {"name": "fast_turbo", "type": "BOOLEAN", "widget": {"name": "fast_turbo"}, "link": null},
         {"name": "seed", "type": "INT", "widget": {"name": "seed"}, "link": null}
       ],
       "outputs": [
@@ -65,10 +67,12 @@
       "title": "APPROVED KLEIN 9B GROUP SCENE STUDIO",
       "properties": {"Node name for S&R": "Flux2Klein9BMitchGroupSceneStudioV1", "cnr_id": "ComfyUI-AIToolkit-Training"},
       "widgets_values": [
-        "A photorealistic vertical phone-flash group photograph matching the source. Four adults sit closely on the rust-orange booth, with a partial fifth person at the extreme image-right edge. Mitch is the selected central seated man, wearing a fitted dark navy suit and crisp white open-collar shirt. Both complete forearms extend down and his separate hands rest on his thighs. Keep every surrounding person distinct and unrelated. Preserve the source camera framing, people count, seated body poses, copper wall, amber perimeter light, booth, low table, objects, ordinary smartphone perspective, direct flash, and seamless natural detail.",
+        "Create one photorealistic vertical phone-flash group photograph matching Picture 1. Four adults sit closely on the rust-orange booth, with a partial fifth person at the extreme image-right edge. The central seated man is m1tch_person from Picture 2, wearing a fitted dark navy suit and crisp white open-collar shirt. Match his real balanced head width, moderately broad forehead and upper cheeks, straight jaw sides, rounded chin, facial-feature spacing, hairline, apparent age, and natural skin. Give him a calm pleasant expression: his lips rest gently together, their corners rise only slightly, his jaw and cheeks remain relaxed, and his eyes engage softly with the camera. Both complete forearms extend down and his separate hands rest on his thighs. Keep every surrounding person distinct and unrelated. Preserve the copper wall, amber perimeter light, booth, low table, ordinary smartphone perspective, direct flash, and seamless natural detail.",
         0.5,
         0.44,
         0.92,
+        false,
+        false,
         8675412,
         "fixed"
       ],

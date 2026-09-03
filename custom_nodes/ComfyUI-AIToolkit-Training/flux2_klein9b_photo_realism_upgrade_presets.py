@@ -6,9 +6,43 @@ import math
 MAX_OUTPUT_PIXELS = 1_700_000
 MIN_OUTPUT_EDGE = 256
 DEFAULT_DETAIL_INSTRUCTIONS = (
-    "Reconstruct every visible background material with natural, irregular fine detail while preserving "
-    "the exact objects, boundaries, depth ordering, and lighting in the source. Keep distant detail softer "
-    "than the face but materially recognizable."
+    "For this included example, the man remains in the exact source three-quarter view and looks past the "
+    "camera toward image-right. Preserve the exact raised-collar coat silhouette, shirt opening, building-wall "
+    "diagonals, roof edge, bare-tree layout, and every foreground/background boundary. Render the same real "
+    "house exterior with separate horizontal siding boards, narrow straight seams, subtle matte painted "
+    "texture, and minor surface variation. Render the same leafless tree with tapered limbs, bark ridges, "
+    "irregular forks, progressively thinner twigs, tiny buds, and distinct overlapping depth layers. Keep the "
+    "whole environment legible with natural small-sensor depth of field; distant elements soften gradually but "
+    "remain structurally readable instead of becoming portrait-mode bokeh."
+)
+APPROVED_INCLUDED_EXAMPLE_PROMPT = (
+    "Picture 1 is the exact landscape edit target and the highest-priority reference. Recreate its 5:3 "
+    "photograph with the identical camera position, subject placement, head scale, body crop, shoulder line, "
+    "raised-collar coat silhouette, shirt opening, hair silhouette and part, visible ear, head yaw, pitch and "
+    "roll, gaze slightly toward image-right, eye-line angle, closed-lip expression, building-wall diagonals, "
+    "roof edge, bare-tree layout, and every foreground/background boundary. The man remains in the same "
+    "three-quarter view and looks past the camera toward image-right.\n\n"
+    "Picture 2 is a face-interior-free edge outline of Picture 1 and supplies geometry only. Follow its outer "
+    "head, hair, coat, siding, roof, branch, and frame-edge lines as the exact spatial scaffold. Convert those "
+    "lines into real photographic materials and natural depth.\n\n"
+    "Picture 3 exclusively supplies the identity and current apparent age of m1tch_person: his real eyes, nose, "
+    "mouth, jaw, facial width, asymmetry, hairline, pores, and fine stubble. Render a healthy, rested, subtly "
+    "flattering version of the same man while keeping Picture 1's exact head direction and off-camera gaze.\n\n"
+    "Picture 4 is an isolated crop of genuine human hair and supplies hair material only. Use matte brown "
+    "strands with varied thickness, soft root density, small flyaways, irregular broken clumps, and restrained "
+    "highlights. Keep the hairstyle silhouette, volume, part, and combing direction from Picture 1.\n\n"
+    "Render one recent iPhone main-camera photograph in standard Photo mode. The small-sensor depth of field "
+    "keeps both the man and environment legible. Skin has restrained pores of varied size, fine stubble, tiny "
+    "irregular color variation, natural lips, and moist eyes. The dark coat has believable woven fibers and "
+    "soft folds.\n\n"
+    "The background is a real house exterior and a real leafless tree rebuilt from Pictures 1 and 2. Render "
+    "separate horizontal siding boards with narrow straight seams, subtle matte painted texture, minor surface "
+    "variation, and a physically straight roof edge. Render tapered tree limbs with bark ridges, irregular forks, "
+    "progressively thinner twigs, tiny buds, and distinct overlapping depth layers. Every visible branch has "
+    "physical thickness and natural taper. Distant elements soften gradually but remain structurally readable. "
+    "Use neutral color, restrained Smart HDR local tone mapping, smooth highlight rolloff, realistic fine sensor "
+    "texture, and consistent native detail across skin, hair, fabric, siding, and wood. The result reads as a "
+    "single casual iPhone capture with natural matte hair and a materially detailed background."
 )
 
 
@@ -54,14 +88,19 @@ def compose_upgrade_prompt(detail_instructions: str) -> str:
     detail = " ".join(str(detail_instructions).strip().split())
     if not detail:
         raise ValueError("Describe the source-specific background or material detail to improve.")
+    if detail == " ".join(DEFAULT_DETAIL_INSTRUCTIONS.split()):
+        return APPROVED_INCLUDED_EXAMPLE_PROMPT
 
     role_contract = (
         "Picture 1 is the exact edit target and highest-priority scene reference. Recreate the same photograph "
         "with identical camera position, aspect ratio, crop, subject placement, head scale, body and shoulder pose, "
-        "clothing silhouette, visible ears, hair silhouette and part, head yaw, pitch and roll, gaze direction, "
+        "clothing silhouette, visible ears, forehead height, hairline position, hair silhouette and part, head yaw, "
+        "pitch and roll, gaze direction, pupil position within each eyelid, "
         "eye-line angle, expression, lighting layout, depth relationships, and every foreground and background "
-        "boundary. The person keeps the source head direction and gaze; do not turn, recenter, straighten, enlarge, "
-        "shrink, or redesign the subject or scene. Picture 1 supplies scene, pose, expression, clothing, and "
+        "boundary. The source head pose, facial perspective, forehead, hairline, and gaze are immutable and remain "
+        "more important than flattering presentation. Do not turn, recenter, straighten, enlarge, shrink, raise the "
+        "hairline, add height above the forehead, or redesign the subject or scene. Picture 1 supplies scene, pose, "
+        "expression, clothing, and "
         "composition, not identity."
     )
     guide_contract = (
@@ -82,10 +121,17 @@ def compose_upgrade_prompt(detail_instructions: str) -> str:
         "dark band, duplicate edge, artificial shadow, halo, seam, or floating clump."
     )
     finish = (
-        "Render one recent iPhone main-camera photograph in standard Photo mode. Skin has restrained pores of varied "
+        "Render one recent iPhone main-camera photograph in standard Photo mode, not Portrait mode. Use natural "
+        "small-sensor depth of field that keeps both the person and the complete environment legible. Where present, "
+        "architecture has separate physical panels, straight seams, matte surface variation, and clean perspective; "
+        "vegetation has physical thickness, taper, irregular branching, and distinct overlapping depth; terrain, "
+        "water, fabric, and other visible materials retain their characteristic structure and texture. Distant "
+        "elements soften gradually but remain structurally readable instead of becoming creamy bokeh. Skin has "
+        "restrained pores of varied "
         "size, fine stubble, tiny irregular color variation, natural lips, moist eyes, and continuous forehead "
         "texture without a repair patch. Hair, skin, fabric, and the entire environment share coherent illumination, "
-        "sensor texture, edge response, and distance-dependent softness. Use restrained saturation and Smart HDR, "
+        "sensor texture, edge response, and distance-dependent softness, with consistent native detail across the "
+        "face and background. Use restrained saturation and Smart HDR, "
         "smooth highlight rolloff, believable local contrast, and natural fine detail without etched sharpening. "
         "The result reads as one casual real photograph, not an AI portrait or composite. Do not add, remove, or "
         "relocate scene elements."

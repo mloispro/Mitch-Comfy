@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "status": "implemented_in_v1_1_visual_preset_workflows",
+  "updated": "2026-09-02",
+  "upgrade_photo_workflow_excluded": true,
+  "identity_studio": [
+    {"key": "custom", "label": "Custom — write your own scene", "origin": "existing"},
+    {"key": "founder_editorial", "label": "Founder editorial — modern studio", "origin": "existing"},
+    {"key": "cooking_candid", "label": "Cooking candid — warm modern kitchen", "origin": "existing"},
+    {"key": "golden_hour_rooftop", "label": "Golden-hour rooftop — linen shirt", "origin": "existing"},
+    {"key": "night_city_balcony", "label": "Night city balcony — black open-collar shirt", "origin": "existing"},
+    {
+      "key": "rooftop_cocktail_city_lights",
+      "label": "Rooftop cocktail — city lights",
+      "origin": "user_added_2026_09_02",
+      "source_asset": "assets/comfy-input/klein9b-scene-presets/identity-rooftop-cocktail-city-lights.jpg",
+      "source_sha256": "F1EDA84193BD2AA1634807C6E3CB95355E88444450FB243DD7AFCFECE23CD772",
+      "scene_prompt": "A vertical candid rooftop cocktail portrait at night. m1tch_person is framed from head through upper thighs in a fitted black long-sleeve button-up shirt with an open collar and a completely bare neck. His arm at image-left rests naturally on the wooden railing while that hand holds a short clear tumbler; his other hand rests in his trouser pocket at image-right. He wears a simple metal wristwatch, gives a relaxed restrained smile, and looks slightly off-camera toward image-left. Dense city lights fill the background below a dark sky, with warm rooftop string lights and a few distant patrons at image-right. Natural direct phone-flash character, realistic hands, natural skin, and seamless nighttime integration."
+    },
+    {"key": "amalfi_balcony", "label": "Amalfi balcony — white linen", "origin": "existing"},
+    {"key": "italian_lake_boat", "label": "Italian lake boat — relaxed travel", "origin": "existing"},
+    {"key": "elegant_restaurant", "label": "Elegant restaurant — understated evening", "origin": "existing"},
+    {"key": "ragdoll_cat", "label": "Cat lover — Ragdoll", "origin": "existing"},
+    {
+      "key": "toddler_moment",
+      "label": "Toddler moment — warm family candid",
+      "origin": "proposed_tabby_replacement",
+      "source_asset": null,
+      "scene_prompt": "A warm candid lifestyle photograph of m1tch_person sharing a natural playful moment with one fully clothed toddler in a bright comfortable home. Mitch is clearly the adult subject, with a gentle relaxed expression and believable protective hand placement. The toddler has a distinct unrelated face and age-appropriate proportions. Natural window light, realistic skin, complete hands and limbs, and an unposed family snapshot feeling."
+    },
+    {
+      "key": "golden_shepherd_puppy",
+      "label": "Dog lover — small Golden Shepherd puppy",
+      "origin": "proposed_tabby_replacement",
+      "source_asset": null,
+      "scene_prompt": "A relaxed home lifestyle photograph of m1tch_person gently holding a small Golden Shepherd puppy, a young Golden Retriever and German Shepherd mix with soft golden-tan fur and slightly darker ears. Mitch looks down at the puppy with a warm restrained smile. The puppy is comfortably supported by both complete arms and natural hands. Soft window light, realistic fur and skin, and an authentic candid snapshot."
+    },
+    {"key": "golf_course", "label": "Golf course — tropical morning", "origin": "existing"},
+    {"key": "weekend_lake", "label": "Weekend lake — fitted T-shirt", "origin": "existing"},
+    {"key": "downtown_menswear", "label": "Downtown menswear — sunrise", "origin": "existing"}
+  ],
+  "group_scene_studio": [
+    {"key": "custom_group", "label": "Custom — uploaded group photo", "origin": "existing"},
+    {"key": "approved_lounge_center", "label": "Approved lounge — central Mitch", "origin": "existing_approved"},
+    {"key": "night_out_a", "label": "Night out A — corner booth", "origin": "existing"},
+    {"key": "night_out_b", "label": "Night out B — group booth", "origin": "existing"},
+    {
+      "key": "amber_booth_four_friends",
+      "label": "Amber booth — four friends",
+      "origin": "user_added_2026_09_02",
+      "source_asset": "assets/comfy-input/klein9b-scene-presets/group-amber-booth-four-friends.jpg",
+      "source_sha256": "1F6E9C7A4AC4C6E152D2B54ECB9007732EC4799201B287B7F543700EF8D0204B",
+      "target_x": 0.51,
+      "target_y": 0.45,
+      "head_scale": 0.92,
+      "scene_prompt": "Create one photorealistic vertical phone-flash group photograph matching the supplied amber-booth composition. Four adults sit together on the rust-orange curved booth. The central seated man is m1tch_person, wearing a fitted navy suit and crisp white open-collar shirt, with both complete hands resting naturally near his knees. A brunette woman at image-left holds a martini glass, a blonde woman sits close at his image-right, and a dark-haired man in a denim jacket sits farther right. Every bystander has a clearly distinct unrelated face, hair, and age. Preserve the large curved amber wall light, warm textured wall, booth, wooden tables, glasses, plates, casual spacing, ordinary smartphone perspective, direct flash, and exactly one Mitch."
+    }
+  ],
+  "pending_choice": null,
+  "implemented_choice": "Former tabby-cat slot removed; toddler and Golden Shepherd are separate visual presets."
+}
