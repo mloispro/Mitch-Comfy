@@ -7,7 +7,6 @@ param(
 $ErrorActionPreference = "Stop"
 $ComfyRoot = "C:\projects\AI-Tools\ComfyUI"
 $ProjectRoot = Split-Path -Parent $PSScriptRoot
-$FrozenWorkflowRelative = "workflows/production/FLUX.2 Klein 9B Mitch Group Scene Studio v1.json"
 $VisualWorkflowRelative = "workflows/production/FLUX.2 Klein 9B Mitch Group Scene Studio v1.1 - Visual Presets.json"
 $GroupSourceRelative = "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_group_scene_studio.py"
 $VisualWrapperRelative = "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_group_scene_studio_visual_presets.py"
@@ -15,18 +14,17 @@ $ScenePresetsRelative = "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_s
 $VisualSupportRelative = "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_visual_preset_support.py"
 $PresetManifestRelative = "custom_nodes/ComfyUI-AIToolkit-Training/web/assets/scene-presets/manifest.json"
 $VisualScriptRelative = "custom_nodes/ComfyUI-AIToolkit-Training/web/visual_scene_presets.js"
-$FrozenWorkflowPath = Join-Path $ProjectRoot $FrozenWorkflowRelative.Replace("/", "\")
 $VisualWorkflowPath = Join-Path $ProjectRoot $VisualWorkflowRelative.Replace("/", "\")
 $PresetManifestPath = Join-Path $ProjectRoot $PresetManifestRelative.Replace("/", "\")
-$NodeName = "Flux2Klein9BMitchGroupSceneStudioV1"
+$InternalNodeName = "Flux2Klein9BMitchGroupSceneStudioV1"
 $VisualNodeName = "Flux2Klein9BMitchGroupSceneStudioVisualPresetsV11"
 $DefaultPresetKey = "approved-lounge-center"
 $DefaultPresetLabel = "Approved lounge — central Mitch"
 $DefaultPresetSource = "assets/comfy-input/klein9b-scene-presets/group-approved-lounge-center.png"
 $DefaultPresetSourceHash = "1B26AC58A4FAD8D03F69DB7A4085C31B6682C71ACBE22D5AEE51F9E53FA0332B"
 $DefaultPresetPromptHash = "D67FEA4634274750F390BACC8C9C102D377FC3585DF79A15384ADAB008459C67"
-$FrozenBaselineId = "flux2-klein9b-mitch-group-scene-studio-v1"
-$VisualBaselineId = "flux2-klein9b-visual-preset-shells-v1.1"
+$EngineBaselineId = "flux2-klein9b-mitch-group-engine-v1"
+$VisualBaselineId = "flux2-klein9b-production-workflows-v1.1"
 $ModelHash = "4A54FAD7F5F741B99EEE217198DAAC20B8D8E515E2A1F5B064FD51CF074F95BD"
 $ClipHash = "ABAD16806E0CBABC54E0325D6565847443FE396D5F0BE38BB3CD3FE75A1201D6"
 $VaeHash = "D64F3A68E1CC4F9F4E29B6E0DA38A0204FE9A49F2D4053F0EC1FA1CA02F9C4B5"
@@ -185,11 +183,11 @@ $stats = Invoke-RestMethod -Uri "$Server/system_stats" -TimeoutSec 10
 $device = [string]@($stats.devices)[0].name
 if ($device -notmatch "RTX 3090") { throw "Group Scene Studio requires RTX 3090; worker reports $device" }
 
-$nodeInfo = Invoke-RestMethod -Uri "$Server/object_info/$NodeName" -TimeoutSec 20
-if (-not $nodeInfo.PSObject.Properties[$NodeName]) { throw "Live ComfyUI worker is missing $NodeName" }
-$requiredInputs = @($nodeInfo.$NodeName.input_order.required)
+$retiredNodeInfo = Invoke-RestMethod -Uri "$Server/object_info/$InternalNodeName" -TimeoutSec 20
+if ($retiredNodeInfo.PSObject.Properties[$InternalNodeName]) {
+    throw "Live ComfyUI worker still exposes retired public Group node $InternalNodeName"
+}
 $expectedRequiredInputs = @("source_scene", "scene_prompt", "target_x", "target_y", "head_scale", "appearance_polish", "fast_turbo", "seed")
-Assert-ExactSequence $requiredInputs $expectedRequiredInputs "Live frozen v1 Group input contract"
 
 $visualNodeInfo = Invoke-RestMethod -Uri "$Server/object_info/$VisualNodeName" -TimeoutSec 20
 if (-not $visualNodeInfo.PSObject.Properties[$VisualNodeName]) { throw "Live ComfyUI worker is missing primary wrapper $VisualNodeName" }
@@ -197,6 +195,8 @@ $liveVisualNode = $visualNodeInfo.$VisualNodeName
 Assert-ExactSequence @($liveVisualNode.input_order.required) $expectedRequiredInputs "Live primary v1.1 Group required-input contract"
 Assert-ExactSequence @($liveVisualNode.input_order.optional) @("scene_preset") "Live primary v1.1 Group optional-input contract"
 Assert-ExactSequence @($liveVisualNode.output_name) @("photo", "layout_guide", "effective_prompt", "output_folder", "report_json") "Live primary v1.1 Group output contract"
+$liveScenePromptDefault = [string]$liveVisualNode.input.required.scene_prompt[1].default
+if ($liveScenePromptDefault -cne "") { throw "Live primary v1.1 Group extra scene direction must default blank." }
 $scenePresetSpec = $liveVisualNode.input.optional.scene_preset
 if (-not $scenePresetSpec) { throw "Live primary v1.1 Group wrapper lacks scene_preset metadata." }
 Assert-ExactSequence @($scenePresetSpec[0]) $GroupPresetLabels "Live primary v1.1 Group preset choices"
@@ -207,7 +207,6 @@ $expectedManifestHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $PresetMani
 if ([string]$scenePresetSpec[1].manifest_sha256 -cne $expectedManifestHash) {
     throw "Live primary v1.1 Group wrapper manifest hash metadata drifted."
 }
-$liveScenePromptDefault = [string]$liveVisualNode.input.required.scene_prompt[1].default
 if ([double]$liveVisualNode.input.required.target_x[1].default -ne 0.50) { throw "Live primary v1.1 Group target_x default drifted." }
 if ([double]$liveVisualNode.input.required.target_y[1].default -ne 0.44) { throw "Live primary v1.1 Group target_y default drifted." }
 if ([double]$liveVisualNode.input.required.head_scale[1].default -ne 0.92) { throw "Live primary v1.1 Group head_scale default drifted." }
@@ -228,20 +227,6 @@ foreach ($requirement in @(
     if ($requirement.Value -notin $choices) { throw "Live RTX 3090 worker cannot select $($requirement.Value)." }
 }
 
-if (-not (Test-Path -LiteralPath $FrozenWorkflowPath -PathType Leaf)) { throw "Missing frozen v1 production workflow: $FrozenWorkflowPath" }
-$workflow = Get-Content -Raw -LiteralPath $FrozenWorkflowPath | ConvertFrom-Json
-if (@($workflow.nodes | Where-Object type -eq $NodeName).Count -ne 1) {
-    throw "Frozen v1 workflow must contain exactly one $NodeName node."
-}
-$studioNode = @($workflow.nodes | Where-Object type -eq $NodeName)[0]
-Assert-ExactSequence @($studioNode.inputs.name) $expectedRequiredInputs "Frozen v1 Group workflow input contract"
-if ($liveScenePromptDefault -cne [string]$studioNode.widgets_values[0]) { throw "Live primary v1.1 Group scene_prompt default drifted from the frozen v1 engine." }
-if ([bool]$studioNode.widgets_values[4] -ne $false) { throw "Frozen v1 Group Studio must open in the validated identity-first natural-appearance mode." }
-if ([bool]$studioNode.widgets_values[5] -ne $false) { throw "Frozen v1 Group Studio quality baseline must open with Fast Turbo disabled." }
-if (@($workflow.nodes | Where-Object type -eq "LoadImage").Count -ne 1) {
-    throw "Frozen v1 workflow must contain exactly one source LoadImage node."
-}
-
 if (-not (Test-Path -LiteralPath $VisualWorkflowPath -PathType Leaf)) { throw "Missing primary v1.1 visual-preset workflow: $VisualWorkflowPath" }
 $visualWorkflow = Get-Content -Raw -LiteralPath $VisualWorkflowPath | ConvertFrom-Json
 if ([string]$visualWorkflow.id -cne "flux2-klein9b-mitch-group-scene-studio-v1-1-visual-presets") {
@@ -250,7 +235,7 @@ if ([string]$visualWorkflow.id -cne "flux2-klein9b-mitch-group-scene-studio-v1-1
 if (@($visualWorkflow.nodes | Where-Object type -eq $VisualNodeName).Count -ne 1) {
     throw "Primary v1.1 Group workflow must contain exactly one $VisualNodeName node."
 }
-if (@($visualWorkflow.nodes | Where-Object type -eq $NodeName).Count -ne 0) {
+if (@($visualWorkflow.nodes | Where-Object type -eq $InternalNodeName).Count -ne 0) {
     throw "Primary v1.1 Group workflow must use the visual wrapper, not a directly serialized frozen v1 node."
 }
 if (@($visualWorkflow.nodes | Where-Object type -eq "LoadImage").Count -ne 1) {
@@ -329,8 +314,7 @@ $FrozenRegistryPath = Join-Path $ProjectRoot "config\frozen-baselines.json"
 if (-not (Test-Path -LiteralPath $FrozenRegistryPath -PathType Leaf)) { throw "Missing frozen-baseline registry: $FrozenRegistryPath" }
 $FrozenRegistry = Get-Content -Raw -LiteralPath $FrozenRegistryPath | ConvertFrom-Json
 foreach ($artifact in @(
-    @{ Baseline = $FrozenBaselineId; Path = $FrozenWorkflowRelative; Label = "frozen v1 Group workflow" },
-    @{ Baseline = $FrozenBaselineId; Path = $GroupSourceRelative; Label = "frozen v1 Group engine" },
+    @{ Baseline = $EngineBaselineId; Path = $GroupSourceRelative; Label = "generation-locked Group engine" },
     @{ Baseline = $VisualBaselineId; Path = $VisualWorkflowRelative; Label = "primary v1.1 Group workflow" },
     @{ Baseline = $VisualBaselineId; Path = $VisualWrapperRelative; Label = "primary v1.1 Group wrapper" },
     @{ Baseline = $VisualBaselineId; Path = $ScenePresetsRelative; Label = "canonical visual-preset resolver" },
@@ -362,8 +346,7 @@ $validation = [ordered]@{
     status = "passed"
     workflow = $VisualWorkflowPath
     node = $VisualNodeName
-    frozen_workflow = $FrozenWorkflowPath
-    frozen_node = $NodeName
+    internal_engine = $GroupSourceRelative
     gpu = $device
     model_sha256 = $ModelHash
     text_encoder_sha256 = $ClipHash
@@ -385,27 +368,27 @@ $validation = [ordered]@{
     }
     queues = $queueState
     smoke_requested = [bool]$Smoke
-    smoke_node = if ($Smoke) { $NodeName } else { $null }
+    smoke_node = if ($Smoke) { $VisualNodeName } else { $null }
 }
 if (-not $Smoke) {
     $validation | ConvertTo-Json -Depth 10
     exit 0
 }
 
-$scenePrompt = [string]$studioNode.widgets_values[0]
 $prompt = [ordered]@{
     "1" = @{ class_type = "LoadImage"; inputs = @{ image = $SourceName } }
     "2" = @{
-        class_type = $NodeName
+        class_type = $VisualNodeName
         inputs = @{
             source_scene = @("1", 0)
-            scene_prompt = $scenePrompt
+            scene_prompt = ""
             target_x = 0.50
             target_y = 0.44
             head_scale = 0.92
             appearance_polish = $false
             fast_turbo = $false
             seed = 8675412
+            scene_preset = $DefaultPresetLabel
         }
     }
 }

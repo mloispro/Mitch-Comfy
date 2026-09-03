@@ -37,7 +37,6 @@ restores 50 Euler steps / CFG `4.0`. This is whole-frame generation with no sour
 face swap, restoration, sharpening, or second identity pass.
 
 Detailed visual-selector contract: `docs/flux2-klein9b-visual-preset-studios-v1.1.md`.
-The original v1 workflow remains visible as the exact hash-frozen manual-control rollback.
 
 ### Source-matched group: Klein 9B Group Scene Studio
 
@@ -66,11 +65,10 @@ The accepted Smartphone Snapshot Photo Reality v13 LoRA is applied automatically
 LoRA. It is not a user control and does not alter the Canny reference order.
 
 Detailed visual-selector contract: `docs/flux2-klein9b-visual-preset-studios-v1.1.md`.
-The original v1 group workflow remains visible as the exact hash-frozen manual-source rollback.
 
 ### Existing one-person image: Upgrade Photo Detail & Realism
 
-Open `Mitch/production/FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1`.
+Open `Mitch/production/FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1.1`.
 
 1. Load an image containing exactly one detectable face.
 2. Describe only the material/background detail to improve.
@@ -96,7 +94,7 @@ combined handsome treatment changed zero pixels outside its face/iris/hair-inter
 protected-subject error and excludes subject colors from the background filter.
 It uses no Turbo, source-latent inpaint, face swap, restoration, sharpening, upscaling, or second model pass.
 
-Detailed contract: `docs/flux2-klein9b-upgrade-photo-detail-realism-v1.md`.
+Detailed public-interface contract: `docs/flux2-klein9b-upgrade-photo-detail-realism-v1.1.md`.
 
 ### Validated dating templates: FLUX.2 Dev
 

@@ -1,5 +1,7 @@
 # FLUX.2 Klein 9B reuse and hardening — 2026-09-03
 
+> **Historical evidence:** this record predates removal of the public v1 sheets and node registrations. The current public surface is v1.1-only; see [the v1.1 production cleanup and fresh revalidation](flux2-klein9b-v1.1-production-cleanup-2026-09-03.md).
+
 ## Decision
 
 Keep Identity Studio, Group Scene Studio, and Upgrade Photo Detail & Realism as three separate user-facing workflows. Share only infrastructure whose meaning is identical across all callers.

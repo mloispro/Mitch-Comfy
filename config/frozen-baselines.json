@@ -112,8 +112,9 @@
     },
     {
       "id": "flux2-klein9b-mitch-identity-studio-v1",
-      "active": true,
-      "role": "primary",
+      "active": false,
+      "role": "retired_public_workflow",
+      "superseded_by": "flux2-klein9b-production-workflows-v1.1",
       "accepted_on": "2026-08-30",
       "revalidated_on": "2026-09-03",
       "git_tag": "milestone-klein9b-production-revalidated-2026-09-03",
@@ -148,8 +149,9 @@
     },
     {
       "id": "flux2-klein9b-mitch-group-scene-studio-v1",
-      "active": true,
-      "role": "primary",
+      "active": false,
+      "role": "retired_public_workflow",
+      "superseded_by": "flux2-klein9b-production-workflows-v1.1",
       "accepted_on": "2026-08-31",
       "revalidated_on": "2026-09-03",
       "git_tag": "milestone-klein9b-production-revalidated-2026-09-03",
@@ -171,8 +173,9 @@
     },
     {
       "id": "flux2-klein9b-upgrade-photo-detail-realism-v1",
-      "active": true,
-      "role": "primary",
+      "active": false,
+      "role": "retired_public_workflow",
+      "superseded_by": "flux2-klein9b-production-workflows-v1.1",
       "accepted_on": "2026-09-01",
       "revalidated_on": "2026-09-03",
       "git_tag": "klein9b-reuse-hardening-2026-09-03",
@@ -212,8 +215,9 @@
     },
     {
       "id": "flux2-klein9b-visual-preset-shells-v1.1",
-      "active": true,
-      "role": "ui_shell",
+      "active": false,
+      "role": "superseded_ui_shell",
+      "superseded_by": "flux2-klein9b-production-workflows-v1.1",
       "accepted_on": "2026-09-03",
       "revalidated_on": "2026-09-03",
       "git_tag": "klein9b-reuse-hardening-2026-09-03",
@@ -257,6 +261,149 @@
         {
           "path": "custom_nodes/ComfyUI-AIToolkit-Training/web/visual_scene_presets.js",
           "sha256": "6CBB936511009E7674670926232CE062B33D936FCE253D934377B1472B84D690"
+        }
+      ]
+    },
+    {
+      "id": "flux2-klein9b-mitch-identity-engine-v1",
+      "active": true,
+      "role": "internal_generation_engine",
+      "accepted_on": "2026-09-03",
+      "revalidated_on": "2026-09-03",
+      "git_tag": "klein9b-public-v1.1-only-2026-09-03",
+      "evidence": "docs/flux2-klein9b-v1.1-production-cleanup-2026-09-03.md",
+      "revision": "Internal generation-locked Identity engine retained because the public v1.1 visual workflow inherits it. It is no longer registered as a public node and has no duplicate v1 workflow sheet.",
+      "artifacts": [
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_mitch_identity_studio.py",
+          "sha256": "DA5AAD8D3443606B7FE552A301085C5DF98813D2F87136F4536B84D1551EC8EF"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_mitch_identity_studio_presets.py",
+          "sha256": "62CD97DBE17A57E0A3A7B42478E80B9929D9C2E14AC8FC601EF7CF6A4C7F8E15"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_smartphone_style.py",
+          "sha256": "04C64C6D78FB5C9024515882EA1771EFF0BAE3CF7361AD063F8E2C1CAA2D1C22"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_appearance_polish.py",
+          "sha256": "9D8D3E61B4FC83AE6840ACFAE42F087CC0F179CE6B67D62F9CFD9FCD28BAE88B"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_turbo.py",
+          "sha256": "AC70C96F24C2CFAC33D454DF1745E2136EF2B789773E7E94E99B22CFA07B7994"
+        }
+      ]
+    },
+    {
+      "id": "flux2-klein9b-mitch-group-engine-v1",
+      "active": true,
+      "role": "internal_generation_engine",
+      "accepted_on": "2026-09-03",
+      "revalidated_on": "2026-09-03",
+      "git_tag": "klein9b-public-v1.1-only-2026-09-03",
+      "evidence": "docs/flux2-klein9b-v1.1-production-cleanup-2026-09-03.md",
+      "depends_on": [
+        "flux2-klein9b-mitch-identity-engine-v1"
+      ],
+      "revision": "Internal generation-locked Group engine retained because the public v1.1 visual workflow inherits it. It is no longer registered as a public node and has no duplicate v1 workflow sheet.",
+      "artifacts": [
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_group_scene_studio.py",
+          "sha256": "96C40B42BE4423E8F317A6F4F005B75C970C34F0EE0DDFF6F9B110F0217C3568"
+        }
+      ]
+    },
+    {
+      "id": "flux2-klein9b-upgrade-engine-v1",
+      "active": true,
+      "role": "internal_generation_engine",
+      "accepted_on": "2026-09-03",
+      "revalidated_on": "2026-09-03",
+      "git_tag": "klein9b-public-v1.1-only-2026-09-03",
+      "evidence": "docs/flux2-klein9b-v1.1-production-cleanup-2026-09-03.md",
+      "depends_on": [
+        "flux2-klein9b-mitch-identity-engine-v1"
+      ],
+      "revision": "The public Upgrade v1.1 node is a direct alias to this unchanged generation-locked engine. Sampling, reference order, prompt construction, and deterministic postprocessing remain identical to the revalidated implementation.",
+      "artifacts": [
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_photo_realism_upgrade.py",
+          "sha256": "3A712E7BBD53E0AF070CD5D986830C1EC7B1F87B0456032A065944E52A8C3412"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_photo_realism_upgrade_presets.py",
+          "sha256": "B9B53706E74308386456D29B9153E668F97E415831B1522B87251B7A8B751ADC"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_deterministic_polish.py",
+          "sha256": "D970934CE4CF0B640A4BD24ABD7DA3BFA16A67F23842CBC81B14B4323793977B"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_source_gaze_lock.py",
+          "sha256": "3C68D54C4E94DFF8A2CD4D308C282F441A98916717D6DF4DC57F81889AF50275"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_upgrade_masking.py",
+          "sha256": "7AB8ABA5053EC73646F28C7EAF7E0195A69699246F662F070D828DA08ECD5BF3"
+        }
+      ]
+    },
+    {
+      "id": "flux2-klein9b-production-workflows-v1.1",
+      "active": true,
+      "role": "public_production_surface",
+      "accepted_on": "2026-09-03",
+      "revalidated_on": "2026-09-03",
+      "git_tag": "klein9b-public-v1.1-only-2026-09-03",
+      "evidence": "docs/flux2-klein9b-v1.1-production-cleanup-2026-09-03.md",
+      "depends_on": [
+        "flux2-klein9b-mitch-identity-engine-v1",
+        "flux2-klein9b-mitch-group-engine-v1",
+        "flux2-klein9b-upgrade-engine-v1"
+      ],
+      "revision": "Exactly three public Klein 9B workflow sheets remain, all v1.1. Identity and Group keep their validated visual-preset wrappers; Upgrade v1.1 maps directly to the unchanged validated Upgrade engine. Legacy v1 workflow sheets and public node registrations were removed.",
+      "artifacts": [
+        {
+          "path": "workflows/production/FLUX.2 Klein 9B Mitch Identity Studio v1.1 - Visual Presets.json",
+          "sha256": "FDA56677696C9ECFED455DFCDA0DA2E9DD530D540293B7F6BAFBB8B7B78C7ACE"
+        },
+        {
+          "path": "workflows/production/FLUX.2 Klein 9B Mitch Group Scene Studio v1.1 - Visual Presets.json",
+          "sha256": "1878B00ADFF0AC6A8E8A8959CB1E0807651FF2D35FCC7A3BC8EA0211FDDAF2BC"
+        },
+        {
+          "path": "workflows/production/FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1.1.json",
+          "sha256": "A902BE457F5E9A1BFE64A3BF4AD4C7A67F2893B77770953B535D84E55FDE8938"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_mitch_identity_studio_visual_presets.py",
+          "sha256": "672A12532C9C44C8965EDC9FF2EFA7DEA0B3B1D665F19D9BFBB59A7904D12CAB"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_group_scene_studio_visual_presets.py",
+          "sha256": "E95D1C2EE020607E04B1EF1AD9A3E1FB962ADE4E329943E90BAEEE4462FC98AD"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_scene_presets.py",
+          "sha256": "2778F5A44BBD2BDD9B3B9896D3159F3B383FE2783370ACBDF98F782C5E7401ED"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_visual_preset_support.py",
+          "sha256": "B28631191B2A9531EB7A0CAB937589F7FD009CE23773C7BA47931013D567EAC0"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/web/assets/scene-presets/manifest.json",
+          "sha256": "70CEAF391CEDD1A7B3F76FEA8CD22815A963820F319BA2763F7C801D667AF7CF"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/web/visual_scene_presets.js",
+          "sha256": "6CBB936511009E7674670926232CE062B33D936FCE253D934377B1472B84D690"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/nodes.py",
+          "sha256": "352390B02172BE93DA2DA112E644CDA294D6F96E7076849A7F0F8E8DB4665B87"
         }
       ]
     }

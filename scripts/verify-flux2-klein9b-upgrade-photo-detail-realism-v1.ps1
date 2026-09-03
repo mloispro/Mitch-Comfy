@@ -12,13 +12,15 @@ param(
 
 $ErrorActionPreference = "Stop"
 $ProjectRoot = Split-Path -Parent $PSScriptRoot
-$WorkflowPath = Join-Path $ProjectRoot "workflows\production\FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1.json"
+$WorkflowPath = Join-Path $ProjectRoot "workflows\production\FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1.1.json"
 $NodePath = Join-Path $ProjectRoot "custom_nodes\ComfyUI-AIToolkit-Training\flux2_klein9b_photo_realism_upgrade.py"
+$RegistryPath = Join-Path $ProjectRoot "custom_nodes\ComfyUI-AIToolkit-Training\nodes.py"
 $PresetPath = Join-Path $ProjectRoot "custom_nodes\ComfyUI-AIToolkit-Training\flux2_klein9b_photo_realism_upgrade_presets.py"
 $PolishPath = Join-Path $ProjectRoot "custom_nodes\ComfyUI-AIToolkit-Training\flux2_klein9b_deterministic_polish.py"
 $GazePath = Join-Path $ProjectRoot "custom_nodes\ComfyUI-AIToolkit-Training\flux2_klein9b_source_gaze_lock.py"
 $MaskingPath = Join-Path $ProjectRoot "custom_nodes\ComfyUI-AIToolkit-Training\flux2_klein9b_upgrade_masking.py"
-$NodeName = "Flux2Klein9BPhotoRealismUpgradeV1"
+$NodeName = "Flux2Klein9BPhotoRealismUpgradeV11"
+$InternalNodeName = "Flux2Klein9BPhotoRealismUpgradeV1"
 $SourceName = "mitch-photo2-source-aef87048.png"
 $Detail = "For this included example, the man remains in the exact source three-quarter view and looks past the camera toward image-right. Preserve the exact raised-collar coat silhouette, shirt opening, building-wall diagonals, roof edge, bare-tree layout, and every foreground/background boundary. Render the same real house exterior with separate horizontal siding boards, narrow straight seams, subtle matte painted texture, and minor surface variation. Render the same leafless tree with tapered limbs, bark ridges, irregular forks, progressively thinner twigs, tiny buds, and distinct overlapping depth layers. Keep the whole environment legible with natural small-sensor depth of field; distant elements soften gradually but remain structurally readable instead of becoming portrait-mode bokeh."
 
@@ -147,6 +149,7 @@ function Assert-Hash([string]$Path, [string]$Expected, [string]$Label) {
 
 if (-not (Test-Path -LiteralPath $WorkflowPath -PathType Leaf)) { throw "Missing production workflow: $WorkflowPath" }
 if (-not (Test-Path -LiteralPath $NodePath -PathType Leaf)) { throw "Missing Upgrade production node: $NodePath" }
+if (-not (Test-Path -LiteralPath $RegistryPath -PathType Leaf)) { throw "Missing public node registry: $RegistryPath" }
 if (-not (Test-Path -LiteralPath $PresetPath -PathType Leaf)) { throw "Missing Upgrade prompt preset: $PresetPath" }
 if (-not (Test-Path -LiteralPath $PolishPath -PathType Leaf)) { throw "Missing deterministic appearance-polish implementation: $PolishPath" }
 if (-not (Test-Path -LiteralPath $GazePath -PathType Leaf)) { throw "Missing source-gaze-lock implementation: $GazePath" }
@@ -161,6 +164,14 @@ if (@($upgradeNode.inputs).Count -ne 5) { throw "Upgrade node must expose only s
 if ([bool]$upgradeNode.widgets_values[1] -ne $true) { throw "Production sheet must open with Subtle handsome polish enabled." }
 if ([bool]$upgradeNode.widgets_values[2] -ne $true) { throw "Production sheet must open in the accepted phone-camera mode." }
 if ([UInt64]$upgradeNode.widgets_values[3] -ne 8675416) { throw "Production sheet no longer opens at approved seed 8675416." }
+
+$registrySource = Get-Content -Raw -LiteralPath $RegistryPath
+if ($registrySource -notmatch [regex]::Escape('"Flux2Klein9BPhotoRealismUpgradeV11": Flux2Klein9BPhotoRealismUpgradeV1,')) {
+    throw "Upgrade v1.1 must be a direct public alias to the exact validated internal engine."
+}
+if ($registrySource -match [regex]::Escape('"Flux2Klein9BPhotoRealismUpgradeV1": Flux2Klein9BPhotoRealismUpgradeV1,')) {
+    throw "Retired Upgrade v1 remains exposed in the public node registry."
+}
 
 $nodeSource = Get-Content -Raw -LiteralPath $NodePath
 $presetSource = Get-Content -Raw -LiteralPath $PresetPath
@@ -322,6 +333,8 @@ if ($Smoke) { Assert-Hardware3090Idle $hardware "preflight" }
 
 $nodeInfo = Invoke-RestMethod -Uri "$Server/object_info/$NodeName" -TimeoutSec 30
 if (-not $nodeInfo.$NodeName) { throw "Live RTX 3090 worker does not expose $NodeName; restart the worker after installing the workflow." }
+$retiredNodeInfo = Invoke-RestMethod -Uri "$Server/object_info/$InternalNodeName" -TimeoutSec 30
+if ($retiredNodeInfo.PSObject.Properties[$InternalNodeName]) { throw "Live RTX 3090 worker still exposes retired Upgrade node $InternalNodeName." }
 $requiredInputs = @($nodeInfo.$NodeName.input_order.required)
 if (($requiredInputs -join ",") -ne "source_photo,detail_instructions,appearance_polish,phone_camera_style,seed") {
     throw "Live node input contract drifted: $($requiredInputs -join ', ')"
@@ -331,6 +344,7 @@ if (-not $livePhoneDefault) { throw "Live RTX 3090 node still defaults Phone-cam
 
 $hashes = [ordered]@{
     workflow = (Get-FileHash -Algorithm SHA256 -LiteralPath $WorkflowPath).Hash.ToUpperInvariant()
+    upgrade_engine = "3A712E7BBD53E0AF070CD5D986830C1EC7B1F87B0456032A065944E52A8C3412"
     model = "4A54FAD7F5F741B99EEE217198DAAC20B8D8E515E2A1F5B064FD51CF074F95BD"
     text_encoder = "ABAD16806E0CBABC54E0325D6565847443FE396D5F0BE38BB3CD3FE75A1201D6"
     vae = "D64F3A68E1CC4F9F4E29B6E0DA38A0204FE9A49F2D4053F0EC1FA1CA02F9C4B5"
@@ -345,6 +359,7 @@ $hashes = [ordered]@{
     human_segmentation = "01EB6A29A5C4D8EDB30B56ADAD9BB3A2A0535338E480724A213E0ACFD2D1C73C"
     smoke_source = "AEF8704873C40C92EC365C091EA142998E72B3D80D22B45F55275309165BA5B4"
 }
+Assert-Hash $NodePath $hashes.upgrade_engine "generation-locked Upgrade engine"
 Assert-Hash (Join-Path $ComfyRoot "models\diffusion_models\flux-2-klein-base-9b-bf16.safetensors") $hashes.model "Klein Base 9B model"
 Assert-Hash (Join-Path $ComfyRoot "models\text_encoders\qwen_3_8b_fp8mixed.safetensors") $hashes.text_encoder "Qwen 3 8B text encoder"
 Assert-Hash (Join-Path $ComfyRoot "models\vae\flux2-vae.safetensors") $hashes.vae "FLUX.2 VAE"
@@ -361,6 +376,7 @@ Assert-Hash (Join-Path $ComfyRoot "models\rembg\u2net_human_seg.onnx") $hashes.h
 $validation = [ordered]@{
     schema_version = 1
     status = "validated"
+    public_version = "v1.1"
     workflow = $WorkflowPath
     node = $NodeName
     workers = $workers

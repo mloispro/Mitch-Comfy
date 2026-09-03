@@ -1,5 +1,8 @@
 # FLUX.2 Klein 9B Mitch Identity Studio v1
 
+> Historical internal-engine contract. The duplicate public v1 sheet was removed on 2026-09-03. Use
+> `Mitch/production/FLUX.2 Klein 9B Mitch Identity Studio v1.1 - Visual Presets`.
+
 ## Production decision
 
 This is the normal local photo workflow. It packages the selected nine-scene result: undistilled FLUX.2
@@ -21,7 +24,7 @@ Generation is locked to `832×1216`, Euler, `Flux2Scheduler`, and the RTX 3090. 
 
 ## Use
 
-Open `Mitch/production/FLUX.2 Klein 9B Mitch Identity Studio v1`.
+The controls below describe the retained internal engine exposed through the v1.1 visual-preset workflow.
 
 1. Choose `GROUP` when anyone besides Mitch is present. It uses one frontal identity photograph to reduce
    identity duplication into bystanders.

@@ -14,7 +14,7 @@ Start here:
 | --- | --- |
 | Create a completely new solo, full-body, or lifestyle photograph | `Mitch/production/FLUX.2 Klein 9B Mitch Identity Studio v1.1 - Visual Presets` |
 | Match one of the prepared or custom group compositions | `Mitch/production/FLUX.2 Klein 9B Mitch Group Scene Studio v1.1 - Visual Presets` |
-| Improve an existing one-person Mitch image without intentionally changing its layout | `Mitch/production/FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1` |
+| Improve an existing one-person Mitch image without intentionally changing its layout | `Mitch/production/FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1.1` |
 | Restage one of the validated dating templates with FLUX.2 Dev | `Mitch/production/FLUX.2 Dev LoRA - 9 Dating Scenes v1` |
 
 `Dataset gen - QWEN 2511 - 3-photo` and `Train Generated Dataset - AI Toolkit` are utilities, not
@@ -26,8 +26,8 @@ All four photo workflows are local and require visual review; none uses a hosted
 
 ## Repository layout
 
-- `workflows/production` — visible Production workflows, including the v1.1 visual galleries and their hash-frozen v1 rollbacks.
-- `custom_nodes/ComfyUI-AIToolkit-Training` — local nodes used by the current workflows and retained rollback nodes.
+- `workflows/production` — visible Production workflows; the three Klein 9B entries are all v1.1 with no duplicate v1 sheets.
+- `custom_nodes/ComfyUI-AIToolkit-Training` — local nodes used by the current workflows and retained internal generation engines.
 - `custom_nodes/ComfyUI-AIToolkit-Training/web/assets/scene-presets/manifest.json` — canonical Identity and Group
   visual-preset data shared by the Python shells, browser gallery, verification, and preview-candidate tooling.
 - `docs` — current instructions plus dated evaluation evidence.

@@ -7,10 +7,10 @@ verification scripts are the implementation authority. Dated evaluation reports 
 historical evidence; words such as “current,” “production,” or “selected” inside those reports describe the
 decision at that time unless their status banner says otherwise.
 
-Fresh shipped-default runs of Identity v1.1, Group v1.1, and native Upgrade v1 all passed on 2026-09-03. The exact
+Fresh shipped-default runs of Identity v1.1, Group v1.1, and native Upgrade all passed on 2026-09-03. The exact
 prompt IDs, output hashes, six-genuine-reference scores, leakage results, structure diagnostic, report invariants,
 and visual checks are recorded in `docs/flux2-klein9b-production-revalidation-2026-09-03.md`. The frozen registry
-now tracks the three engines and the visual-preset shell as separate baselines.
+tracks the three internal generation engines separately from the public v1.1 workflow surface.
 
 The subsequent reuse review kept all three workflows separate and hardened only shared, non-generative plumbing:
 manifest/path/hash validation, exact frontend/backend manifest parity, prepared-source geometry resolution, maintenance
@@ -18,20 +18,25 @@ checks, GPU-service preflight, reporting, and the specialized verifiers. The gen
 were not changed. Rationale, exact conditioning roles, upstream references, and deferred v2 performance experiments
 are recorded in `docs/flux2-klein9b-reuse-hardening-2026-09-03.md`.
 
+The duplicate Identity and Group v1 sheets were then removed, Upgrade was promoted to a direct v1.1 public alias,
+and the old v1 node names were removed from the public node registry. Fresh default runs through all three cleaned
+v1.1 entries passed identity, leakage/duplication, structure, report, and full-size/thumbnail visual review. Identity
+was pixel-identical to its prior accepted default; Upgrade's raw, final, and guide decoded hashes were exact; Group
+kept identical inputs and guide with only `0.3196 / 255` mean CUDA/VAE variation. Exact evidence is in
+`docs/flux2-klein9b-v1.1-production-cleanup-2026-09-03.md`.
+
 ## Visible Production workflows
 
 | Workflow | Current role | Identity mechanism | Worker |
 | --- | --- | --- | --- |
-| `FLUX.2 Klein 9B Mitch Identity Studio v1.1 - Visual Presets` | **Default** new solo/full-body/lifestyle workflow; clickable scene gallery | Hash-frozen v1 engine: Klein Base 9B + protected V3 step-1600 identity LoRA + genuine native references + smartphone-realism LoRA at `0.25` | RTX 3090, port `8188` |
-| `FLUX.2 Klein 9B Mitch Group Scene Studio v1.1 - Visual Presets` | **Default** source-matched group workflow; clickable layout gallery | Hash-frozen v1 group engine: face-interior-free Canny layout + protected V3 step-1600 identity LoRA + separate genuine identity photograph + smartphone-realism LoRA at `0.25` | RTX 3090, port `8188` |
-| `FLUX.2 Klein 9B Mitch Identity Studio v1` | Hash-frozen text-control rollback | Same identity engine as v1.1, without the visual preset shell | RTX 3090, port `8188` |
-| `FLUX.2 Klein 9B Mitch Group Scene Studio v1` | Hash-frozen manual-source rollback | Same group engine as v1.1, without the visual preset shell | RTX 3090, port `8188` |
-| `FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1` | Restored milestone one-person upgrade; handsome polish and phone style on by default | Four ordered native references + V3 step-1600 identity LoRA; deterministic face/iris/hair polish; accepted Smartphone v13 deep-focus default at `0.25`; optional edge-safe phone-off background finish | RTX 3090, port `8188` |
+| `FLUX.2 Klein 9B Mitch Identity Studio v1.1 - Visual Presets` | **Default** new solo/full-body/lifestyle workflow; clickable scene gallery | Generation-locked internal engine: Klein Base 9B + protected V3 step-1600 identity LoRA + genuine native references + smartphone-realism LoRA at `0.25` | RTX 3090, port `8188` |
+| `FLUX.2 Klein 9B Mitch Group Scene Studio v1.1 - Visual Presets` | **Default** source-matched group workflow; clickable layout gallery | Generation-locked internal group engine: face-interior-free Canny layout + protected V3 step-1600 identity LoRA + separate genuine identity photograph + smartphone-realism LoRA at `0.25` | RTX 3090, port `8188` |
+| `FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1.1` | One-person upgrade; handsome polish and phone style on by default | Direct v1.1 alias to the unchanged generation-locked engine: four ordered native references + V3 step-1600 identity LoRA; deterministic face/iris/hair polish; accepted Smartphone v13 deep-focus default at `0.25`; optional edge-safe phone-off background finish | RTX 3090, port `8188` |
 | `FLUX.2 Dev LoRA - 9 Dating Scenes v1` | Validated specialty workflow for the nine dating-scene templates or controlled scene restaging | FLUX.2 Dev + protected Dev V2 step-1000 LoRA; optional scene image is composition conditioning, not identity | RTX 3090 |
 | `Dataset gen - QWEN 2511 - 3-photo` | Dataset-generation utility | Qwen Image Edit 2511 Lightning + multiple-angle LoRA | Local ComfyUI |
 | `Train Generated Dataset - AI Toolkit` | Training submission/monitoring utility | AI-Toolkit durable job queue | Local AI-Toolkit |
 
-The first six create or edit photographs. The last two are utilities and are not evidence that a generated
+The first four create or edit photographs. The last two are utilities and are not evidence that a generated
 dataset or newly trained adapter is approved.
 
 ## Installed LoRAs to keep
@@ -80,7 +85,7 @@ The following are not normal-use Production workflows:
 
 ## Acceptance rules that still apply
 
-- The v1.1 Identity and Group galleries are thin shells around the unchanged hash-frozen v1 engines. Their labels,
+- The v1.1 Identity and Group galleries are thin interfaces over unchanged generation-locked internal engines. Their labels,
   prompts, thumbnails, recommended identity profiles, group source assets, and target geometry come from the single
   canonical `web/assets/scene-presets/manifest.json`. Prepared Identity presets enforce their recorded reference
   profile on the backend; custom prompts retain the user's explicit profile selection.

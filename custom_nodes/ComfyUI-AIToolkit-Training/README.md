@@ -7,14 +7,17 @@ legacy rollback graphs. Current workflow status is maintained in `../../docs/STA
 
 | Node | Workflow | Purpose |
 | --- | --- | --- |
-| `Flux2Klein9BMitchIdentityStudioV1` | Klein 9B Mitch Identity Studio v1 | New whole-frame solo, full-body, and prompt-defined group photographs |
-| `Flux2Klein9BMitchGroupSceneStudioV1` | Klein 9B Mitch Group Scene Studio v1 | Source-matched group layout with a face-interior-free Canny guide |
-| `Flux2Klein9BPhotoRealismUpgradeV1` | Upgrade Photo Detail & Realism v1 | Whole-frame re-render of an existing one-face Mitch image |
+| `Flux2Klein9BMitchIdentityStudioVisualPresetsV11` | Klein 9B Mitch Identity Studio v1.1 | New whole-frame solo, full-body, and lifestyle photographs with visual scene presets |
+| `Flux2Klein9BMitchGroupSceneStudioVisualPresetsV11` | Klein 9B Mitch Group Scene Studio v1.1 | Source-matched group layouts with visual presets and a face-interior-free Canny guide |
+| `Flux2Klein9BPhotoRealismUpgradeV11` | Upgrade Photo Detail & Realism v1.1 | Whole-frame re-render of an existing one-face Mitch image |
 | `Flux2DevMitchSceneStudio` | FLUX.2 Dev LoRA - 9 Dating Scenes v1 | Prompt or scene-reference generation with the Dev V2 step-1000 LoRA |
 
 These nodes verify protected LoRA/reference hashes and enforce the intended worker/model contracts. They do not
 upload images or use face swap. See the corresponding workflow documents in `../../docs` for reference roles,
 locked settings, and review gates.
+
+The older `V1` Python classes remain only as generation-locked implementation bases. They are deliberately absent
+from `NODE_CLASS_MAPPINGS`, so they do not appear as duplicate public nodes or workflow sheets.
 
 ## Dataset/training utility nodes
 

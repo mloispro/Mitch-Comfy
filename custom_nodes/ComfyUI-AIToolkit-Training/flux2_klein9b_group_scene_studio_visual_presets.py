@@ -36,13 +36,18 @@ def _load_group_preset_source(record: dict) -> tuple[torch.Tensor, Path]:
 class Flux2Klein9BMitchGroupSceneStudioVisualPresetsV11(
     Flux2Klein9BMitchGroupSceneStudioV1
 ):
-    """Visual-preset shell around the hash-frozen v1 group generator."""
+    """Public v1.1 visual-preset interface over the proven internal group generator."""
 
     @classmethod
     def INPUT_TYPES(cls):
         inherited = super().INPUT_TYPES()
+        required = dict(inherited["required"])
+        required["scene_prompt"] = (
+            "STRING",
+            {"default": "", "multiline": True},
+        )
         return {
-            "required": dict(inherited["required"]),
+            "required": required,
             "optional": {
                 "scene_preset": (
                     list(GROUP_SCENE_PRESETS),

@@ -16,7 +16,7 @@ from .flux2_klein9b_visual_preset_support import augment_visual_preset_report
 class Flux2Klein9BMitchIdentityStudioVisualPresetsV11(
     Flux2Klein9BMitchIdentityStudioV1
 ):
-    """Visual-preset shell around the hash-frozen v1 production generator."""
+    """Public v1.1 visual-preset interface over the proven internal generator."""
 
     @classmethod
     def INPUT_TYPES(cls):

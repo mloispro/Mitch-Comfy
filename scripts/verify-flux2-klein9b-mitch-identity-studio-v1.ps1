@@ -51,42 +51,18 @@ function Assert-ExactSequence {
     }
 }
 
-$frozenWorkflowRelative = "workflows/production/FLUX.2 Klein 9B Mitch Identity Studio v1.json"
 $visualWorkflowRelative = "workflows/production/FLUX.2 Klein 9B Mitch Identity Studio v1.1 - Visual Presets.json"
 $visualWrapperRelative = "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_mitch_identity_studio_visual_presets.py"
 $scenePresetsRelative = "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_scene_presets.py"
 $visualSupportRelative = "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_visual_preset_support.py"
 $presetManifestRelative = "custom_nodes/ComfyUI-AIToolkit-Training/web/assets/scene-presets/manifest.json"
 $visualScriptRelative = "custom_nodes/ComfyUI-AIToolkit-Training/web/visual_scene_presets.js"
-$frozenWorkflowPath = Join-Path $repoRoot $frozenWorkflowRelative.Replace("/", "\")
 $visualWorkflowPath = Join-Path $repoRoot $visualWorkflowRelative.Replace("/", "\")
 $visualWrapperPath = Join-Path $repoRoot $visualWrapperRelative.Replace("/", "\")
 $presetManifestPath = Join-Path $repoRoot $presetManifestRelative.Replace("/", "\")
-$frozenNodeName = "Flux2Klein9BMitchIdentityStudioV1"
+$internalNodeName = "Flux2Klein9BMitchIdentityStudioV1"
 $visualNodeName = "Flux2Klein9BMitchIdentityStudioVisualPresetsV11"
 $defaultPresetKey = "rooftop-cocktail-city-lights"
-
-if (-not (Test-Path -LiteralPath $frozenWorkflowPath -PathType Leaf)) {
-    $errors.Add("Missing frozen v1 Production workflow: $frozenWorkflowPath")
-} else {
-    try {
-        $frozenWorkflow = Get-Content -Raw -LiteralPath $frozenWorkflowPath | ConvertFrom-Json
-        if (@($frozenWorkflow.nodes).Count -ne 3) { $errors.Add("Frozen v1 workflow must contain exactly three visible nodes.") }
-        foreach ($nodeType in "MarkdownNote", $frozenNodeName, "PreviewImage") {
-            if ($nodeType -notin @($frozenWorkflow.nodes.type)) { $errors.Add("Frozen v1 workflow is missing node: $nodeType") }
-        }
-        $studioNode = @($frozenWorkflow.nodes | Where-Object type -eq $frozenNodeName)[0]
-        if ($studioNode) {
-            if (@($studioNode.inputs).Count -ne 5) { $errors.Add("Frozen v1 workflow must expose only reference_profile, scene_prompt, appearance_polish, fast_turbo, and seed.") }
-            if ([string]$studioNode.widgets_values[0] -notmatch "^GROUP") { $errors.Add("Frozen v1 workflow must open in the one-reference group-safe profile.") }
-            if ([string]$studioNode.widgets_values[1] -notmatch "(?i)(Only the foreground man is m1tch_person|m1tch_person is the one foreground man)") { $errors.Add("Frozen v1 workflow default must explicitly scope Mitch to the main group subject.") }
-            if ([bool]$studioNode.widgets_values[2] -ne $true) { $errors.Add("Frozen v1 workflow must open with subtle appearance polish enabled.") }
-            if ([bool]$studioNode.widgets_values[3] -ne $true) { $errors.Add("Frozen v1 workflow must open in the validated 8-step Turbo mode.") }
-        }
-    } catch {
-        $errors.Add("Frozen v1 workflow JSON is invalid: $($_.Exception.Message)")
-    }
-}
 
 $presetManifest = $null
 $defaultPreset = $null
@@ -176,14 +152,13 @@ if (-not (Test-Path -LiteralPath $frozenRegistryPath -PathType Leaf)) {
     try {
         $frozenRegistry = Get-Content -Raw -LiteralPath $frozenRegistryPath | ConvertFrom-Json
         foreach ($artifact in @(
-            @{ Baseline = "flux2-klein9b-mitch-identity-studio-v1"; Path = $frozenWorkflowRelative; Label = "frozen v1 Identity workflow" },
-            @{ Baseline = "flux2-klein9b-mitch-identity-studio-v1"; Path = "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_mitch_identity_studio.py"; Label = "frozen v1 Identity engine" },
-            @{ Baseline = "flux2-klein9b-visual-preset-shells-v1.1"; Path = $visualWorkflowRelative; Label = "primary v1.1 Identity workflow" },
-            @{ Baseline = "flux2-klein9b-visual-preset-shells-v1.1"; Path = $visualWrapperRelative; Label = "primary v1.1 Identity wrapper" },
-            @{ Baseline = "flux2-klein9b-visual-preset-shells-v1.1"; Path = $scenePresetsRelative; Label = "canonical visual-preset resolver" },
-            @{ Baseline = "flux2-klein9b-visual-preset-shells-v1.1"; Path = $visualSupportRelative; Label = "visual-preset provenance helper" },
-            @{ Baseline = "flux2-klein9b-visual-preset-shells-v1.1"; Path = $presetManifestRelative; Label = "canonical visual-preset manifest" },
-            @{ Baseline = "flux2-klein9b-visual-preset-shells-v1.1"; Path = $visualScriptRelative; Label = "visual-preset browser extension" }
+            @{ Baseline = "flux2-klein9b-mitch-identity-engine-v1"; Path = "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_mitch_identity_studio.py"; Label = "generation-locked Identity engine" },
+            @{ Baseline = "flux2-klein9b-production-workflows-v1.1"; Path = $visualWorkflowRelative; Label = "primary v1.1 Identity workflow" },
+            @{ Baseline = "flux2-klein9b-production-workflows-v1.1"; Path = $visualWrapperRelative; Label = "primary v1.1 Identity wrapper" },
+            @{ Baseline = "flux2-klein9b-production-workflows-v1.1"; Path = $scenePresetsRelative; Label = "canonical visual-preset resolver" },
+            @{ Baseline = "flux2-klein9b-production-workflows-v1.1"; Path = $visualSupportRelative; Label = "visual-preset provenance helper" },
+            @{ Baseline = "flux2-klein9b-production-workflows-v1.1"; Path = $presetManifestRelative; Label = "canonical visual-preset manifest" },
+            @{ Baseline = "flux2-klein9b-production-workflows-v1.1"; Path = $visualScriptRelative; Label = "visual-preset browser extension" }
         )) {
             Assert-FrozenArtifactHash -Registry $frozenRegistry -BaselineId $artifact.Baseline -RelativePath $artifact.Path -Label $artifact.Label
         }
@@ -285,11 +260,9 @@ try {
     if ($device -notmatch "RTX 3090") { $errors.Add("Selected live worker is not the RTX 3090: $device") }
     $queue = Invoke-RestMethod -Uri "$Server/queue" -TimeoutSec 10
     if (@($queue.queue_running).Count -gt 0 -or @($queue.queue_pending).Count -gt 0) { $errors.Add("RTX 3090 queue is not idle.") }
-    $nodeInfo = Invoke-RestMethod -Uri "$Server/object_info/$frozenNodeName" -TimeoutSec 30
-    if (-not $nodeInfo.PSObject.Properties[$frozenNodeName]) { $errors.Add("Live RTX 3090 worker does not expose $frozenNodeName.") }
-    $requiredInputs = @($nodeInfo.$frozenNodeName.input_order.required)
-    if (($requiredInputs -join ",") -ne "reference_profile,scene_prompt,appearance_polish,fast_turbo,seed") {
-        $errors.Add("Live frozen v1 Identity Studio input contract drifted: $($requiredInputs -join ', ')")
+    $retiredNodeInfo = Invoke-RestMethod -Uri "$Server/object_info/$internalNodeName" -TimeoutSec 30
+    if ($retiredNodeInfo.PSObject.Properties[$internalNodeName]) {
+        $errors.Add("Live RTX 3090 worker still exposes retired public Identity node $internalNodeName.")
     }
 
     $visualNodeInfo = Invoke-RestMethod -Uri "$Server/object_info/$visualNodeName" -TimeoutSec 30
@@ -355,4 +328,4 @@ if ($errors.Count -gt 0) {
     exit 1
 }
 
-Write-Host "Verified the Klein 9B winner, protected files, live RTX 3090 node/models, and all eleven hidden archives."
+Write-Host "Verified the public Identity v1.1 workflow, protected internal engine, live RTX 3090 surface/models, and all eleven hidden archives."

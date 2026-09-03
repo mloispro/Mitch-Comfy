@@ -28,7 +28,7 @@ def augment_visual_preset_report(
     shell_name: str,
     preset: dict,
 ) -> dict:
-    """Extend a frozen engine's sidecar report without changing its embedded PNG report."""
+    """Extend the internal engine's sidecar report without changing its embedded PNG report."""
     result = list(response["result"])
     if len(result) < 2:
         raise RuntimeError("Visual preset engine returned an invalid result tuple.")
@@ -39,8 +39,8 @@ def augment_visual_preset_report(
         **preset,
     }
     report["provenance_scope"] = {
-        "png_embedded_report": "hash-frozen v1 generation engine",
-        "report_json": "v1 engine report plus visual-preset shell selection",
+        "png_embedded_report": "generation-locked internal engine",
+        "report_json": "internal engine report plus v1.1 visual-preset selection",
     }
     updated_report_json = json.dumps(report, indent=2)
     report_path = Path(output_directory) / output_folder / "report.json"

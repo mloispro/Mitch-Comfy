@@ -26,8 +26,6 @@ from .krea2_reference_mask import Krea2ReferenceFaceAttentionMask
 from .whole_frame_phone_finish import WholeFramePhoneFinish
 from .flux2_model_benchmark import Flux2ModelBenchmark
 from .flux2_dev_mitch_studio import Flux2DevMitchSceneStudio
-from .flux2_klein9b_mitch_identity_studio import Flux2Klein9BMitchIdentityStudioV1
-from .flux2_klein9b_group_scene_studio import Flux2Klein9BMitchGroupSceneStudioV1
 from .flux2_klein9b_mitch_identity_studio_visual_presets import (
     Flux2Klein9BMitchIdentityStudioVisualPresetsV11,
 )
@@ -254,11 +252,9 @@ NODE_CLASS_MAPPINGS = {
     "WholeFramePhoneFinish": WholeFramePhoneFinish,
     "Flux2ModelBenchmark": Flux2ModelBenchmark,
     "Flux2DevMitchSceneStudio": Flux2DevMitchSceneStudio,
-    "Flux2Klein9BMitchIdentityStudioV1": Flux2Klein9BMitchIdentityStudioV1,
-    "Flux2Klein9BMitchGroupSceneStudioV1": Flux2Klein9BMitchGroupSceneStudioV1,
     "Flux2Klein9BMitchIdentityStudioVisualPresetsV11": Flux2Klein9BMitchIdentityStudioVisualPresetsV11,
     "Flux2Klein9BMitchGroupSceneStudioVisualPresetsV11": Flux2Klein9BMitchGroupSceneStudioVisualPresetsV11,
-    "Flux2Klein9BPhotoRealismUpgradeV1": Flux2Klein9BPhotoRealismUpgradeV1,
+    "Flux2Klein9BPhotoRealismUpgradeV11": Flux2Klein9BPhotoRealismUpgradeV1,
     "Flux2ExactSceneIdentityV3": Flux2ExactSceneIdentityV3,
     "Flux2MinimalRealityTest": Flux2MinimalRealityTest,
     "Flux2CrowdProofExperiment": Flux2CrowdProofExperiment,
@@ -290,11 +286,9 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "WholeFramePhoneFinish": "Photo: Whole Frame Phone Finish",
     "Flux2ModelBenchmark": "Proof: FLUX.2 Klein 9B KV vs Dev Benchmark",
     "Flux2DevMitchSceneStudio": "FLUX.2 Dev: Mitch Scene Studio — Prompt or Scene Image",
-    "Flux2Klein9BMitchIdentityStudioV1": "FLUX.2 Klein 9B: Mitch Identity Studio v1",
-    "Flux2Klein9BMitchGroupSceneStudioV1": "FLUX.2 Klein 9B: Mitch Group Scene Studio v1",
     "Flux2Klein9BMitchIdentityStudioVisualPresetsV11": "FLUX.2 Klein 9B: Mitch Identity Studio v1.1 — Visual Presets",
     "Flux2Klein9BMitchGroupSceneStudioVisualPresetsV11": "FLUX.2 Klein 9B: Mitch Group Scene Studio v1.1 — Visual Presets",
-    "Flux2Klein9BPhotoRealismUpgradeV1": "FLUX.2 Klein 9B: Upgrade Photo Detail & Realism v1",
+    "Flux2Klein9BPhotoRealismUpgradeV11": "FLUX.2 Klein 9B: Upgrade Photo Detail & Realism v1.1",
     "Flux2ExactSceneIdentityV3": "[Experimental] FLUX.2 Klein v3 LoRA — Exact Scene Identity",
     "Flux2MinimalRealityTest": "Proof: Minimal FLUX.2 Background Reality Test",
     "Flux2CrowdProofExperiment": "[Internal] FLUX.2 State-Fair Crowd Proof",

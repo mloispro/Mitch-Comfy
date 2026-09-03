@@ -1,8 +1,11 @@
 # FLUX.2 Klein 9B – Upgrade Photo Detail & Realism v1
 
+> Historical internal-engine contract. The public v1 sheet was removed on 2026-09-03. Use
+> `Mitch/production/FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1.1`.
+
 This production workflow re-renders an existing one-person Mitch photograph as a realistic, materially detailed whole-frame photograph while preserving the source pose and layout. Its sampling and conditioning path is restored from Git milestone `d58732a` / `milestone-good-identity-workflows-2026-09-01`.
 
-Open `Mitch/production/FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1` in the standard RTX 3090 ComfyUI instance at `http://127.0.0.1:8188`.
+The retained generation engine is exposed only through the public v1.1 node at `http://127.0.0.1:8188`.
 
 ## Use
 

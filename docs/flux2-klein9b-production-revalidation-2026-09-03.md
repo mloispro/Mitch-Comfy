@@ -1,5 +1,7 @@
 # FLUX.2 Klein 9B production revalidation — 2026-09-03
 
+> **Historical evidence:** this record names the public workflow versions that existed when the run was performed. The current public surface is v1.1-only; see [the v1.1 production cleanup and fresh revalidation](flux2-klein9b-v1.1-production-cleanup-2026-09-03.md).
+
 ## Decision
 
 The three shipped workflows passed fresh default-path validation and are suitable for a known-good Git milestone:

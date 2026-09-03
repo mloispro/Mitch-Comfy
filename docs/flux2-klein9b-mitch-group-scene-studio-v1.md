@@ -1,11 +1,13 @@
 # FLUX.2 Klein 9B Mitch Group Scene Studio v1
 
+> Historical internal-engine contract. The duplicate public v1 sheet was removed on 2026-09-03. Use
+> `Mitch/production/FLUX.2 Klein 9B Mitch Group Scene Studio v1.1 - Visual Presets`.
+
 ## Locked decision
 
 Mitch visually approved the lounge result preserved as
 `work/group-lounge-prompt-research-20260831/18-approved-locked-group-scene.png` on 2026-08-31.
-The production workflow is
-`workflows/production/FLUX.2 Klein 9B Mitch Group Scene Studio v1.json`.
+The retained internal engine is exposed only through the public v1.1 visual-preset workflow.
 
 The approved result uses FLUX.2 Klein Base 9B, the protected V3 step-1600 LoRA at `0.90`, the accepted
 Smartphone Snapshot Photo Reality v13 style LoRA second at `0.25` with the `casual snapshot` trigger, a genuine

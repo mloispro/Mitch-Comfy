@@ -1,6 +1,7 @@
 param(
     [string]$ComfyRoot = "C:\projects\AI-Tools\ComfyUI",
-    [string]$ComfyUrl = "http://127.0.0.1:8188"
+    [string]$ComfyUrl = "http://127.0.0.1:8188",
+    [string]$ComfySecondaryUrl = "http://127.0.0.1:8189"
 )
 
 $ErrorActionPreference = "Stop"
@@ -35,9 +36,7 @@ Check-Junction (Join-Path $ComfyRoot "custom_nodes\ComfyUI-AIToolkit-Training") 
 Check-Junction (Join-Path $ComfyRoot "custom_nodes\ComfyUI-AlwaysRunImage") (Join-Path $RepoRoot "custom_nodes\ComfyUI-AlwaysRunImage")
 
 $expectedWorkflows = @(
-    "workflows\production\FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1.json",
-    "workflows\production\FLUX.2 Klein 9B Mitch Group Scene Studio v1.json",
-    "workflows\production\FLUX.2 Klein 9B Mitch Identity Studio v1.json",
+    "workflows\production\FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1.1.json",
     "workflows\production\FLUX.2 Klein 9B Mitch Group Scene Studio v1.1 - Visual Presets.json",
     "workflows\production\FLUX.2 Klein 9B Mitch Identity Studio v1.1 - Visual Presets.json",
     "workflows\production\FLUX.2 Dev LoRA - 9 Dating Scenes v1.json",
@@ -103,33 +102,38 @@ if (Test-Path -LiteralPath $oneReferenceWorkflowPath) {
     }
 }
 
-$klein9bStudioWorkflowPath = Join-Path $RepoRoot "workflows\production\FLUX.2 Klein 9B Mitch Identity Studio v1.json"
-if (Test-Path -LiteralPath $klein9bStudioWorkflowPath) {
-    try {
-        $klein9bStudioWorkflow = Get-Content -Raw -LiteralPath $klein9bStudioWorkflowPath | ConvertFrom-Json
-        if ($klein9bStudioWorkflow.nodes.Count -ne 3) {
-            $errors.Add("FLUX.2 Klein 9B Mitch Identity Studio v1 must contain exactly 3 visible nodes.")
+foreach ($retiredPublicWorkflow in @(
+    "workflows\production\FLUX.2 Klein 9B Mitch Identity Studio v1.json",
+    "workflows\production\FLUX.2 Klein 9B Mitch Group Scene Studio v1.json",
+    "workflows\production\FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1.json"
+)) {
+    if (Test-Path -LiteralPath (Join-Path $RepoRoot $retiredPublicWorkflow)) {
+        $errors.Add("Retired duplicate workflow is still visible: $retiredPublicWorkflow")
+    }
+}
+
+$publicNodeRegistryPath = Join-Path $RepoRoot "custom_nodes\ComfyUI-AIToolkit-Training\nodes.py"
+if (-not (Test-Path -LiteralPath $publicNodeRegistryPath -PathType Leaf)) {
+    $errors.Add("Missing public custom-node registry: $publicNodeRegistryPath")
+} else {
+    $publicNodeRegistry = Get-Content -Raw -LiteralPath $publicNodeRegistryPath
+    foreach ($publicMapping in @(
+        '"Flux2Klein9BMitchIdentityStudioVisualPresetsV11": Flux2Klein9BMitchIdentityStudioVisualPresetsV11,',
+        '"Flux2Klein9BMitchGroupSceneStudioVisualPresetsV11": Flux2Klein9BMitchGroupSceneStudioVisualPresetsV11,',
+        '"Flux2Klein9BPhotoRealismUpgradeV11": Flux2Klein9BPhotoRealismUpgradeV1,'
+    )) {
+        if ($publicNodeRegistry -notmatch [regex]::Escape($publicMapping)) {
+            $errors.Add("Missing v1.1 public node mapping: $publicMapping")
         }
-        foreach ($requiredNode in @("MarkdownNote", "Flux2Klein9BMitchIdentityStudioV1", "PreviewImage")) {
-            if ($requiredNode -notin @($klein9bStudioWorkflow.nodes.type)) {
-                $errors.Add("FLUX.2 Klein 9B Mitch Identity Studio v1 is missing node: $requiredNode")
-            }
+    }
+    foreach ($retiredMapping in @(
+        '"Flux2Klein9BMitchIdentityStudioV1": Flux2Klein9BMitchIdentityStudioV1,',
+        '"Flux2Klein9BMitchGroupSceneStudioV1": Flux2Klein9BMitchGroupSceneStudioV1,',
+        '"Flux2Klein9BPhotoRealismUpgradeV1": Flux2Klein9BPhotoRealismUpgradeV1,'
+    )) {
+        if ($publicNodeRegistry -match [regex]::Escape($retiredMapping)) {
+            $errors.Add("Retired v1 node remains in the public mapping: $retiredMapping")
         }
-        $studioNode = @($klein9bStudioWorkflow.nodes | Where-Object { $_.type -eq "Flux2Klein9BMitchIdentityStudioV1" })[0]
-        if ($studioNode -and @($studioNode.inputs).Count -ne 5) {
-            $errors.Add("FLUX.2 Klein 9B Mitch Identity Studio v1 must expose only profile, prompt, appearance polish, Fast Turbo, and seed.")
-        }
-        if ($studioNode -and [string]$studioNode.widgets_values[0] -notmatch "^GROUP") {
-            $errors.Add("FLUX.2 Klein 9B Mitch Identity Studio v1 must open in its group-safe one-reference profile.")
-        }
-        if ($studioNode -and [bool]$studioNode.widgets_values[2] -ne $true) {
-            $errors.Add("FLUX.2 Klein 9B Mitch Identity Studio v1 must open with subtle appearance polish enabled.")
-        }
-        if ($studioNode -and [bool]$studioNode.widgets_values[3] -ne $true) {
-            $errors.Add("FLUX.2 Klein 9B Mitch Identity Studio v1 must open with validated 8-step Turbo enabled.")
-        }
-    } catch {
-        $errors.Add("FLUX.2 Klein 9B Mitch Identity Studio v1 workflow JSON is invalid: $($_.Exception.Message)")
     }
 }
 
@@ -152,6 +156,28 @@ if (Test-Path -LiteralPath $klein9bVisualStudioPath) {
         }
     } catch {
         $errors.Add("Identity Studio v1.1 visual workflow JSON is invalid: $($_.Exception.Message)")
+    }
+}
+
+$klein9bUpgradeWorkflowPath = Join-Path $RepoRoot "workflows\production\FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1.1.json"
+if (Test-Path -LiteralPath $klein9bUpgradeWorkflowPath) {
+    try {
+        $upgradeWorkflow = Get-Content -Raw -LiteralPath $klein9bUpgradeWorkflowPath | ConvertFrom-Json
+        $upgradeNode = @($upgradeWorkflow.nodes | Where-Object { $_.type -eq "Flux2Klein9BPhotoRealismUpgradeV11" })[0]
+        if (-not $upgradeNode -or @($upgradeNode.inputs).Count -ne 5) {
+            $errors.Add("Upgrade Photo Detail & Realism v1.1 must expose source, instructions, two tested toggles, and seed.")
+        }
+        if ($upgradeNode -and [bool]$upgradeNode.widgets_values[1] -ne $true) {
+            $errors.Add("Upgrade Photo Detail & Realism v1.1 must open with appearance polish enabled.")
+        }
+        if ($upgradeNode -and [bool]$upgradeNode.widgets_values[2] -ne $true) {
+            $errors.Add("Upgrade Photo Detail & Realism v1.1 must open with phone-camera realism enabled.")
+        }
+        if ($upgradeNode -and [int64]$upgradeNode.widgets_values[3] -ne 8675416) {
+            $errors.Add("Upgrade Photo Detail & Realism v1.1 seed drifted.")
+        }
+    } catch {
+        $errors.Add("Upgrade Photo Detail & Realism v1.1 workflow JSON is invalid: $($_.Exception.Message)")
     }
 }
 
@@ -264,7 +290,7 @@ if (-not (Test-Path -LiteralPath $frozenBaselinesPath)) {
                 }
                 $actualHash = (Get-FileHash -LiteralPath $artifactPath -Algorithm SHA256).Hash
                 if ($actualHash -ne $artifact.sha256) {
-                    $errors.Add("Frozen baseline $($baseline.id) changed: $($artifact.path). Build new work beside v1; do not edit the accepted core.")
+                    $errors.Add("Frozen baseline $($baseline.id) changed: $($artifact.path). Build new work beside the accepted core.")
                 }
             }
         }
@@ -454,8 +480,19 @@ try {
     Pop-Location
 }
 
+$klein9BPublicNodes = @(
+    "Flux2Klein9BMitchIdentityStudioVisualPresetsV11",
+    "Flux2Klein9BMitchGroupSceneStudioVisualPresetsV11",
+    "Flux2Klein9BPhotoRealismUpgradeV11"
+)
+$klein9BRetiredNodes = @(
+    "Flux2Klein9BMitchIdentityStudioV1",
+    "Flux2Klein9BMitchGroupSceneStudioV1",
+    "Flux2Klein9BPhotoRealismUpgradeV1"
+)
+
 try {
-    foreach ($nodeName in @(
+    $primaryRequiredNodes = @(
         "AlwaysRunImage",
         "AIToolkitTrainGeneratedDataset",
         "Flux2EasySocialPhoto",
@@ -464,18 +501,21 @@ try {
         "Flux2OneReferencePhoto",
         "Flux2IdentityLoraExperiment",
         "Flux2ModelBenchmark",
-        "Flux2MinimalRealityTest",
-        "Flux2Klein9BMitchIdentityStudioV1",
-        "Flux2Klein9BMitchGroupSceneStudioV1",
-        "Flux2Klein9BMitchIdentityStudioVisualPresetsV11",
-        "Flux2Klein9BMitchGroupSceneStudioVisualPresetsV11",
-        "Flux2Klein9BPhotoRealismUpgradeV1",
+        "Flux2MinimalRealityTest"
+    ) + $klein9BPublicNodes + @(
         "Klein9BKVIdentityProof",
         "KSampler"
-    )) {
+    )
+    foreach ($nodeName in $primaryRequiredNodes) {
         $info = Invoke-RestMethod -Uri "$ComfyUrl/object_info/$nodeName" -TimeoutSec 5
         if (-not $info.$nodeName) {
             $errors.Add("ComfyUI did not expose node: $nodeName")
+        }
+    }
+    foreach ($retiredNodeName in $klein9BRetiredNodes) {
+        $retiredInfo = Invoke-RestMethod -Uri "$ComfyUrl/object_info/$retiredNodeName" -TimeoutSec 5
+        if ($retiredInfo.PSObject.Properties[$retiredNodeName]) {
+            $errors.Add("ComfyUI still exposes retired public node: $retiredNodeName")
         }
     }
     $easyInfo = Invoke-RestMethod -Uri "$ComfyUrl/object_info/Flux2EasySocialPhotoV104" -TimeoutSec 5
@@ -486,6 +526,23 @@ try {
     }
 } catch {
     $errors.Add("Could not verify the running ComfyUI API: $($_.Exception.Message)")
+}
+
+try {
+    foreach ($nodeName in $klein9BPublicNodes) {
+        $info = Invoke-RestMethod -Uri "$ComfySecondaryUrl/object_info/$nodeName" -TimeoutSec 5
+        if (-not $info.$nodeName) {
+            $errors.Add("Secondary ComfyUI worker did not expose node: $nodeName")
+        }
+    }
+    foreach ($retiredNodeName in $klein9BRetiredNodes) {
+        $retiredInfo = Invoke-RestMethod -Uri "$ComfySecondaryUrl/object_info/$retiredNodeName" -TimeoutSec 5
+        if ($retiredInfo.PSObject.Properties[$retiredNodeName]) {
+            $errors.Add("Secondary ComfyUI worker still exposes retired public node: $retiredNodeName")
+        }
+    }
+} catch {
+    $errors.Add("Could not verify the secondary ComfyUI API: $($_.Exception.Message)")
 }
 
 if ($errors.Count -gt 0) {

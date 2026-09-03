@@ -2,12 +2,13 @@
 
 ## Decision
 
-The v1.1 workflows add a clickable thumbnail gallery without modifying either hash-frozen v1 generator:
+The public v1.1 workflows provide one consistent Klein 9B surface without modifying the proven internal generators:
 
 - `Mitch/production/FLUX.2 Klein 9B Mitch Identity Studio v1.1 - Visual Presets`
 - `Mitch/production/FLUX.2 Klein 9B Mitch Group Scene Studio v1.1 - Visual Presets`
+- `Mitch/production/FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1.1`
 
-The Upgrade Photo workflow is intentionally unchanged and has no scene gallery.
+Upgrade has no scene gallery; its v1.1 node name maps directly to the unchanged validated Upgrade engine.
 
 ## Identity Studio
 
@@ -32,14 +33,14 @@ Choose `Custom — uploaded group photo` to use the visible Load Image node and 
 
 ## Locked engine and validation
 
-Both shells call the unchanged hash-frozen v1 generators. Model, LoRA order and strength, reference policy, sampling,
+The Identity and Group interfaces call unchanged generation-locked internal engines. Model, LoRA order and strength, reference policy, sampling,
 resolution, GPU lock, identity mechanism, and output paths are unchanged. The selector was verified on the local
 RTX 3090 ComfyUI instance: 15/15 Identity thumbnails and 5/5 Group thumbnails loaded, saved defaults restored
 correctly, and clicking cards updated their selected states. The manifest and wrapper refactor did not queue a new
-generation or modify either frozen engine.
+generation or modify either internal engine.
 
 `custom_nodes/ComfyUI-AIToolkit-Training/web/assets/scene-presets/manifest.json` is the single runtime source for
 labels, prompts, thumbnails, reference profiles, group source assets, target coordinates, and head scales. Python,
 the browser gallery, verification, and preview-candidate tooling consume that manifest rather than maintaining
-parallel copies. The PNG retains the hash-frozen engine report; `report.json` extends it with a clearly nested
+parallel copies. The PNG retains the generation-locked engine report; `report.json` extends it with a clearly nested
 `visual_preset_shell` provenance block.
