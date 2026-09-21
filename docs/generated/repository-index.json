@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "counts": {
-    "code": 1755,
+    "code": 1769,
     "configuration/workflow": 42,
-    "document": 512,
+    "document": 517,
     "test": 200
   },
   "files": [
@@ -3400,16 +3400,16 @@
       "path": "docs/CLEANUP.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "f1826a4929365e6c368dc76c2dbe3c94df45e73e05c9ba1512f03d3732c2e1e2",
-      "lines": 152,
+      "sha256_text": "f6e5cd7d4a0b2526c829c595818ddcb1cb91539396fa83b5f946a88a18285000",
+      "lines": 162,
       "title": "Preservation and cleanup decisions"
     },
     {
       "path": "docs/DECISIONS.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "30d9ef5e3ab31e689b1ce7bbc0d2b603e2c87279c6800ad69f28a8ae1db099f3",
-      "lines": 98,
+      "sha256_text": "f13599a981517cc3bb6401a99e3222d4ee171f187cfa9511a568aa6618c5e958",
+      "lines": 99,
       "title": "Results that should guide the next change"
     },
     {
@@ -3432,8 +3432,8 @@
       "path": "docs/OPTIMIZATION.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "b2c98c21e7dbe59740ed113cc87032a5b07d2f3f18769bb65833c92ac81aa801",
-      "lines": 61,
+      "sha256_text": "5ebf70f169c5b051fbbba9343fba8174e21dae913b43903683c0252db3def5a1",
+      "lines": 62,
       "title": "Where the next unit of work can help most"
     },
     {
@@ -3456,8 +3456,8 @@
       "path": "docs/STATUS.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "9d43c51c5573d29c00d0fd12df93c9de3ce6e36f62bcd5d84f681d09feefe720",
-      "lines": 149,
+      "sha256_text": "2e6837bd9178bb212720ede6543d04fc318dd200ca7283d5942be209ea7d32b5",
+      "lines": 159,
       "title": "Current project status"
     },
     {
@@ -39993,6 +39993,380 @@
         "test_stop_exit_race_refuses_unrelated_listener_or_missing_pid"
       ],
       "referenced_by_main_verifier": false
+    },
+    {
+      "path": "work/group-dual-context-gate-20260921/PLAN.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "29bdd8d575c21d954fb4b9d7c0c07c4ae5d00d1898812d380b2bd6ea90e2a96e",
+      "lines": 67,
+      "title": "Group dual-context routing: CPU research gate"
+    },
+    {
+      "path": "work/group-dual-context-gate-20260921/RESULT.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "4ac25923fc2f764a8d35d2f02ea7aa96b01a415bbfeac4269d901dd09c54aa3e",
+      "lines": 68,
+      "title": "Dual-context routing: structural CPU and CUDA gates passed"
+    },
+    {
+      "path": "work/group-dual-context-gate-20260921/check_cpu.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "541d18a3bc80ce5606f29f8d1396e3a4c130de635ffb37201897bc285f4e10b3",
+      "lines": 146,
+      "symbols": [
+        "run",
+        "mask",
+        "region_errors",
+        "changed_args",
+        "Gate"
+      ],
+      "imports": [
+        "comfy.patcher_extension",
+        "copy",
+        "hashlib",
+        "importlib.util",
+        "json",
+        "os",
+        "pathlib",
+        "routed_lora",
+        "sys",
+        "torch",
+        "unittest"
+      ],
+      "test_functions": [
+        "test_cleanup_on_failure",
+        "test_current_v3_9b_header",
+        "test_full_mask_matches_independent_global_merge",
+        "test_main_still_reads_scene_context",
+        "test_outside_independent_of_identity_reference",
+        "test_outside_independent_of_identity_strength",
+        "test_outside_independent_of_identity_weights",
+        "test_outside_independent_of_selected_latent",
+        "test_partition_contract",
+        "test_state_and_caller_options_unchanged",
+        "test_unsupported_inputs_fail",
+        "test_zero_mask_matches_guide_only_native"
+      ]
+    },
+    {
+      "path": "work/group-dual-context-gate-20260921/fetch_source.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "47c2a9cf469f87b68c949161d1b59d8ad4b56c2e57bb23de2bc782e339c3ca68",
+      "lines": 24,
+      "symbols": [
+        "get"
+      ],
+      "imports": [
+        "hashlib",
+        "json",
+        "pathlib",
+        "time",
+        "urllib.request"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-dual-context-gate-20260921/prepare_pilot.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "75fcc13ececea4f94b01d7df2bb21224b5addc3f4f50b9779ec3045697f400d7",
+      "lines": 115,
+      "symbols": [],
+      "imports": [
+        "ast",
+        "hashlib",
+        "json",
+        "pathlib",
+        "subprocess",
+        "sys"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-dual-context-gate-20260921/probe_attention.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "7bf752eb789f936689be4bf8881ada63de4fce193dcee7b0357335731e0bade9",
+      "lines": 87,
+      "symbols": [
+        "digest",
+        "admission"
+      ],
+      "imports": [
+        "hashlib",
+        "json",
+        "numpy",
+        "os",
+        "pathlib",
+        "psutil",
+        "routed_lora",
+        "socket",
+        "subprocess",
+        "time",
+        "torch",
+        "torch.nn.attention",
+        "urllib.request"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-dual-context-gate-20260921/routed_lora.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "b7c88a85af23e37b27a1f6bf27092661e863ba60e460a36a6be6707118fc2f04",
+      "lines": 128,
+      "symbols": [
+        "partitions",
+        "RoutedLoRA"
+      ],
+      "imports": [
+        "hashlib",
+        "importlib.util",
+        "math",
+        "pathlib",
+        "sys",
+        "threading",
+        "torch",
+        "torch.nn.functional"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-dual-context-pilot-20260921/PLAN.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "df49597310c60609eb2915ab422e00f48658f98dc00671b297950188334c6226",
+      "lines": 52,
+      "title": "One Group image after dual-context routing admission"
+    },
+    {
+      "path": "work/group-dual-context-pilot-20260921/RESULT.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "c9a637a5ec0815420b123658d29612c310dd921020a3779d1855d794bb14add5",
+      "lines": 116,
+      "title": "Dual-context Group pilot: rejected photograph, completed routing proof"
+    },
+    {
+      "path": "work/group-dual-context-pilot-20260921/VISUAL-REVIEW.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "652a77fb056faed7fda5ddfa6b654228e9677b5ca8bf43bbbce4bdcc9e48200d",
+      "lines": 40,
+      "title": "Visual review before numerical scoring"
+    },
+    {
+      "path": "work/group-dual-context-pilot-20260921/check_routing_receipt.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "b20c386eca43b7e224dadfad8339e3fec2d4bb9b71db4ab1beca82401e93057d",
+      "lines": 37,
+      "symbols": [
+        "read",
+        "sha"
+      ],
+      "imports": [
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-dual-context-pilot-20260921/collect.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "0931c609d8d4516b3925f283aa17b0b966ea786783ebc5a7f12e2023f499f9e2",
+      "lines": 71,
+      "symbols": [
+        "read",
+        "sha",
+        "graph",
+        "main"
+      ],
+      "imports": [
+        "PIL",
+        "control",
+        "hashlib",
+        "json",
+        "pathlib",
+        "shutil",
+        "time"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-dual-context-pilot-20260921/control.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "c5c337609594e96fbf513f5b5a837c983715cee20966811c08bae274f88dd06d",
+      "lines": 113,
+      "symbols": [
+        "api",
+        "write",
+        "memory",
+        "pin",
+        "check",
+        "wait_ready",
+        "submit",
+        "watch"
+      ],
+      "imports": [
+        "argparse",
+        "ctypes",
+        "hashlib",
+        "json",
+        "pathlib",
+        "socket",
+        "subprocess",
+        "time",
+        "urllib.request",
+        "uuid"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-dual-context-pilot-20260921/custom_nodes/TokenExperiment/__init__.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "5796fc604a6b6e6cb3942811c69d3f0ebec200b365c7ac973e73333bc9ba90a8",
+      "lines": 243,
+      "symbols": [
+        "memory",
+        "record",
+        "guard",
+        "verified",
+        "state",
+        "GateUNET",
+        "GateCLIP",
+        "GateVAE",
+        "pairs",
+        "GuardedToken",
+        "RegionalV3",
+        "FP8Probe",
+        "GateSampler"
+      ],
+      "imports": [
+        "aiohttp",
+        "comfy.cli_args",
+        "comfy.model_management",
+        "comfy.patcher_extension",
+        "comfy_extras.nodes_custom_sampler",
+        "ctypes",
+        "hashlib",
+        "importlib.util",
+        "json",
+        "nodes",
+        "numpy",
+        "os",
+        "pathlib",
+        "psutil",
+        "safetensors.torch",
+        "server",
+        "sys",
+        "time",
+        "torch",
+        "torch.nn.attention"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-dual-context-pilot-20260921/evaluate.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "c3b179a369e3c403776473cceec85afc9e449587d0389ee9e31ce0c6567fde5e",
+      "lines": 72,
+      "symbols": [
+        "sha",
+        "read",
+        "load",
+        "deny",
+        "main"
+      ],
+      "imports": [
+        "PIL",
+        "ast",
+        "cv2",
+        "hashlib",
+        "importlib.util",
+        "insightface.app",
+        "itertools",
+        "json",
+        "numpy",
+        "onnxruntime",
+        "os",
+        "pathlib",
+        "socket",
+        "sys",
+        "time",
+        "types"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-dual-context-pilot-20260921/prepare.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "9c4715de98134ae36310019cb9e95e6daac05b3699e3599a5b2ec57bbee4f6cf",
+      "lines": 59,
+      "symbols": [
+        "pin",
+        "write"
+      ],
+      "imports": [
+        "copy",
+        "hashlib",
+        "json",
+        "pathlib",
+        "shutil"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-dual-context-pilot-20260921/snapshot.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "cf5ae02a8a8dd4cfc3ff943adc4dbac4b85e26d6527f54f78c465afcc3f76c55",
+      "lines": 39,
+      "symbols": [
+        "sha",
+        "walk"
+      ],
+      "imports": [
+        "hashlib",
+        "json",
+        "pathlib",
+        "stat",
+        "zipfile"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-dual-context-pilot-20260921/start.ps1",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "c58317a9d176078d86785e438ed89b0f2d5ec5a362aef977a0213122b20c0a48",
+      "lines": 11
+    },
+    {
+      "path": "work/group-dual-context-pilot-20260921/stop.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "965c345e5bd20dcc9c41a41e5608ac26a8c806c8bcf8fab2288ddef984880984",
+      "lines": 18,
+      "symbols": [],
+      "imports": [
+        "control",
+        "json",
+        "pathlib",
+        "psutil",
+        "time"
+      ],
+      "test_functions": []
     },
     {
       "path": "work/group-identity-correction-3090/run-identity-first-approved-prompt-style025.ps1",

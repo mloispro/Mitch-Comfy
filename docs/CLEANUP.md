@@ -21,7 +21,7 @@ records the completed validation/disposition pass and its remaining feature limi
 | Stronger High | Hold all unique weights and evidence; no repeat grids | The [native/BeautyGRPO work](upgrade-high-resume-2026-09-07.md) and [explicit-feature refinement](upgrade-high-explicit-features-2026-09-07.md) did not achieve the requested improvement. Require a changed, supported mechanism before another experiment; do not declare High complete. |
 | LaTo | Hold the full 47.715 GiB of candidate weights | The [predictor failure](../work/9b-readiness-resume-20260907/lato-compat/ROOT-FINAL-PREDICTOR-RESULT.md) closes its tested source/recipe. Later image stages are unexecuted. [Disposition review](../work/final-validation-20260921/DISPOSITION.md) confirms external-landmark driving is a distinct supported possibility, but has no admitted geometry for this case. Retain assets; do not advance failed predictor points. |
 | PerformRecast | Hold five new isolated checkpoints, 0.941GiB | [Zero-motion test](../work/high-performrecast-gate-20260921/RESULT.md) passes runtime/likeness but fails native detail. No expression trial or production installation. Preserve this bounded failure; it does not finish stronger High or authorize deleting unique weights. |
-| General Group likeness | Hold identity models, genuine references and failed/accepted controls | The [masked refinement](../workflows/experiments/group-masked-strength110-20260908/ROOT-RESULT.md) is closed. A future mechanism must address main likeness and preservation of all other people. No further strength sweep or new character training follows from this cleanup. |
+| General Group likeness | Hold identity models, genuine references and failed/accepted controls | The latest [dual-context pilot](../work/group-dual-context-pilot-20260921/RESULT.md) improves likeness but fails the fixed reference floor and adds an incoherent extra head. Its exact recipe is closed; diagnose the composition mechanism before another image. No further strength sweep or new character training follows from this cleanup. |
 | VOSR | Completed study; retain 6.494 GiB for local reproducibility | The [completed enhancement study](../work/fast-detail-20260903/RESULTS.md) did not justify promotion. Preserve results; do not repeat the same enhancement recipe. |
 | USO / WithAnyone 1.0 / PuLID | Tested routes closed; installed assets retained | [Screening results](identity-candidate-screening.md) establish bounded rejection, not failure of every future model/version. [Dependency audit](../work/final-validation-20260921/DISPOSITION.md) found installed optional PuLID/core USO consumers and historical runners. Retain unique assets/shared encoders; dormant does not mean redundant. |
 | St. Barts final image | Keep final PNG, original, masks, background and composition code | [Exact-foreground correction](../work/st-barts-exact-foreground-20260920/RESULT.md) is complete for pose preservation with qualified likeness. [Actual gallery interaction passed](../work/st-barts-gallery-check-20260921/RESULT.md); text-conditioned generation does not inherit exact pose preservation. |
@@ -124,6 +124,16 @@ saved in `local/high-performrecast-gate-20260921/evidence.zip`, with a
 [per-entry verification receipt](../local/high-performrecast-gate-20260921/verification.json).
 The snapshot excludes these models explicitly. This pass deletes nothing and leaves
 the public Comfy worker running; useful stronger High and general Group remain unresolved.
+
+The subsequent [dual-context Group pilot](../work/group-dual-context-pilot-20260921/RESULT.md)
+adds no model weights. Its structural routing checks pass, but the image fails the
+fixed likeness and anatomy gates. The private worker is stopped. Both new work packages
+are saved in `local/group-dual-context-pilot-20260921/evidence.zip`; the
+[verification receipt](../local/group-dual-context-pilot-20260921/verification.json)
+confirms63 source entries (17,388,748bytes) with per-entry SHA256 readback. The archive
+is16,856,180bytes and excludes private worker runtime data and bytecode. Originals,
+all20 unique candidate weights and installed dependencies remain; no deletion follows
+from this failed recipe. This remains same-drive evidence recovery only.
 
 ## Gallery baseline reconciliation
 
