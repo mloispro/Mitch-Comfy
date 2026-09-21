@@ -1,0 +1,346 @@
+{
+  "prompt": {
+    "1": {
+      "class_type": "UNETLoader",
+      "inputs": {
+        "unet_name": "flux-2-klein-base-9b-bf16.safetensors",
+        "weight_dtype": "fp8_e4m3fn"
+      }
+    },
+    "3": {
+      "class_type": "LoraLoaderModelOnly",
+      "inputs": {
+        "model": [
+          "2",
+          0
+        ],
+        "lora_name": "m1tch-flux2-klein9b-identity-v3-r32-dop-step1600.safetensors",
+        "strength_model": 0.9
+      }
+    },
+    "4": {
+      "class_type": "LoraLoaderModelOnly",
+      "inputs": {
+        "model": [
+          "3",
+          0
+        ],
+        "lora_name": "smartphone-snapshot\\FLUX.2-klein-base-9B_SmartphoneSnapshotPhotoReality_v13.safetensors",
+        "strength_model": 0.25
+      }
+    },
+    "5": {
+      "class_type": "CLIPLoader",
+      "inputs": {
+        "clip_name": "qwen_3_8b_fp8mixed.safetensors",
+        "type": "flux2",
+        "device": "default"
+      }
+    },
+    "6": {
+      "class_type": "VAELoader",
+      "inputs": {
+        "vae_name": "flux2-vae.safetensors"
+      }
+    },
+    "7": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "casual snapshot. A full-body photograph of m1tch_person, the same recognizable adult man from Pictures 1 and 3. Pictures 1 and 3 supply his face and hairline from different views; Picture 2 supplies only his lean body proportions. He stands naturally on a clean downtown sidewalk just after sunrise, wearing a fitted black bomber jacket over a muted gray shirt, dark trousers and shoes, with a bare neck. Frame his complete body head to toe, both shoes fully inside the image with a clear strip of sidewalk below them. His hands are complete and relaxed. The street recedes naturally behind him. He faces the camera with a calm neutral expression. His jaw is relaxed and his lips are gently pressed together in one continuous closed line. Give him a visibly flattering best-day appearance, about three to five years younger while retaining his distinctive adult face width, eyes, nose, mouth, ears and short brown hair and hairline. Give him a slightly stronger natural jaw and chin, raise and define his cheekbones modestly, and gently balance his face and eyelids. His eyes retain their natural size, spacing and color with clear irises and small natural catchlights. Soften forehead, eye and under-eye lines by about half, reduce under-eye puffiness and shadow, and give his skin a light bronze tan with healthy tonal variation. Keep fine visible pores and tidy individual stubble hairs. One coherent, uncaptioned and unbranded photograph with natural anatomy, skin, hair and urban detail, and the texture of an unretouched editorial photograph.",
+        "clip": [
+          "5",
+          0
+        ]
+      }
+    },
+    "8": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "",
+        "clip": [
+          "5",
+          0
+        ]
+      }
+    },
+    "2": {
+      "class_type": "LoraLoaderModelOnly",
+      "inputs": {
+        "model": [
+          "1",
+          0
+        ],
+        "lora_name": "flux2-klein9b-turbo\\Flux_Klein_9b_Turbo_lora_rank_256_bf16_standard.safetensors",
+        "strength_model": 1.0
+      }
+    },
+    "10": {
+      "class_type": "LoadImage",
+      "inputs": {
+        "image": "mitch-klein9b-ref-front-neutral-v2.jpg"
+      }
+    },
+    "11": {
+      "class_type": "ImageScale",
+      "inputs": {
+        "image": [
+          "10",
+          0
+        ],
+        "upscale_method": "lanczos",
+        "width": 448,
+        "height": 592,
+        "crop": "disabled"
+      }
+    },
+    "12": {
+      "class_type": "VAEEncode",
+      "inputs": {
+        "pixels": [
+          "11",
+          0
+        ],
+        "vae": [
+          "6",
+          0
+        ]
+      }
+    },
+    "13": {
+      "class_type": "ReferenceLatent",
+      "inputs": {
+        "conditioning": [
+          "7",
+          0
+        ],
+        "latent": [
+          "12",
+          0
+        ]
+      }
+    },
+    "14": {
+      "class_type": "ReferenceLatent",
+      "inputs": {
+        "conditioning": [
+          "8",
+          0
+        ],
+        "latent": [
+          "12",
+          0
+        ]
+      }
+    },
+    "20": {
+      "class_type": "LoadImage",
+      "inputs": {
+        "image": "flux2-dev-ref-04-full-body.jpg"
+      }
+    },
+    "21": {
+      "class_type": "ImageScale",
+      "inputs": {
+        "image": [
+          "20",
+          0
+        ],
+        "upscale_method": "lanczos",
+        "width": 512,
+        "height": 512,
+        "crop": "disabled"
+      }
+    },
+    "22": {
+      "class_type": "VAEEncode",
+      "inputs": {
+        "pixels": [
+          "21",
+          0
+        ],
+        "vae": [
+          "6",
+          0
+        ]
+      }
+    },
+    "23": {
+      "class_type": "ReferenceLatent",
+      "inputs": {
+        "conditioning": [
+          "13",
+          0
+        ],
+        "latent": [
+          "22",
+          0
+        ]
+      }
+    },
+    "24": {
+      "class_type": "ReferenceLatent",
+      "inputs": {
+        "conditioning": [
+          "14",
+          0
+        ],
+        "latent": [
+          "22",
+          0
+        ]
+      }
+    },
+    "30": {
+      "class_type": "CFGGuider",
+      "inputs": {
+        "model": [
+          "4",
+          0
+        ],
+        "positive": [
+          "43",
+          0
+        ],
+        "negative": [
+          "44",
+          0
+        ],
+        "cfg": 1.0
+      }
+    },
+    "31": {
+      "class_type": "KSamplerSelect",
+      "inputs": {
+        "sampler_name": "euler"
+      }
+    },
+    "32": {
+      "class_type": "Flux2Scheduler",
+      "inputs": {
+        "steps": 8,
+        "width": 832,
+        "height": 1216
+      }
+    },
+    "33": {
+      "class_type": "RandomNoise",
+      "inputs": {
+        "noise_seed": 8675421
+      }
+    },
+    "34": {
+      "class_type": "EmptyFlux2LatentImage",
+      "inputs": {
+        "width": 832,
+        "height": 1216,
+        "batch_size": 1
+      }
+    },
+    "35": {
+      "class_type": "SamplerCustomAdvanced",
+      "inputs": {
+        "noise": [
+          "33",
+          0
+        ],
+        "guider": [
+          "30",
+          0
+        ],
+        "sampler": [
+          "31",
+          0
+        ],
+        "sigmas": [
+          "32",
+          0
+        ],
+        "latent_image": [
+          "34",
+          0
+        ]
+      }
+    },
+    "36": {
+      "class_type": "VAEDecode",
+      "inputs": {
+        "samples": [
+          "35",
+          0
+        ],
+        "vae": [
+          "6",
+          0
+        ]
+      }
+    },
+    "37": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "images": [
+          "36",
+          0
+        ],
+        "filename_prefix": "9b-readiness-20260903/downtown-neutral-angle09-seed8675421"
+      }
+    },
+    "40": {
+      "class_type": "LoadImage",
+      "inputs": {
+        "image": "20260508_123156.jpg"
+      }
+    },
+    "41": {
+      "class_type": "ImageScale",
+      "inputs": {
+        "image": [
+          "40",
+          0
+        ],
+        "upscale_method": "lanczos",
+        "width": 432,
+        "height": 576,
+        "crop": "disabled"
+      }
+    },
+    "42": {
+      "class_type": "VAEEncode",
+      "inputs": {
+        "pixels": [
+          "41",
+          0
+        ],
+        "vae": [
+          "6",
+          0
+        ]
+      }
+    },
+    "43": {
+      "class_type": "ReferenceLatent",
+      "inputs": {
+        "conditioning": [
+          "23",
+          0
+        ],
+        "latent": [
+          "42",
+          0
+        ]
+      }
+    },
+    "44": {
+      "class_type": "ReferenceLatent",
+      "inputs": {
+        "conditioning": [
+          "24",
+          0
+        ],
+        "latent": [
+          "42",
+          0
+        ]
+      }
+    }
+  }
+}

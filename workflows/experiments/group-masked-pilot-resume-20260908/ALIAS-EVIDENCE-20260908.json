@@ -1,0 +1,49 @@
+{
+  "status": "READ_ONLY_CURRENT_FILESYSTEM_ALIAS_IDENTITY_CONFIRMED",
+  "checked_utc": "2026-09-08T06:13:00.174921+00:00",
+  "context": {
+    "actual_prompt_id": "df911670-57ed-4bc5-b982-a2bbe057b975",
+    "watcher_pid_from_saved_receipt": 25740,
+    "watcher_parent_pid_from_saved_receipt": 25356,
+    "worker_pid_from_saved_receipt": 55636,
+    "worker_parent_pid_from_saved_receipt": 48604,
+    "root_reported_initial_verification_context": "Miniconda Python in the default sandbox",
+    "successful_filesystem_probe_context": "Read-authorized filesystem access; no process inspection, API or worker operation"
+  },
+  "same_file": true,
+  "paths": [
+    {
+      "path": "C:/Users/Mitch/AppData/Roaming/uv/python/cpython-3.10-windows-x86_64-none/python.exe",
+      "resolved_path": "C:/Users/Mitch/AppData/Roaming/uv/python/cpython-3.10.20-windows-x86_64-none/python.exe",
+      "sha256": "BB0DFFCA26F5725CEB75E671C5E0DA653017E28463B6B20F804EF9ED86C62030",
+      "bytes": 91648,
+      "mtime_ns": "1781759951758783800",
+      "device": "11139807492229021039",
+      "file_id": "1125899907767958",
+      "authenticode_status": "NotSigned"
+    },
+    {
+      "path": "C:/Users/Mitch/AppData/Roaming/uv/python/cpython-3.10.20-windows-x86_64-none/python.exe",
+      "resolved_path": "C:/Users/Mitch/AppData/Roaming/uv/python/cpython-3.10.20-windows-x86_64-none/python.exe",
+      "sha256": "BB0DFFCA26F5725CEB75E671C5E0DA653017E28463B6B20F804EF9ED86C62030",
+      "bytes": 91648,
+      "mtime_ns": "1781759951758783800",
+      "device": "11139807492229021039",
+      "file_id": "1125899907767958",
+      "authenticode_status": "NotSigned"
+    }
+  ],
+  "actual_comfy_python_probe": {
+    "version": "3.10.20 (main, Apr 14 2026, 14:30:46) [MSC v.1944 64 bit (AMD64)]",
+    "path_resolve_equal": true,
+    "os_path_samefile": true,
+    "context": "Read-authorized invocation through the existing ComfyUI .venv Python launcher"
+  },
+  "limitations": [
+    "This is current filesystem evidence collected after generation, not a binary-at-process-launch measurement.",
+    "Neither executable is Authenticode signed; no signature trust or new execution approval is claimed.",
+    "The recorded path strings differ, but the read-authorized probes identify the same underlying file. The precise initial resolution failure is not established as a Python-version bug.",
+    "This receipt does not waive or replace any PID, parent, timestamp, argv, native guard, graph, image, memory, WDDM or coverage check.",
+    "No alias adapter was created and no frozen evaluator, manifest or run receipt was changed. No scoring or GPU/worker/queue/cache operation was performed."
+  ]
+}

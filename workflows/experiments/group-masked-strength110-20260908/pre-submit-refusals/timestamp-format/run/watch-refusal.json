@@ -1,0 +1,9 @@
+{
+  "utc": "2026-09-08T06:39:25.115228+00:00",
+  "prompt_id": null,
+  "client_id": "a712fb4a-a4a0-4905-abe0-5aee8e4046c1",
+  "nodes": [],
+  "reason": "Exact captured/reviewed lifetime changed",
+  "exception_type": "GuardRefusal",
+  "exception_repr": "GuardRefusal('Exact captured/reviewed lifetime changed')"
+}

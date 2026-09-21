@@ -1,0 +1,173 @@
+"""Strict CPU-only evaluation of the one matched-token character0.45 midpoint.
+
+Verifies exact strength-only change versus matched0.9 and keeps all five review
+panels. Does not weaken previous validators or alter generation state/images.
+"""
+from __future__ import annotations
+
+import argparse
+import copy
+import json
+from pathlib import Path
+from runpy import run_path
+import sys
+import urllib.request
+
+import cv2
+import numpy as np
+from PIL import Image
+
+
+ROOT = Path(__file__).resolve().parents[1]
+COMFY = ROOT.parent / "ComfyUI"
+RUN = ROOT / "work/upgrade-high-20260907/third-native-high-character-midpoint"
+BASELINE = ROOT / "work/upgrade-high-20260907/third-native-high-character-matched"
+runner = run_path(str(ROOT / "scripts/run-upgrade-native-high-character-midpoint.py"))
+prior = run_path(str(ROOT / "scripts/evaluate-upgrade-native-high-character-matched.py"))
+utility = prior["utility"]
+sha, read = utility["sha"], utility["read"]
+clean_graph = utility["graph_without_cache_markers"]
+CHAR9, MID, OFF, FIDELITY = "MATCHED HIGH 0.9", "MATCHED HIGH MIDPOINT 0.45", "HIGH CHARACTER OFF", "HISTORICAL FIDELITY 0.9"
+
+
+def verify_result(manifest):
+    for path, expected in runner["PINS"].items():
+        if sha(path) != expected:
+            raise ValueError("Pinned matched0.9 evidence changed: " + str(path))
+    baseline_manifest = json.loads((BASELINE / "experiment.json").read_text(encoding="utf-8"))
+    baseline_id, baseline_history, baseline_raw, off_raw, fidelity_raw, _, _ = prior["verify_result"](baseline_manifest)
+    if manifest["baseline_run"] != str(BASELINE) or manifest["baseline_prompt_id"] != baseline_id:
+        raise ValueError("Midpoint must compare against the exact completed matched0.9.")
+    if manifest["baseline_manifest_sha256"] != sha(BASELINE / "experiment.json"):
+        raise ValueError("Midpoint baseline manifest hash mismatch.")
+    expected = copy.deepcopy(clean_graph(baseline_manifest["prompt"]))
+    expected["2"]["inputs"]["strength_model"] = .45
+    expected["27"]["inputs"]["filename_prefix"] = "upgrade-high-20260907/third-native-high-character-midpoint/raw"
+    if clean_graph(manifest["prompt"]) != expected:
+        raise ValueError("Midpoint changed more than matched strength0.9->0.45 and output prefix.")
+    if json.loads((RUN / "prompt-api.json").read_text(encoding="utf-8")) != expected:
+        raise ValueError("Standalone midpoint graph mismatch.")
+    if manifest["identity_strength"] != .45 or not manifest["active_character_lora"] or manifest["new_character_training"]:
+        raise ValueError("Require existing character0.45, no new training.")
+    if not manifest["final_native_refinement"] or manifest["identity_conditioning_bundle"]["weight_only_causal_ablation"] is not True:
+        raise ValueError("Require the one final strength-only refinement.")
+    for field in ("source", "references", "verified_models", "effective_prompt", "character_trigger", "character_trigger_present",
+                  "phone_camera_style", "phone_camera_style_strength", "turbo", "seed", "steps", "cfg", "sampler", "width", "height"):
+        if manifest[field] != baseline_manifest[field]:
+            raise ValueError("Midpoint changed protected field: " + field)
+    submission = json.loads((RUN / "submission.json").read_text(encoding="utf-8"))
+    prompt_id = submission["prompt_id"]
+    with urllib.request.urlopen("http://127.0.0.1:8188/history/" + prompt_id, timeout=30) as response:
+        history = json.load(response).get(prompt_id)
+    if not history or not history["status"]["completed"] or history["status"]["status_str"] != "success":
+        raise ValueError("The exact midpoint job has not successfully completed.")
+    if history["prompt"][1] != prompt_id or clean_graph(history["prompt"][2]) != expected:
+        raise ValueError("Executed midpoint graph differs from reviewed evidence.")
+    images = history["outputs"]["27"]["images"]
+    if len(images) != 1 or images[0]["type"] != "output":
+        raise ValueError("Require one ordinary midpoint output.")
+    item = images[0]
+    output = (COMFY / "output" / item.get("subfolder", "") / item["filename"]).resolve()
+    if not output.is_relative_to((COMFY / "output/upgrade-high-20260907/third-native-high-character-midpoint").resolve()):
+        raise ValueError("Output is outside the exact midpoint directory.")
+    with Image.open(output) as image:
+        if image.size != (816, 1088) or clean_graph(json.loads(image.info["prompt"])) != expected:
+            raise ValueError("Midpoint PNG graph/dimensions mismatch.")
+    if sha(baseline_raw) != manifest["baseline_output"]["sha256"]:
+        raise ValueError("Pinned matched0.9 PNG changed.")
+    adapters = {key: node["inputs"] for key, node in expected.items() if "lora" in node["class_type"].lower()}
+    if set(adapters) != {"2", "3"} or adapters["2"]["strength_model"] != .45 or adapters["3"]["strength_model"] != .25:
+        raise ValueError("Unexpected midpoint adapters or strengths.")
+    return prompt_id, history, output, baseline_raw, off_raw, fidelity_raw, adapters, baseline_history
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--run", type=Path, default=RUN)
+    args = parser.parse_args()
+    if args.run.resolve() != RUN.resolve():
+        raise ValueError("This evaluator only supports the exact matched-token0.45 midpoint.")
+    destination = RUN / "evaluation"
+    if destination.exists():
+        raise ValueError("Preserve existing evaluation.")
+    manifest = json.loads((RUN / "experiment.json").read_text(encoding="utf-8"))
+    prompt_id, history, output, baseline_raw, off_raw, fidelity_raw, adapters, baseline_history = verify_result(manifest)
+    source, references, exclusions = utility["source_and_references"](manifest)
+    if len(references) != 5 or len(exclusions) != 1 or not exclusions[0]["path"].endswith("val_03_navy_upper_body.jpg"):
+        raise ValueError("Exclude true source and score five other genuine photographs.")
+    photos = {"SOURCE": read(source), CHAR9: read(baseline_raw), MID: read(output), OFF: read(off_raw), FIDELITY: read(fidelity_raw)}
+    root = Path.home() / ".insightface"
+    models = root / "models/antelopev2"
+    if not all((models / name).is_file() for name in ("scrfd_10g_bnkps.onnx", "glintr100.onnx", "1k3d68.onnx")):
+        raise ValueError("Existing CPU scoring weights missing; no automatic downloads.")
+    from insightface.app import FaceAnalysis
+
+    sys.path.insert(0, str(ROOT / "custom_nodes/ComfyUI-AIToolkit-Training"))
+    import flux2_klein9b_source_gaze_lock as gaze
+    from experimental_upgrade_smile_balance import measure_smile
+
+    cv2.setNumThreads(4)
+    analyzer = FaceAnalysis(name="antelopev2", root=str(root), providers=["CPUExecutionProvider"],
+        allowed_modules=["detection", "recognition", "landmark_3d_68"])
+    analyzer.prepare(ctx_id=-1, det_size=(640, 640))
+
+    def face(rgb):
+        found = analyzer.get(cv2.cvtColor(rgb, cv2.COLOR_RGB2BGR))
+        if len(found) != 1:
+            raise ValueError("Exactly one detected face required.")
+        return found[0]
+
+    vectors = [face(read(path)).normed_embedding for path in references]
+    centroid = np.mean(vectors, axis=0)
+    centroid /= np.linalg.norm(centroid)
+    results, detections = {}, {}
+    for label, rgb in photos.items():
+        detected = face(rgb)
+        detections[label] = detected
+        points, method = gaze._detect_refined_landmarks(rgb)
+        smile = measure_smile(points)
+        results[label] = {"identity_centroid": float(detected.normed_embedding @ centroid),
+            "per_reference_similarity": [float(detected.normed_embedding @ vector) for vector in vectors],
+            "pose": detected.pose.tolist(), "pose_order": "pitch_yaw_roll",
+            "eye_coordinates": [gaze._eye_measurement(points, eye)["coordinate"].tolist() for eye in gaze._EYES],
+            "mouth_opening_ratio": float(smile["opening_ratio"]), "smile_lift": float(smile["smile_lift"]),
+            "mouth_corner_coordinates": smile["corner_coordinates"].tolist(),
+            "face_bbox": detected.bbox.tolist(), "landmark_method": method,
+            "dimensions": {"width": int(rgb.shape[1]), "height": int(rgb.shape[0])}}
+    comparisons = {}
+    for label in (CHAR9, MID, OFF, FIDELITY):
+        result, original = results[label], results["SOURCE"]
+        comparisons[label] = {
+            "identity_centroid_delta_from_source": result["identity_centroid"] - original["identity_centroid"],
+            "max_pose_delta_from_source": float(np.abs(np.array(result["pose"]) - original["pose"]).max()),
+            "max_eye_coordinate_delta_from_source": float(np.abs(np.array(result["eye_coordinates"]) - original["eye_coordinates"]).max()),
+            "mouth_corner_mean_error_from_source": float(np.linalg.norm(np.array(result["mouth_corner_coordinates"]) - original["mouth_corner_coordinates"], axis=1).mean()),
+        }
+    report = {"status": "evaluated_pending_visual_review_not_promoted", "prompt_id": prompt_id,
+        "source": manifest["source"], "baseline": manifest["baseline_output"],
+        "output": {"path": str(output), "sha256": sha(output)}, "adapters": adapters,
+        "manifest_sha256": sha(RUN / "experiment.json"),
+        "references": [{"path": str(path), "sha256": sha(path)} for path in references],
+        "excluded_source_references": exclusions, "results": results, "source_comparisons": comparisons,
+        "midpoint_minus_matched0_9_identity": results[MID]["identity_centroid"] - results[CHAR9]["identity_centroid"],
+        "midpoint_minus_historical_fidelity_identity": results[MID]["identity_centroid"] - results[FIDELITY]["identity_centroid"],
+        "graph_differences": manifest["graph_differences"], "source_pixels_preserved_by_postprocess": False,
+        "identity_conditioning_bundle": manifest["identity_conditioning_bundle"],
+        "active_character_lora": True, "character_lora_strength": .45, "character_trigger_present": True,
+        "character_trigger": "m1tch_person.", "new_character_training": False,
+        "upstream_character_lora": False, "phone_camera_style": True, "phone_camera_style_strength": .25,
+        "phone_canonical_trigger_present": False, "turbo": False,
+        "scoring_execution_provider": "CPUExecutionProvider", "gaze_repair_applied": False,
+        "history_messages": history["status"].get("messages", []), "production_promoted": False,
+        "final_native_refinement": True,
+        "limitation": "Midpoint versus matched0.9 is strength-only with trained token fixed. OFF High also omitted the token, so all endpoints are not a pure strength curve. Fidelity0.9 is historical. Five-reference scores and landmarks are diagnostics, not beauty/realism/identity-lock proof. Native images unchanged; sheets resized only for display. No additional native strengths/prompts after this refinement."}
+    destination.mkdir()
+    (destination / "history.json").write_text(json.dumps(history, indent=2), encoding="utf-8")
+    (destination / "baseline-history.json").write_text(json.dumps(baseline_history, indent=2), encoding="utf-8")
+    utility["comparison_sheets"](destination, photos, detections)
+    (destination / "audit.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+    print(json.dumps(report, indent=2))
+
+
+if __name__ == "__main__":
+    main()

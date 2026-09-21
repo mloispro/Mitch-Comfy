@@ -1,0 +1,3 @@
+mitch_group_recipe_guard:
+  base_path: C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-strength110-20260908
+  custom_nodes: guard_nodes

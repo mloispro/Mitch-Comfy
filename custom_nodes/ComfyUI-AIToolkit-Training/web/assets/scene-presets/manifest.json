@@ -57,11 +57,12 @@
       "prompt": "A vertical vacation photograph of m1tch_person on a Positano balcony above the Amalfi coast in warm late-afternoon sun. He wears a relaxed white linen shirt and rests one complete hand on the railing, with the blue sea and colorful hillside town clearly visible."
     },
     {
-      "key": "italian-lake-boat",
-      "label": "Italian lake boat — relaxed travel",
+      "key": "st-barts-yacht",
+      "label": "St. Barts yacht — Caribbean escape",
       "profile": "FULL BODY — front + body proportions",
-      "thumbnail": "identity-italian-lake-boat.jpg",
-      "prompt": "A close vertical rear-phone travel photograph of m1tch_person seated on the white bow edge of a motorboat on Lake Como. He wears a lightweight white linen button-down shirt with rolled sleeves, pale beige linen shorts, black rectangular sunglasses, and a wristwatch. One knee is raised toward the camera and both complete arms brace naturally on the side rails. Dark green water, lakeside villas, forested mountains, exposed cliffs, and a bright sky fill the background."
+      "thumbnail": "identity-st-barts-yacht.jpg",
+      "appearance_polish_default": false,
+      "prompt": "A vertical casual travel photograph of m1tch_person alone, seated on the white upholstered bow seat of an elegant motor yacht just outside Gustavia, Saint Barthelemy in the Caribbean. He wears a white linen button-down shirt with rolled sleeves, pale beige shorts, black rectangular sunglasses, and a wristwatch. His torso leans forward at a slight diagonal, with seated hips and both bent knees angled toward image-right. His image-left arm extends down-left and that hand grips the curved foreground metal rail. His image-right arm extends behind him and that hand grips the far rail. Both complete hands visibly contact their rails. He faces the camera with a restrained closed-mouth expression. Frame his head, torso, knees, both hands and the white boat seats. Pale turquoise seawater, white yachts at anchor, low green Caribbean hills, palms and elegant pale red-roofed waterfront villas fill the background. Soft natural daylight, realistic reflections and an understated luxury vacation atmosphere."
     },
     {
       "key": "elegant-restaurant",

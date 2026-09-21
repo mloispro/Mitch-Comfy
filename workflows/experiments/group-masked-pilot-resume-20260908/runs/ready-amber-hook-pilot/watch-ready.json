@@ -1,0 +1,15 @@
+{
+  "pid": 25740,
+  "utc": "2026-09-08T06:05:41.269017+00:00",
+  "client_id": "2e1167a8-46f7-4542-bb3d-21a318605f8c",
+  "process_start_utc": "2026-09-08T06:05:40.910321+00:00",
+  "executable": "C:\\Users\\Mitch\\AppData\\Roaming\\uv\\python\\cpython-3.10.20-windows-x86_64-none\\python.exe",
+  "argv": [
+    "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\fresh_runtime_v2.py",
+    "--watch",
+    "--case",
+    "pilot"
+  ],
+  "parent_pid": 25356,
+  "semantics": "asynchronous order observation, NOT a preallocation barrier"
+}

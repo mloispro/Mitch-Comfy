@@ -1,0 +1,336 @@
+{
+  "prompt": {
+    "1": {
+      "class_type": "UNETLoader",
+      "inputs": {
+        "unet_name": "flux-2-klein-base-9b-bf16.safetensors",
+        "weight_dtype": "fp8_e4m3fn"
+      }
+    },
+    "3": {
+      "class_type": "LoraLoaderModelOnly",
+      "inputs": {
+        "model": [
+          "1",
+          0
+        ],
+        "lora_name": "m1tch-flux2-klein9b-identity-v3-r32-dop-step1600.safetensors",
+        "strength_model": 0.9
+      }
+    },
+    "4": {
+      "class_type": "LoraLoaderModelOnly",
+      "inputs": {
+        "model": [
+          "3",
+          0
+        ],
+        "lora_name": "smartphone-snapshot\\FLUX.2-klein-base-9B_SmartphoneSnapshotPhotoReality_v13.safetensors",
+        "strength_model": 0.25
+      }
+    },
+    "5": {
+      "class_type": "CLIPLoader",
+      "inputs": {
+        "clip_name": "qwen_3_8b_fp8mixed.safetensors",
+        "type": "flux2",
+        "device": "default"
+      }
+    },
+    "6": {
+      "class_type": "VAELoader",
+      "inputs": {
+        "vae_name": "flux2-vae.safetensors"
+      }
+    },
+    "7": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "casual snapshot. Picture 1 is a Canny edge map derived from the source photograph and supplies its camera framing, person positions, seated body poses, outer head sizes, arm positions, booth geometry, table placement, and spatial layout. The selected source person's internal eye, nose, and mouth edges were intentionally removed so Picture 1 does not supply his identity. Pictures 2 and 3 are genuine photographs of m1tch_person and exclusively supply the selected man's identity and internal facial geometry. Create one photorealistic vertical phone-flash group photograph matching Picture 1. Four adults sit closely on the rust-orange booth, with a partial fifth person at the extreme image-right edge. The central seated man is m1tch_person from Pictures 2 and 3, wearing a fitted dark navy suit and crisp white open-collar shirt. His lips rest gently together, their corners rise only slightly, and his eyes engage softly with the camera. Both complete forearms extend down and his separate hands rest on his thighs. Keep every surrounding person distinct and unrelated. Preserve the copper wall, amber perimeter light, booth, low table, ordinary smartphone perspective, direct flash, and seamless natural detail.",
+        "clip": [
+          "5",
+          0
+        ]
+      }
+    },
+    "8": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "",
+        "clip": [
+          "5",
+          0
+        ]
+      }
+    },
+    "10": {
+      "class_type": "LoadImage",
+      "inputs": {
+        "image": "mitch-klein9b-layout-lounge-center-face-interior-free-head92-canny.png"
+      }
+    },
+    "11": {
+      "class_type": "ImageScale",
+      "inputs": {
+        "image": [
+          "10",
+          0
+        ],
+        "upscale_method": "lanczos",
+        "width": 432,
+        "height": 576,
+        "crop": "disabled"
+      }
+    },
+    "12": {
+      "class_type": "VAEEncode",
+      "inputs": {
+        "pixels": [
+          "11",
+          0
+        ],
+        "vae": [
+          "6",
+          0
+        ]
+      }
+    },
+    "13": {
+      "class_type": "ReferenceLatent",
+      "inputs": {
+        "conditioning": [
+          "7",
+          0
+        ],
+        "latent": [
+          "12",
+          0
+        ]
+      }
+    },
+    "14": {
+      "class_type": "ReferenceLatent",
+      "inputs": {
+        "conditioning": [
+          "8",
+          0
+        ],
+        "latent": [
+          "12",
+          0
+        ]
+      }
+    },
+    "20": {
+      "class_type": "LoadImage",
+      "inputs": {
+        "image": "mitch-klein9b-ref-training04-front-neutral.jpg"
+      }
+    },
+    "21": {
+      "class_type": "ImageScale",
+      "inputs": {
+        "image": [
+          "20",
+          0
+        ],
+        "upscale_method": "lanczos",
+        "width": 864,
+        "height": 1152,
+        "crop": "disabled"
+      }
+    },
+    "22": {
+      "class_type": "VAEEncode",
+      "inputs": {
+        "pixels": [
+          "21",
+          0
+        ],
+        "vae": [
+          "6",
+          0
+        ]
+      }
+    },
+    "23": {
+      "class_type": "ReferenceLatent",
+      "inputs": {
+        "conditioning": [
+          "13",
+          0
+        ],
+        "latent": [
+          "22",
+          0
+        ]
+      }
+    },
+    "24": {
+      "class_type": "ReferenceLatent",
+      "inputs": {
+        "conditioning": [
+          "14",
+          0
+        ],
+        "latent": [
+          "22",
+          0
+        ]
+      }
+    },
+    "30": {
+      "class_type": "CFGGuider",
+      "inputs": {
+        "model": [
+          "4",
+          0
+        ],
+        "positive": [
+          "43",
+          0
+        ],
+        "negative": [
+          "44",
+          0
+        ],
+        "cfg": 4.0
+      }
+    },
+    "31": {
+      "class_type": "KSamplerSelect",
+      "inputs": {
+        "sampler_name": "euler"
+      }
+    },
+    "32": {
+      "class_type": "Flux2Scheduler",
+      "inputs": {
+        "steps": 30,
+        "width": 1248,
+        "height": 1824
+      }
+    },
+    "33": {
+      "class_type": "RandomNoise",
+      "inputs": {
+        "noise_seed": 8675421
+      }
+    },
+    "34": {
+      "class_type": "EmptyFlux2LatentImage",
+      "inputs": {
+        "width": 1248,
+        "height": 1824,
+        "batch_size": 1
+      }
+    },
+    "35": {
+      "class_type": "SamplerCustomAdvanced",
+      "inputs": {
+        "noise": [
+          "33",
+          0
+        ],
+        "guider": [
+          "30",
+          0
+        ],
+        "sampler": [
+          "31",
+          0
+        ],
+        "sigmas": [
+          "32",
+          0
+        ],
+        "latent_image": [
+          "34",
+          0
+        ]
+      }
+    },
+    "36": {
+      "class_type": "VAEDecode",
+      "inputs": {
+        "samples": [
+          "35",
+          0
+        ],
+        "vae": [
+          "6",
+          0
+        ]
+      }
+    },
+    "37": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "images": [
+          "36",
+          0
+        ],
+        "filename_prefix": "9b-readiness-20260903/group30-resolution228-angle09-seed8675421"
+      }
+    },
+    "40": {
+      "class_type": "LoadImage",
+      "inputs": {
+        "image": "20260508_123156.jpg"
+      }
+    },
+    "41": {
+      "class_type": "ImageScale",
+      "inputs": {
+        "image": [
+          "40",
+          0
+        ],
+        "upscale_method": "lanczos",
+        "width": 432,
+        "height": 576,
+        "crop": "disabled"
+      }
+    },
+    "42": {
+      "class_type": "VAEEncode",
+      "inputs": {
+        "pixels": [
+          "41",
+          0
+        ],
+        "vae": [
+          "6",
+          0
+        ]
+      }
+    },
+    "43": {
+      "class_type": "ReferenceLatent",
+      "inputs": {
+        "conditioning": [
+          "23",
+          0
+        ],
+        "latent": [
+          "42",
+          0
+        ]
+      }
+    },
+    "44": {
+      "class_type": "ReferenceLatent",
+      "inputs": {
+        "conditioning": [
+          "24",
+          0
+        ],
+        "latent": [
+          "42",
+          0
+        ]
+      }
+    }
+  },
+  "client_id": "generation-first-group-4070"
+}

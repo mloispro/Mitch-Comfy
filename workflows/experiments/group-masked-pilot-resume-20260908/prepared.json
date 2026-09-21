@@ -1,0 +1,93 @@
+{
+  "status": "PREPARED_FROZEN_OFFLINE_VALIDATED_NOT_LAUNCHED",
+  "scope": "ONE_FRESH_OWNED_GROUP_PILOT",
+  "payload_sha256": "EB6AEF903DB72BE0E8CED5389EFB1C01E08E586B76C611CF3665796C05EFA76A",
+  "worker_root": "C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-pilot-resume-20260908/worker",
+  "run_name": "ready-amber-hook-pilot",
+  "prior_stop_sha256": "712C4B25FE449F1FC6A9932A6087A3294B0907CFB4B0ADAB80C46E7C38BEFF21",
+  "interrupted_archive_sha256": "6B27867387726B5493E1E39561FE907624B093C18FBEDA714625D9ABD98CB152",
+  "control_image_sha256": "E6FB94C1944494EA5EDB4666AF7B00387D2680AADC8DC8AF5C9D78E8F7FCF739",
+  "historical_runtime_manifest": "825D00CA45056DFBE06EE8BE3FE2C851D7BF490DA6A17F838A8D82E5B16A3793",
+  "pins": [
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\fresh.ps1",
+      "sha256": "F4902FF8338C4F772BC0009CB063578698B888307C709D08BC2687F394C13560"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\fresh_runtime.py",
+      "sha256": "2D7C80392E35F7D5CB657121980742207ED1B2391ACA7230375A0A4ACC74A02D"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\extra-paths-v3.yaml",
+      "sha256": "498513559CAE9FA0273F02AF41F69F4961E3ED9C681B03CFE26270B3DB9C6A60"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\guard_nodes\\mitch_group_fresh_guard\\__init__.py",
+      "sha256": "BE9BDB0BF717D5141C69F8994F44C6E53D48E7AE0DBFC50AD70E699516F75FB4"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\test-fresh.ps1",
+      "sha256": "0A8DEB6522CF724078A918E05A86CB97F43D548C5869558AFACDFC0DB265D28C"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\test_fresh.py",
+      "sha256": "1CF5F6C890775AC57E5DF3368ED92F8F4649ED0E5C08F53909E92BB02C6A6440"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\README.md",
+      "sha256": "B828E4D2D835A6077DC8F5735172CE8A2EE1C08E0814F61FFA3EDE7EC02D088A"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\runtime-3090\\worker-registration-v3\\stopped.json",
+      "sha256": "712C4B25FE449F1FC6A9932A6087A3294B0907CFB4B0ADAB80C46E7C38BEFF21"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\runtime-3090\\INTERRUPTED-PILOT-ARCHIVE.json",
+      "sha256": "6B27867387726B5493E1E39561FE907624B093C18FBEDA714625D9ABD98CB152"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\runtime-3090\\runs\\ready-amber-hook-control\\group-amber-hook-control-seed8675412_00001_.png",
+      "sha256": "E6FB94C1944494EA5EDB4666AF7B00387D2680AADC8DC8AF5C9D78E8F7FCF739"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\runtime-3090\\ROOT-PILOT-RECOVERY-STATUS.md",
+      "sha256": "5E5C3D3EF173A1F24C8249DE70A724045F23CD2C79466E4AEC4AC180BCD0B371"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\RESEARCH.md",
+      "sha256": "4720BD7023C11E81E72A4641A61BEC7E7BB33AEA1AD3B56CF81BC21A55335097"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\PILOT-DESIGN.md",
+      "sha256": "A147763D630DD7B4D6CBB092B967723D71FE0808F38247F9A38909AE31B4193E"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\CACHE-NONE-RESOURCE-OPTION.md",
+      "sha256": "EAAE479784CE4413DD4D584AB938736F51541062097EB50852A47A6A2E7903A9"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\PAIR-SCHEDULE-RESULTS.json",
+      "sha256": "DC3280FDD3DB0EACE1E8D6816ED9F0313F8C4FAD2D3F3E6CCD3B12618A731DE9"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\MEMORY-OWNER-SNAPSHOT.json",
+      "sha256": "75DAA1289481FA29898E21766F13FF03B0908BCF2860A856CF8D69AAD7A6F586"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\input\\mitch-amber-hook-control-white-20260907.png",
+      "sha256": "D16C20F8B67AF8D157BC7593368435A36D67CAB9C602E68BE11137DDE4D03410"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\input\\mitch-amber-hook-person-20260907.png",
+      "sha256": "9D5C2AD6536C7B275CFCFF4D6AF7971EDEBF08D8D2382038066304B6DA7717AB"
+    }
+  ],
+  "validation": {
+    "powershell_checks": 33,
+    "actual_comfy_python_tests": 6,
+    "historical_pin_checks": 193,
+    "fresh_pins": 18,
+    "neural_inference": false,
+    "live_runtime_actions": false
+  }
+}

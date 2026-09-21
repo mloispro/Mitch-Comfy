@@ -1,0 +1,68 @@
+{
+  "status": "SEPARATE_CPU_PREPARED_DESKTOP_SUPPLEMENT_NOT_CAPTURED_OR_APPROVED",
+  "scope": "ONE_FRESH_GROUP_DESKTOP_SUPPLEMENT",
+  "original_prepared_sha256": "5A9166BD335BEDB19F16FDFA5501AB8CC471DD76ADE9A9025479FA9755B4CEF4",
+  "original_native_guard_unchanged": true,
+  "original_worker_argv_unchanged": true,
+  "new_exact_desktop_pids": [
+    39712,
+    54788
+  ],
+  "captured_parent_pids": [
+    2012,
+    14796
+  ],
+  "historical_desktop_count": 20,
+  "pins": [
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\fresh-v2.ps1",
+      "sha256": "373AE8567D35FB6B8703C5C0DEE0068FD521CBA5ECBD7D37F73A0AA00FA0C70F"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\fresh_runtime_v2.py",
+      "sha256": "95FB5F60E34EE8A32064C64208336BAA3135A8A47AC00A8D593EAF738A87778C"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\wddm_admission_v2.py",
+      "sha256": "6DCBB22035439DF71BC172367E6D73EAE9EB417A2AD134879B451BF0BF12D445"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\wddm-lifetimes-v2.ps1",
+      "sha256": "FA6C0834CBE8990F4E9D0966D5E67AC3D93E9B5F7E6EEA13052A9F436E8B7D71"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\test_wddm_v2.py",
+      "sha256": "4335A609E171F51C246ABD137889C94432CA12A5A63A239F140EC75F2D574F40"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\test-fresh-v2.ps1",
+      "sha256": "DE563FB9CBDA109BD23BD8AAFD96109341E060ABA7F2670BC1FE4D07A1ACE24D"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\DESKTOP-SUPPLEMENT-V2.md",
+      "sha256": "2205110CDBA589FE0D628A8D7284246068FC8EDB84EC30E7A001A63D48A55D4F"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\wddm-candidate-v3.json",
+      "sha256": "A83F7325972CA5393BFA8C12ADFF149DB42BC095BB2E5F208A848B40837EFC51"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\desktop-parent-evidence-20260908.json",
+      "sha256": "6DB95A535879701647228C5271948EE01FD353640730C4D2659EF7E3BF1776C0"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\ROOT-DESKTOP-REVIEW-20260908.md",
+      "sha256": "D63DEF096DBF3BDA536EEE2FB101AA955FC9EB1CBEEA80FC9F6A5EBC03485009"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\prepared.json",
+      "sha256": "5A9166BD335BEDB19F16FDFA5501AB8CC471DD76ADE9A9025479FA9755B4CEF4"
+    }
+  ],
+  "validation_commands": [
+    "test-fresh-v2.ps1 -VerifyFinalManifest",
+    "Comfy Python3.10 -X utf8 -B -m unittest -v test_wddm_v2.py"
+  ],
+  "capture_and_approval": "Root-only future actions; no fabricated capture or approval",
+  "no_threshold_or_image_recipe_change": true
+}

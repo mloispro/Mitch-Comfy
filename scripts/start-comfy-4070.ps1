@@ -12,6 +12,7 @@ $ErrorActionPreference = "Stop"
 $expectedGpuName = "NVIDIA GeForce RTX 4070"
 $expectedGpuUuid = "GPU-de12eec8-4b3d-f2ae-791c-8423a86915fd"
 $repoRoot = Split-Path -Parent $PSScriptRoot
+. (Join-Path $PSScriptRoot 'comfy-workflow-library.ps1')
 $pythonPath = Join-Path $ComfyRoot ".venv\Scripts\python.exe"
 $mainPath = Join-Path $ComfyRoot "main.py"
 $userRoot = Join-Path $ComfyRoot "user-4070"
@@ -57,20 +58,8 @@ if ($existingDevice) {
 $workflowParent = Join-Path $userRoot "default\workflows"
 $workflowLink = Join-Path $workflowParent "Mitch"
 New-Item -ItemType Directory -Path $workflowParent, $tempPath, $outputPath, $runtimeRoot -Force | Out-Null
-if (-not (Test-Path -LiteralPath $workflowLink)) {
-    New-Item -ItemType Junction -Path $workflowLink -Target (Join-Path $repoRoot "workflows") | Out-Null
-}
-else {
-    $linkItem = Get-Item -LiteralPath $workflowLink -Force
-    if (-not ($linkItem.Attributes -band [IO.FileAttributes]::ReparsePoint)) {
-        throw "Workflow path exists but is not a junction: $workflowLink"
-    }
-    $actualTarget = (Resolve-Path -LiteralPath @($linkItem.Target)[0]).Path
-    $expectedTarget = (Resolve-Path -LiteralPath (Join-Path $repoRoot "workflows")).Path
-    if ($actualTarget -ne $expectedTarget) {
-        throw "Workflow junction points to '$actualTarget', not '$expectedTarget'."
-    }
-}
+$workflowLibrary = Initialize-ComfyWorkflowLibrary -RepoRoot $repoRoot
+Ensure-ComfyWorkflowEntry -Path $workflowLink -LibraryRoot $workflowLibrary
 
 $arguments = @(
     $mainPath,

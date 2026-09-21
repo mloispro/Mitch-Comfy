@@ -1,0 +1,390 @@
+{
+  "approved": true,
+  "scope": "GROUP_FRESH_V2_EXACT_DESKTOP_LIFETIMES",
+  "issued_utc": "2026-09-08T06:37:50Z",
+  "expires_utc": "2026-09-08T07:22:50Z",
+  "candidate_sha256": "7A9E9CC26003585AD318FD0EBD67CC392C7478A1EE7CE937E14A3AB142F1458C",
+  "supplement_prepared_sha256": "6B3A687FB02F8D015D4CA7B1F165FDE48389335D70634AB1003C01E743D94FDE",
+  "parent_evidence_sha256": "6DB95A535879701647228C5271948EE01FD353640730C4D2659EF7E3BF1776C0",
+  "prior_candidate_sha256": "A83F7325972CA5393BFA8C12ADFF149DB42BC095BB2E5F208A848B40837EFC51",
+  "wddm_helper_sha256": "E5E675393687C13C16B7D34DA40D6C3C6DF870F31E370C94FE7A4C50783A1A99",
+  "reviewed_processes": [
+    {
+      "pid": 2280,
+      "parent_pid": 1936,
+      "name": "dwm.exe",
+      "creation_utc": "2026-08-23T19:25:49.534321-05:00",
+      "executable_path": null,
+      "argv": null,
+      "matches_prior_lifetime": true,
+      "protected_metadata_approved": true
+    },
+    {
+      "pid": 9880,
+      "parent_pid": 9816,
+      "name": "explorer.exe",
+      "creation_utc": "2026-08-23T19:25:51.449584-05:00",
+      "executable_path": "C:\\WINDOWS\\Explorer.EXE",
+      "argv": [
+        "C:\\WINDOWS\\Explorer.EXE"
+      ],
+      "matches_prior_lifetime": true
+    },
+    {
+      "pid": 8588,
+      "parent_pid": 9136,
+      "name": "CrossDeviceResume.exe",
+      "creation_utc": "2026-08-23T19:25:51.628263-05:00",
+      "executable_path": "C:\\WINDOWS\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\CrossDeviceResume.exe",
+      "argv": [
+        "C:\\WINDOWS\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\CrossDeviceResume.exe",
+        "/tileid",
+        "MicrosoftWindows.Client.CBS_cw5n1h2txyewy!CrossDeviceResumeApp"
+      ],
+      "matches_prior_lifetime": true
+    },
+    {
+      "pid": 11888,
+      "parent_pid": 1860,
+      "name": "SearchHost.exe",
+      "creation_utc": "2026-08-23T19:25:52.364909-05:00",
+      "executable_path": "C:\\WINDOWS\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\SearchHost.exe",
+      "argv": [
+        "C:\\WINDOWS\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\SearchHost.exe",
+        "-ServerName:CortanaUI.AppXstmwaab17q5s3y22tp6apqz7a45vwv65.mca"
+      ],
+      "matches_prior_lifetime": true
+    },
+    {
+      "pid": 13812,
+      "parent_pid": 13220,
+      "name": "msedgewebview2.exe",
+      "creation_utc": "2026-08-23T19:25:55.897343-05:00",
+      "executable_path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\151.0.4129.101\\msedgewebview2.exe",
+      "argv": [
+        "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\151.0.4129.101\\msedgewebview2.exe",
+        "--type=gpu-process",
+        "--noerrdialogs",
+        "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; Cortana 1.18.9.23723; 10.0.0.0.26200.9168) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.26200 IsWebView2/True (WebView2Version 151.0.4129.78)",
+        "--user-data-dir=C:\\Users\\Mitch\\AppData\\Local\\Packages\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\LocalState\\EBWebView",
+        "--webview-exe-name=SearchHost.exe",
+        "--webview-exe-version=2606.30004.100.0",
+        "--embedded-browser-webview=1",
+        "--gpu-preferences=WAAAAAAAAADgAAAEAAAAAAAAAAAAAGAAQAAAAAAAAAADAAAAAAAAADgAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAoAAAAAAAAAAgAAAAAAAAAEAAAAAIAAAABAAAAAAAAAAgAAAAAAAAACAAAAAAAAAA=",
+        "--always-read-main-dll",
+        "--metrics-shmem-handle=1984,i,14884220822192952539,10302393541268400952,262144",
+        "--field-trial-handle=2080,i,11198729213478833507,508147136544854354,262144",
+        "--enable-features=msEdgeFluentOverlayScrollbar",
+        "--disable-features=msSmartScreenProtection",
+        "--variations-seed-version",
+        "--pseudonymization-salt-handle=2084,i,3493073545978950590,10306482151997291495,4",
+        "--trace-process-track-uuid=3190708988185955192",
+        "--mojo-platform-channel-handle=2076",
+        "/prefetch:2",
+        "/pfhostedapp:2a38b3fc7e314d5a765e3e8cf03aac4ff24c123f"
+      ],
+      "matches_prior_lifetime": true
+    },
+    {
+      "pid": 19948,
+      "parent_pid": 20008,
+      "name": "RadeonSoftware.exe",
+      "creation_utc": "2026-08-23T19:26:06.370771-05:00",
+      "executable_path": "C:\\Program Files\\WindowsApps\\AdvancedMicroDevicesInc-2.AMDRadeonSoftware_10.25.10201.0_x64__0a9344xs7nr4m\\radeonsoftware\\RadeonSoftware.exe",
+      "argv": [
+        "C:\\Program Files\\WindowsApps\\AdvancedMicroDevicesInc-2.AMDRadeonSoftware_10.25.10201.0_x64__0a9344xs7nr4m\\radeonsoftware\\RadeonSoftware.exe",
+        "atlogon",
+        "rebootstartup"
+      ],
+      "matches_prior_lifetime": true
+    },
+    {
+      "pid": 23264,
+      "parent_pid": 22640,
+      "name": "LogonUI.exe",
+      "creation_utc": "2026-08-23T19:26:15.359019-05:00",
+      "executable_path": null,
+      "argv": null,
+      "matches_prior_lifetime": true,
+      "protected_metadata_approved": true
+    },
+    {
+      "pid": 23268,
+      "parent_pid": 22640,
+      "name": "dwm.exe",
+      "creation_utc": "2026-08-23T19:26:15.359648-05:00",
+      "executable_path": null,
+      "argv": null,
+      "matches_prior_lifetime": true,
+      "protected_metadata_approved": true
+    },
+    {
+      "pid": 24656,
+      "parent_pid": 1860,
+      "name": "ShellExperienceHost.exe",
+      "creation_utc": "2026-08-23T19:26:52.480631-05:00",
+      "executable_path": "C:\\Windows\\SystemApps\\ShellExperienceHost_cw5n1h2txyewy\\ShellExperienceHost.exe",
+      "argv": [
+        "C:\\Windows\\SystemApps\\ShellExperienceHost_cw5n1h2txyewy\\ShellExperienceHost.exe",
+        "-ServerName:App.AppXtk181tbxbce2qsex02s8tw7hfxa9xb3t.mca"
+      ],
+      "matches_prior_lifetime": true
+    },
+    {
+      "pid": 16216,
+      "parent_pid": 17112,
+      "name": "msedgewebview2.exe",
+      "creation_utc": "2026-08-23T19:26:56.251404-05:00",
+      "executable_path": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\151.0.4129.101\\msedgewebview2.exe",
+      "argv": [
+        "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\151.0.4129.101\\msedgewebview2.exe",
+        "--type=gpu-process",
+        "--noerrdialogs",
+        "--user-data-dir=C:\\Users\\Mitch\\AppData\\Local\\Packages\\MicrosoftWindows.Client.WebExperience_cw5n1h2txyewy\\LocalState\\EBWebView",
+        "--webview-exe-name=Widgets.exe",
+        "--webview-exe-version=526.21100.10.0",
+        "--embedded-browser-webview=1",
+        "--gpu-preferences=WAAAAAAAAADgAAAEAAAAAAAAAAAAAGAAQAAAAAAAAAADAAAAAAAAADgAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAoAAAAAAAAAAgAAAAAAAAAEAAAAAIAAAABAAAAAAAAAAgAAAAAAAAACAAAAAAAAAA=",
+        "--startup-read-main-dll",
+        "--metrics-shmem-handle=2016,i,3064983172875814417,7823083371316992620,262144",
+        "--field-trial-handle=2080,i,10027436816392693784,5203967587125012760,262144",
+        "--variations-seed-version",
+        "--pseudonymization-salt-handle=2108,i,16590566737338479311,8238305892042800543,4",
+        "--trace-process-track-uuid=3190708988185955192",
+        "--mojo-platform-channel-handle=2068",
+        "/prefetch:2",
+        "/pfhostedapp:0f5b8a3d11f756f05b45350ecb180f16374c3ae2"
+      ],
+      "matches_prior_lifetime": true
+    },
+    {
+      "pid": 20596,
+      "parent_pid": 8748,
+      "name": "NVIDIA Overlay.exe",
+      "creation_utc": "2026-08-23T19:27:58.85143-05:00",
+      "executable_path": "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe",
+      "argv": [
+        "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe"
+      ],
+      "matches_prior_lifetime": true
+    },
+    {
+      "pid": 14160,
+      "parent_pid": 20596,
+      "name": "NVIDIA Overlay.exe",
+      "creation_utc": "2026-08-23T19:27:59.081088-05:00",
+      "executable_path": "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe",
+      "argv": [
+        "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe",
+        "--type=gpu-process",
+        "--no-sandbox",
+        "--start-stack-profiler",
+        "--user-data-dir=C:\\Users\\Mitch\\AppData\\Local\\NVIDIA Corporation\\NVIDIA Overlay\\CefCache",
+        "--gpu-preferences=UAAAAAAAAADgAQAMAAAAAAAAAAAAAAAAAABgAAEAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAEAAAAAAAAAAIAAAAAAAAAAgAAAAAAAAA",
+        "--field-trial-handle=2580,i,12081573060355381634,17557783552146688760,262144",
+        "--variations-seed-version",
+        "--enable-logging=handle",
+        "--log-file=2604",
+        "--mojo-platform-channel-handle=2456",
+        "/prefetch:2"
+      ],
+      "matches_prior_lifetime": true
+    },
+    {
+      "pid": 13080,
+      "parent_pid": 4884,
+      "name": "Taskmgr.exe",
+      "creation_utc": "2026-08-23T19:28:12.02945-05:00",
+      "executable_path": null,
+      "argv": null,
+      "matches_prior_lifetime": true,
+      "protected_metadata_approved": true
+    },
+    {
+      "pid": 21100,
+      "parent_pid": 20208,
+      "name": "chrome.exe",
+      "creation_utc": "2026-08-23T19:28:20.034446-05:00",
+      "executable_path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "argv": [
+        "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "--type=gpu-process",
+        "--no-pre-read-main-dll",
+        "--gpu-preferences=WAAAAAAAAADgAAAEAAAAAAAAAAAAAGAAQAAAAAAAAAADAAAAAAAAADgAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAoAAAAAAAAAAgAAAAAAAAAEAAAAAIAAAABAAAAAAAAAAgAAAAAAAAACAAAAAAAAAA=",
+        "--metrics-shmem-handle=1824,i,934991452028164968,1549710040170662308,262144",
+        "--field-trial-handle=1880,i,11234748306953662923,17040494729891752798,262144",
+        "--variations-seed-version=20260823-030042.303000-production",
+        "--pseudonymization-salt-handle=1936,i,9421054019005234492,8422815184414454395,4",
+        "--trace-process-track-uuid=3190708988185955192",
+        "--mojo-platform-channel-handle=1864",
+        "/prefetch:2"
+      ],
+      "matches_prior_lifetime": true
+    },
+    {
+      "pid": 27484,
+      "parent_pid": 20208,
+      "name": "chrome.exe",
+      "creation_utc": "2026-08-23T19:29:03.674355-05:00",
+      "executable_path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "argv": [
+        "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "--type=utility",
+        "--utility-sub-type=video_capture.mojom.VideoCaptureService",
+        "--lang=en-US",
+        "--service-sandbox-type=none",
+        "--video-capture-use-gpu-memory-buffer",
+        "--no-pre-read-main-dll",
+        "--metrics-shmem-handle=12196,i,18361644788376293391,8381355954651228910,524288",
+        "--field-trial-handle=1880,i,11234748306953662923,17040494729891752798,262144",
+        "--variations-seed-version=20260823-030042.303000-production",
+        "--pseudonymization-salt-handle=1936,i,9421054019005234492,8422815184414454395,4",
+        "--trace-process-track-uuid=3190709080016056394",
+        "--mojo-platform-channel-handle=7140",
+        "/prefetch:14"
+      ],
+      "matches_prior_lifetime": true
+    },
+    {
+      "pid": 34464,
+      "parent_pid": 9136,
+      "name": "ShellHost.exe",
+      "creation_utc": "2026-08-26T15:17:13.152694-05:00",
+      "executable_path": "C:\\Windows\\System32\\ShellHost.exe",
+      "argv": [
+        "C:\\Windows\\System32\\ShellHost.exe"
+      ],
+      "matches_prior_lifetime": true
+    },
+    {
+      "pid": 46024,
+      "parent_pid": 1860,
+      "name": "TextInputHost.exe",
+      "creation_utc": "2026-09-01T16:02:05.171977-05:00",
+      "executable_path": "C:\\WINDOWS\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\TextInputHost.exe",
+      "argv": [
+        "C:\\WINDOWS\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\TextInputHost.exe",
+        "-ServerName:InputApp.AppXk0k6mrh4r2q0ct33a9wgbez0x7v9cz5y.mca"
+      ],
+      "matches_prior_lifetime": true
+    },
+    {
+      "pid": 57312,
+      "parent_pid": 9880,
+      "name": "SnippingTool.exe",
+      "creation_utc": "2026-09-05T14:11:38.117871-05:00",
+      "executable_path": "C:\\Program Files\\WindowsApps\\Microsoft.ScreenSketch_11.2605.38.0_x64__8wekyb3d8bbwe\\SnippingTool\\SnippingTool.exe",
+      "argv": [
+        "C:\\Program Files\\WindowsApps\\Microsoft.ScreenSketch_11.2605.38.0_x64__8wekyb3d8bbwe\\SnippingTool\\SnippingTool.exe"
+      ],
+      "matches_prior_lifetime": true
+    },
+    {
+      "pid": 53688,
+      "parent_pid": 51640,
+      "name": "ChatGPT.exe",
+      "creation_utc": "2026-09-06T12:33:05.54812-05:00",
+      "executable_path": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.901.6511.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+      "argv": [
+        "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.901.6511.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+        "--type=gpu-process",
+        "--no-pre-read-main-dll",
+        "--start-stack-profiler",
+        "--gpu-preferences=WAAAAAAAAADgAAAEAAAAAAAAAAAAAGAAQAAAAAAAAAADAAAAAAAAADgAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAoAAAAAAAAAAgAAAAAAAAAEAAAAAIAAAABAAAAAAAAAAgAAAAAAAAACAAAAAAAAAA=",
+        "--metrics-shmem-handle=2204,i,5333895897126035137,13110741776058446684,262144",
+        "--field-trial-handle=2272,i,4542714551174644641,4414894281100759745,262144",
+        "--enable-features=ReportStuckThrottle",
+        "--disable-features=DropInputEventsWhilePaintHolding,WebUIOmniboxAimPopup,WebUIOmniboxPopup",
+        "--variations-seed-version",
+        "--pseudonymization-salt-handle=2284,i,8151491898401021456,5945216266230834470,4",
+        "--trace-process-track-uuid=3190708988185955192",
+        "--mojo-platform-channel-handle=2244",
+        "/prefetch:2"
+      ],
+      "matches_prior_lifetime": true
+    },
+    {
+      "pid": 35200,
+      "parent_pid": 51640,
+      "name": "ChatGPT.exe",
+      "creation_utc": "2026-09-06T12:36:05.588003-05:00",
+      "executable_path": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.901.6511.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+      "argv": [
+        "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.901.6511.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+        "--type=utility",
+        "--utility-sub-type=on_device_model.mojom.OnDeviceModelService",
+        "--lang=en-US",
+        "--service-sandbox-type=on_device_model_execution",
+        "--video-capture-use-gpu-memory-buffer",
+        "--standard-schemes=app,codex-sandbox",
+        "--service-worker-schemes=codex-sandbox",
+        "--secure-schemes=app,codex-sandbox,sentry-ipc",
+        "--bypasscsp-schemes=sentry-ipc",
+        "--fetch-schemes=app,codex-sandbox,sentry-ipc",
+        "--cors-schemes=codex-sandbox,sentry-ipc",
+        "--streaming-schemes=app,codex-sandbox",
+        "--no-pre-read-main-dll",
+        "--metrics-shmem-handle=4028,i,5636506927796538269,12904772609711974952,524288",
+        "--field-trial-handle=2272,i,4542714551174644641,4414894281100759745,262144",
+        "--enable-features=ReportStuckThrottle",
+        "--disable-features=DropInputEventsWhilePaintHolding,WebUIOmniboxAimPopup,WebUIOmniboxPopup",
+        "--variations-seed-version",
+        "--pseudonymization-salt-handle=2284,i,8151491898401021456,5945216266230834470,4",
+        "--trace-process-track-uuid=3190708995682289984",
+        "--mojo-platform-channel-handle=5092",
+        "/prefetch:14"
+      ],
+      "matches_prior_lifetime": true
+    },
+    {
+      "pid": 39712,
+      "parent_pid": 2012,
+      "name": "WUDFHost.exe",
+      "creation_utc": "2026-09-08T00:43:16.240631-05:00",
+      "executable_path": null,
+      "argv": null,
+      "matches_prior_lifetime": false,
+      "review_basis": "explicit_new_lifetime",
+      "new_lifetime_approved": true,
+      "protected_metadata_approved": true
+    },
+    {
+      "pid": 54788,
+      "parent_pid": 14796,
+      "name": "AMDRSSrcExt.exe",
+      "creation_utc": "2026-09-08T00:43:18.926518-05:00",
+      "executable_path": "C:\\Program Files\\WindowsApps\\AdvancedMicroDevicesInc-2.AMDRadeonSoftware_10.25.10201.0_x64__0a9344xs7nr4m\\radeonsoftware\\AMDRSSrcExt.exe",
+      "argv": [
+        "C:\\Program Files\\WindowsApps\\AdvancedMicroDevicesInc-2.AMDRadeonSoftware_10.25.10201.0_x64__0a9344xs7nr4m\\radeonsoftware\\AMDRSSrcExt.exe",
+        "fb28e830-7c29-4591-b2df-4e16275fa0d9",
+        "SOFTWARE\\AMD\\DVR\\Overlays"
+      ],
+      "matches_prior_lifetime": false,
+      "review_basis": "explicit_new_lifetime",
+      "new_lifetime_approved": true
+    }
+  ],
+  "reviewed_parents": [
+    {
+      "pid": 2012,
+      "parent_pid": 1868,
+      "name": "services.exe",
+      "creation_utc": "2026-08-23T19:25:49.075434-05:00",
+      "executable_path": null,
+      "argv": null,
+      "protected_metadata_approved": true
+    },
+    {
+      "pid": 14796,
+      "parent_pid": 15260,
+      "name": "AMDRSServ.exe",
+      "creation_utc": "2026-09-08T00:43:18.803703-05:00",
+      "executable_path": "C:\\Program Files\\WindowsApps\\AdvancedMicroDevicesInc-2.AMDRadeonSoftware_10.25.10201.0_x64__0a9344xs7nr4m\\radeonsoftware\\AMDRSServ.exe",
+      "argv": [
+        "C:\\Program Files\\WindowsApps\\AdvancedMicroDevicesInc-2.AMDRadeonSoftware_10.25.10201.0_x64__0a9344xs7nr4m\\radeonsoftware\\AMDRSServ.exe"
+      ]
+    }
+  ],
+  "review_note": "Root read all22 exact captured desktop rows and both parents. New39712 protected metadata is explicitly accepted only for this lifetime;54788 signed AMD overlay. See pinned ROOT-DESKTOP-REVIEW-20260908.md. No name/PID-only exception, future lifetime adoption, threshold change or production worker mutation.",
+  "approved_by": "root assistant; all22 exact six-field lifetimes and both parents match previously individually reviewed lifetimes; protected metadata limits retained"
+}

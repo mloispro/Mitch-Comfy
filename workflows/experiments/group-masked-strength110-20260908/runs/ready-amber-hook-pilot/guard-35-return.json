@@ -1,0 +1,38 @@
+{
+  "phase": "35",
+  "prompt_id": "1cb5987f-0cfb-4106-b131-fe410e7f56f7",
+  "client_id": "bc1dbe9a-4099-4fd8-865d-6a56dde09972",
+  "case": "pilot",
+  "pid": 37248,
+  "graph_sha256": "DFE5EDBF8205188C6DA053FE74C747A234D050DA0889D44017A610ACE8657CD1",
+  "entry_utc": "2026-09-08T06:41:44.872533+00:00",
+  "semantics": "synchronous check before original native method; not protection during its allocations",
+  "sampler_assumptions": {
+    "patcher": "ModelPatcher",
+    "weight_dtype": "torch.float8_e4m3fn",
+    "compute_dtype": "torch.bfloat16",
+    "initial_parameters_cpu": true,
+    "weight_inplace_update": false,
+    "loaded_bytes": 0,
+    "hook_mode": "EnumHookMode.MaxSpeed",
+    "gpu": {
+      "utc": "2026-09-08T06:41:44.878532+00:00",
+      "physical_free_bytes": 14153678848,
+      "own_inactive_allocator_bytes": 10057489330,
+      "effective_free_bytes": 24211168178,
+      "source": "native get_free_memory: CUDA physical free plus this PID reserved minus active"
+    },
+    "full_load": "predicted only; actual load occurs inside original and is watched"
+  },
+  "memory": {
+    "utc": "2026-09-08T06:41:44.878532+00:00",
+    "host_available_bytes": 36159639552,
+    "commit_headroom_bytes": 74122948608
+  },
+  "required_host_gib": 30,
+  "required_commit_gib": 28,
+  "admitted": true,
+  "return_utc": "2026-09-08T06:47:07.241029+00:00",
+  "status": "original_returned",
+  "exception_type": null
+}

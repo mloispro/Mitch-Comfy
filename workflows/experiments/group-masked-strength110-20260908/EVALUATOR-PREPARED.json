@@ -1,0 +1,112 @@
+{
+  "status": "PREPARED_CPU_ONLY_NO_SCORING_OR_QUEUE",
+  "scope": "One fixed strength1.1 recipe attribution; original Group scoring AST unchanged",
+  "fresh_prepared_sha256": "6B3A687FB02F8D015D4CA7B1F165FDE48389335D70634AB1003C01E743D94FDE",
+  "original_score_canonical_sha256": "8527C46B90F94ACB11125EA281AAACA792C1FB2EA7B2A941206979E679DDDC65",
+  "routing": {
+    "watcher": {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\recipe_runtime.py",
+      "sha256": "B27DBC0F37BD5CC9DBA51352348EAE51381607809308E3D1E1DA6B066A7899D6",
+      "bytes": 7146
+    },
+    "wddm_helper": {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\wddm_admission.py",
+      "sha256": "E5E675393687C13C16B7D34DA40D6C3C6DF870F31E370C94FE7A4C50783A1A99",
+      "bytes": 7822
+    },
+    "runtime_supplement": {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\prepared.json",
+      "sha256": "6B3A687FB02F8D015D4CA7B1F165FDE48389335D70634AB1003C01E743D94FDE",
+      "bytes": 4959
+    }
+  },
+  "pins": [
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\evaluate_recipe.py",
+      "sha256": "6CB99A0B033267BF397EAD20F2CEA77BA2BA0BEFD8409F9BF54A645CE11B03CD",
+      "bytes": 13211
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\test_evaluate_recipe.py",
+      "sha256": "BE0917FAA345F493384EF13FCE8005653AE60DA025476E95F260A130274483C5",
+      "bytes": 14572
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\EVALUATOR-README.md",
+      "sha256": "D56E8CDA9E617E432E2DA4C08C31DFD4A10E38A985AA9AC178414A528DE17303",
+      "bytes": 4596
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\prepared.json",
+      "sha256": "6B3A687FB02F8D015D4CA7B1F165FDE48389335D70634AB1003C01E743D94FDE",
+      "bytes": 4959
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\recipe_runtime.py",
+      "sha256": "B27DBC0F37BD5CC9DBA51352348EAE51381607809308E3D1E1DA6B066A7899D6",
+      "bytes": 7146
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\wddm_admission.py",
+      "sha256": "E5E675393687C13C16B7D34DA40D6C3C6DF870F31E370C94FE7A4C50783A1A99",
+      "bytes": 7822
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\run_recipe.ps1",
+      "sha256": "04F4E2A96CA6709F56CB139068310FD847340AFCC24A3EDC3DBBCBE85A073BE6",
+      "bytes": 8764
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\recipe.json",
+      "sha256": "67A5F1F9211BC48743698ABFC003E418B69B5B0C0D1F7F4C811E8283C8BE4C3E",
+      "bytes": 1535
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\amber-hook-pilot-payload.json",
+      "sha256": "DFE5EDBF8205188C6DA053FE74C747A234D050DA0889D44017A610ACE8657CD1",
+      "bytes": 9972
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\ROOT-APPROVAL-TEMPLATE.json",
+      "sha256": "788A7E4D92A77AD5DF315D7EF7EEDD21FD8968BB936CFE0DD72A73C90AB6DDC4",
+      "bytes": 1048
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\evaluate_fresh.py",
+      "sha256": "22CB982F07BA91EE024E4DB8BF83CA61C9C72AA5D86B2A3CEAE257D6BD784DD9",
+      "bytes": 10330
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\test_evaluate_fresh.py",
+      "sha256": "9F0B91889AE17223566A9F17AEE2D72565940F318C307295E0D0CCE4055421C2",
+      "bytes": 12720
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\runtime-3090\\evaluate_pilot_observation.py",
+      "sha256": "89887BABB81CA100769F1E084B6CAC57B5737682C265B3DFF0B7158770507F38",
+      "bytes": 7199
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\runtime-3090\\HOOK-EVALUATOR-PREPARED.json",
+      "sha256": "0CEC2F4E14444DCD55CA6BD369E0C2D6457DA8FF7CFAB55DC15D77118F87DF07",
+      "bytes": 2739
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\runtime-3090\\HOOK-EVALUATOR-V3-PREPARED.json",
+      "sha256": "6AB1992BC0A5D72F3D3BF400F1795C93415E134754C8457EDFA5B850582F75A1",
+      "bytes": 4550
+    }
+  ],
+  "validation": {
+    "synthetic_cpu_tests": 9,
+    "python_runtimes": [
+      "3.10",
+      "3.12"
+    ],
+    "actual_image_scoring": false,
+    "live_probes": false,
+    "worker_or_gpu_actions": false
+  },
+  "output": "evaluation-pilot",
+  "default": "verify-only; actual root-confirmed prompt ID and PNG SHA required; no overwrite"
+}

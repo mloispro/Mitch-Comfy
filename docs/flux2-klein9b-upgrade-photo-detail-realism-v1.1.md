@@ -7,13 +7,24 @@ Open `Mitch/production/FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1.1` on
 
 The v1.1 node is a direct registry alias to the already validated Upgrade engine. There is no wrapper generation
 code: sampling, model and LoRA selection, four-reference order, prompt construction, source-size policy, seed,
-sampler, scheduler, appearance polish, and optional camera finish are unchanged.
+sampler, scheduler, and optional camera finish are unchanged. The attractiveness selector now exposes Off / Low / High;
+Low v5 retains the previous finish constants but corrects the CodeFormer ParseNet hair label
+from17 (neck) to13 (hair). High adds the existing optional postprocessing after gaze correction.
+The hair repair is verified through actual-code CPU replay on three photos; live v5 end-to-end
+validation is complete for the public-node house hair repair: actual v5/class13,
+unchanged raw sampling pixels, and separately scored live Low (0.739620).
+Final live pixels differ slightly from the quantized CPU replay; see the linked
+repair audit. It is not the stronger-High solution requested in the ongoing experiments.
+See [repair evidence](upgrade-parsenet-hair-label-bug-2026-09-04.md).
 
 ## Use
 
 1. Load an image containing exactly one detectable face.
 2. Replace the included source-specific `detail_instructions` when changing the source image.
-3. Keep `Subtle handsome polish` and `Phone-camera realism` enabled for the shipped, visually accepted default.
+3. Keep `Attractiveness` at `low` and `Phone-camera realism` on for the previous default treatment. Choose `high` for
+   stronger brow definition, source-guided upper-lid curvature, clearer iris/sclera contrast, reduced under-eye shadow,
+   forehead/under-eye crease attenuation, and slight extra warmth. Choose `off` for raw generation without face/hair/iris
+   polish. High is optional and requires visual review, not a new default.
 4. Start with seed `8675416`; use `8675412` only as one controlled retry.
 5. Queue only on the RTX 3090 and review the photo, raw image, polish mask, and structure guide at full size and
    thumbnail.
@@ -32,8 +43,15 @@ generation mask, face swap, restoration, upscaling, or second model pass.
 ## Provenance compatibility
 
 Internal output folders, the embedded PNG report key, and parts of the engine report retain their historical `v1`
-namespace. They identify the unchanged implementation lineage and keep reports comparable; they are not duplicate
+namespace. They identify the implementation lineage and keep reports comparable; they are not duplicate
 public workflows or nodes.
+
+Legacy boolean `appearance_polish` API values remain valid: `true` maps to `low`, `false` maps to `off`.
+The browser migrates those saved widget values without changing phone style or seed. High never copies source facial
+pixels, enlarges eyes, moves eye corners, or moves the pupil core. It may apply a bounded upper-lid-only warp toward
+the source landmark curvature, plus symmetric iris and sclera contrast. The lip, hairline, head outline, and background
+remain exact. Evaluation and limitations:
+`docs/flux2-klein9b-attractiveness-levels-2026-09-03.md`.
 
 Historical mechanism details and experiments remain in
 `docs/flux2-klein9b-upgrade-photo-detail-realism-v1.md`. Current public-surface verification and fresh v1.1 results

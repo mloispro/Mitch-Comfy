@@ -1,0 +1,45 @@
+{
+  "captured_utc": "2026-09-08T05:56:31.1509155Z",
+  "processes": [
+    {
+      "pid": 2012,
+      "parent_pid": 1868,
+      "name": "services.exe",
+      "creation_utc": "2026-08-24T00:25:49.0754340+00:00",
+      "executable_path": null,
+      "argv": null
+    },
+    {
+      "pid": 39712,
+      "parent_pid": 2012,
+      "name": "WUDFHost.exe",
+      "creation_utc": "2026-09-08T05:43:16.2406310+00:00",
+      "executable_path": null,
+      "argv": null
+    },
+    {
+      "pid": 14796,
+      "parent_pid": 15260,
+      "name": "AMDRSServ.exe",
+      "creation_utc": "2026-09-08T05:43:18.8037030+00:00",
+      "executable_path": "C:\\Program Files\\WindowsApps\\AdvancedMicroDevicesInc-2.AMDRadeonSoftware_10.25.10201.0_x64__0a9344xs7nr4m\\radeonsoftware\\AMDRSServ.exe",
+      "argv": [
+        "C:\\Program Files\\WindowsApps\\AdvancedMicroDevicesInc-2.AMDRadeonSoftware_10.25.10201.0_x64__0a9344xs7nr4m\\radeonsoftware\\AMDRSServ.exe"
+      ]
+    },
+    {
+      "pid": 54788,
+      "parent_pid": 14796,
+      "name": "AMDRSSrcExt.exe",
+      "creation_utc": "2026-09-08T05:43:18.9265180+00:00",
+      "executable_path": "C:\\Program Files\\WindowsApps\\AdvancedMicroDevicesInc-2.AMDRadeonSoftware_10.25.10201.0_x64__0a9344xs7nr4m\\radeonsoftware\\AMDRSSrcExt.exe",
+      "argv": [
+        "C:\\Program Files\\WindowsApps\\AdvancedMicroDevicesInc-2.AMDRadeonSoftware_10.25.10201.0_x64__0a9344xs7nr4m\\radeonsoftware\\AMDRSSrcExt.exe",
+        "fb28e830-7c29-4591-b2df-4e16275fa0d9",
+        "SOFTWARE\\AMD\\DVR\\Overlays"
+      ]
+    }
+  ],
+  "amd_signature_status": "Valid",
+  "amd_signature_subject": "CN=Advanced Micro Devices, O=Advanced Micro Devices, S=California, C=US"
+}

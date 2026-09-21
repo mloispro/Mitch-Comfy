@@ -1,0 +1,285 @@
+{
+  "id": "upgrade-high-paused-2026-09-04",
+  "revision": 0,
+  "last_node_id": 5,
+  "last_link_id": 3,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "MarkdownNote",
+      "pos": [
+        -1120,
+        -40
+      ],
+      "size": [
+        590,
+        900
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "PAUSED EXPERIMENT — UNFINISHED HIGH",
+      "properties": {
+        "Node name for S&R": "MarkdownNote",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "# PAUSED — Upgrade High investigation, 2026-09-04\n\nSaved at Mitch's request to revisit another day. NOT approved or production-ready.\n\nThis sheet preserves the existing Klein Upgrade High implementation; it does NOT include PixelSmile. High still did not deliver the requested clear improvement in eyes/smile/cheek shape across all three pictures.\n\nPhone ON, Turbo OFF, seed 8675416, 50 steps. This Klein recipe still uses the existing character LoRA. No new character training is authorized.\n\nThe separate PixelSmile sheet preserves the latest fully character-LoRA-free expression test. Both score 0.5 and neutral 0 were visually rejected; they are not improvements to this High recipe.\n\nRead README.md in this Experiments folder before resuming. Code/settings/results snapshot: C:/projects/AI-Tools/Mitch-Comfy/checkpoints/artifacts/upgrade-high-paused-2026-09-04\n\nUse only RTX 3090 / port 8188. Inspect both GPUs and queues before any deliberate rerun. Nothing is scheduled. Keep production unchanged until one coherent policy passes house, canyon and a genuine third photograph.\n\nThis visible sheet references currently installed nodes. The exact parked source code and original production graph are stored in the checkpoint; future code changes can alter behavior until the snapshot is deliberately restored."
+      ],
+      "color": "#5b4524",
+      "bgcolor": "#3c2d18"
+    },
+    {
+      "id": 2,
+      "type": "LoadImage",
+      "pos": [
+        -450,
+        -40
+      ],
+      "size": [
+        330,
+        520
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            1
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null,
+          "slot_index": 1
+        }
+      ],
+      "title": "PHOTO TO UPGRADE — CHANGE THIS",
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "mitch-photo2-source-aef87048.png",
+        "image"
+      ],
+      "color": "#4f3b22",
+      "bgcolor": "#6a5030"
+    },
+    {
+      "id": 3,
+      "type": "Flux2Klein9BPhotoRealismUpgradeV11",
+      "pos": [
+        -30,
+        -40
+      ],
+      "size": [
+        720,
+        800
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "source_photo",
+          "type": "IMAGE",
+          "link": 1
+        },
+        {
+          "name": "detail_instructions",
+          "type": "STRING",
+          "widget": {
+            "name": "detail_instructions"
+          },
+          "link": null
+        },
+        {
+          "name": "appearance_polish",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "appearance_polish"
+          },
+          "link": null
+        },
+        {
+          "name": "phone_camera_style",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "phone_camera_style"
+          },
+          "link": null
+        },
+        {
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "photo",
+          "type": "IMAGE",
+          "links": [
+            2
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "structure_guide",
+          "type": "IMAGE",
+          "links": [
+            3
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "effective_prompt",
+          "type": "STRING",
+          "links": null,
+          "slot_index": 2
+        },
+        {
+          "name": "output_folder",
+          "type": "STRING",
+          "links": null,
+          "slot_index": 3
+        },
+        {
+          "name": "report_json",
+          "type": "STRING",
+          "links": null,
+          "slot_index": 4
+        }
+      ],
+      "title": "EXPERIMENTAL HIGH — NOT ACCEPTED",
+      "properties": {
+        "Node name for S&R": "Flux2Klein9BPhotoRealismUpgradeV11",
+        "cnr_id": "ComfyUI-AIToolkit-Training"
+      },
+      "widgets_values": [
+        "For this included example, the man remains in the exact source three-quarter view and looks past the camera toward image-right. Preserve the exact raised-collar coat silhouette, shirt opening, building-wall diagonals, roof edge, bare-tree layout, and every foreground/background boundary. Render the same real house exterior with separate horizontal siding boards, narrow straight seams, subtle matte painted texture, and minor surface variation. Render the same leafless tree with tapered limbs, bark ridges, irregular forks, progressively thinner twigs, tiny buds, and distinct overlapping depth layers. Keep the whole environment legible with natural small-sensor depth of field; distant elements soften gradually but remain structurally readable instead of becoming portrait-mode bokeh.",
+        "high",
+        true,
+        8675416,
+        "fixed"
+      ],
+      "color": "#285744",
+      "bgcolor": "#36745a"
+    },
+    {
+      "id": 4,
+      "type": "PreviewImage",
+      "pos": [
+        780,
+        -40
+      ],
+      "size": [
+        560,
+        760
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 2
+        }
+      ],
+      "outputs": [],
+      "title": "EXPERIMENTAL OUTPUT — NOT AN APPROVED RESULT",
+      "properties": {
+        "Node name for S&R": "PreviewImage",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 5,
+      "type": "PreviewImage",
+      "pos": [
+        780,
+        800
+      ],
+      "size": [
+        560,
+        610
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 3
+        }
+      ],
+      "outputs": [],
+      "title": "AUTO STRUCTURE GUIDE — FACE INTERIOR MUST BE BLANK",
+      "properties": {
+        "Node name for S&R": "PreviewImage",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": []
+    }
+  ],
+  "links": [
+    [
+      1,
+      2,
+      0,
+      3,
+      0,
+      "IMAGE"
+    ],
+    [
+      2,
+      3,
+      0,
+      4,
+      0,
+      "IMAGE"
+    ],
+    [
+      3,
+      3,
+      1,
+      5,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "frontendVersion": "1.45.19",
+    "ds": {
+      "scale": 0.7,
+      "offset": [
+        870,
+        290
+      ]
+    },
+    "parked": {
+      "status": "paused_unfinished",
+      "date": "2026-09-04",
+      "checkpoint": "C:/projects/AI-Tools/Mitch-Comfy/checkpoints/artifacts/upgrade-high-paused-2026-09-04",
+      "production_changed": false
+    }
+  },
+  "version": 0.4
+}

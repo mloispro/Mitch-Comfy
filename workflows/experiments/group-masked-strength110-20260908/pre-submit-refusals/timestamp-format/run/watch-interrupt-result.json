@@ -1,0 +1,26 @@
+{
+  "started_utc": "2026-09-08T06:39:25.116228+00:00",
+  "argv": [
+    "C:\\Users\\Mitch\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe",
+    "-NoProfile",
+    "-File",
+    "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\run_recipe.ps1",
+    "-Action",
+    "interrupt",
+    "-Run",
+    "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot",
+    "-Reason",
+    "watch_refusal"
+  ],
+  "pid": 54640,
+  "exit_code": 0,
+  "timed_out": false,
+  "exception_type": null,
+  "exception_repr": null,
+  "stdout_path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\watch-interrupt-stdout.log",
+  "stderr_path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\watch-interrupt-stderr.log",
+  "retry_permitted": false,
+  "finished_utc": "2026-09-08T06:39:26.838670+00:00",
+  "intent_present": false,
+  "receipt_present": false
+}

@@ -1,0 +1,9 @@
+# Routine ripgrep searches focus on current source, tests and guides.
+# Search history explicitly: rg --no-ignore "pattern" archive checkpoints workflows/experiments
+# Search recorded outcomes: rg "pattern" docs/generated/EVIDENCE-INDEX.md
+# These rules affect search only; Git tracking, imports and evidence checks are unchanged.
+/archive/
+/checkpoints/
+/workflows/experiments/
+/docs/generated/
+/docs/*20[0-9][0-9]*.md

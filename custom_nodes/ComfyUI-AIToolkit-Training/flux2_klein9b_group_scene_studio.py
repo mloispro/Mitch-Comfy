@@ -251,6 +251,17 @@ def compose_group_prompt(scene_prompt: str, appearance_polish: bool = False) -> 
 class Flux2Klein9BMitchGroupSceneStudioV1:
     """Approved reusable group-scene workflow with face-free structural conditioning."""
 
+    def _prepare_sampling_model(self, model, *, steps, guidance):
+        """Per-invocation extension seam; the original production path is a no-op."""
+        return model, None
+
+    def _generation_output_root(self):
+        return OUTPUT_ROOT
+
+    def _finalize_sampling_report(self, report, sampling_metadata):
+        """Original production reports are unchanged; adapters override locally."""
+        return report
+
     @classmethod
     def INPUT_TYPES(cls):
         return {
@@ -407,6 +418,9 @@ class Flux2Klein9BMitchGroupSceneStudioV1:
         positive = node_helpers.conditioning_set_values(positive, values, append=True)
         negative = node_helpers.conditioning_set_values(negative, values, append=True)
 
+        model, sampling_metadata = self._prepare_sampling_model(
+            model, steps=steps, guidance=guidance
+        )
         guider = CFGGuider.execute(model, positive, negative, guidance)[0]
         sampler = KSamplerSelect.execute("euler")[0]
         sigmas = Flux2Scheduler.execute(steps, WIDTH, HEIGHT)[0]
@@ -418,7 +432,7 @@ class Flux2Klein9BMitchGroupSceneStudioV1:
         photo = comfy_nodes.VAEDecode().decode(vae, sampled)[0]
 
         run_stamp = datetime.now().strftime("%Y%m%d-%H%M%S-%f")
-        output_folder = f"{OUTPUT_ROOT}/{run_stamp}"
+        output_folder = f"{self._generation_output_root()}/{run_stamp}"
         lora_load_order = []
         if fast_turbo:
             lora_load_order.append(
@@ -496,6 +510,7 @@ class Flux2Klein9BMitchGroupSceneStudioV1:
                 "whole-frame integration and scene fidelity",
             ],
         }
+        report = self._finalize_sampling_report(report, sampling_metadata)
         saved = comfy_nodes.SaveImage().save_images(
             photo,
             f"{output_folder}/photo",

@@ -1,0 +1,37 @@
+{
+  "scope": "ONE_GROUP_MASKED_STRENGTH_REFINEMENT",
+  "name": "group-masked-strength110-20260908",
+  "payload_sha256": "DFE5EDBF8205188C6DA053FE74C747A234D050DA0889D44017A610ACE8657CD1",
+  "parent_payload_path": "C:/projects/AI-Tools/Mitch-Comfy/work/9b-readiness-resume-20260907/group-identity-hook-gate/amber-hook-pilot-payload.json",
+  "parent_payload_sha256": "EB6AEF903DB72BE0E8CED5389EFB1C01E08E586B76C611CF3665796C05EFA76A",
+  "parent_prepared_sha256": "5A9166BD335BEDB19F16FDFA5501AB8CC471DD76ADE9A9025479FA9755B4CEF4",
+  "parent_image_sha256": "4100246734E15B8AF7F71E58EDB9C60268BE9BE87757C7319DC86ECC5AC78BB3",
+  "changes": [
+    {
+      "path": [
+        "prompt",
+        "50",
+        "inputs",
+        "strength_model"
+      ],
+      "before": 0.9,
+      "after": 1.1
+    },
+    {
+      "path": [
+        "prompt",
+        "37",
+        "inputs",
+        "filename_prefix"
+      ],
+      "before": "9b-readiness-resume-20260907/group-amber-hook-pilot-seed8675412",
+      "after": "group-masked-strength110-20260908/group-amber-hook-s110-seed8675412"
+    }
+  ],
+  "internal_case": "pilot",
+  "run_name": "ready-amber-hook-pilot",
+  "worker_root": "C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-strength110-20260908/worker",
+  "execution_order_path": "C:/projects/AI-Tools/Mitch-Comfy/work/9b-readiness-resume-20260907/group-identity-hook-gate/PAIR-SCHEDULE-RESULTS.json",
+  "execution_order_sha256": "DC3280FDD3DB0EACE1E8D6816ED9F0313F8C4FAD2D3F3E6CCD3B12618A731DE9",
+  "no_automatic_retry": true
+}

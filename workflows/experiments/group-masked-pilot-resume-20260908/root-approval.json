@@ -1,0 +1,15 @@
+{
+  "approved": true,
+  "scope": "ONE_FRESH_OWNED_GROUP_PILOT",
+  "worker_owned_sha256": "E679BA96F584FE0E5F5DA4E30E8285C8CF926E59FB366FF76B59682B9D0D0517",
+  "issued_utc": "2026-09-08T06:04:21Z",
+  "expires_utc": "2026-09-08T06:49:21Z",
+  "prepared_sha256": "5A9166BD335BEDB19F16FDFA5501AB8CC471DD76ADE9A9025479FA9755B4CEF4",
+  "supplement_prepared_sha256": "F0223AC4A24DE150C0B3BC168FF45A394796289128EDBDA1576F544B778A6E46",
+  "worker_root": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\worker",
+  "payload_sha256": "EB6AEF903DB72BE0E8CED5389EFB1C01E08E586B76C611CF3665796C05EFA76A",
+  "prior_stop_sha256": "712C4B25FE449F1FC6A9932A6087A3294B0907CFB4B0ADAB80C46E7C38BEFF21",
+  "interrupted_archive_sha256": "6B27867387726B5493E1E39561FE907624B093C18FBEDA714625D9ABD98CB152",
+  "control_image_sha256": "E6FB94C1944494EA5EDB4666AF7B00387D2680AADC8DC8AF5C9D78E8F7FCF739",
+  "review_note": "One unchanged pilot only. Root reviewed original and supplemental code and independently passed33+19 PowerShell checks,10 new exact-desktop tests and original6 native-runtime tests in actualComfyPython. No control rerender/automatic retry/production change. Existing native/monitor thresholds and cooperative-interrupt limitations accepted for this bounded test. Bind actual owned.json SHA before submission."
+}

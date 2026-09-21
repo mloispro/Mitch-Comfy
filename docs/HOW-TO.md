@@ -3,6 +3,13 @@
 For canonical current status, read `docs/STATUS.md`. Dated evaluation reports record the decision at their date
 and are not operating instructions unless STATUS links them as current.
 
+For development, start with [START-HERE](START-HERE.md) and [TESTING](TESTING.md).
+The following describes the public controls and saved recipes. Historical validation is limited to its
+tested cases; [current status](STATUS.md) records later failures and incomplete scene/mode readiness.
+The separate [Production Speed guide](production-speed.md) covers the ordinary-Run Cocktail,
+source-preserving Turbo and Lounge alternatives. Their tested scope differs from the original public nodes;
+the source-preserving Upgrade recipe is not public Upgrade High or its four-reference graph.
+
 ## Before generating
 
 1. Check the RTX 3090 and RTX 4070 workers and queues.
@@ -13,19 +20,52 @@ and are not operating instructions unless STATUS links them as current.
 
 The normal RTX 3090 worker is `http://127.0.0.1:8188`.
 
+All three original production Klein 9B workflows and the Production Speed copies target this worker.
+Port `8189` is the RTX 4070; its shared Workflows sidebar also lists the 9B graphs, but listing a graph does not make it
+compatible with that GPU. Refresh the browser once to load the production GPU guard. On
+the wrong worker it shows an `Open RTX 3090 ComfyUI (8188)` link and prevents submission.
+Open the link and select the workflow again under `Mitch/production` or `Mitch/production-speed`; save any custom
+edits before switching. The backend RTX 3090 lock remains enforced.
+
 ## Choose the correct workflow
+
+### Production Speed: bounded alternatives
+
+Open `Mitch/production-speed` on the RTX 3090 and select the needed recipe:
+
+- **Individual — Cocktail (tested recipe):** the accepted raw rooftop Cocktail graph. Prompt and seed are editable;
+  a different scene is an unvalidated variation, not approval of all Individual presets.
+- **Upgrade — Source Preserve Turbo (tested example):** the one-source navy-shirt/closet example. Its prompt describes
+  that photograph. Another genuine source requires reviewing the prompt and both output-dimension nodes; it is not
+  a universal detail enhancer, factual blur recovery or stronger High.
+- **Group — Lounge Faster Quality:** the fixed approved Lounge composition with a seed control. No uploaded/custom
+  layouts here. Seeds `8675412`, `8675413` and `8675414` have matched experimental evidence; new outputs still need review.
+
+Use ordinary **Run**, not a private worker or laboratory CLI. All three workflows have completed actual normal-worker
+Run checks; see [observed timings, output paths and photo-acceptance evidence](production-speed.md). These are bounded
+Cocktail/source-example/Lounge routes, not all-scene approval. Solo/Upgrade's historical legacy-4070 timings are not
+current 3090 benchmarks. Existing Production recipes remain available below, unchanged.
 
 ### New photograph: Klein 9B Identity Studio
 
 Open `Mitch/production/FLUX.2 Klein 9B Mitch Identity Studio v1.1 - Visual Presets`.
 
 - Click a scene thumbnail; it selects the prepared prompt and matching genuine-reference profile.
+- The boat card is **St. Barts yacht — Caribbean escape**, replacing Italian lake boat. Refresh
+  ComfyUI and reselect the card in older saved boat graphs. Selecting it now turns **Flattering appearance off**
+  for natural age/skin and describes the original forward lean with both hands gripping the rails.
+  You can still re-enable that switch; save/reload preserves your choice. The
+  [current preview, pixel verification and saved composition](../work/st-barts-exact-foreground-20260920/RESULT.md)
+  preserve the original foreground directly, with qualified sunglasses likeness. The gallery remains text-only:
+  use that final PNG or saved deterministic composition for this exact pose; the earlier native edit
+  workflow only approximates it. FULL BODY references and gallery
+  sampling settings remain unchanged; the new gallery wording has not had a separate generation check.
 - Use `Custom — write your own scene` to type a scene not represented in the gallery.
-- Leave `Visible flattering enhancement` on for a 3–5 year younger best-day look, slightly stronger jaw/chin and
+- The default `Flattering appearance` on-state requests a 3–5 year younger best-day look, slightly stronger jaw/chin and
   cheekbones, a slight confident closed-lip expression with every tooth covered, clearer natural eye catchlights,
   finer visible pores, tidier stubble, light-bronze skin, and reduced fine-line emphasis; turn it off for the previous
   exact natural-appearance prompt.
-- Leave `Fast Turbo — 8 steps` on for the validated normal route. Turn it off to restore the previous 50-step
+- Leave `Fast Turbo — 8 steps` on for the historically tested fast route. Turn it off to restore the previous 50-step
   quality fallback exactly.
 - With a prepared card, leave the prompt box empty or use it only for extra scene direction.
 - Queue on the RTX 3090.
@@ -49,9 +89,9 @@ Open `Mitch/production/FLUX.2 Klein 9B Mitch Group Scene Studio v1.1 - Visual Pr
 4. Keep `head_scale` at `0.92` for custom sources unless a measured source-specific adjustment is necessary. The Canny guide supplies
    approximate outer-head scale and placement; the separate genuine Mitch photograph supplies identity and internal
    facial geometry.
-5. Leave `Visible flattering enhancement` off for the validated identity-first default. Its optional on-state is now
+5. Leave the appearance control off for the saved identity-first default. Its optional on-state is
    a short rendering-only treatment and does not request a younger age or changed bone structure.
-6. Leave Fast Turbo off for the validated 50-step quality result. The production-node 8-step test reduced main
+6. Leave Fast Turbo off for the historical 50-step quality recipe. The production-node 8-step test reduced main
    identity `0.5958 → 0.5672`, so it remains an explicit speed experiment only.
 7. Inspect the face-free guide before trusting the generated image.
 
@@ -72,11 +112,15 @@ Open `Mitch/production/FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1.1`.
 
 1. Load an image containing exactly one detectable face.
 2. Describe only the material/background detail to improve.
-3. Leave `Subtle handsome polish` on for the tested default. It applies deterministic closed-mouth expression,
+3. Leave `Attractiveness` at `low` for the previous default. It applies deterministic closed-mouth expression,
    fatigue/line, warmth, eye, stubble, cheek/jaw, dark-dot/freckle, hair-material/highlight, and source-gaze corrections after generation.
    A local MediaPipe iris measurement moves only generated iris material toward the source-relative pupil coordinates;
    source pixels are not copied. The eyelid boundary, head outline, hairline, hair silhouette, and unselected skin
    texture remain exact generated pixels; the separate phone-off camera finish may soften only the background.
+   The `high` mode applies stronger brow/crease definition, source-guided upper-lid curvature, clearer eye contrast, and
+   subtle extra warmth after the gaze lock. High fixes the eye corners and pupil position; it does not enlarge the
+   eyes or copy source pixels. A useful stronger High has not been proven across required sources; this describes
+   implementation, not acceptance. `off` skips the face/hair/iris treatment. Phone style is independent and stays on.
 4. Leave `Phone-camera realism` on for the accepted deep-focus Smartphone Snapshot v13 look at `0.25`; phone-on skips
    the background-blur stage. Turn it off for optional gentle, optical-looking background separation. That path saves the
    complete detailed render first, then uses a local U2Net matte and edge-safe depth-ramped blur to preserve the subject exactly.
@@ -87,11 +131,14 @@ Open `Mitch/production/FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1.1`.
 The workflow uses one whole-frame empty-latent Base 9B generation with four ordered references: source scene,
 face-interior-free Canny geometry, genuine Mitch identity, and genuine isolated hair material. The final source-gaze
 prototype reduced normalized horizontal pupil error by `74.1%`, retained a six-photo `strong_match` identity score of
-  `0.7508`, and changed only `0.095%` of the frame inside eroded eye interiors. The current v4 polish uses sparse local
+  `0.7508`, and changed only `0.095%` of the frame inside eroded eye interiors. The historical v4 polish used sparse local
   median replacement to reduce visible cheek/nose dark-dot pixels by `35.9%` versus v3, slightly lifts only existing
   brighter hair material, protects the first eight pixels inside the semantic hair boundary, and the
 combined handsome treatment changed zero pixels outside its face/iris/hair-interior masks. The phone-off blur has zero
 protected-subject error and excludes subject colors from the background filter.
+Current Low is **v5**, correcting CodeFormer ParseNet hair selection from neck class17 to hair class13.
+The numerical v4/gaze claims above belong to their historical tests, not a new v5 benchmark.
+See [the actual v5 repair and live check](upgrade-parsenet-hair-label-bug-2026-09-04.md).
 It uses no Turbo, source-latent inpaint, face swap, restoration, sharpening, upscaling, or second model pass.
 
 Detailed public-interface contract: `docs/flux2-klein9b-upgrade-photo-detail-realism-v1.1.md`.
@@ -131,8 +178,14 @@ Automated similarity can reject or rank a candidate. It cannot certify identity 
 
 ## Hidden rollbacks and failed experiments
 
-Normal-use workflows live only in `workflows/production`. Exact legacy graphs are under
-`checkpoints/legacy-workflows` and do not appear in ComfyUI.
+The curated normal-use library exposes `workflows/production` and `workflows/production-speed`.
+`workflows/experiments` remains intact at its original paths, including runtime helpers and frozen evaluation
+dependencies, but is out of the Workflows sidebar. Exact legacy graphs under `checkpoints/legacy-workflows`
+also remain hidden. This is visibility cleanup, not deletion.
+
+Use [the visibility plan/rollback commands](production-speed.md#visibility-and-rollback) to restore the old full-tree
+view deliberately. They change only the two allowed ComfyUI library junctions; they do not restart workers,
+delete experiment data or clear unsaved browser tabs. Refresh the sidebar afterward.
 
 Retired launchers/configs under `checkpoints/legacy-scripts` retain their original path assumptions. Do not run
 them in place. Restore an archived experiment only for a deliberate regression investigation, and copy all of its

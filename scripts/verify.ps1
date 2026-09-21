@@ -7,9 +7,17 @@ param(
 $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $PSScriptRoot
 $errors = [System.Collections.Generic.List[string]]::new()
+. (Join-Path $PSScriptRoot 'comfy-workflow-library.ps1')
+$WorkflowLibrary = Get-ComfyWorkflowLibraryPath -RepoRoot $RepoRoot
+try { Assert-ComfyWorkflowLibrary -RepoRoot $RepoRoot }
+catch { $errors.Add("Curated workflow visibility: $($_.Exception.Message)") }
 
 function Check-Junction {
     param([string]$Path, [string]$Target)
+    if (-not (Test-Path -LiteralPath $Target)) {
+        $errors.Add("Missing expected junction target: $Target")
+        return
+    }
     if (-not (Test-Path -LiteralPath $Path)) {
         $errors.Add("Missing link: $Path")
         return
@@ -31,7 +39,8 @@ function Check-Junction {
     }
 }
 
-Check-Junction (Join-Path $ComfyRoot "user\default\workflows\Mitch") (Join-Path $RepoRoot "workflows")
+Check-Junction (Join-Path $ComfyRoot "user\default\workflows\Mitch") $WorkflowLibrary
+Check-Junction (Join-Path $ComfyRoot "user-4070\default\workflows\Mitch") $WorkflowLibrary
 Check-Junction (Join-Path $ComfyRoot "custom_nodes\ComfyUI-AIToolkit-Training") (Join-Path $RepoRoot "custom_nodes\ComfyUI-AIToolkit-Training")
 Check-Junction (Join-Path $ComfyRoot "custom_nodes\ComfyUI-AlwaysRunImage") (Join-Path $RepoRoot "custom_nodes\ComfyUI-AlwaysRunImage")
 
@@ -165,10 +174,10 @@ if (Test-Path -LiteralPath $klein9bUpgradeWorkflowPath) {
         $upgradeWorkflow = Get-Content -Raw -LiteralPath $klein9bUpgradeWorkflowPath | ConvertFrom-Json
         $upgradeNode = @($upgradeWorkflow.nodes | Where-Object { $_.type -eq "Flux2Klein9BPhotoRealismUpgradeV11" })[0]
         if (-not $upgradeNode -or @($upgradeNode.inputs).Count -ne 5) {
-            $errors.Add("Upgrade Photo Detail & Realism v1.1 must expose source, instructions, two tested toggles, and seed.")
+            $errors.Add("Upgrade Photo Detail & Realism v1.1 must expose source, instructions, attractiveness level, phone toggle, and seed.")
         }
-        if ($upgradeNode -and [bool]$upgradeNode.widgets_values[1] -ne $true) {
-            $errors.Add("Upgrade Photo Detail & Realism v1.1 must open with appearance polish enabled.")
+        if ($upgradeNode -and [string]$upgradeNode.widgets_values[1] -cne "low") {
+            $errors.Add("Upgrade Photo Detail & Realism v1.1 must open with Attractiveness Low.")
         }
         if ($upgradeNode -and [bool]$upgradeNode.widgets_values[2] -ne $true) {
             $errors.Add("Upgrade Photo Detail & Realism v1.1 must open with phone-camera realism enabled.")
@@ -470,9 +479,34 @@ if (-not (Test-Path -LiteralPath $previewCandidateScript -PathType Leaf)) {
     }
 }
 
+& node (Join-Path $RepoRoot "scripts\test-upgrade-attractiveness-ui.mjs")
+if ($LASTEXITCODE -ne 0) {
+    $errors.Add("Upgrade attractiveness widget migration tests failed.")
+}
+
+& node (Join-Path $RepoRoot "scripts\test-production-gpu-guard.mjs")
+if ($LASTEXITCODE -ne 0) {
+    $errors.Add("Production Klein 9B GPU guard tests failed.")
+}
+
+& node (Join-Path $RepoRoot "scripts\test-visual-scene-presets-ui.mjs")
+if ($LASTEXITCODE -ne 0) {
+    $errors.Add("Visual scene prompt layout and widget serialization tests failed.")
+}
+
+& python -m unittest discover -s (Join-Path $RepoRoot "scripts") -p "test_face_likeness.py"
+if ($LASTEXITCODE -ne 0) {
+    $errors.Add("Face-likeness inference reuse tests failed.")
+}
+
+& python -m unittest discover -s (Join-Path $RepoRoot "scripts") -p "test_evaluation_cases.py"
+if ($LASTEXITCODE -ne 0) {
+    $errors.Add("Evaluation case integrity and review preparation tests failed.")
+}
+
 Push-Location (Join-Path $RepoRoot "custom_nodes\ComfyUI-AIToolkit-Training")
 try {
-    & python -m unittest test_integration.py test_social_photo_core.py test_reference_photo_presets.py test_phone_lens_optics.py test_scene_quality.py test_identity_scope.py test_identity_leakage.py test_scene_crop.py test_scene_constraints.py test_scene_objects.py test_camera_finish.py test_head_integrity.py test_minimal_flux2_reality_test.py test_flux2_model_benchmark.py test_flux2_klein9b_appearance_polish.py test_flux2_klein9b_deterministic_polish.py test_flux2_klein9b_smartphone_style.py test_flux2_klein9b_turbo.py test_flux2_klein9b_upgrade_reference_policy.py test_flux2_klein9b_upgrade_masking.py test_flux2_klein9b_source_gaze_lock.py test_flux2_klein9b_mitch_identity_studio_presets.py test_flux2_klein9b_scene_presets.py test_flux2_klein9b_visual_preset_support.py test_flux2_klein9b_photo_realism_upgrade_presets.py test_flux2_klein9b_photo_realism_upgrade_reporting.py
+    & python -m unittest test_integration.py test_social_photo_core.py test_reference_photo_presets.py test_phone_lens_optics.py test_scene_quality.py test_identity_scope.py test_identity_leakage.py test_scene_crop.py test_scene_constraints.py test_scene_objects.py test_camera_finish.py test_head_integrity.py test_minimal_flux2_reality_test.py test_flux2_model_benchmark.py test_flux2_klein9b_appearance_polish.py test_flux2_klein9b_deterministic_polish.py test_flux2_klein9b_smartphone_style.py test_flux2_klein9b_turbo.py test_flux2_klein9b_upgrade_masking.py test_flux2_klein9b_source_gaze_lock.py test_flux2_klein9b_mitch_identity_studio_presets.py test_flux2_klein9b_scene_presets.py test_flux2_klein9b_visual_preset_support.py test_flux2_klein9b_photo_realism_upgrade_presets.py test_flux2_klein9b_photo_realism_upgrade_reporting.py test_flux2_klein9b_attractiveness.py
     if ($LASTEXITCODE -ne 0) {
         $errors.Add("Python unit tests failed.")
     }

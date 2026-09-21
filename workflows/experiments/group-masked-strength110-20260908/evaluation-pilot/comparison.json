@@ -1,0 +1,568 @@
+{
+  "status": "diagnostics_complete_two_manual_reviews_required_not_ready",
+  "completed_utc": "2026-09-08T06:50:03.319175+00:00",
+  "cpu_seconds": 7.4060000001918525,
+  "providers": {
+    "landmark_3d_68": [
+      "CPUExecutionProvider"
+    ],
+    "recognition": [
+      "CPUExecutionProvider"
+    ],
+    "detection": [
+      "CPUExecutionProvider"
+    ]
+  },
+  "run_provenance": {
+    "run_pins": [
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\attempt.json",
+        "sha256": "C95E430D53790236A0BBE94D4916DFA73CFF4509595D3D5D591F82B8D66C21B8"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\submission.json",
+        "sha256": "BB156FB350D1D678E2868541CDB43BC0F35C1452EBFCFDA4FE6E125231ADFD88"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\history.json",
+        "sha256": "A366FCDE1B777F501DCA64AE99EBD457719F807B7E00F557D0524F9617CA8EF0"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\report.json",
+        "sha256": "C7B82BF576F79B60AE2194D2AD025086873AED184EE4FCD0EDD7F8CAE44277B3"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\prompt-api.json",
+        "sha256": "EAFA10E875C66F0C91223A61704CD6C5A30D851056AFDFACE359B45CC52B5F33"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\preflight.json",
+        "sha256": "BE48A19DA503AB2C0DCE914E215F8B68D843B8EBD88AD58CF09E7F7935AEA468"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\immediate-preflight.json",
+        "sha256": "235FCF1D7702CF0A52392979C63F9B0E8D54577148841FAAECF23430E49AA24E"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\final-preflight.json",
+        "sha256": "78095E1F1380A020ABFCB6E86F861C610B7E534AEC89A9F5DD6F1E2E20580DD1"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\immediate-host-preflight.json",
+        "sha256": "11CC674FFFD221B52C5BFFD50577F035856EA95140D3731CB75A62FCE8ACAD0F"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\watched-final-preflight.json",
+        "sha256": "E202C6868A9FCE31328155E04F54CB55AF573628E8C98609EFB487FBB9A1DC0D"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\worker-owned.json",
+        "sha256": "0CF2AE9D453AF234C7E34945EAC76C77D41E8C03FAFEF65CCC5D0043B4454E2D"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\watch-launched.json",
+        "sha256": "E19A827DE600BD3ACFC47FCA1A800513C30EF455748D31DB994D262637DE20F1"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\watch-ready.json",
+        "sha256": "D7624D058F690AEE23E9C11BD36D982FAC29736A7D39AAA11D6089F16212D29E"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\watch-terminal.json",
+        "sha256": "91A47D34673C752F3B03E2F48F99ECA13966A3698EA0713A6BBB1316DD485076"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\guard-1-entry.json",
+        "sha256": "D0348E8178E4A6BE9A837487E111833CF94D8E10048A02A6F7A28A19A17FC22D"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\guard-1-return.json",
+        "sha256": "04E5C3F4081A77B3221AAD897AFD37AD65AC975A9B315BE1AFA1D36D4EECAD55"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\guard-35-entry.json",
+        "sha256": "A75279FB0BAE1AA9BB8F375A53B8DF34DA83227D31FB8974ACB51F1FD27A9B05"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\guard-35-return.json",
+        "sha256": "C4DFBF6ED08644F0C3A15D5EA35E7FE2444DF9796AB96B5F524BD86005A4F9AB"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\watch-events.jsonl",
+        "sha256": "1D47EBCF0A49BF78A394E70EDA3C5AE8A6D39F61E43EAD32B55CD32BD8376715"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\watch-samples.jsonl",
+        "sha256": "4B169F41F644B02C1E247A6D22EE893D11743D32CA570DEBE04D9E8AE6BBFD8A"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\worker\\guard-ready.json",
+        "sha256": "FE4EA106FAD2B155C58DFB92E30C760E7A1605B5F47057F1DEEE45035D85E15A"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\group-amber-hook-s110-seed8675412_00001_.png",
+        "sha256": "939A0714A8EC4443B6D4F78E005EE2BACF731C601D30AB5049146CF7F0A0EC82"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\worker\\output\\group-masked-strength110-20260908\\group-amber-hook-s110-seed8675412_00001_.png",
+        "sha256": "939A0714A8EC4443B6D4F78E005EE2BACF731C601D30AB5049146CF7F0A0EC82"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\provisional-assets\\mitch-amber-hook-person-20260907.png",
+        "sha256": "9D5C2AD6536C7B275CFCFF4D6AF7971EDEBF08D8D2382038066304B6DA7717AB"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\ComfyUI\\input\\mitch-amber-hook-person-20260907.png",
+        "sha256": "9D5C2AD6536C7B275CFCFF4D6AF7971EDEBF08D8D2382038066304B6DA7717AB"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\prior-terminal-cases.json",
+        "sha256": "A9A6CAFFB2F1C7B908ECC4DA89396918017A59305903AC112BB637B5F481EAB3"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\prior-terminal-cases-final.json",
+        "sha256": "A9A6CAFFB2F1C7B908ECC4DA89396918017A59305903AC112BB637B5F481EAB3"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\worker\\owned.json",
+        "sha256": "0CF2AE9D453AF234C7E34945EAC76C77D41E8C03FAFEF65CCC5D0043B4454E2D"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\root-approval.json",
+        "sha256": "567FC7CCF960D0E45F98291393F443F43A7006B188DC5CBFAD0DE449CCE40CF4"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\wddm-approval.json",
+        "sha256": "8BAF0022CDBA67649F0CC2AA138B60233D459098DA27DC602EA83726232094CB"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\wddm-observations.jsonl",
+        "sha256": "C034239414D8B07980914F215F5CF19EC2905163AB179BD5930C1D5730B6D78C"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\wddm-candidate-v2.json",
+        "sha256": "7A9E9CC26003585AD318FD0EBD67CC392C7478A1EE7CE937E14A3AB142F1458C"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\wddm-root-approval-v2.json",
+        "sha256": "A98D821B19ED3C5B8FA7EB49E29315563E1226DAB886181C76D35BDF1C3689DD"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\evaluate_recipe.py",
+        "sha256": "6CB99A0B033267BF397EAD20F2CEA77BA2BA0BEFD8409F9BF54A645CE11B03CD"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\EVALUATOR-PREPARED.json",
+        "sha256": "093C5F053E915CC69BC8436B167D8C401EFCB4F59D1C96FEC9399228F85843E7"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\prepared.json",
+        "sha256": "6B3A687FB02F8D015D4CA7B1F165FDE48389335D70634AB1003C01E743D94FDE"
+      }
+    ],
+    "actual_image": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\group-amber-hook-s110-seed8675412_00001_.png",
+    "native_source": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\worker\\output\\group-masked-strength110-20260908\\group-amber-hook-s110-seed8675412_00001_.png",
+    "prompt_id": "1cb5987f-0cfb-4106-b131-fe410e7f56f7",
+    "photo_sha256": "939A0714A8EC4443B6D4F78E005EE2BACF731C601D30AB5049146CF7F0A0EC82",
+    "worker_seconds": 338.904,
+    "endpoint": "http://127.0.0.1:8191",
+    "gpu_uuid": "GPU-c2ca4516-2c9f-e87b-3a20-f459947ddb17",
+    "case": "pilot",
+    "evaluator_preparation_sha256": "093C5F053E915CC69BC8436B167D8C401EFCB4F59D1C96FEC9399228F85843E7",
+    "full_graph_png_ownership_native_guards_and_watch_verified": true,
+    "fresh_worker_first_prompt": true,
+    "pilot_observation_complete": true,
+    "independent_resource_monitor": true,
+    "maximum_resource_sample_gap_seconds": 5,
+    "reviewed_runtime_routing": {
+      "watcher": {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\recipe_runtime.py",
+        "sha256": "B27DBC0F37BD5CC9DBA51352348EAE51381607809308E3D1E1DA6B066A7899D6",
+        "bytes": 7146
+      },
+      "wddm_helper": {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\wddm_admission.py",
+        "sha256": "E5E675393687C13C16B7D34DA40D6C3C6DF870F31E370C94FE7A4C50783A1A99",
+        "bytes": 7822
+      },
+      "runtime_supplement": {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\prepared.json",
+        "sha256": "6B3A687FB02F8D015D4CA7B1F165FDE48389335D70634AB1003C01E743D94FDE",
+        "bytes": 4959
+      }
+    },
+    "baseline_memory_receipt_available": false,
+    "startup_memory_receipt_available": false,
+    "recipe_sha256": "67A5F1F9211BC48743698ABFC003E418B69B5B0C0D1F7F4C811E8283C8BE4C3E",
+    "parent_prepared_sha256": "5A9166BD335BEDB19F16FDFA5501AB8CC471DD76ADE9A9025479FA9755B4CEF4",
+    "parent_image_sha256": "4100246734E15B8AF7F71E58EDB9C60268BE9BE87757C7319DC86ECC5AC78BB3",
+    "recipe_scope": "One fixed masked character-hook strength1.1 refinement; not the original mask-treatment pair, controlled speed evidence, or production promotion."
+  },
+  "existing_run_validation": {
+    "amber_hook_pilot_seed8675412": {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\group-amber-hook-s110-seed8675412_00001_.png",
+      "sha256": "939A0714A8EC4443B6D4F78E005EE2BACF731C601D30AB5049146CF7F0A0EC82",
+      "bytes": 1487846,
+      "dimensions": [
+        832,
+        1216
+      ],
+      "prompt_id": "1cb5987f-0cfb-4106-b131-fe410e7f56f7",
+      "worker_seconds": 338.904,
+      "observed_wall_seconds": 341.2415259,
+      "embedded_submitted_history_payload_graphs_match": true,
+      "run_pins": [
+        {
+          "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\prompt-api.json",
+          "sha256": "EAFA10E875C66F0C91223A61704CD6C5A30D851056AFDFACE359B45CC52B5F33",
+          "bytes": 9483
+        },
+        {
+          "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\history.json",
+          "sha256": "A366FCDE1B777F501DCA64AE99EBD457719F807B7E00F557D0524F9617CA8EF0",
+          "bytes": 12418
+        },
+        {
+          "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\report.json",
+          "sha256": "C7B82BF576F79B60AE2194D2AD025086873AED184EE4FCD0EDD7F8CAE44277B3",
+          "bytes": 1406
+        },
+        {
+          "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\submission.json",
+          "sha256": "BB156FB350D1D678E2868541CDB43BC0F35C1452EBFCFDA4FE6E125231ADFD88",
+          "bytes": 244
+        },
+        {
+          "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\immediate-preflight.json",
+          "sha256": "235FCF1D7702CF0A52392979C63F9B0E8D54577148841FAAECF23430E49AA24E",
+          "bytes": 18350
+        }
+      ],
+      "actual_text_prompts": {
+        "7": "casual snapshot. Picture 1 is a Canny edge map derived from the source photograph and supplies its camera framing, person positions, seated body poses, outer head sizes, arm positions, booth geometry, table placement, and spatial layout. The selected source person's internal eye, nose, and mouth edges were intentionally removed so Picture 1 does not supply his identity. Pictures 2 and 3 are genuine photographs of m1tch_person and exclusively supply the selected man's identity and internal facial geometry. Create one photorealistic vertical phone-flash group photograph matching Picture 1. Four adults sit on the rust-orange curved booth. The central seated man is m1tch_person, wearing a fitted navy suit and crisp white open-collar shirt, with both complete hands resting naturally near his knees. A brunette woman at image-left holds a martini glass, a blonde woman sits close at his image-right, and a dark-haired man in a denim jacket sits farther right. Every bystander has a clearly distinct unrelated face, hair, and age. Preserve the large curved amber wall light, textured wall, booth, wooden tables, glasses, plates, casual spacing, ordinary smartphone perspective, direct flash, and exactly one Mitch. His lips rest gently together, their corners rise only slightly, and his eyes engage softly with the camera.",
+        "8": "",
+        "54": "casual snapshot. Picture 1 is a Canny edge map derived from the source photograph and supplies its camera framing, person positions, seated body poses, outer head sizes, arm positions, booth geometry, table placement, and spatial layout. The selected source person's internal eye, nose, and mouth edges were intentionally removed so Picture 1 does not supply his identity. Create one photorealistic vertical phone-flash group photograph matching Picture 1. Four adults sit on the rust-orange curved booth. The central seated man is wearing a fitted navy suit and crisp white open-collar shirt, with both complete hands resting naturally near his knees. A brunette woman at image-left holds a martini glass, a blonde woman sits close at his image-right, and a dark-haired man in a denim jacket sits farther right. Every bystander has a clearly distinct unrelated face, hair, and age. Preserve the large curved amber wall light, textured wall, booth, wooden tables, glasses, plates, casual spacing, ordinary smartphone perspective, direct flash. His lips rest gently together, their corners rise only slightly, and his eyes engage softly with the camera."
+      }
+    }
+  },
+  "target": [
+    0.51,
+    0.45
+  ],
+  "reference_calibration": {
+    "pairwise": [
+      0.5533463954925537,
+      0.6118828058242798,
+      0.6013239026069641,
+      0.6112619638442993,
+      0.6143922805786133,
+      0.7137667536735535,
+      0.7377340793609619,
+      0.7009028196334839,
+      0.7572594881057739,
+      0.7742675542831421,
+      0.7254546880722046,
+      0.7447596788406372,
+      0.6973316669464111,
+      0.7780115604400635,
+      0.7748499512672424
+    ],
+    "minimum": 0.5533463954925537,
+    "mean": 0.693103039264679
+  },
+  "candidates": {
+    "amber_hook_pilot_seed8675412": {
+      "selected_main_index": 0,
+      "scene_target_distance": 0.0063184977195840175,
+      "selected_main": {
+        "index": 0,
+        "bbox": [
+          383.863525390625,
+          486.9967346191406,
+          460.31097412109375,
+          593.4915161132812
+        ],
+        "native_face_dimensions": [
+          76.44744873046875,
+          106.49478149414062
+        ],
+        "normalized_face_dimensions": [
+          0.09188395280104417,
+          0.08757794530768144
+        ],
+        "normalized_face_center": [
+          0.5073164059565618,
+          0.44427970836037084
+        ],
+        "insightface_pose_raw": [
+          -8.717667579650879,
+          15.051431655883789,
+          4.948036193847656
+        ],
+        "detector_confidence": 0.8634564876556396,
+        "centroid_similarity": 0.5556934475898743,
+        "mean_reference_similarity": 0.4793970634539922,
+        "minimum_reference_similarity": 0.4005086421966553,
+        "per_reference_similarity": {
+          "val_01_surf_full_body.jpg": 0.4005086421966553,
+          "val_02_body_mirror_sleeveless.jpg": 0.48546597361564636,
+          "val_03_navy_upper_body.jpg": 0.5341733694076538,
+          "val_04_window_small_smile.jpg": 0.4578324854373932,
+          "val_05_balcony_opposite_angle.jpg": 0.4954531490802765,
+          "val_06_car_daylight.jpg": 0.5029487609863281
+        },
+        "calibrated_status": "near_match",
+        "proposed_conservative_all_reference_gate_pass": false
+      },
+      "identity_scope": {
+        "status": "passed",
+        "detected_face_count": 4,
+        "main_face_index": 0,
+        "main_selection_method": "caller_provided_scene_role",
+        "main_identity_similarity": 0.5557,
+        "main_detection_confidence": 0.8635,
+        "maximum_secondary_identity_similarity": 0.0656,
+        "maximum_secondary_to_main_similarity": 0.1746,
+        "maximum_secondary_pair_similarity": 0.2348,
+        "secondary_identity_limit": 0.42,
+        "secondary_to_main_limit": 0.5,
+        "secondary_duplicate_limit": 0.72,
+        "faces": [
+          {
+            "index": 0,
+            "role": "main",
+            "bbox": [
+              383.9,
+              487.0,
+              460.3,
+              593.5
+            ],
+            "detection_confidence": 0.8635,
+            "similarity_to_reference_centroid": 0.5557,
+            "similarity_to_selected_main": 1.0
+          },
+          {
+            "index": 1,
+            "role": "secondary",
+            "bbox": [
+              479.6,
+              533.0,
+              544.9,
+              612.5
+            ],
+            "detection_confidence": 0.8509,
+            "similarity_to_reference_centroid": 0.0033,
+            "similarity_to_selected_main": -0.0109
+          },
+          {
+            "index": 2,
+            "role": "secondary",
+            "bbox": [
+              270.1,
+              556.7,
+              341.7,
+              648.5
+            ],
+            "detection_confidence": 0.8496,
+            "similarity_to_reference_centroid": -0.0196,
+            "similarity_to_selected_main": 0.1746
+          },
+          {
+            "index": 3,
+            "role": "secondary",
+            "bbox": [
+              614.2,
+              512.6,
+              683.2,
+              596.9
+            ],
+            "detection_confidence": 0.8489,
+            "similarity_to_reference_centroid": 0.0656,
+            "similarity_to_selected_main": 0.0994
+          }
+        ],
+        "failures": []
+      },
+      "faces": [
+        {
+          "index": 0,
+          "bbox": [
+            383.863525390625,
+            486.9967346191406,
+            460.31097412109375,
+            593.4915161132812
+          ],
+          "native_face_dimensions": [
+            76.44744873046875,
+            106.49478149414062
+          ],
+          "normalized_face_dimensions": [
+            0.09188395280104417,
+            0.08757794530768144
+          ],
+          "normalized_face_center": [
+            0.5073164059565618,
+            0.44427970836037084
+          ],
+          "insightface_pose_raw": [
+            -8.717667579650879,
+            15.051431655883789,
+            4.948036193847656
+          ],
+          "detector_confidence": 0.8634564876556396,
+          "centroid_similarity": 0.5556934475898743,
+          "mean_reference_similarity": 0.4793970634539922,
+          "minimum_reference_similarity": 0.4005086421966553,
+          "per_reference_similarity": {
+            "val_01_surf_full_body.jpg": 0.4005086421966553,
+            "val_02_body_mirror_sleeveless.jpg": 0.48546597361564636,
+            "val_03_navy_upper_body.jpg": 0.5341733694076538,
+            "val_04_window_small_smile.jpg": 0.4578324854373932,
+            "val_05_balcony_opposite_angle.jpg": 0.4954531490802765,
+            "val_06_car_daylight.jpg": 0.5029487609863281
+          },
+          "calibrated_status": "near_match",
+          "proposed_conservative_all_reference_gate_pass": false
+        },
+        {
+          "index": 1,
+          "bbox": [
+            479.5929260253906,
+            533.0162353515625,
+            544.8618774414062,
+            612.4861450195312
+          ],
+          "native_face_dimensions": [
+            65.26895141601562,
+            79.46990966796875
+          ],
+          "normalized_face_dimensions": [
+            0.07844825891348031,
+            0.06535354413484272
+          ],
+          "normalized_face_center": [
+            0.6156579347757193,
+            0.47101249192890365
+          ],
+          "insightface_pose_raw": [
+            -4.019088268280029,
+            -5.559337139129639,
+            -21.861772537231445
+          ],
+          "detector_confidence": 0.8509198427200317,
+          "centroid_similarity": 0.0033294784370809793,
+          "mean_reference_similarity": 0.002872338518500328,
+          "minimum_reference_similarity": -0.033708009868860245,
+          "per_reference_similarity": {
+            "val_01_surf_full_body.jpg": 0.043482065200805664,
+            "val_02_body_mirror_sleeveless.jpg": -0.022268399596214294,
+            "val_03_navy_upper_body.jpg": 0.022688651457428932,
+            "val_04_window_small_smile.jpg": 0.001904166303575039,
+            "val_05_balcony_opposite_angle.jpg": -0.033708009868860245,
+            "val_06_car_daylight.jpg": 0.005135557614266872
+          }
+        },
+        {
+          "index": 2,
+          "bbox": [
+            270.1121520996094,
+            556.6769409179688,
+            341.73272705078125,
+            648.5
+          ],
+          "native_face_dimensions": [
+            71.62057495117188,
+            91.82305908203125
+          ],
+          "normalized_face_dimensions": [
+            0.08608242181631234,
+            0.07551238411351253
+          ],
+          "normalized_face_center": [
+            0.36769523987403285,
+            0.4955497289958753
+          ],
+          "insightface_pose_raw": [
+            -2.7277474403381348,
+            20.36853790283203,
+            14.088177680969238
+          ],
+          "detector_confidence": 0.8495666980743408,
+          "centroid_similarity": -0.01963360421359539,
+          "mean_reference_similarity": -0.01693792703251044,
+          "minimum_reference_similarity": -0.042252086102962494,
+          "per_reference_similarity": {
+            "val_01_surf_full_body.jpg": 0.03564908355474472,
+            "val_02_body_mirror_sleeveless.jpg": -0.042252086102962494,
+            "val_03_navy_upper_body.jpg": -0.02702844887971878,
+            "val_04_window_small_smile.jpg": -0.010512106120586395,
+            "val_05_balcony_opposite_angle.jpg": -0.02523123472929001,
+            "val_06_car_daylight.jpg": -0.03225276991724968
+          }
+        },
+        {
+          "index": 3,
+          "bbox": [
+            614.1817626953125,
+            512.561279296875,
+            683.233642578125,
+            596.8532104492188
+          ],
+          "native_face_dimensions": [
+            69.0518798828125,
+            84.29193115234375
+          ],
+          "normalized_face_dimensions": [
+            0.08299504793607272,
+            0.06931902232923005
+          ],
+          "normalized_face_center": [
+            0.7796967579768255,
+            0.45617372111270305
+          ],
+          "insightface_pose_raw": [
+            -5.277767658233643,
+            -4.582898139953613,
+            -12.561280250549316
+          ],
+          "detector_confidence": 0.8489028215408325,
+          "centroid_similarity": 0.06564701348543167,
+          "mean_reference_similarity": 0.05663371831178665,
+          "minimum_reference_similarity": 0.018164925277233124,
+          "per_reference_similarity": {
+            "val_01_surf_full_body.jpg": 0.07624387741088867,
+            "val_02_body_mirror_sleeveless.jpg": 0.018164925277233124,
+            "val_03_navy_upper_body.jpg": 0.05628093332052231,
+            "val_04_window_small_smile.jpg": 0.07152843475341797,
+            "val_05_balcony_opposite_angle.jpg": 0.04190017282962799,
+            "val_06_car_daylight.jpg": 0.07568396627902985
+          }
+        }
+      ],
+      "detected_face_count": 4,
+      "four_full_people_detection_warning": false,
+      "manual_scene_role_confirmation_required": true,
+      "selection_method": "fixed scene geometry before identity; not area",
+      "image_size": [
+        832,
+        1216
+      ]
+    }
+  },
+  "acceptance": {
+    "main_minimum": 0.55,
+    "bystander_limits_exclusive": [
+      0.42,
+      0.5,
+      0.72
+    ],
+    "six_reference_floor_reported_unchanged": 0.5533463954925537,
+    "floor_role": "diagnostic investigation guard for this new case",
+    "manual_review_required": "two independent full/native/thumbnail reviews; fixed Amber main; two separate own knee hands, brunette own glass/lap, right woman own folded lap hands, denim man table-occluded arms; four principal adults plus far-right partial fifth; no identity uncertainty, clone, halo or material failure"
+  },
+  "floor_interpretation": "Unchanged raw diagnostic for this prospectively declared scene case; no historical failed gate rewritten.",
+  "manual_contract": "four principal adults including main plus far-right partial fifth; source-specific own knee hands, brunette glass/lap, right woman folded hands, denim-man table occlusion, closed lips, natural adult identity/skin/hair, no halo or identity uncertainty",
+  "scope": "One fixed masked character-hook strength1.1 refinement; not the original mask-treatment pair, controlled speed evidence, or production promotion.",
+  "hook_pair_preparation_sha256": "32B07905670B4E541B6E8DC300A8CF5EB66DCED602C8284881184000140FA657",
+  "actual_main_bbox_visual_confirmation_required": true
+}

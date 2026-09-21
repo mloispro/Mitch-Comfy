@@ -1,0 +1,381 @@
+{
+  "schema_version": 1,
+  "recorded_on": "2026-09-10",
+  "purpose": "Five pinned regression-review examples, not comprehensive scene coverage or a new scoring standard.",
+  "limits": "Historical verdicts apply only to their recorded recipes. Check current guides for superseding evidence. This catalog does not authorize executing frozen runners or establish live worker/model compatibility.",
+  "reference_note": "These six files are genuine photographs. Legacy filenames do not establish framing; val01 and val02 are not clean head-to-toe references. See work/9b-readiness-20260903/REASSESSMENT-20260904.md.",
+  "references": {
+    "val01": {
+      "path": "datasets/mitch-identity-stills-v3/validation/val_01_surf_full_body.jpg",
+      "sha256": "d17aa33ee7f90b135e2a9167059ddbb4437b7578b3b4ec9c9b10f1d9836d8901"
+    },
+    "val02": {
+      "path": "datasets/mitch-identity-stills-v3/validation/val_02_body_mirror_sleeveless.jpg",
+      "sha256": "4b32845393fbcbf6ea0ca80068c48af10db52bc81909dba9638370bc7ee0a622"
+    },
+    "val03": {
+      "path": "datasets/mitch-identity-stills-v3/validation/val_03_navy_upper_body.jpg",
+      "sha256": "fef084d60982754250ab76a7320d71228c96255b2d5244b7461f77b67ce929cf"
+    },
+    "val04": {
+      "path": "datasets/mitch-identity-stills-v3/validation/val_04_window_small_smile.jpg",
+      "sha256": "2ebeb864b970168ea05c74275aa240c4122795a2050e51534c554acb3ecec6eb"
+    },
+    "val05": {
+      "path": "datasets/mitch-identity-stills-v3/validation/val_05_balcony_opposite_angle.jpg",
+      "sha256": "648f5643d58526c65eacab5ae0e0570cad9f7ef34fbd568ca74b47a7f6615032"
+    },
+    "val06": {
+      "path": "datasets/mitch-identity-stills-v3/validation/val_06_car_daylight.jpg",
+      "sha256": "feb62e762b990fb9979d730d9ba0a8d08c0cb81832db6eab308fe760c4a98b4d"
+    }
+  },
+  "cases": [
+    {
+      "id": "solo-cocktail",
+      "area": "solo",
+      "label": "Production Speed Cocktail, actual normal Run",
+      "recorded_outcome": "qualified",
+      "scope": "Only the default Cocktail recipe, seed 315982047, normal RTX3090. This is separate from the public Individual preset.",
+      "current_route_guide": "docs/production-speed.md",
+      "identity_reference_ids": [
+        "val01",
+        "val02",
+        "val03",
+        "val04",
+        "val05",
+        "val06"
+      ],
+      "excluded_identity_reference_ids": [],
+      "numerical_policy": "Six genuine scoring/calibration photographs; existing largest-face selection and likeness scorer. No identity-lock claim or new production speedup.",
+      "visual_checks": [
+        "Recognizable identity, apparent age, hair and natural skin against genuine photographs.",
+        "Whole-frame integration, depth, sharpness, noise and absence of a head-edge halo.",
+        "Continuous closed lips and slight image-left off-camera gaze.",
+        "Plausible glass-holding fingers, watch, railing contact and pocket hand; distinct background patrons."
+      ],
+      "artifacts": {
+        "photo": {
+          "path": "work/production-speed-rollout/individual-run/photo.png",
+          "sha256": "c056763c737bc05dfda96a1411cf8cd858aa165c791c7dfe0a53ca4715023086"
+        },
+        "recipe": {
+          "path": "work/production-speed-rollout/individual-run/actual-api.json",
+          "sha256": "e6fb2846fece145d5b585d1935f4b35caf689d0edb24178b65de337c58be3a75"
+        },
+        "runtime": {
+          "path": "work/production-speed-rollout/individual-run/runtime.json",
+          "sha256": "175a9ef2bf22cb8c6c6ec21e997319815a4493492b24efecfa45accce98c115b"
+        },
+        "history": {
+          "path": "work/production-speed-rollout/individual-run/history.json",
+          "sha256": "92622bc468caf71e8bd4561dd763b292c049837ad2f2a654350a5b8e0fcab138"
+        },
+        "diagnostics": {
+          "path": "work/production-speed-rollout/individual-evaluation/identity.json",
+          "sha256": "36f56678fd981978df67f72f756f10d431ea58604fe350938e20b4c3d5d7c3e0"
+        },
+        "visual_review": {
+          "path": "work/production-speed-rollout/INDIVIDUAL-VISUAL-REVIEW.md",
+          "sha256": "bb13684d89eee98eed35af49fff50dd6ed78dc7464b07ccbacb8b0e5db950478"
+        },
+        "numeric_review": {
+          "path": "work/production-speed-rollout/INDIVIDUAL-NUMERIC-RESULT.md",
+          "sha256": "609d8b815d2d2fbe6ef7688b0a3cfbd7e5b503d8f3c346a47c48e9aeabc50ead"
+        },
+        "conclusion": {
+          "path": "work/production-speed-rollout/RESULTS.md",
+          "sha256": "07f249aff3f393cfce279e867f010e2848f46cbcaea1ef6989a0de29b85cdd7f"
+        },
+        "release": {
+          "path": "work/production-speed-rollout/RELEASE.json",
+          "sha256": "fc2a86dbdd736c3ac1091d555776be6a1b7b97e7fc0facf30276e3a47d78d26b"
+        },
+        "evaluator": {
+          "path": "work/production-speed-rollout/evaluate_rollout.py",
+          "sha256": "9b0564ffcd84004782fe5ae24fada5f088312d7d15501dd8aa74bb3d6ed76df3"
+        },
+        "generation_input:10": {
+          "path": "../ComfyUI/input/mitch-klein9b-ref-front-neutral-v2.jpg",
+          "sha256": "28df2ae0d717a788370cc825f7bb24cf38db9c7cda3f66baefab58be86d8af33"
+        },
+        "generation_input:20": {
+          "path": "../ComfyUI/input/flux2-dev-ref-04-full-body.jpg",
+          "sha256": "c5f57cc155075071f8f761356e3ad1153aa0bce55825a52226b2a4e8a19365fc"
+        },
+        "generation_input:40": {
+          "path": "../ComfyUI/input/20260508_123156.jpg",
+          "sha256": "4b98feb4d7929bd89f75402b85d1d86be690d67c48212c1f4740419f9374ca6b"
+        }
+      }
+    },
+    {
+      "id": "group-lounge",
+      "area": "group",
+      "label": "Production Speed Lounge, relative preservation",
+      "recorded_outcome": "qualified",
+      "scope": "Fixed Lounge, seed 8675412, RTX3090, 50 Euler/CFG4, cache warmup10/interval3; relative preservation of a qualified baseline.",
+      "current_route_guide": "docs/production-speed.md",
+      "identity_reference_ids": [
+        "val01",
+        "val02",
+        "val03",
+        "val04",
+        "val05",
+        "val06"
+      ],
+      "excluded_identity_reference_ids": [],
+      "numerical_policy": "Keep scene-geometric main selection, all six references, all bystander comparisons and original relative gates. Its weakest score is not a strong-match identity claim; never apply another experiment's floor.",
+      "visual_checks": [
+        "Recognizable identity, apparent age, hair and natural skin against genuine photographs.",
+        "Whole-frame integration, depth, sharpness, noise and absence of a head-edge halo.",
+        "Select the intended central navy-suited man geometrically before scoring; inspect every bystander.",
+        "Four full people plus the partial fifth person at the right edge remain readable.",
+        "Hand ownership, body integration and clothing remain plausible; no cloned identities."
+      ],
+      "artifacts": {
+        "photo": {
+          "path": "work/production-speed-rollout/group-run/photo.png",
+          "sha256": "b93ccea221e079735cd0cb7f12656a2abbf01f1f067c2a30b589a130fb1eb627"
+        },
+        "recipe": {
+          "path": "work/production-speed-rollout/group-run/actual-api.json",
+          "sha256": "cdb3947b1df182fb01821227478cb309ce87e1d25bc313017438e7d6d484f1ac"
+        },
+        "runtime": {
+          "path": "work/production-speed-rollout/group-run/runtime.json",
+          "sha256": "ed8426269b9fd70bab234a8ae08ea98ba317d0d9ac8a40e325f483074d6ec9fa"
+        },
+        "history": {
+          "path": "work/production-speed-rollout/group-run/history.json",
+          "sha256": "e807c1b7270a7f7c8c25b24158fff4760355687014940085084d2c4df252f4e9"
+        },
+        "diagnostics": {
+          "path": "work/production-speed-rollout/group-evaluation/comparison.json",
+          "sha256": "415c9d2448ddcef6fb15d2b7ff53c067af6f3524debdc0411a1a1619995b0231"
+        },
+        "visual_review": {
+          "path": "work/production-speed-rollout/GROUP-VISUAL-REVIEW.md",
+          "sha256": "f8303d7eb7694cf2385656484fdd33adf2522c8361e001e5b7b129eed80be3ed"
+        },
+        "numeric_review": {
+          "path": "work/production-speed-rollout/GROUP-NUMERIC-RESULT.md",
+          "sha256": "e010925a4d6918df585e29fee13944273b4def65c8fcdb83c4e0ab1811f07a90"
+        },
+        "conclusion": {
+          "path": "work/production-speed-rollout/RESULTS.md",
+          "sha256": "07f249aff3f393cfce279e867f010e2848f46cbcaea1ef6989a0de29b85cdd7f"
+        },
+        "release": {
+          "path": "work/production-speed-rollout/RELEASE.json",
+          "sha256": "fc2a86dbdd736c3ac1091d555776be6a1b7b97e7fc0facf30276e3a47d78d26b"
+        },
+        "evaluator": {
+          "path": "work/production-speed-rollout/evaluate_group_pair.py",
+          "sha256": "63872f9c259813cf87d9d307e871d4797e3c59317f25fffc86005a3eee84f5d1"
+        },
+        "comparison_control": {
+          "path": "work/group-cache-20260909/runs/candidate/node-3-photo_00001_.png",
+          "sha256": "8a767b078ae1f2aec774e21c0f5ce4de609eb94f9860601d3e33e157fafac6ee"
+        }
+      }
+    },
+    {
+      "id": "upgrade-navy-turbo",
+      "area": "upgrade",
+      "label": "Production Speed Turbo, genuine navy-shirt source",
+      "recorded_outcome": "qualified",
+      "scope": "One source, seed 8675412, 816x1088, RTX3090 Turbo8/CFG1; qualified source preservation with smoother skin and narrow likeness margin.",
+      "current_route_guide": "docs/production-speed.md",
+      "identity_reference_ids": [
+        "val01",
+        "val02",
+        "val04",
+        "val05",
+        "val06"
+      ],
+      "excluded_identity_reference_ids": [
+        "val03"
+      ],
+      "numerical_policy": "Original five-reference source-excluded audit: preserve source-relative pose/placement/lips and .03 source-centroid loss cap. No strongest-reference selection or post-hoc threshold changes.",
+      "visual_checks": [
+        "Recognizable identity, apparent age, hair and natural skin against genuine photographs.",
+        "Whole-frame integration, depth, sharpness, noise and absence of a head-edge halo.",
+        "Compare head pose, gaze, closed asymmetric smile and face placement to the genuine source.",
+        "Preserve navy/white neckline, shoulders, closet and room geometry; inspect smoother-skin tradeoff.",
+        "Do not credit regenerated fabric/background as factual detail recovery or stronger High."
+      ],
+      "artifacts": {
+        "photo": {
+          "path": "work/production-speed-rollout/upgrade-run/photo.png",
+          "sha256": "344dc4a057ac7e09c725fcc4d6391effbdf50ccebdef88144f0cabcdbcbe071c"
+        },
+        "recipe": {
+          "path": "work/production-speed-rollout/upgrade-run/actual-api.json",
+          "sha256": "5a30f9b96d682b02a093865a15787bb5a095594146edaa88d84beb4c9a9bba14"
+        },
+        "runtime": {
+          "path": "work/production-speed-rollout/upgrade-run/runtime.json",
+          "sha256": "37ec7c71a43c9f247d75de02630ac764a15dd64c1aa871e80da711abc7b34d2a"
+        },
+        "history": {
+          "path": "work/production-speed-rollout/upgrade-run/history.json",
+          "sha256": "d1351073436620f2a4843a5ccf94db4ab2ff88977719a041ee9f73f900558900"
+        },
+        "diagnostics": {
+          "path": "work/production-speed-rollout/upgrade-evaluation/audit.json",
+          "sha256": "c7aabca93dc45e8c6be2e7e22bdb0e16e437d2fcb5d94a125e6b3c6857547a29"
+        },
+        "visual_review": {
+          "path": "work/production-speed-rollout/UPGRADE-VISUAL-REVIEW.md",
+          "sha256": "3c94e5446d8bf009f5019f10a545e787ac35314b9fbc881e04ea37c403f0b782"
+        },
+        "numeric_review": {
+          "path": "work/production-speed-rollout/UPGRADE-NUMERIC-RESULT.md",
+          "sha256": "14092869984c428ccbc5cfc9107f9ef601043504dae64bc479fa3597078fb48c"
+        },
+        "conclusion": {
+          "path": "work/production-speed-rollout/RESULTS.md",
+          "sha256": "07f249aff3f393cfce279e867f010e2848f46cbcaea1ef6989a0de29b85cdd7f"
+        },
+        "release": {
+          "path": "work/production-speed-rollout/RELEASE.json",
+          "sha256": "fc2a86dbdd736c3ac1091d555776be6a1b7b97e7fc0facf30276e3a47d78d26b"
+        },
+        "evaluator": {
+          "path": "work/production-speed-rollout/evaluate_rollout.py",
+          "sha256": "9b0564ffcd84004782fe5ae24fada5f088312d7d15501dd8aa74bb3d6ed76df3"
+        },
+        "generation_input:100": {
+          "path": "../ComfyUI/input/mitch-upgrade-third-genuine-fef084d6.png",
+          "sha256": "4c26b56e105daf8790ac108bf127f970522675ff39bd74cb9161724be34d4367"
+        },
+        "source": {
+          "path": "../ComfyUI/input/mitch-upgrade-third-genuine-fef084d6.png",
+          "sha256": "4c26b56e105daf8790ac108bf127f970522675ff39bd74cb9161724be34d4367"
+        },
+        "quality_control": {
+          "path": "work/9b-readiness-resume-20260907/upgrade-source-faithful-option/runs/ready-val03-parity/raw_00001_.png",
+          "sha256": "48f9eff993f9b973d13f1bad20339354258129d2031c1c3807c8904bbb9fb5b4"
+        },
+        "evaluation_manifest": {
+          "path": "work/production-speed-rollout/upgrade-evaluation-manifest.json",
+          "sha256": "1f84f6b0bf93397a1bd77d7ed0d6afd65979a1e3aaa1c649cda1532930683250"
+        }
+      }
+    },
+    {
+      "id": "solo-public-cocktail",
+      "area": "solo",
+      "label": "Public Cocktail: numerical pass, rejected mouth and gaze",
+      "recorded_outcome": "rejected",
+      "scope": "Historical public v1.1 preset, seed315982047, Turbo/appearance ON. Different references, precision and effective prompt from the accepted Speed Cocktail; not a controlled one-variable comparison.",
+      "current_route_guide": "docs/DECISIONS.md",
+      "identity_reference_ids": [
+        "val01",
+        "val02",
+        "val03",
+        "val04",
+        "val05",
+        "val06"
+      ],
+      "excluded_identity_reference_ids": [],
+      "numerical_policy": "Six-reference likeness diagnostics passed. The later visual verdict rejects the result; runtime/scorer status cannot override it.",
+      "visual_checks": [
+        "Recognizable identity, apparent age, hair and natural skin against genuine photographs.",
+        "Whole-frame integration, depth, sharpness, noise and absence of a head-edge halo.",
+        "Continuous closed lips and slight image-left off-camera gaze.",
+        "Plausible glass-holding fingers, watch, railing contact and pocket hand; distinct background patrons."
+      ],
+      "artifacts": {
+        "photo": {
+          "path": "work/9b-readiness-resume-20260907/public-cocktail-parity/runs/ready-public-cocktail-seed315982047/photo.png",
+          "sha256": "1d667f2673a56873cfa42cc494b7eaca59819cc7628616fa4a4e1f023ed8f498"
+        },
+        "recipe": {
+          "path": "work/9b-readiness-resume-20260907/public-cocktail-parity/payload.json",
+          "sha256": "4b536081acf9e5b96d340405e9ea8806162c84b673ccce16de77af36e6c34b05"
+        },
+        "runtime": {
+          "path": "work/9b-readiness-resume-20260907/public-cocktail-parity/runs/ready-public-cocktail-seed315982047/result.json",
+          "sha256": "e9149095511f61bc55f0d55e3e85d5e9e873ea350992fedc0c85fb95336b3191"
+        },
+        "diagnostics": {
+          "path": "work/9b-readiness-resume-20260907/public-cocktail-parity/evaluation/identity.json",
+          "sha256": "ef6c6d5ba7f3664ebe207487a4096a1f5aafa7578f16891082c38fab94af9f1a"
+        },
+        "visual_review": {
+          "path": "work/9b-readiness-resume-20260907/public-cocktail-parity/ROOT-VISUAL-NOTES.md",
+          "sha256": "280aa5b74700438427428d54e22a7db3816de9f5dbfa301054ed1a047ef194a1"
+        },
+        "conclusion": {
+          "path": "work/9b-readiness-resume-20260907/public-cocktail-parity/ROOT-RESULT.md",
+          "sha256": "82813e27e91fe6c40b4ad6150d12293d489f503710082fced5dca0f1e2cac478"
+        },
+        "evaluator": {
+          "path": "work/9b-readiness-resume-20260907/public-cocktail-parity/evaluate.py",
+          "sha256": "99f2277931c7555f67f9172096b052e020d6ebb1af54be004e7d44e2a018a803"
+        }
+      }
+    },
+    {
+      "id": "group-masked-110",
+      "area": "group",
+      "label": "Masked Group1.10: better scores, rejected identity and partial person",
+      "recorded_outcome": "rejected",
+      "scope": "Historical masked strength refinement .90 to1.10, seed8675412,30Euler/CFG4. This is a different mechanism and acceptance contract from the released Lounge cache.",
+      "current_route_guide": "docs/DECISIONS.md",
+      "identity_reference_ids": [
+        "val01",
+        "val02",
+        "val03",
+        "val04",
+        "val05",
+        "val06"
+      ],
+      "excluded_identity_reference_ids": [],
+      "numerical_policy": "Geometric main selection and all six references. Main centroid and bystanders pass their components, but the experiment's conservative weakest-reference floor fails. That floor is not a universal production gate.",
+      "visual_checks": [
+        "Recognizable identity, apparent age, hair and natural skin against genuine photographs.",
+        "Whole-frame integration, depth, sharpness, noise and absence of a head-edge halo.",
+        "Select the intended central navy-suited man geometrically before scoring; inspect every bystander.",
+        "Four full people plus the partial fifth person at the right edge remain readable.",
+        "Hand ownership, body integration and clothing remain plausible; no cloned identities."
+      ],
+      "artifacts": {
+        "photo": {
+          "path": "workflows/experiments/group-masked-strength110-20260908/runs/ready-amber-hook-pilot/group-amber-hook-s110-seed8675412_00001_.png",
+          "sha256": "939a0714a8ec4443b6d4f78e005ee2bacf731c601d30ab5049146cf7f0a0ec82"
+        },
+        "recipe": {
+          "path": "workflows/experiments/group-masked-strength110-20260908/runs/ready-amber-hook-pilot/prompt-api.json",
+          "sha256": "eafa10e875c66f0c91223a61704cd6c5a30d851056afdface359b45cc52b5f33"
+        },
+        "runtime": {
+          "path": "workflows/experiments/group-masked-strength110-20260908/runs/ready-amber-hook-pilot/report.json",
+          "sha256": "c7b82bf576f79b60ae2194d2ad025086873aed184ee4fcd0edd7f8cae44277b3"
+        },
+        "history": {
+          "path": "workflows/experiments/group-masked-strength110-20260908/runs/ready-amber-hook-pilot/history.json",
+          "sha256": "a366fcde1b777f501dca64ae99ebd457719f807b7e00f557d0524f9617ca8ef0"
+        },
+        "diagnostics": {
+          "path": "workflows/experiments/group-masked-strength110-20260908/evaluation-pilot/comparison.json",
+          "sha256": "c109b854cd4d48eabac88371efa4ff9f9896d1fd7b2193b76708df7ac179c728"
+        },
+        "visual_review": {
+          "path": "workflows/experiments/group-masked-strength110-20260908/ROOT-VISUAL-REVIEW.md",
+          "sha256": "1a85b1b3d3e78beafc4fc03ed51c05bdd5d5aeb6bfe6999145a24b38a1ffc3fa"
+        },
+        "conclusion": {
+          "path": "workflows/experiments/group-masked-strength110-20260908/ROOT-RESULT.md",
+          "sha256": "54743406d2ddd4b48e7843c41483ab3d13ce5f9584bd8978ec6475f7e844a771"
+        },
+        "evaluator": {
+          "path": "workflows/experiments/group-masked-strength110-20260908/evaluate_recipe.py",
+          "sha256": "6cb99a0b033267bf397ead20f2cea77ba2ba0befd8409f9bf54a645ce11b03cd"
+        }
+      }
+    }
+  ]
+}

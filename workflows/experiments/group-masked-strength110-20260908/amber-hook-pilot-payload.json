@@ -1,0 +1,421 @@
+{
+  "prompt": {
+    "1": {
+      "class_type": "UNETLoader",
+      "inputs": {
+        "unet_name": "flux-2-klein-base-9b-bf16.safetensors",
+        "weight_dtype": "fp8_e4m3fn"
+      }
+    },
+    "4": {
+      "class_type": "LoraLoaderModelOnly",
+      "inputs": {
+        "model": [
+          "1",
+          0
+        ],
+        "lora_name": "smartphone-snapshot\\FLUX.2-klein-base-9B_SmartphoneSnapshotPhotoReality_v13.safetensors",
+        "strength_model": 0.25
+      }
+    },
+    "5": {
+      "class_type": "CLIPLoader",
+      "inputs": {
+        "clip_name": "qwen_3_8b_fp8mixed.safetensors",
+        "type": "flux2",
+        "device": "default"
+      }
+    },
+    "6": {
+      "class_type": "VAELoader",
+      "inputs": {
+        "vae_name": "flux2-vae.safetensors"
+      }
+    },
+    "7": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "casual snapshot. Picture 1 is a Canny edge map derived from the source photograph and supplies its camera framing, person positions, seated body poses, outer head sizes, arm positions, booth geometry, table placement, and spatial layout. The selected source person's internal eye, nose, and mouth edges were intentionally removed so Picture 1 does not supply his identity. Pictures 2 and 3 are genuine photographs of m1tch_person and exclusively supply the selected man's identity and internal facial geometry. Create one photorealistic vertical phone-flash group photograph matching Picture 1. Four adults sit on the rust-orange curved booth. The central seated man is m1tch_person, wearing a fitted navy suit and crisp white open-collar shirt, with both complete hands resting naturally near his knees. A brunette woman at image-left holds a martini glass, a blonde woman sits close at his image-right, and a dark-haired man in a denim jacket sits farther right. Every bystander has a clearly distinct unrelated face, hair, and age. Preserve the large curved amber wall light, textured wall, booth, wooden tables, glasses, plates, casual spacing, ordinary smartphone perspective, direct flash, and exactly one Mitch. His lips rest gently together, their corners rise only slightly, and his eyes engage softly with the camera.",
+        "clip": [
+          "5",
+          0
+        ]
+      }
+    },
+    "8": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "",
+        "clip": [
+          "5",
+          0
+        ]
+      }
+    },
+    "10": {
+      "class_type": "LoadImage",
+      "inputs": {
+        "image": "mitch-readiness-amber-booth-head92-20260907.png"
+      }
+    },
+    "11": {
+      "class_type": "ImageScale",
+      "inputs": {
+        "image": [
+          "10",
+          0
+        ],
+        "upscale_method": "lanczos",
+        "width": 416,
+        "height": 608,
+        "crop": "disabled"
+      }
+    },
+    "12": {
+      "class_type": "VAEEncode",
+      "inputs": {
+        "pixels": [
+          "11",
+          0
+        ],
+        "vae": [
+          "6",
+          0
+        ]
+      }
+    },
+    "13": {
+      "class_type": "ReferenceLatent",
+      "inputs": {
+        "conditioning": [
+          "7",
+          0
+        ],
+        "latent": [
+          "12",
+          0
+        ]
+      }
+    },
+    "14": {
+      "class_type": "ReferenceLatent",
+      "inputs": {
+        "conditioning": [
+          "8",
+          0
+        ],
+        "latent": [
+          "12",
+          0
+        ]
+      }
+    },
+    "20": {
+      "class_type": "LoadImage",
+      "inputs": {
+        "image": "mitch-klein9b-ref-training04-front-neutral.jpg"
+      }
+    },
+    "21": {
+      "class_type": "ImageScale",
+      "inputs": {
+        "image": [
+          "20",
+          0
+        ],
+        "upscale_method": "lanczos",
+        "width": 864,
+        "height": 1152,
+        "crop": "disabled"
+      }
+    },
+    "22": {
+      "class_type": "VAEEncode",
+      "inputs": {
+        "pixels": [
+          "21",
+          0
+        ],
+        "vae": [
+          "6",
+          0
+        ]
+      }
+    },
+    "23": {
+      "class_type": "ReferenceLatent",
+      "inputs": {
+        "conditioning": [
+          "13",
+          0
+        ],
+        "latent": [
+          "22",
+          0
+        ]
+      }
+    },
+    "24": {
+      "class_type": "ReferenceLatent",
+      "inputs": {
+        "conditioning": [
+          "14",
+          0
+        ],
+        "latent": [
+          "22",
+          0
+        ]
+      }
+    },
+    "30": {
+      "class_type": "CFGGuider",
+      "inputs": {
+        "model": [
+          "4",
+          0
+        ],
+        "positive": [
+          "56",
+          0
+        ],
+        "negative": [
+          "56",
+          1
+        ],
+        "cfg": 4
+      }
+    },
+    "31": {
+      "class_type": "KSamplerSelect",
+      "inputs": {
+        "sampler_name": "euler"
+      }
+    },
+    "32": {
+      "class_type": "Flux2Scheduler",
+      "inputs": {
+        "steps": 30,
+        "width": 832,
+        "height": 1216
+      }
+    },
+    "33": {
+      "class_type": "RandomNoise",
+      "inputs": {
+        "noise_seed": 8675412
+      }
+    },
+    "34": {
+      "class_type": "EmptyFlux2LatentImage",
+      "inputs": {
+        "width": 832,
+        "height": 1216,
+        "batch_size": 1
+      }
+    },
+    "35": {
+      "class_type": "SamplerCustomAdvanced",
+      "inputs": {
+        "noise": [
+          "33",
+          0
+        ],
+        "guider": [
+          "30",
+          0
+        ],
+        "sampler": [
+          "31",
+          0
+        ],
+        "sigmas": [
+          "32",
+          0
+        ],
+        "latent_image": [
+          "34",
+          0
+        ]
+      }
+    },
+    "36": {
+      "class_type": "VAEDecode",
+      "inputs": {
+        "samples": [
+          "35",
+          0
+        ],
+        "vae": [
+          "6",
+          0
+        ]
+      }
+    },
+    "37": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "images": [
+          "36",
+          0
+        ],
+        "filename_prefix": "group-masked-strength110-20260908/group-amber-hook-s110-seed8675412"
+      }
+    },
+    "40": {
+      "class_type": "LoadImage",
+      "inputs": {
+        "image": "20260508_123156.jpg"
+      }
+    },
+    "41": {
+      "class_type": "ImageScale",
+      "inputs": {
+        "image": [
+          "40",
+          0
+        ],
+        "upscale_method": "lanczos",
+        "width": 432,
+        "height": 576,
+        "crop": "disabled"
+      }
+    },
+    "42": {
+      "class_type": "VAEEncode",
+      "inputs": {
+        "pixels": [
+          "41",
+          0
+        ],
+        "vae": [
+          "6",
+          0
+        ]
+      }
+    },
+    "43": {
+      "class_type": "ReferenceLatent",
+      "inputs": {
+        "conditioning": [
+          "23",
+          0
+        ],
+        "latent": [
+          "42",
+          0
+        ]
+      }
+    },
+    "44": {
+      "class_type": "ReferenceLatent",
+      "inputs": {
+        "conditioning": [
+          "24",
+          0
+        ],
+        "latent": [
+          "42",
+          0
+        ]
+      }
+    },
+    "50": {
+      "class_type": "CreateHookLoraModelOnly",
+      "inputs": {
+        "lora_name": "m1tch-flux2-klein9b-identity-v3-r32-dop-step1600.safetensors",
+        "strength_model": 1.1
+      }
+    },
+    "51": {
+      "class_type": "LoadImageMask",
+      "inputs": {
+        "image": "mitch-amber-hook-person-20260907.png",
+        "channel": "red"
+      }
+    },
+    "52": {
+      "class_type": "InvertMask",
+      "inputs": {
+        "mask": [
+          "51",
+          0
+        ]
+      }
+    },
+    "53": {
+      "class_type": "PairConditioningSetProperties",
+      "inputs": {
+        "positive_NEW": [
+          "43",
+          0
+        ],
+        "negative_NEW": [
+          "44",
+          0
+        ],
+        "strength": 1,
+        "set_cond_area": "default",
+        "mask": [
+          "51",
+          0
+        ],
+        "hooks": [
+          "50",
+          0
+        ]
+      }
+    },
+    "54": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "casual snapshot. Picture 1 is a Canny edge map derived from the source photograph and supplies its camera framing, person positions, seated body poses, outer head sizes, arm positions, booth geometry, table placement, and spatial layout. The selected source person's internal eye, nose, and mouth edges were intentionally removed so Picture 1 does not supply his identity. Create one photorealistic vertical phone-flash group photograph matching Picture 1. Four adults sit on the rust-orange curved booth. The central seated man is wearing a fitted navy suit and crisp white open-collar shirt, with both complete hands resting naturally near his knees. A brunette woman at image-left holds a martini glass, a blonde woman sits close at his image-right, and a dark-haired man in a denim jacket sits farther right. Every bystander has a clearly distinct unrelated face, hair, and age. Preserve the large curved amber wall light, textured wall, booth, wooden tables, glasses, plates, casual spacing, ordinary smartphone perspective, direct flash. His lips rest gently together, their corners rise only slightly, and his eyes engage softly with the camera.",
+        "clip": [
+          "5",
+          0
+        ]
+      }
+    },
+    "55": {
+      "class_type": "ReferenceLatent",
+      "inputs": {
+        "conditioning": [
+          "54",
+          0
+        ],
+        "latent": [
+          "12",
+          0
+        ]
+      }
+    },
+    "56": {
+      "class_type": "PairConditioningSetPropertiesAndCombine",
+      "inputs": {
+        "positive": [
+          "53",
+          0
+        ],
+        "negative": [
+          "53",
+          1
+        ],
+        "positive_NEW": [
+          "55",
+          0
+        ],
+        "negative_NEW": [
+          "14",
+          0
+        ],
+        "strength": 1,
+        "set_cond_area": "default",
+        "mask": [
+          "52",
+          0
+        ]
+      }
+    }
+  },
+  "client_id": "prepared-only-group-hook-pair-20260907"
+}

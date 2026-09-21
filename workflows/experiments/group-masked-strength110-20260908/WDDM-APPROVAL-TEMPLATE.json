@@ -1,0 +1,13 @@
+{
+  "approved": false,
+  "scope": "GROUP_FRESH_V2_EXACT_DESKTOP_LIFETIMES",
+  "issued_utc": null,
+  "expires_utc": null,
+  "parent_evidence_sha256": "6DB95A535879701647228C5271948EE01FD353640730C4D2659EF7E3BF1776C0",
+  "prior_candidate_sha256": "A83F7325972CA5393BFA8C12ADFF149DB42BC095BB2E5F208A848B40837EFC51",
+  "wddm_helper_sha256": "FILL_WITH_WDDM_ADMISSION_PY_SHA256",
+  "supplement_prepared_sha256": "FILL_WITH_PREPARED_JSON_SHA256",
+  "reviewed_processes": [],
+  "reviewed_parents": [],
+  "instructions": "Copy exact 22 processes and two parents from a newly captured candidate only after root review; new 39712/54788 require new_lifetime_approved=true; protected null fields require protected_metadata_approved=true per process/parent. Maximum one-hour approval. Never adopt new lifetimes automatically."
+}

@@ -61,9 +61,9 @@ CARDS = {
         ROOT / "assets" / "comfy-input" / "dating-scenes" / "dating-06-amalfi.png",
         (76, 123, 156),
     ),
-    "identity-italian-lake-boat.jpg": (
-        "Italian lake boat",
-        ROOT / "work" / "lake-como-mitch-reference-match" / "mitch-lake-como-boat-v1.png",
+    "identity-st-barts-yacht.jpg": (
+        "St. Barts yacht",
+        ROOT / "assets" / "comfy-input" / "klein9b-scene-presets" / "generated" / "identity-st-barts-yacht.png",
         (62, 105, 111),
     ),
     "identity-elegant-restaurant.jpg": (

@@ -23,6 +23,12 @@ from comfy_extras.nodes_custom_sampler import (
 from comfy_extras.nodes_flux import EmptyFlux2LatentImage, Flux2Scheduler
 
 from . import one_reference_photo as baseline
+from .flux2_klein9b_attractiveness import (
+    ATTRACTIVENESS_LEVELS,
+    HIGH_PROFILE,
+    apply_high_attractiveness,
+    normalize_attractiveness,
+)
 from .flux2_klein9b_deterministic_polish import (
     POLISH_PROFILE,
     apply_deterministic_face_polish,
@@ -55,6 +61,7 @@ from .flux2_klein9b_smartphone_style import (
 )
 from .flux2_klein9b_source_gaze_lock import (
     SOURCE_GAZE_LOCK_PROFILE,
+    _detect_refined_landmarks,
     apply_source_gaze_lock,
 )
 from .flux2_klein9b_upgrade_masking import (
@@ -86,8 +93,7 @@ MILESTONE_COMMIT = "d58732a"
 MILESTONE_TAG = "milestone-good-identity-workflows-2026-09-01"
 REVALIDATION_COMMIT = "b32ecb9"
 REVALIDATION_TAG = "milestone-klein9b-production-revalidated-2026-09-03"
-APPEARANCE_LABEL_ON = "Subtle handsome polish (default)"
-APPEARANCE_LABEL_OFF = "Milestone appearance (exact)"
+APPEARANCE_DEFAULT = "low"
 PHONE_STYLE_LABEL_ON = "Deep-focus phone-camera realism (default)"
 PHONE_STYLE_LABEL_OFF = "Natural lens background separation"
 UPGRADE_PHONE_STYLE_TEST_BASIS = (
@@ -216,11 +222,10 @@ class Flux2Klein9BPhotoRealismUpgradeV1:
                     },
                 ),
                 "appearance_polish": (
-                    "BOOLEAN",
+                    list(ATTRACTIVENESS_LEVELS),
                     {
-                        "default": True,
-                        "label_on": APPEARANCE_LABEL_ON,
-                        "label_off": APPEARANCE_LABEL_OFF,
+                        "default": APPEARANCE_DEFAULT,
+                        "tooltip": "Attractiveness: off = raw generation; low = previous handsome polish; high = stronger brow/crease retouch after gaze lock. High preserves eye shape but can reduce identity similarity.",
                     },
                 ),
                 "phone_camera_style": (
@@ -254,6 +259,7 @@ class Flux2Klein9BPhotoRealismUpgradeV1:
         seed,
     ):
         try:
+            normalize_attractiveness(appearance_polish)
             compose_upgrade_prompt(detail_instructions)
         except ValueError as exc:
             return str(exc)
@@ -288,6 +294,11 @@ class Flux2Klein9BPhotoRealismUpgradeV1:
         )
         if validation is not True:
             raise RuntimeError(validation)
+        appearance_level = normalize_attractiveness(appearance_polish)
+        appearance_polish = appearance_level != "off"
+        appearance_profile = APPEARANCE_PROFILE + (
+            f"+{HIGH_PROFILE}" if appearance_level == "high" else ""
+        )
         if source_photo.ndim != 4 or source_photo.shape[0] != 1 or source_photo.shape[-1] < 3:
             raise RuntimeError("Load exactly one RGB source photograph.")
 
@@ -400,7 +411,21 @@ class Flux2Klein9BPhotoRealismUpgradeV1:
             photo, gaze_mask, gaze_report = apply_source_gaze_lock(source, photo)
             polish_mask = torch.maximum(polish_mask, gaze_mask)
             polish_report["source_gaze_lock"] = gaze_report
-            polish_report["profile"] = APPEARANCE_PROFILE
+            if appearance_level == "high":
+                # High runs after gaze correction. It can refine the upper-lid
+                # contour, but hard-protects the corrected iris/pupil region.
+                polished_rgb = np.clip(photo[0].numpy() * 255.0, 0, 255).round().astype(np.uint8)
+                landmarks, _ = _detect_refined_landmarks(polished_rgb)
+                source_rgb = np.clip(source[0].detach().float().cpu().numpy() * 255.0,
+                                     0, 255).round().astype(np.uint8)
+                source_landmarks, _ = _detect_refined_landmarks(source_rgb)
+                photo, high_mask, high_report = apply_high_attractiveness(
+                    photo, landmarks, semantic_hair_mask, source_landmarks
+                )
+                polish_mask = torch.maximum(polish_mask, high_mask)
+                polish_report["high_attractiveness"] = high_report
+            polish_report["profile"] = appearance_profile
+            polish_report["level"] = appearance_level
         else:
             photo = raw_photo
 
@@ -490,9 +515,12 @@ class Flux2Klein9BPhotoRealismUpgradeV1:
             "revalidation_tag": REVALIDATION_TAG,
             "revalidation_sampling_path_preserved": True,
             "revalidation_comparison_scope": (
-                "Compared with b32ecb9, this report-only hardening changes reporting semantics "
-                "and validation tests only; generation prompt, model and LoRA selection, reference "
-                "order, seed, sampler, scheduler, and postprocessing are unchanged."
+                "Compared with b32ecb9, generation prompt, model and LoRA selection, reference "
+                "order, seed, sampler, and scheduler are unchanged. Low v5 corrects the "
+                "ParseNet hair label from neck17 to hair13, retaining all other finish constants "
+                "and the source-gaze path; optional High adds landmark-aligned brow "
+                "and eye-area refinement afterward without resampling. High may transfer "
+                "bounded source upper-lid curvature while fixing eye corners and pupil position."
             ),
             "gpu": gpu,
             "worker_requirement": "RTX 3090 / standard ComfyUI port 8188",
@@ -590,13 +618,24 @@ class Flux2Klein9BPhotoRealismUpgradeV1:
             "second_model_pass": False,
             "prompting_strategy": PROMPTING_STRATEGY,
             "appearance_polish": bool(appearance_polish),
-            "appearance_profile": APPEARANCE_PROFILE if appearance_polish else None,
+            "appearance_level": appearance_level,
+            "appearance_default_level": APPEARANCE_DEFAULT,
+            "appearance_profile": appearance_profile if appearance_polish else None,
+            "high_attractiveness_status": (
+                "optional_stronger_retouch_user_visual_review_required"
+                if appearance_level == "high" else "not_selected"
+            ),
             "appearance_generation_prompt_changed": False,
             "appearance_scope": (
                 (
                     "deterministic face-local, iris-interior source-gaze, and eroded semantic-hair-interior postprocess; "
                     "the appearance-polish stage runs after sampling and does not alter the selected generation model, prompt, references, seed, or sampler; "
-                    "eyelid boundary, head outline, and hairline remain protected; "
+                    + (
+                        "High additionally applies a bounded source-guided upper-lid warp and symmetric eye contrast while fixing eye corners and pupil position; "
+                        if appearance_level == "high" else
+                        "eyelid boundaries remain protected; "
+                    )
+                    + "head outline and hairline remain protected; "
                     if appearance_polish
                     else "appearance polish is disabled, so no face, iris, or hair-local appearance postprocess runs; "
                 )

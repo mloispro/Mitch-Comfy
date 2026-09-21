@@ -1,0 +1,706 @@
+{
+  "pins": [
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-night-a\\preparation.json",
+      "sha256": "483A2E305D44427EB009CFC683600CF14FEB46FC792706BD8BF95B8E4FCC0B90",
+      "bytes": 111447
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-runner3090-v2\\prepared.json",
+      "sha256": "957ACA65307DC6CD2D99786DB32100F18FC299848BA80FD7CFC4BF4490CC8B64",
+      "bytes": 6280
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-20260903\\group-research\\resolution-test\\complementary-angle\\group30-resolution228-angle09-seed8675421-payload.json",
+      "sha256": "EC9F7E5B09F5488965311A770C4964758A24124D1EE595659CD657CD5C777141",
+      "bytes": 7569
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\custom_nodes\\ComfyUI-AIToolkit-Training\\flux2_klein9b_group_scene_studio.py",
+      "sha256": "96C40B42BE4423E8F317A6F4F005B75C970C34F0EE0DDFF6F9B110F0217C3568",
+      "bytes": 20933
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\custom_nodes\\ComfyUI-AIToolkit-Training\\web\\assets\\scene-presets\\manifest.json",
+      "sha256": "70CEAF391CEDD1A7B3F76FEA8CD22815A963820F319BA2763F7C801D667AF7CF",
+      "bytes": 13209
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-runner3090-v2\\run-native-group3090.ps1",
+      "sha256": "D5EB1E106AFB9B77D4FBABC62A77804752F80B35AB576A9831AE0162C024EF25",
+      "bytes": 17873
+    },
+    {
+      "path": "C:\\Users\\Mitch\\.insightface\\models\\antelopev2\\scrfd_10g_bnkps.onnx",
+      "sha256": "5838F7FE053675B1C7A08B633DF49E7AF5495CEE0493C7DCF6697200B85B5B91",
+      "bytes": 16923827
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-20260903\\group-research\\resolution-test\\complementary-angle\\build-evidence.json",
+      "sha256": "D858B088653032E14E34D75DDB5AA4147BB2B41111A9B9FA252AC5D711AA95DB",
+      "bytes": 105215
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-20260903\\group-research\\resolution-test\\complementary-angle\\evaluation\\comparison.json",
+      "sha256": "DA2BE47DDBC80A2D357DD0E83A80A8F382459F133D73C055EDADB2B174049B52",
+      "bytes": 48228
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-20260903\\group-research\\source-audit.json",
+      "sha256": "52C28477738A95CBA0125BEE5AE764C7308C114D0563A5CA99DA2C6981AED947",
+      "bytes": 26202
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\datasets\\mitch-identity-stills-v3\\manifest.json",
+      "sha256": "D56FE2D752FEBFA63CA0E76689DFD9D4EAAC7443CA086FFA9DFEF51186563003",
+      "bytes": 26698
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\flux2-klein9b-identity-v3-r32-dop\\train\\run-manifest.json",
+      "sha256": "D88C8AD77AA00DA61EE1FD585B8C48A1EBEDE13DA3BB54687C1E17C79D4AA6C7",
+      "bytes": 5502
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\config\\flux2-klein9b-identity-v3-r32-dop-3090.yaml",
+      "sha256": "AAAA3F8962D697A43D78221EA39291FF732E41E2514D9AFF5D4DBC30A98D07F2",
+      "bytes": 3439
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\custom_nodes\\ComfyUI-AIToolkit-Training\\one_reference_photo.py",
+      "sha256": "64F68D97128F8C87E8E85EF57677F87DAB218314E6D32A4AEBEF5B4F178E4CA7",
+      "bytes": 27467
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\custom_nodes\\ComfyUI-AIToolkit-Training\\flux2_klein9b_smartphone_style.py",
+      "sha256": "04C64C6D78FB5C9024515882EA1771EFF0BAE3CF7361AD063F8E2C1CAA2D1C22",
+      "bytes": 3425
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\custom_nodes\\ComfyUI-AIToolkit-Training\\flux2_klein9b_group_scene_studio_visual_presets.py",
+      "sha256": "E95D1C2EE020607E04B1EF1AD9A3E1FB962ADE4E329943E90BAEEE4462FC98AD",
+      "bytes": 5002
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\nodes.py",
+      "sha256": "ABEC8A56CECECC0579967752C24B4C1D8B4EAF2D327B106B9843BCA126553105",
+      "bytes": 110733
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\comfy_extras\\nodes_edit_model.py",
+      "sha256": "3773FD748C404758EE36A3BAC24CFEA6E10C1B9990FA388CC440C56DB1DC6A4A",
+      "bytes": 1336
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\comfy_extras\\nodes_flux.py",
+      "sha256": "A4917FD9D4AED2AFDBDFC005A527B6381BE942200054D7998477A16987E7AFF9",
+      "bytes": 10829
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\comfy_extras\\nodes_custom_sampler.py",
+      "sha256": "913D776B5E696C70B77B8184F2AF504533FBFF2FAD62A05CEF4ECBA87975F0BF",
+      "bytes": 50971
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\node_helpers.py",
+      "sha256": "6E9E963B1538BDEC3370721CFB16C02AA88A2891DAFBBD9DD007C190F68CA935",
+      "bytes": 3279
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\comfy\\supported_models.py",
+      "sha256": "23FE5B971F2F27C080F3FCD144E0A5D8DE6A5D8D5AF2B7584D80CB1DEA4B6C1A",
+      "bytes": 87181
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\assets\\comfy-input\\klein9b-scene-presets\\group-amber-booth-four-friends.jpg",
+      "sha256": "1F6E9C7A4AC4C6E152D2B54ECB9007732EC4799201B287B7F543700EF8D0204B",
+      "bytes": 75187
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\assets\\comfy-input\\klein9b-scene-presets\\group-approved-lounge-center.png",
+      "sha256": "1B26AC58A4FAD8D03F69DB7A4085C31B6682C71ACBE22D5AEE51F9E53FA0332B",
+      "bytes": 1366818
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\input\\mitch-klein9b-layout-lounge-center-face-interior-free-head92-canny.png",
+      "sha256": "DEC72876E7CB1C6E8B68DF7BD7654FDA82D582B0BD2ED7193FD205657DF15704",
+      "bytes": 26194
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-amber-booth\\prepare.py",
+      "sha256": "C2D913F2EE2C2283058FDCBA4F33C04FEB3B146B9B455592F5C52C0EFC79F34C",
+      "bytes": 21875
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-amber-booth\\RESEARCH-GATE.md",
+      "sha256": "3B682C134F8D60B5FB277E80A63FCE0D9A74FB88F227C75E57B97BA9F4B0BC3B",
+      "bytes": 5563
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-amber-booth\\README.md",
+      "sha256": "CB112F40C5E3A77A1B2609F7A4B5DDA1A8DEE3230F5E9C002B0B928C6677642E",
+      "bytes": 1650
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-amber-booth\\test_prepare.py",
+      "sha256": "89B4A9A0D4B55B84252165F1394B293340986A7E5FA0444141DCEBBD4A5B56E8",
+      "bytes": 3298
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-next-scenes\\SCENE-PLANS.md",
+      "sha256": "A23A8E702228FD8677C368DD61B442B2702BB3B0CCA1F74E18A9EBCC14E4568E",
+      "bytes": 5944
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-next-scenes\\inventory.json",
+      "sha256": "1B2F9F115D355A6B5C97E80CCDE22FDF9748BA76306FD1B9757AB625D945769C",
+      "bytes": 16943
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-runner3090-v2\\test-runner.ps1",
+      "sha256": "F2F0A1DA044AE6DAC83ECE81589F3FF3649F4F7B6ADAA1211EE7C2AFF90FD871",
+      "bytes": 15903
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\input\\mitch-klein9b-ref-training04-front-neutral.jpg",
+      "sha256": "31870369467B7A8FC19199D7877F56257FED2B0F28B08AA183006BCD3112DDAB",
+      "bytes": 367803
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\input\\20260508_123156.jpg",
+      "sha256": "4B98FEB4D7929BD89F75402B85D1D86BE690D67C48212C1F4740419F9374CA6B",
+      "bytes": 8255050
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\datasets\\mitch-identity-stills-v3\\validation\\val_01_surf_full_body.jpg",
+      "sha256": "D17AA33EE7F90B135E2A9167059DDBB4437B7578B3B4EC9C9B10F1D9836D8901",
+      "bytes": 1028819
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\datasets\\mitch-identity-stills-v3\\validation\\val_02_body_mirror_sleeveless.jpg",
+      "sha256": "4B32845393FBCBF6EA0CA80068C48AF10DB52BC81909DBA9638370BC7EE0A622",
+      "bytes": 2628950
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\datasets\\mitch-identity-stills-v3\\validation\\val_03_navy_upper_body.jpg",
+      "sha256": "FEF084D60982754250AB76A7320D71228C96255B2D5244B7461F77B67CE929CF",
+      "bytes": 342236
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\datasets\\mitch-identity-stills-v3\\validation\\val_04_window_small_smile.jpg",
+      "sha256": "2EBEB864B970168EA05C74275AA240C4122795A2050E51534C554ACB3ECEC6EB",
+      "bytes": 6684966
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\datasets\\mitch-identity-stills-v3\\validation\\val_05_balcony_opposite_angle.jpg",
+      "sha256": "648F5643D58526C65EACAB5AE0E0570CAD9F7EF34FBD568CA74B47A7F6615032",
+      "bytes": 380380
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\datasets\\mitch-identity-stills-v3\\validation\\val_06_car_daylight.jpg",
+      "sha256": "FEB62E762B990FB9979D730D9BA0A8D08C0CB81832DB6EAB308FE760C4A98B4D",
+      "bytes": 353407
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\fast-detail-20260903\\run-comfy-experiment-omnigen2.ps1",
+      "sha256": "7235FD6A4A298F860D93E7C69FFA952A7C5C4711FDCA71A53288E63CC5DCF2C5",
+      "bytes": 10443
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\assets\\comfy-input\\dating-scenes\\dating-01-night-out-a.png",
+      "sha256": "A7C6E79FBDE486F5B0656734929212E28903DD3E171B72DB030F300A41242E6E",
+      "bytes": 1209163
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-night-a\\prepare.py",
+      "sha256": "341C36671149E0FD4D55CD14ADC4A959E99F008A02F3BB8C116D46A6F22DF7D1",
+      "bytes": 19435
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-night-a\\RESEARCH-GATE.md",
+      "sha256": "425C8B21B49B12ACB8D0EF35CDF3EFAF99F09F3082FA7B401A48E0DF89497FFD",
+      "bytes": 7677
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-night-a\\README.md",
+      "sha256": "78F7CBAD22C58FC5EA8EC2CA311432BEA3D0B49748862DACB6A728742F109482",
+      "bytes": 2501
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-night-a\\test_prepare.py",
+      "sha256": "650B8512E3B88CEF3C34C4204F13325C71BB043D8C0C91747BDC97AEFD5E0852",
+      "bytes": 2362
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-night-a\\mitch-readiness-night-a-head92-20260907.png",
+      "sha256": "2083C92AF6E6C8690B9ADB3B19A5206BCC9ED9F6FAA3603097CF4972E55D3FC6",
+      "bytes": 18115
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-night-a\\group-night-a-angle09-seed8675412-payload.json",
+      "sha256": "9E1C18964DA11259E93DC2F61883915B44EA40A35954F82B8502A79E2E8BF387",
+      "bytes": 6900
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-night-a\\source-selection.png",
+      "sha256": "4B97D588BCFE183681C66E73A878EB6DE2031AEB0B12D29D323ABA57C960FE3E",
+      "bytes": 1170508
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-night-a\\guide-review.png",
+      "sha256": "39A2A6849674D8DC3D4518F97E0D33965FFA86C520CDB5A0C663A35F87A55C9A",
+      "bytes": 1254937
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-night-a\\guide-thumbnail.png",
+      "sha256": "3F0BFCB7BD2735BFDDE719D391761FA90AFED5F3EDB4AAA5D7A3C0FAA96305F6",
+      "bytes": 413186
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-night-a\\guide-geometry.json",
+      "sha256": "7D0087210EEBAD9814E6E9F697BA13684166E35EC34CF066FED3DEB2A31BFB57",
+      "bytes": 836
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-20260903\\group-research\\resolution-test\\evaluate_resolution.py",
+      "sha256": "2F4D2C12CAAFB318C743470AF884CBE0230A8421682D4951F6F00BEC2ACDEADB",
+      "bytes": 14144
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-20260903\\group-research\\resolution-test\\build-evidence.json",
+      "sha256": "E63278717BC982696B73A60F9C365F1DE85A7E4AD04FA4712967ED24503B33B9",
+      "bytes": 90252
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-20260903\\group-research\\resolution-test\\build_resolution.py",
+      "sha256": "D81D22D3D117863097D592E9B1628B03FFFF6F27A13D5FB5B0319BC1BA196087",
+      "bytes": 9385
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-20260903\\group-research\\resolution-test\\RESEARCH-GATE.md",
+      "sha256": "9809D50433FC8FAECFCF2631FAC7CCDBA94C4788C3045C692DA8749C52395D44",
+      "bytes": 7322
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-20260903\\group-research\\evaluate_pilot.py",
+      "sha256": "3C8CCC3D56B55E6399266FA9DBA7BB64BF6B66B7D732A6DDB60374ADF009D148",
+      "bytes": 17837
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\generation-first-validation-20260903\\group-evaluation\\evaluate_group_pair.py",
+      "sha256": "2AADE60A24D5A117F39AF0EFE9139A65AA7931FC06E946B57037957F6AB026DD",
+      "bytes": 20211
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\generation-first-validation-20260903\\group-generation\\group-quality30-payload.json",
+      "sha256": "686F727212E381E577CDDF5001F9F59B5EC2C0CD4D4FAEDEDD244312274DA11D",
+      "bytes": 6536
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-20260903\\group-research\\resolution-test\\group30-resolution228-payload.json",
+      "sha256": "BFE55C0CC22D3F26E47C03D27EFDA6E1D4FA80E22F59ED90EB306C8DEC576C16",
+      "bytes": 6523
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\scripts\\evaluate-face-likeness.py",
+      "sha256": "BFF50B856B99F7545BC8677C6796B55457AFEC4E8FBA81825C8B671323A78586",
+      "bytes": 7910
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\scripts\\check-identity-leakage.py",
+      "sha256": "D85BCA342C803151EAA5335E639FFB8314A8667C1859CCDF472A98316706AE9B",
+      "bytes": 2484
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\custom_nodes\\ComfyUI-AIToolkit-Training\\identity_leakage.py",
+      "sha256": "25093643F91AFA2F47F793BF4D82B93663CF419A8D60CD97C5DF9FDF689CCC9A",
+      "bytes": 6066
+    },
+    {
+      "path": "C:\\Users\\Mitch\\.insightface\\models\\antelopev2\\1k3d68.onnx",
+      "sha256": "DF5C06B8A0C12E422B2ED8947B8869FAA4105387F199C477AF038AA01F9A45CC",
+      "bytes": 143607619
+    },
+    {
+      "path": "C:\\Users\\Mitch\\.insightface\\models\\antelopev2\\glintr100.onnx",
+      "sha256": "4AB1D6435D639628A6F3E5008DD4F929EDF4C4124B1A7169E1048F9FEF534CDF",
+      "bytes": 260665334
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-20260903\\group-research\\resolution-test\\holdouts\\evaluate_holdouts.py",
+      "sha256": "7F135ACAD74614B93EAF2FD2B495BC8BF3B5D3C17293DC943BDB535AC7F2C94A",
+      "bytes": 13152
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-20260903\\group-research\\resolution-test\\holdouts\\build_holdouts.py",
+      "sha256": "9E62FEA3168254E669AEC3FDF8F8E5401B06D1B0F6EC10D860771BA5F670450E",
+      "bytes": 4621
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-20260903\\group-research\\resolution-test\\holdouts\\build-evidence.json",
+      "sha256": "AD7A6CF16B28B8FEED9E18BA1C6937E157E1609799B14B90A8208124A127AB6C",
+      "bytes": 175643
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-20260903\\group-research\\resolution-test\\holdouts\\README.md",
+      "sha256": "7B502D2D7A309A38FA716FA148866B086BC6552106C5E835165EA06B51E5C457",
+      "bytes": 2882
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-20260903\\group-research\\resolution-test\\evaluation\\manual-review.json",
+      "sha256": "E1ECE0E841161B6B983897A36F573B8B534265EFB76AF91A9292B3333C20B148",
+      "bytes": 2819
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-20260903\\group-research\\resolution-test\\evaluation\\REVIEW.md",
+      "sha256": "1D62CCA28330A471E75BCB67946614B5C0040416B150CA48C6FA2AB2D5A10925",
+      "bytes": 8487
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-20260903\\group-research\\resolution-test\\holdouts\\group30-resolution228-seed8675417-payload.json",
+      "sha256": "EAC62B9AE28618FB7C1E2F8039742507BD6CE0D87A01503707D09CA3794211FF",
+      "bytes": 6523
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-20260903\\group-research\\resolution-test\\holdouts\\group30-resolution228-seed8675421-payload.json",
+      "sha256": "45F7D7C1E13B7C3FB848275985D08ADFBF0DD59EDC2794E53A8DA59F4973DDA5",
+      "bytes": 6523
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-20260903\\group-research\\resolution-test\\complementary-angle\\evaluate_angle.py",
+      "sha256": "46F9E058FFA029BD841CE0B2572ADF8138F57B126B4FA9DADE608F505F8C5C4B",
+      "bytes": 13229
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-20260903\\group-research\\resolution-test\\complementary-angle\\build_angle.py",
+      "sha256": "D7F97F3FD183831CB799C9294FD310A3B57AF344D8096AC11FFAC20C3325C754",
+      "bytes": 10199
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-20260903\\group-research\\resolution-test\\complementary-angle\\RESEARCH-GATE.md",
+      "sha256": "779A7E27D41F29ABBE2E4D5C8935F5E1B4DF91433E2E7B1116C72F7959F48153",
+      "bytes": 10466
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-20260903\\group-research\\resolution-test\\complementary-angle\\README.md",
+      "sha256": "2C716650B4AD60DDB0661D30A3198C358E83959E6765D1272E1A6A8EC81F2298",
+      "bytes": 2126
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\datasets\\mitch-identity-stills-v3\\dataset\\09_sweater_opposite_near_profile.jpg",
+      "sha256": "4B98FEB4D7929BD89F75402B85D1D86BE690D67C48212C1F4740419F9374CA6B",
+      "bytes": 8255050
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-20260903\\group-research\\resolution-test\\holdouts\\evaluation\\comparison.json",
+      "sha256": "FC6D6587DECA89BE7FEB8A9002DE34BA9F956C5EFA6CFCA9F6352D55198A9567",
+      "bytes": 67043
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-20260903\\group-research\\resolution-test\\holdouts\\evaluation\\manual-review.json",
+      "sha256": "FBD3389FC32BD56B9CD1B6F307B72728B6488D116206DB43B278712640848E5C",
+      "bytes": 2757
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-20260903\\group-research\\resolution-test\\holdouts\\evaluation\\REVIEW.md",
+      "sha256": "028BBA5C49281EDE9BB1DAFD8CAEB2F4A207A3D239E2B74329FCFEB18B45D9BE",
+      "bytes": 8614
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\fast-detail-20260903\\runs\\ready-group30-resolution228-seed8675421\\prompt-api.json",
+      "sha256": "99C75AA60B12708F379ADC8F296EE7F93E392AC2B56636F0B67FC39977967032",
+      "bytes": 5912
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\fast-detail-20260903\\runs\\ready-group30-resolution228-seed8675421\\history.json",
+      "sha256": "1103C6CDB6CD6E17A20555D9DF817CCD1EA1CC6CCD4A51CCD81EE9CF51D3B206",
+      "bytes": 8258
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\fast-detail-20260903\\runs\\ready-group30-resolution228-seed8675421\\report.json",
+      "sha256": "769A1242BBBF8E4F16E40F9440E19DFE1BA5B7CBC7438422CB0AB1A46505DB46",
+      "bytes": 1188
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\fast-detail-20260903\\runs\\ready-group30-resolution228-seed8675421\\submission.json",
+      "sha256": "9BEA8D0CDAB159AE867B8F7771F0B99237CFBDDC7529DDA1800BEBA3B5859C5E",
+      "bytes": 261
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\fast-detail-20260903\\runs\\ready-group30-resolution228-seed8675421\\immediate-preflight.json",
+      "sha256": "621C39D6CB8DF3002C639959C448D681C6190042044DB6E64F288CA036887896",
+      "bytes": 881
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\fast-detail-20260903\\runs\\ready-group30-resolution228-seed8675421\\group30-resolution228-seed8675421_00001_.png",
+      "sha256": "EFB1B376F03C4FA33C4EEF7CCB7278AA4D7EE557B8232FA0D18AF6F068DD7225",
+      "bytes": 3579964
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\comfy_api\\latest\\_input_impl\\video_types.py",
+      "sha256": "C8DE55D064E891797626EB900B5AB9E4B44C4B090A65794E087B03514748E138",
+      "bytes": 51910
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-amber-booth\\mitch-readiness-amber-booth-head92-20260907.png",
+      "sha256": "5C76AD1B566AA98C221E8125B37B955621C00A27B9445E175BA76B7D573C5414",
+      "bytes": 30591
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-amber-booth\\group-amber-booth-angle09-seed8675412-payload.json",
+      "sha256": "74FD7E5FB0A0187E6B4686EC1E3AE18952111AB3F272261B069D3D70631E1734",
+      "bytes": 7324
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-amber-booth\\source-selection.png",
+      "sha256": "1C16867F37663C59D83A38148370A7A82E340AED78F09FE5D69B36B81A0197C3",
+      "bytes": 796761
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-amber-booth\\guide-review.png",
+      "sha256": "99C1E36A186A7E6FBC06B949B02ECCD3B8603D4F8D5066456EF0CF3BE9F85C5A",
+      "bytes": 865921
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-amber-booth\\guide-thumbnail.png",
+      "sha256": "B7A416087F071AFBFC39B3E72E1E044D91AF26A651E79AA1F8602F48B3C358F1",
+      "bytes": 420763
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-amber-booth\\guide-geometry.json",
+      "sha256": "D7145828A6E2B91B92F37D266C66E306A4650071529DAD18CFEE350F9E810A63",
+      "bytes": 840
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\evaluate_recipe.py",
+      "sha256": "6CB99A0B033267BF397EAD20F2CEA77BA2BA0BEFD8409F9BF54A645CE11B03CD",
+      "bytes": 13211
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\test_evaluate_recipe.py",
+      "sha256": "BE0917FAA345F493384EF13FCE8005653AE60DA025476E95F260A130274483C5",
+      "bytes": 14572
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\EVALUATOR-README.md",
+      "sha256": "D56E8CDA9E617E432E2DA4C08C31DFD4A10E38A985AA9AC178414A528DE17303",
+      "bytes": 4596
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\prepared.json",
+      "sha256": "6B3A687FB02F8D015D4CA7B1F165FDE48389335D70634AB1003C01E743D94FDE",
+      "bytes": 4959
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\recipe_runtime.py",
+      "sha256": "B27DBC0F37BD5CC9DBA51352348EAE51381607809308E3D1E1DA6B066A7899D6",
+      "bytes": 7146
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\wddm_admission.py",
+      "sha256": "E5E675393687C13C16B7D34DA40D6C3C6DF870F31E370C94FE7A4C50783A1A99",
+      "bytes": 7822
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\run_recipe.ps1",
+      "sha256": "04F4E2A96CA6709F56CB139068310FD847340AFCC24A3EDC3DBBCBE85A073BE6",
+      "bytes": 8764
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\recipe.json",
+      "sha256": "67A5F1F9211BC48743698ABFC003E418B69B5B0C0D1F7F4C811E8283C8BE4C3E",
+      "bytes": 1535
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\amber-hook-pilot-payload.json",
+      "sha256": "DFE5EDBF8205188C6DA053FE74C747A234D050DA0889D44017A610ACE8657CD1",
+      "bytes": 9972
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\ROOT-APPROVAL-TEMPLATE.json",
+      "sha256": "788A7E4D92A77AD5DF315D7EF7EEDD21FD8968BB936CFE0DD72A73C90AB6DDC4",
+      "bytes": 1048
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\evaluate_fresh.py",
+      "sha256": "22CB982F07BA91EE024E4DB8BF83CA61C9C72AA5D86B2A3CEAE257D6BD784DD9",
+      "bytes": 10330
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\test_evaluate_fresh.py",
+      "sha256": "9F0B91889AE17223566A9F17AEE2D72565940F318C307295E0D0CCE4055421C2",
+      "bytes": 12720
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\runtime-3090\\evaluate_pilot_observation.py",
+      "sha256": "89887BABB81CA100769F1E084B6CAC57B5737682C265B3DFF0B7158770507F38",
+      "bytes": 7199
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\runtime-3090\\HOOK-EVALUATOR-PREPARED.json",
+      "sha256": "0CEC2F4E14444DCD55CA6BD369E0C2D6457DA8FF7CFAB55DC15D77118F87DF07",
+      "bytes": 2739
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\runtime-3090\\HOOK-EVALUATOR-V3-PREPARED.json",
+      "sha256": "6AB1992BC0A5D72F3D3BF400F1795C93415E134754C8457EDFA5B850582F75A1",
+      "bytes": 4550
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\runtime-3090\\evaluate_hook_pair.py",
+      "sha256": "9A4D367742CA8BF1DC79B6313E9EC517FA1E3235AAE979164A1E66BE963C516A",
+      "bytes": 21990
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\runtime-3090\\test_evaluate_hook_pair.py",
+      "sha256": "715231D14473345F68FA550A5E45B2824E1ACC97097C615F930657D50F6C8254",
+      "bytes": 16094
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\runtime-3090\\RUNTIME-PREPARED.json",
+      "sha256": "9A8F7E80AF8AD5D92F9FF9069D62DEEC1DB2D5114F747B3BFA718EB7931DE4BA",
+      "bytes": 10667
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\runtime-3090\\RUNTIME-V2-PREPARED.json",
+      "sha256": "A7647D023A1F6EABC1AC7A8932C2CD47EDE581E0B4E9C3835C12A7949A00B540",
+      "bytes": 3618
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\FROZEN-PAIR.json",
+      "sha256": "32385FEE51B9ABE79F2B858BAC393F1E8DBDD9B7AFD5040EB635B5C0FA013EB2",
+      "bytes": 3818
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\PAIR-PREPARATION.json",
+      "sha256": "32B07905670B4E541B6E8DC300A8CF5EB66DCED602C8284881184000140FA657",
+      "bytes": 42147
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\PAIR-SCHEDULE-RESULTS.json",
+      "sha256": "DC3280FDD3DB0EACE1E8D6816ED9F0313F8C4FAD2D3F3E6CCD3B12618A731DE9",
+      "bytes": 3386
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-amber-booth\\evaluate_3090.py",
+      "sha256": "9CC56EB304DB684C7ACF6D1CEFD916A3FBBC1AA315EBD039D0B012A4928885D7",
+      "bytes": 13230
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\runtime-3090\\evaluate_hook_pair_v3.py",
+      "sha256": "6799B49112F28C1F795B774FE173F9CA2D7A86BC43A96DF5055B06F9C60D9460",
+      "bytes": 7515
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\runtime-3090\\test_evaluate_hook_pair_v3.py",
+      "sha256": "B6D190E953F9D83B590B7FDEAC720E920ABDD15223F16AA1EACB9C101BB3C165",
+      "bytes": 7615
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\runtime-3090\\HOOK-EVALUATOR-V3-README.md",
+      "sha256": "4B568F66179EDC74E2ACB695CE954FA8CAA0A904B7B363AB8133158B80B3FE71",
+      "bytes": 5211
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\runtime-3090\\RUNTIME-V3-PREPARED.json",
+      "sha256": "6FA31727CB5F9BB1BB7249392BEC8BCE08EE96F952F40B63A26098706A43942F",
+      "bytes": 6865
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\runtime-3090\\wddm_watch_v3.py",
+      "sha256": "DFA4F28578635B2D94BD104CD378485C9E6996104475AE12668C819E6C395B15",
+      "bytes": 3956
+    }
+  ],
+  "genuine_references": [
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\datasets\\mitch-identity-stills-v3\\validation\\val_01_surf_full_body.jpg",
+      "sha256": "D17AA33EE7F90B135E2A9167059DDBB4437B7578B3B4EC9C9B10F1D9836D8901",
+      "bytes": 1028819,
+      "mtime_ns": 1735624538000000000,
+      "raw_size": [
+        1982,
+        1982
+      ],
+      "exif_orientation": 3,
+      "oriented_size": [
+        1982,
+        1982
+      ]
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\datasets\\mitch-identity-stills-v3\\validation\\val_02_body_mirror_sleeveless.jpg",
+      "sha256": "4B32845393FBCBF6EA0CA80068C48AF10DB52BC81909DBA9638370BC7EE0A622",
+      "bytes": 2628950,
+      "mtime_ns": 1762812647000000000,
+      "raw_size": [
+        2992,
+        2992
+      ],
+      "exif_orientation": 6,
+      "oriented_size": [
+        2992,
+        2992
+      ]
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\datasets\\mitch-identity-stills-v3\\validation\\val_03_navy_upper_body.jpg",
+      "sha256": "FEF084D60982754250AB76A7320D71228C96255B2D5244B7461F77B67CE929CF",
+      "bytes": 342236,
+      "mtime_ns": 1773709457274305400,
+      "raw_size": [
+        1084,
+        813
+      ],
+      "exif_orientation": 6,
+      "oriented_size": [
+        813,
+        1084
+      ]
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\datasets\\mitch-identity-stills-v3\\validation\\val_04_window_small_smile.jpg",
+      "sha256": "2EBEB864B970168EA05C74275AA240C4122795A2050E51534C554ACB3ECEC6EB",
+      "bytes": 6684966,
+      "mtime_ns": 1778261402000000000,
+      "raw_size": [
+        3392,
+        2544
+      ],
+      "exif_orientation": 6,
+      "oriented_size": [
+        2544,
+        3392
+      ]
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\datasets\\mitch-identity-stills-v3\\validation\\val_05_balcony_opposite_angle.jpg",
+      "sha256": "648F5643D58526C65EACAB5AE0E0570CAD9F7EF34FBD568CA74B47A7F6615032",
+      "bytes": 380380,
+      "mtime_ns": 1786831142558319800,
+      "raw_size": [
+        1046,
+        784
+      ],
+      "exif_orientation": 6,
+      "oriented_size": [
+        784,
+        1046
+      ]
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\datasets\\mitch-identity-stills-v3\\validation\\val_06_car_daylight.jpg",
+      "sha256": "FEB62E762B990FB9979D730D9BA0A8D08C0CB81832DB6EAB308FE760C4A98B4D",
+      "bytes": 353407,
+      "mtime_ns": 1787106836518789500,
+      "raw_size": [
+        1048,
+        786
+      ],
+      "exif_orientation": 6,
+      "oriented_size": [
+        786,
+        1048
+      ]
+    }
+  ]
+}

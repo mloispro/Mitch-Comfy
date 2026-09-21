@@ -1,0 +1,34 @@
+{
+  "status": "two_native_entry_guards_installed",
+  "pid": 55636,
+  "utc": "2026-09-08T06:05:09.809872+00:00",
+  "guard_sha256": "2D7C80392E35F7D5CB657121980742207ED1B2391ACA7230375A0A4ACC74A02D",
+  "sources": {
+    "nodes.py": "ABEC8A56CECECC0579967752C24B4C1D8B4EAF2D327B106B9843BCA126553105",
+    "comfy_extras/nodes_custom_sampler.py": "913D776B5E696C70B77B8184F2AF504533FBFF2FAD62A05CEF4ECBA87975F0BF",
+    "comfy_execution/utils.py": "C4A082365F45A5A0431E5B76BCCB484A71525E325B050245FEE5B71DC5DCD115",
+    "comfy_api/latest/_io.py": "1AEC1852116DAA2CAF3361E0A41E58D5C9E2F3AE36B1D9D28BCCCE582FEB9F14",
+    "hook_breaker_ac10a0.py": "1F154170C0045688161141B43BB85C608890BDC4053BAF280370F8205D076D2F",
+    "execution.py": "C47EBC80EFB350568EE3D33B03EFAF0FB27FC32CA723BFD9AA10ED591FDF75F2",
+    "comfy/model_patcher.py": "671BBDB48DCA7C95444F5BC4C1EDFF4D814F832725CFE9FD81976B7D195C0BB7",
+    "comfy/model_management.py": "976B66FDF29ED9F64FAF9C663D50EC9476A9667BD8D9AE6F956AC0348813C765"
+  },
+  "methods": [
+    "nodes.UNETLoader.load_unet",
+    "comfy_extras.nodes_custom_sampler.SamplerCustomAdvanced.execute"
+  ],
+  "sampler_sample_alias_unchanged": true,
+  "native_classes_unchanged": true,
+  "native_registration_proof": {
+    "selection": "actual NODE_CLASS_MAPPINGS object; no dotted import",
+    "registered_module_key": "C:\\projects\\AI-Tools\\ComfyUI\\comfy_extras\\nodes_custom_sampler",
+    "source_path": "C:\\projects\\AI-Tools\\ComfyUI\\comfy_extras\\nodes_custom_sampler.py",
+    "source_sha256": "913D776B5E696C70B77B8184F2AF504533FBFF2FAD62A05CEF4ECBA87975F0BF",
+    "native_class_identity": true,
+    "execute_and_schema_code_equal_to_compiled_source": true,
+    "sample_alias_unchanged": true
+  },
+  "normal_vram_default": true,
+  "cache_none": true,
+  "reserve_vram": 5.2
+}

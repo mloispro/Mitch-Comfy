@@ -4,6 +4,8 @@ param(
 
 $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $PSScriptRoot
+. (Join-Path $PSScriptRoot 'comfy-workflow-library.ps1')
+$WorkflowLibrary = Initialize-ComfyWorkflowLibrary -RepoRoot $RepoRoot
 
 function Ensure-Junction {
     param(
@@ -31,7 +33,8 @@ function Ensure-Junction {
     Write-Host "Linked: $Path -> $resolvedTarget"
 }
 
-Ensure-Junction -Path (Join-Path $ComfyRoot "user\default\workflows\Mitch") -Target (Join-Path $RepoRoot "workflows")
+Ensure-ComfyWorkflowEntry -Path (Join-Path $ComfyRoot "user\default\workflows\Mitch") -LibraryRoot $WorkflowLibrary
+Ensure-ComfyWorkflowEntry -Path (Join-Path $ComfyRoot "user-4070\default\workflows\Mitch") -LibraryRoot $WorkflowLibrary
 Ensure-Junction -Path (Join-Path $ComfyRoot "custom_nodes\ComfyUI-AIToolkit-Training") -Target (Join-Path $RepoRoot "custom_nodes\ComfyUI-AIToolkit-Training")
 Ensure-Junction -Path (Join-Path $ComfyRoot "custom_nodes\ComfyUI-AlwaysRunImage") -Target (Join-Path $RepoRoot "custom_nodes\ComfyUI-AlwaysRunImage")
 

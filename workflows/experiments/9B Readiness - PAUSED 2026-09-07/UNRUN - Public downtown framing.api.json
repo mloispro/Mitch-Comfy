@@ -1,0 +1,15 @@
+{
+  "prompt": {
+    "1": {
+      "class_type": "Flux2Klein9BMitchIdentityStudioVisualPresetsV11",
+      "inputs": {
+        "reference_profile": "FULL BODY — front + body proportions",
+        "scene_prompt": "A natural full-body menswear photograph of m1tch_person on a clean downtown sidewalk just after sunrise. He wears a fitted black bomber jacket over a muted gray shirt with dark trousers, natural posture, subtle urban depth, complete hands and feet, and the texture of an unretouched editorial photograph. Frame his entire body head to toe, with both shoes fully inside the image and a clear strip of sidewalk below them.",
+        "appearance_polish": true,
+        "fast_turbo": true,
+        "seed": 8675412,
+        "scene_preset": "Custom — write your own scene"
+      }
+    }
+  }
+}

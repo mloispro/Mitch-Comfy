@@ -1,0 +1,92 @@
+{
+  "status": "PREPARED_CPU_ONLY_NO_SCORING_OR_QUEUE",
+  "scope": "Fresh pilot attribution/path routing; original Group score body unchanged",
+  "fresh_prepared_sha256": "5A9166BD335BEDB19F16FDFA5501AB8CC471DD76ADE9A9025479FA9755B4CEF4",
+  "original_score_canonical_sha256": "8527C46B90F94ACB11125EA281AAACA792C1FB2EA7B2A941206979E679DDDC65",
+  "routing": {
+    "watcher": {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\fresh_runtime_v2.py",
+      "sha256": "95FB5F60E34EE8A32064C64208336BAA3135A8A47AC00A8D593EAF738A87778C",
+      "bytes": 1732
+    },
+    "wddm_helper": {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\wddm_admission_v2.py",
+      "sha256": "6DCBB22035439DF71BC172367E6D73EAE9EB417A2AD134879B451BF0BF12D445",
+      "bytes": 7696
+    },
+    "runtime_supplement": {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\prepared-v2.json",
+      "sha256": "F0223AC4A24DE150C0B3BC168FF45A394796289128EDBDA1576F544B778A6E46",
+      "bytes": 3306
+    }
+  },
+  "pins": [
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\evaluate_fresh.py",
+      "sha256": "22CB982F07BA91EE024E4DB8BF83CA61C9C72AA5D86B2A3CEAE257D6BD784DD9",
+      "bytes": 10330
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\test_evaluate_fresh.py",
+      "sha256": "9F0B91889AE17223566A9F17AEE2D72565940F318C307295E0D0CCE4055421C2",
+      "bytes": 12720
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\EVALUATOR-README.md",
+      "sha256": "1478D94B8FE4C973188E5159AEF0B81089A19EFCBAE31DE6D7B1B8402B345A30",
+      "bytes": 3616
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\prepared.json",
+      "sha256": "5A9166BD335BEDB19F16FDFA5501AB8CC471DD76ADE9A9025479FA9755B4CEF4",
+      "bytes": 5208
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\fresh_runtime.py",
+      "sha256": "2D7C80392E35F7D5CB657121980742207ED1B2391ACA7230375A0A4ACC74A02D",
+      "bytes": 6195
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\prepared-v2.json",
+      "sha256": "F0223AC4A24DE150C0B3BC168FF45A394796289128EDBDA1576F544B778A6E46",
+      "bytes": 3306
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\fresh_runtime_v2.py",
+      "sha256": "95FB5F60E34EE8A32064C64208336BAA3135A8A47AC00A8D593EAF738A87778C",
+      "bytes": 1732
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\wddm_admission_v2.py",
+      "sha256": "6DCBB22035439DF71BC172367E6D73EAE9EB417A2AD134879B451BF0BF12D445",
+      "bytes": 7696
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\runtime-3090\\evaluate_pilot_observation.py",
+      "sha256": "89887BABB81CA100769F1E084B6CAC57B5737682C265B3DFF0B7158770507F38",
+      "bytes": 7199
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\runtime-3090\\HOOK-EVALUATOR-PREPARED.json",
+      "sha256": "0CEC2F4E14444DCD55CA6BD369E0C2D6457DA8FF7CFAB55DC15D77118F87DF07",
+      "bytes": 2739
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\runtime-3090\\HOOK-EVALUATOR-V3-PREPARED.json",
+      "sha256": "6AB1992BC0A5D72F3D3BF400F1795C93415E134754C8457EDFA5B850582F75A1",
+      "bytes": 4550
+    }
+  ],
+  "validation": {
+    "synthetic_cpu_tests": 8,
+    "python_runtimes": [
+      "3.10",
+      "3.12"
+    ],
+    "actual_image_scoring": false,
+    "live_probes": false,
+    "worker_or_gpu_actions": false
+  },
+  "output": "evaluation-pilot",
+  "default": "verify-only; actual root-confirmed prompt ID and PNG SHA required; no overwrite"
+}

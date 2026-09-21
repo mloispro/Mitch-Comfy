@@ -1,0 +1,185 @@
+{
+  "purpose": "Provenance of two ordinary-Run RTX3090 packages, not a blanket photo-quality or production-speed certification.",
+  "runtime": {
+    "gpu": "NVIDIA GeForce RTX 3090",
+    "port": 8188,
+    "dynamic_vram": "default; --disable-dynamic-vram rejected",
+    "loading_dtype": "Base9B fp8_e4m3fn, Qwen fp8mixed, full Flux2 VAE",
+    "memory_floor_gib": 12,
+    "scope": "Every model-loader branch and sampler checks worker and available RAM/commit. This floor does not guarantee arbitrary edited graphs fit; runtime validation and live scheduling are separate."
+  },
+  "historical_runtime": {
+    "gpu": "RTX4070",
+    "port": 8191,
+    "flags": [
+      "--disable-dynamic-vram"
+    ],
+    "timing_transfer_to_normal_3090": false
+  },
+  "execution_differences": [
+    "UNETLoader -> Flux2Klein9BSpeedUNETLoader, identical core load_unet call/inputs after guard.",
+    "CLIPLoader -> Flux2Klein9BSpeedCLIPLoader, identical core load_clip call/inputs after guard.",
+    "VAELoader -> Flux2Klein9BSpeedVAELoader, identical core load_vae call/inputs after guard.",
+    "SamplerCustomAdvanced -> Flux2Klein9BSpeedSampler, identical native execute call/inputs after guard; sampler always executes without invalidating upstream model caches.",
+    "SaveImage filename_prefix points to a new production-speed subtree.",
+    "No model chain/weights/precision/strength, positive or negative prompt, reference role/order/size, seed, steps, CFG, sampler, latent or output resolution changes."
+  ],
+  "ui_only_differences": [
+    "Workflow id/metadata, descriptive labels, guard colors, explanatory note; ordinary editable prompt/source/seed controls retained."
+  ],
+  "models_metadata_from_frozen_preparation": [
+    {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\diffusion_models\\flux-2-klein-base-9b-bf16.safetensors",
+      "bytes": 18157185168,
+      "write_ticks": "639235722391248168",
+      "creation_ticks": "639235711146170425"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\text_encoders\\qwen_3_8b_fp8mixed.safetensors",
+      "bytes": 8664848742,
+      "write_ticks": "639229269107295295",
+      "creation_ticks": "639229263309537035"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\vae\\flux2-vae.safetensors",
+      "bytes": 336213556,
+      "write_ticks": "639228866250641024",
+      "creation_ticks": "639228866034397528"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\loras\\flux2-klein9b-turbo\\Flux_Klein_9b_Turbo_lora_rank_256_bf16_standard.safetensors",
+      "bytes": 1386477008,
+      "write_ticks": "639239139596330137",
+      "creation_ticks": "639239138349062392",
+      "sha256": "A3BFA40E936AF059C2D0814DE8E9E5531FA0EB135087ADD22C27510685585600"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\loras\\m1tch-flux2-klein9b-identity-v3-r32-dop-step1600.safetensors",
+      "bytes": 165705488,
+      "write_ticks": "639236847864271034",
+      "creation_ticks": "639236847863879279",
+      "sha256": "D24907A84B8644A70C07611016A9D2FF8FAD2D2C761A8F97B213AE1D36088EEC"
+    },
+    {
+      "path": "C:\\projects\\AI-Tools\\ComfyUI\\models\\loras\\smartphone-snapshot\\FLUX.2-klein-base-9B_SmartphoneSnapshotPhotoReality_v13.safetensors",
+      "bytes": 43424048,
+      "write_ticks": "639239095747909747",
+      "creation_ticks": "639239095706363179",
+      "sha256": "1E0B419B1448F77CF7AEF430625325E46B16D1515CBF6C5C7E8C14D938CF1A90"
+    }
+  ],
+  "recipes": {
+    "individual": {
+      "file": "Individual - Cocktail - Tested Recipe - RTX 3090.json",
+      "package": {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\production-speed\\Individual - Cocktail - Tested Recipe - RTX 3090.json",
+        "bytes": 30907,
+        "sha256": "BF5EC01CFA6353AF44B7C3600A49253A34CD9E57258585CD9B802C68DFDBE659"
+      },
+      "source_ui": {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\9B Readiness - ACTIVE 2026-09-07\\Solo Raw Examples\\Solo - Rooftop Cocktail - PASSED SINGLE CASE - EXPERIMENT.json",
+        "bytes": 30422,
+        "sha256": "631887C32D1E9B8A732D9C546BB1620E07AD3B23F662BE0A0EACC54B543771C9"
+      },
+      "source_payload": {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\solo-six-scene-smoke\\rooftop-cocktail-city-lights-payload.json",
+        "bytes": 8374,
+        "sha256": "BFB4BE7D1A55844090AE3577BD2C79EB1A491B85AE10B287D8B5C26825D23284"
+      },
+      "execution_nodes": 31,
+      "save_node": "37",
+      "prefix": "production-speed/individual-cocktail/photo",
+      "defaults": {
+        "seed": 315982047,
+        "width": 832,
+        "height": 1216,
+        "steps": 8,
+        "cfg": 1
+      },
+      "references": [
+        {
+          "path": "C:\\projects\\AI-Tools\\ComfyUI\\input\\mitch-klein9b-ref-front-neutral-v2.jpg",
+          "bytes": 360516,
+          "sha256": "28DF2AE0D717A788370CC825F7BB24CF38DB9C7CDA3F66BAEFAB58BE86D8AF33",
+          "image": "mitch-klein9b-ref-front-neutral-v2.jpg",
+          "node": "10",
+          "role": "Picture1 genuine front identity",
+          "size": [
+            448,
+            592
+          ]
+        },
+        {
+          "path": "C:\\projects\\AI-Tools\\ComfyUI\\input\\flux2-dev-ref-04-full-body.jpg",
+          "bytes": 387949,
+          "sha256": "C5F57CC155075071F8F761356E3AD1153AA0BCE55825A52226B2A4E8A19365FC",
+          "image": "flux2-dev-ref-04-full-body.jpg",
+          "node": "20",
+          "role": "Picture2 genuine body proportions; wording not hard isolation",
+          "size": [
+            512,
+            512
+          ]
+        },
+        {
+          "path": "C:\\projects\\AI-Tools\\ComfyUI\\input\\20260508_123156.jpg",
+          "bytes": 8255050,
+          "sha256": "4B98FEB4D7929BD89F75402B85D1D86BE690D67C48212C1F4740419F9374CA6B",
+          "image": "20260508_123156.jpg",
+          "node": "40",
+          "role": "Picture3 genuine angle09 identity",
+          "size": [
+            432,
+            576
+          ]
+        }
+      ],
+      "scope": "Accepted raw Cocktail image only, not public Individual profile or all scenes. Prompt/seed/source edits create unvalidated variations.",
+      "historical_worker_seconds": 46.395,
+      "historical_result": "work/9b-readiness-resume-20260907/solo-six-scene-smoke/ROOT-RESULTS.md"
+    },
+    "upgrade": {
+      "file": "Upgrade - Source Preserve Turbo - Tested Example - RTX 3090.json",
+      "package": {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\production-speed\\Upgrade - Source Preserve Turbo - Tested Example - RTX 3090.json",
+        "bytes": 21164,
+        "sha256": "89DF115BA24C370826D60C934F992BE187EC4B936EC860098A42976A8AD978C7"
+      },
+      "source_ui": {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\9B Readiness - ACTIVE 2026-09-07\\Upgrade Preserve Genuine Source\\Upgrade - Preserve Genuine Source - TURBO8 EXPERIMENT.json",
+        "bytes": 20330,
+        "sha256": "8875E4336D26B9B56E489BBC1A650B1BCC6733AB1FD6A25E4C60C83BF088E00A"
+      },
+      "source_payload": {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\upgrade-source-faithful-turbo\\val03-turbo-payload.json",
+        "bytes": 5210,
+        "sha256": "A7CB29803734C02E5C8AE2ABCE031EB55576CAB17312EB8AA5FA3D41DFF42C18"
+      },
+      "execution_nodes": 21,
+      "save_node": "27",
+      "prefix": "production-speed/upgrade-source-preserve/photo",
+      "defaults": {
+        "seed": 8675412,
+        "width": 816,
+        "height": 1088,
+        "steps": 8,
+        "cfg": 1
+      },
+      "references": [
+        {
+          "path": "C:\\projects\\AI-Tools\\ComfyUI\\input\\mitch-upgrade-third-genuine-fef084d6.png",
+          "bytes": 967889,
+          "sha256": "4C26B56E105DAF8790AC108BF127F970522675FF39BD74CB9161724BE34D4367",
+          "image": "mitch-upgrade-third-genuine-fef084d6.png",
+          "node": "100",
+          "role": "One genuine source, native whole-image editing",
+          "scale": "bicubic1MP",
+          "exclude_from_independent_identity_scoring": "datasets/mitch-identity-stills-v3/validation/val_03_navy_upper_body.jpg"
+        }
+      ],
+      "scope": "Accepted genuine navy-shirt/closet source only. Prompt is source-specific. Another genuine source needs prompt and both dimension-node review; unvalidated until examined. Smoother skin, no extra factual background detail; not stronger High.",
+      "historical_worker_seconds": 54.063,
+      "historical_result": "work/9b-readiness-resume-20260907/upgrade-source-faithful-turbo/ROOT-RESULT.md"
+    }
+  }
+}

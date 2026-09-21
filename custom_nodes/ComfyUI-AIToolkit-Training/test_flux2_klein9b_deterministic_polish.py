@@ -1,12 +1,42 @@
 import unittest
+from unittest.mock import patch
 
 import cv2
 import numpy as np
+import torch
 
-from flux2_klein9b_deterministic_polish import _attenuate_freckles, _naturalize_hair
+from flux2_klein9b_deterministic_polish import (
+    _attenuate_freckles, _naturalize_hair, build_semantic_hair_mask,
+    HAIR_PARSER_HAIR_CLASS, POLISH_PROFILE,
+)
 
 
 class DeterministicPolishTests(unittest.TestCase):
+    def test_real_mask_entrypoint_selects_parsenet_hair_not_neck(self):
+        # Exercise the production crop/normalization/argmax/resize/closing path,
+        # not just an injected synthetic final mask in _naturalize_hair.
+        labels=torch.zeros((512,512),dtype=torch.int64)
+        labels[25:150,100:400]=13
+        labels[300:490,50:470]=17
+        logits=torch.nn.functional.one_hot(labels,num_classes=19).permute(2,0,1).unsqueeze(0).float()
+        seen=[]
+        def parser(tensor):
+            seen.append(tensor)
+            return (logits,)
+        with patch('flux2_klein9b_deterministic_polish._hair_parser',return_value=parser):
+            mask=build_semantic_hair_mask(np.zeros((512,512,3),np.uint8),[100,81,400,512])
+        self.assertEqual(tuple(seen[0].shape),(1,3,512,512))
+        self.assertTrue(torch.all(seen[0]==-1))
+        self.assertTrue(np.all(mask[25:150,100:400]==255))
+        self.assertFalse(np.any(mask[300:490,50:470]))
+        self.assertEqual(HAIR_PARSER_HAIR_CLASS,13)
+        self.assertEqual(POLISH_PROFILE,'deterministic_face_and_hair_local_v5')
+        labels[25:150,100:400]=0
+        neck_only=torch.nn.functional.one_hot(labels,num_classes=19).permute(2,0,1).unsqueeze(0).float()
+        with patch('flux2_klein9b_deterministic_polish._hair_parser',return_value=lambda _: (neck_only,)):
+            with self.assertRaisesRegex(RuntimeError,'did not detect a hair region'):
+                build_semantic_hair_mask(np.zeros((512,512,3),np.uint8),[100,81,400,512])
+
     def test_dark_dot_removal_is_local_and_preserves_unselected_texture(self):
         height = width = 128
         rgb = np.full((height, width, 3), (0.72, 0.52, 0.42), dtype=np.float32)
@@ -41,6 +71,8 @@ class DeterministicPolishTests(unittest.TestCase):
         output, alpha, report = _naturalize_hair(rgb, hair)
 
         self.assertTrue(report["highlights_follow_existing_hair_luminance"])
+        self.assertEqual(report["parser_hair_class"],13)
+        self.assertIn('neck class 17 excluded',report['parser'])
         self.assertEqual(report["hairline_and_silhouette_protected_pixels"], 8)
         self.assertGreater(report["highlight_mean_weight_in_active_hair"], 0.0)
         self.assertEqual(float(alpha[18, 64]), 0.0)

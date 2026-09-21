@@ -10,7 +10,7 @@ import numpy as np
 import torch
 
 
-POLISH_PROFILE = "deterministic_face_and_hair_local_v4"
+POLISH_PROFILE = "deterministic_face_and_hair_local_v5"
 MOUTH_CORNER_LIFT_FACE_HEIGHT = 0.009
 SKIN_TEXTURE_BLEND = 0.12
 FOREHEAD_WRINKLE_BLEND = 0.25
@@ -27,6 +27,9 @@ FRECKLE_COMPONENT_MAX_DIAMETER = 13
 FRECKLE_LOCAL_MEDIAN_DIAMETER = 7
 HAIR_PARSER_MODEL = "facedetection/parsing_parsenet.pth"
 HAIR_PARSER_SHA256 = "3D558D8D0E42C20224F13CF5A29C79EBA2D59913419F945545D8CF7B72920DE2"
+# CodeFormer ParseNet's label order differs from BiSeNet: 13=hair, 17=neck.
+# Source: facexlib/inference/inference_parsing_parsenet.py (author repository).
+HAIR_PARSER_HAIR_CLASS = 13
 HAIR_MID_FREQUENCY_GAIN = 0.42
 HAIR_MICRO_FREQUENCY_GAIN = 1.30
 HAIR_CHROMA_FREQUENCY_GAIN = 0.68
@@ -163,7 +166,7 @@ def build_semantic_hair_mask(
             .astype(np.uint8)
         )
     hair_crop = cv2.resize(
-        np.where(labels_512 == 17, 255, 0).astype(np.uint8),
+        np.where(labels_512 == HAIR_PARSER_HAIR_CLASS, 255, 0).astype(np.uint8),
         (side, side),
         interpolation=cv2.INTER_NEAREST,
     )
@@ -382,7 +385,8 @@ def _naturalize_hair(
     )
     after_micro = after_luma - cv2.GaussianBlur(after_luma, (0, 0), 0.68)
     return output, alpha, {
-        "parser": "CodeFormer ParseNet / CelebAMask-HQ hair class 17",
+        "parser": "CodeFormer ParseNet / hair class 13 (neck class 17 excluded)",
+        "parser_hair_class": HAIR_PARSER_HAIR_CLASS,
         "parser_model": HAIR_PARSER_MODEL,
         "parser_model_sha256": HAIR_PARSER_SHA256,
         "semantic_hair_pixels": int(np.count_nonzero(hair)),

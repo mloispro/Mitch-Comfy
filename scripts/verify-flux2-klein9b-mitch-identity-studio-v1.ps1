@@ -153,12 +153,12 @@ if (-not (Test-Path -LiteralPath $frozenRegistryPath -PathType Leaf)) {
         $frozenRegistry = Get-Content -Raw -LiteralPath $frozenRegistryPath | ConvertFrom-Json
         foreach ($artifact in @(
             @{ Baseline = "flux2-klein9b-mitch-identity-engine-v1"; Path = "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_mitch_identity_studio.py"; Label = "generation-locked Identity engine" },
-            @{ Baseline = "flux2-klein9b-production-workflows-v1.1"; Path = $visualWorkflowRelative; Label = "primary v1.1 Identity workflow" },
-            @{ Baseline = "flux2-klein9b-production-workflows-v1.1"; Path = $visualWrapperRelative; Label = "primary v1.1 Identity wrapper" },
-            @{ Baseline = "flux2-klein9b-production-workflows-v1.1"; Path = $scenePresetsRelative; Label = "canonical visual-preset resolver" },
-            @{ Baseline = "flux2-klein9b-production-workflows-v1.1"; Path = $visualSupportRelative; Label = "visual-preset provenance helper" },
-            @{ Baseline = "flux2-klein9b-production-workflows-v1.1"; Path = $presetManifestRelative; Label = "canonical visual-preset manifest" },
-            @{ Baseline = "flux2-klein9b-production-workflows-v1.1"; Path = $visualScriptRelative; Label = "visual-preset browser extension" }
+            @{ Baseline = "flux2-klein9b-production-gallery-st-barts-20260920"; Path = $visualWorkflowRelative; Label = "primary v1.1 Identity workflow" },
+            @{ Baseline = "flux2-klein9b-production-gallery-st-barts-20260920"; Path = $visualWrapperRelative; Label = "primary v1.1 Identity wrapper" },
+            @{ Baseline = "flux2-klein9b-production-gallery-st-barts-20260920"; Path = $scenePresetsRelative; Label = "canonical visual-preset resolver" },
+            @{ Baseline = "flux2-klein9b-production-gallery-st-barts-20260920"; Path = $visualSupportRelative; Label = "visual-preset provenance helper" },
+            @{ Baseline = "flux2-klein9b-production-gallery-st-barts-20260920"; Path = $presetManifestRelative; Label = "canonical visual-preset manifest" },
+            @{ Baseline = "flux2-klein9b-production-gallery-st-barts-20260920"; Path = $visualScriptRelative; Label = "visual-preset browser extension" }
         )) {
             Assert-FrozenArtifactHash -Registry $frozenRegistry -BaselineId $artifact.Baseline -RelativePath $artifact.Path -Label $artifact.Label
         }

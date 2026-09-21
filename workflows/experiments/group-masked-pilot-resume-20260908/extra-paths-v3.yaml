@@ -1,0 +1,3 @@
+mitch_group_fresh_guard:
+  base_path: C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-pilot-resume-20260908
+  custom_nodes: guard_nodes

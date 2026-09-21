@@ -1,0 +1,168 @@
+{
+  "captured_utc": "2026-09-08T03:43:56.2556865+00:00",
+  "top_by_working_set": [
+    {
+      "pid": 27124,
+      "parent_pid": 20208,
+      "name": "chrome.exe",
+      "created_utc": "2026-08-24T00:29:05.9722310+00:00",
+      "working_set_bytes": 1816236032,
+      "private_bytes": 1882853376,
+      "executable": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "argv_raw": "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=en-US --device-scale-factor=1.75 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=73 --time-ticks-at-unix-epoch=-1787531129189480 --launch-time-ticks=216782186 --metrics-shmem-handle=12320,i,8503197509159510176,12878384492725505523,2097152 --field-trial-handle=1880,i,11234748306953662923,17040494729891752798,262144 --variations-seed-version=20260823-030042.303000-production --pseudonymization-salt-handle=1936,i,9421054019005234492,8422815184414454395,4 --trace-process-track-uuid=3190709054715926471 --mojo-platform-channel-handle=12296 /prefetch:1"
+    },
+    {
+      "pid": 3792,
+      "parent_pid": 4,
+      "name": "Memory Compression",
+      "created_utc": "2026-08-24T00:25:49.7271960+00:00",
+      "working_set_bytes": 1580040192,
+      "private_bytes": 12976128,
+      "executable": null,
+      "argv_raw": null
+    },
+    {
+      "pid": 24776,
+      "parent_pid": 53684,
+      "name": "python.exe",
+      "created_utc": "2026-09-08T03:43:40.7547270+00:00",
+      "working_set_bytes": 1056653312,
+      "private_bytes": 3213754368,
+      "executable": "C:\\Users\\Mitch\\AppData\\Roaming\\uv\\python\\cpython-3.10-windows-x86_64-none\\python.exe",
+      "argv_raw": "\"C:\\Users\\Mitch\\AppData\\Roaming\\uv\\python\\cpython-3.10-windows-x86_64-none\\python.exe\"  \"C:\\projects\\AI-Tools\\ComfyUI\\main.py\" \"--cuda-device\" \"GPU-de12eec8-4b3d-f2ae-791c-8423a86915fd\" \"--port\" \"8191\" \"--disable-auto-launch\" \"--user-directory\" \"C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\solo-lake-natural\\worker\\user\" \"--database-url\" \"sqlite:///C:/projects/AI-Tools/Mitch-Comfy/work/9b-readiness-resume-20260907/solo-lake-natural/worker/comfyui.db\" \"--temp-directory\" \"C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\solo-lake-natural\\worker\\temp\" \"--output-directory\" \"C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\solo-lake-natural\\worker\\output\" \"--input-directory\" \"C:\\projects\\AI-Tools\\ComfyUI\\input\" \"--listen\" \"127.0.0.1\" \"--disable-dynamic-vram\""
+    },
+    {
+      "pid": 26596,
+      "parent_pid": 20208,
+      "name": "chrome.exe",
+      "created_utc": "2026-08-24T00:28:58.6961270+00:00",
+      "working_set_bytes": 903012352,
+      "private_bytes": 935698432,
+      "executable": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "argv_raw": "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --no-pre-read-main-dll --video-capture-use-gpu-memory-buffer --lang=en-US --device-scale-factor=1.75 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=70 --time-ticks-at-unix-epoch=-1787531129189480 --launch-time-ticks=209506030 --metrics-shmem-handle=6804,i,16434227371422494070,16758803246570477268,2097152 --field-trial-handle=1880,i,11234748306953662923,17040494729891752798,262144 --variations-seed-version=20260823-030042.303000-production --pseudonymization-salt-handle=1936,i,9421054019005234492,8422815184414454395,4 --trace-process-track-uuid=3190709051904800924 --mojo-platform-channel-handle=9236 /prefetch:1"
+    },
+    {
+      "pid": 17160,
+      "parent_pid": 51640,
+      "name": "ChatGPT.exe",
+      "created_utc": "2026-09-06T17:33:10.2634800+00:00",
+      "working_set_bytes": 691908608,
+      "private_bytes": 759660544,
+      "executable": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.901.6511.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+      "argv_raw": "\"C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.901.6511.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe\" --type=renderer --standard-schemes=app,codex-sandbox --service-worker-schemes=codex-sandbox --secure-schemes=app,codex-sandbox,sentry-ipc --bypasscsp-schemes=sentry-ipc --fetch-schemes=app,codex-sandbox,sentry-ipc --cors-schemes=codex-sandbox,sentry-ipc --streaming-schemes=app,codex-sandbox --owl-scoped-user-agent-additional-hosts=openai.com,chatgpt.com,chatgpt.site,chatgpt-team.site --owl-scoped-user-agent-prefix=CodexBrowser --no-pre-read-main-dll --disable-blink-features=ReplacedNormalFlowStackingInlinePaint --video-capture-use-gpu-memory-buffer --lang=en-US --device-scale-factor=1.75 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=5 --launch-time-ticks=1184897135911 --metrics-shmem-handle=4972,i,4002014152814389683,1557245694211959659,2097152 --field-trial-handle=2272,i,4542714551174644641,4414894281100759745,262144 --enable-features=ReportStuckThrottle --disable-features=DropInputEventsWhilePaintHolding,WebUIOmniboxAimPopup,WebUIOmniboxPopup --variations-seed-version --pseudonymization-salt-handle=2284,i,8151491898401021456,5945216266230834470,4 --trace-process-track-uuid=3190708990997080739 --mojo-platform-channel-handle=4800 /prefetch:1"
+    },
+    {
+      "pid": 55964,
+      "parent_pid": 51640,
+      "name": "codex.exe",
+      "created_utc": "2026-09-06T17:33:10.8669650+00:00",
+      "working_set_bytes": 624898048,
+      "private_bytes": 855719936,
+      "executable": "C:\\Users\\Mitch\\AppData\\Local\\OpenAI\\Codex\\bin\\8e5b6932251c2c1c\\codex.exe",
+      "argv_raw": "C:\\Users\\Mitch\\AppData\\Local\\OpenAI\\Codex\\bin\\8e5b6932251c2c1c\\codex.exe -c features.code_mode_host=true app-server --analytics-default-enabled -c \"mcp_servers.codex_app={\\\"command\\\"=\\\"cmd.exe\\\",\\\"args\\\"=[\\\"/d\\\",\\\"/s\\\",\\\"/c\\\",\\\"call\\\",\\\"./scripts/launch_codex_app_tools_mcp.cmd\\\",\\\"./server.mjs\\\"],\\\"cwd\\\"=\\\"C:\\\\Program Files\\\\WindowsApps\\\\OpenAI.Codex_26.901.6511.0_x64__2p2nqsd0c76g0\\\\app\\\\resources\\\\plugins\\\\openai-bundled\\\\plugins\\\\codex-app-tools\\\",\\\"enabled\\\"=true,\\\"default_tools_approval_mode\\\"=\\\"approve\\\",\\\"tools\\\"={\\\"automation_update\\\"={\\\"approval_mode\\\"=\\\"prompt\\\"},\\\"create_thread\\\"={\\\"approval_mode\\\"=\\\"prompt\\\"},\\\"send_message_to_thread\\\"={\\\"approval_mode\\\"=\\\"prompt\\\"},\\\"fork_thread\\\"={\\\"approval_mode\\\"=\\\"prompt\\\"},\\\"handoff_thread\\\"={\\\"approval_mode\\\"=\\\"prompt\\\"}},\\\"env_vars\\\"=[\\\"CODEX_APP_TOOLS_PIPE_PATH\\\",\\\"CODEX_MCP_NODE_PATH\\\",\\\"CODEX_BROWSER_USE_NODE_PATH\\\",\\\"CODEX_ELECTRON_RESOURCES_PATH\\\",\\\"CODEX_CLI_PATH\\\",\\\"XDG_CACHE_HOME\\\",\\\"HOME\\\",\\\"USERPROFILE\\\",\\\"LOCALAPPDATA\\\",\\\"PATH\\\"],\\\"startup_timeout_sec\\\"=10,\\\"tool_timeout_sec\\\"=3600,\\\"omit_tools_from\\\"=[\\\"deferred\\\"],\\\"env\\\"={\\\"CODEX_APP_TOOLS_PIPE_PATH\\\"=\\\"\\\\\\\\.\\\\pipe\\\\codex-browser-use-9a66404c-e5ad-4c43-be05-f7b4ce1c7c6b\\\",\\\"CODEX_MCP_NODE_PATH\\\"=\\\"C:\\\\Users\\\\Mitch\\\\AppData\\\\Local\\\\OpenAI\\\\Codex\\\\runtimes\\\\cua_node\\\\b474a88d5d105afa\\\\bin\\\\node.exe\\\"}}\""
+    },
+    {
+      "pid": 6596,
+      "parent_pid": 2012,
+      "name": "MsMpEng.exe",
+      "created_utc": "2026-09-03T00:35:59.7300020+00:00",
+      "working_set_bytes": 511434752,
+      "private_bytes": 525193216,
+      "executable": null,
+      "argv_raw": null
+    },
+    {
+      "pid": 9880,
+      "parent_pid": 9816,
+      "name": "explorer.exe",
+      "created_utc": "2026-08-24T00:25:51.4495840+00:00",
+      "working_set_bytes": 445820928,
+      "private_bytes": 824786944,
+      "executable": "C:\\WINDOWS\\Explorer.EXE",
+      "argv_raw": "C:\\WINDOWS\\Explorer.EXE"
+    },
+    {
+      "pid": 2280,
+      "parent_pid": 1936,
+      "name": "dwm.exe",
+      "created_utc": "2026-08-24T00:25:49.5343210+00:00",
+      "working_set_bytes": 420188160,
+      "private_bytes": 511062016,
+      "executable": null,
+      "argv_raw": null
+    },
+    {
+      "pid": 20208,
+      "parent_pid": 19604,
+      "name": "chrome.exe",
+      "created_utc": "2026-08-24T00:28:19.8718080+00:00",
+      "working_set_bytes": 382095360,
+      "private_bytes": 386080768,
+      "executable": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "argv_raw": "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --flag-switches-begin --flag-switches-end"
+    }
+  ],
+  "python_and_experimental": [
+    {
+      "pid": 26744,
+      "parent_pid": 58132,
+      "name": "python.exe",
+      "created_utc": "2026-09-06T18:44:35.0143640+00:00",
+      "working_set_bytes": 5500928,
+      "private_bytes": 897024,
+      "executable": "C:\\projects\\AI-Tools\\ComfyUI\\.venv\\Scripts\\python.exe",
+      "argv_raw": "\"C:\\projects\\AI-Tools\\ComfyUI\\.venv\\Scripts\\python.exe\" C:\\projects\\AI-Tools\\ComfyUI\\main.py --cuda-device GPU-c2ca4516-2c9f-e87b-3a20-f459947ddb17 --port 8188 --disable-auto-launch"
+    },
+    {
+      "pid": 52720,
+      "parent_pid": 26744,
+      "name": "python.exe",
+      "created_utc": "2026-09-06T18:44:36.0500870+00:00",
+      "working_set_bytes": 91611136,
+      "private_bytes": 6019944448,
+      "executable": "C:\\Users\\Mitch\\AppData\\Roaming\\uv\\python\\cpython-3.10-windows-x86_64-none\\python.exe",
+      "argv_raw": "\"C:\\Users\\Mitch\\AppData\\Roaming\\uv\\python\\cpython-3.10-windows-x86_64-none\\python.exe\"  C:\\projects\\AI-Tools\\ComfyUI\\main.py --cuda-device GPU-c2ca4516-2c9f-e87b-3a20-f459947ddb17 --port 8188 --disable-auto-launch"
+    },
+    {
+      "pid": 7452,
+      "parent_pid": 58132,
+      "name": "python.exe",
+      "created_utc": "2026-09-06T18:44:38.0361390+00:00",
+      "working_set_bytes": 5513216,
+      "private_bytes": 897024,
+      "executable": "C:\\projects\\AI-Tools\\ComfyUI\\.venv\\Scripts\\python.exe",
+      "argv_raw": "\"C:\\projects\\AI-Tools\\ComfyUI\\.venv\\Scripts\\python.exe\" C:\\projects\\AI-Tools\\ComfyUI\\main.py --cuda-device GPU-de12eec8-4b3d-f2ae-791c-8423a86915fd --port 8189 --disable-auto-launch --user-directory C:\\projects\\AI-Tools\\ComfyUI\\user-4070 --database-url sqlite:///C:/projects/AI-Tools/ComfyUI/user-4070/comfyui.db --temp-directory C:\\projects\\AI-Tools\\ComfyUI\\temp\\gpu-4070 --output-directory C:\\projects\\AI-Tools\\ComfyUI\\output\\gpu-4070"
+    },
+    {
+      "pid": 19552,
+      "parent_pid": 7452,
+      "name": "python.exe",
+      "created_utc": "2026-09-06T18:44:38.0657130+00:00",
+      "working_set_bytes": 226643968,
+      "private_bytes": 4650741760,
+      "executable": "C:\\Users\\Mitch\\AppData\\Roaming\\uv\\python\\cpython-3.10-windows-x86_64-none\\python.exe",
+      "argv_raw": "\"C:\\Users\\Mitch\\AppData\\Roaming\\uv\\python\\cpython-3.10-windows-x86_64-none\\python.exe\"  C:\\projects\\AI-Tools\\ComfyUI\\main.py --cuda-device GPU-de12eec8-4b3d-f2ae-791c-8423a86915fd --port 8189 --disable-auto-launch --user-directory C:\\projects\\AI-Tools\\ComfyUI\\user-4070 --database-url sqlite:///C:/projects/AI-Tools/ComfyUI/user-4070/comfyui.db --temp-directory C:\\projects\\AI-Tools\\ComfyUI\\temp\\gpu-4070 --output-directory C:\\projects\\AI-Tools\\ComfyUI\\output\\gpu-4070"
+    },
+    {
+      "pid": 53684,
+      "parent_pid": 36148,
+      "name": "python.exe",
+      "created_utc": "2026-09-08T03:43:40.7224760+00:00",
+      "working_set_bytes": 5996544,
+      "private_bytes": 1024000,
+      "executable": "C:\\projects\\AI-Tools\\ComfyUI\\.venv\\Scripts\\python.exe",
+      "argv_raw": "\"C:\\projects\\AI-Tools\\ComfyUI\\.venv\\Scripts\\python.exe\" \"C:\\projects\\AI-Tools\\ComfyUI\\main.py\" \"--cuda-device\" \"GPU-de12eec8-4b3d-f2ae-791c-8423a86915fd\" \"--port\" \"8191\" \"--disable-auto-launch\" \"--user-directory\" \"C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\solo-lake-natural\\worker\\user\" \"--database-url\" \"sqlite:///C:/projects/AI-Tools/Mitch-Comfy/work/9b-readiness-resume-20260907/solo-lake-natural/worker/comfyui.db\" \"--temp-directory\" \"C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\solo-lake-natural\\worker\\temp\" \"--output-directory\" \"C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\solo-lake-natural\\worker\\output\" \"--input-directory\" \"C:\\projects\\AI-Tools\\ComfyUI\\input\" \"--listen\" \"127.0.0.1\" \"--disable-dynamic-vram\""
+    },
+    {
+      "pid": 24776,
+      "parent_pid": 53684,
+      "name": "python.exe",
+      "created_utc": "2026-09-08T03:43:40.7547270+00:00",
+      "working_set_bytes": 1056653312,
+      "private_bytes": 3213754368,
+      "executable": "C:\\Users\\Mitch\\AppData\\Roaming\\uv\\python\\cpython-3.10-windows-x86_64-none\\python.exe",
+      "argv_raw": "\"C:\\Users\\Mitch\\AppData\\Roaming\\uv\\python\\cpython-3.10-windows-x86_64-none\\python.exe\"  \"C:\\projects\\AI-Tools\\ComfyUI\\main.py\" \"--cuda-device\" \"GPU-de12eec8-4b3d-f2ae-791c-8423a86915fd\" \"--port\" \"8191\" \"--disable-auto-launch\" \"--user-directory\" \"C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\solo-lake-natural\\worker\\user\" \"--database-url\" \"sqlite:///C:/projects/AI-Tools/Mitch-Comfy/work/9b-readiness-resume-20260907/solo-lake-natural/worker/comfyui.db\" \"--temp-directory\" \"C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\solo-lake-natural\\worker\\temp\" \"--output-directory\" \"C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\solo-lake-natural\\worker\\output\" \"--input-directory\" \"C:\\projects\\AI-Tools\\ComfyUI\\input\" \"--listen\" \"127.0.0.1\" \"--disable-dynamic-vram\""
+    }
+  ],
+  "limitations": "Working-set totals are not additive unique RAM and private bytes are commit, not resident RAM. No PID is authorized for termination. Missing protected metadata remains null."
+}

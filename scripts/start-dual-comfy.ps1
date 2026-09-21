@@ -7,6 +7,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $PSScriptRoot
+. (Join-Path $PSScriptRoot 'comfy-workflow-library.ps1')
 $PythonPath = Join-Path $ComfyRoot ".venv\Scripts\python.exe"
 $MainPath = Join-Path $ComfyRoot "main.py"
 $RuntimeRoot = Join-Path $RepoRoot "local\dual-comfy"
@@ -84,20 +85,9 @@ New-Item -ItemType Directory -Path $secondaryWorkflowParent -Force | Out-Null
 New-Item -ItemType Directory -Path (Join-Path $ComfyRoot "temp\gpu-4070") -Force | Out-Null
 New-Item -ItemType Directory -Path (Join-Path $ComfyRoot "output\gpu-4070") -Force | Out-Null
 
-if (-not (Test-Path -LiteralPath $secondaryWorkflowLink)) {
-    New-Item -ItemType Junction -Path $secondaryWorkflowLink -Target (Join-Path $RepoRoot "workflows") | Out-Null
-}
-else {
-    $workflowLinkItem = Get-Item -LiteralPath $secondaryWorkflowLink -Force
-    if (-not ($workflowLinkItem.Attributes -band [IO.FileAttributes]::ReparsePoint)) {
-        throw "The secondary workflow path exists but is not a junction: $secondaryWorkflowLink"
-    }
-    $resolvedWorkflowTarget = (Resolve-Path -LiteralPath @($workflowLinkItem.Target)[0]).Path
-    $expectedWorkflowTarget = (Resolve-Path -LiteralPath (Join-Path $RepoRoot "workflows")).Path
-    if ($resolvedWorkflowTarget -ne $expectedWorkflowTarget) {
-        throw "The secondary workflow junction points to '$resolvedWorkflowTarget', not '$expectedWorkflowTarget'."
-    }
-}
+$WorkflowLibrary = Initialize-ComfyWorkflowLibrary -RepoRoot $RepoRoot
+Ensure-ComfyWorkflowEntry -Path (Join-Path $ComfyRoot 'user\default\workflows\Mitch') -LibraryRoot $WorkflowLibrary
+Ensure-ComfyWorkflowEntry -Path $secondaryWorkflowLink -LibraryRoot $WorkflowLibrary
 
 $startedWorkers = [System.Collections.Generic.List[object]]::new()
 $stamp = Get-Date -Format "yyyyMMdd-HHmmss"

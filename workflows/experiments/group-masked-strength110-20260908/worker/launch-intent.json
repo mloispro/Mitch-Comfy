@@ -1,0 +1,32 @@
+{
+  "python": "C:\\projects\\AI-Tools\\ComfyUI\\.venv\\Scripts\\python.exe",
+  "utc": "2026-09-08T06:38:25.3917574Z",
+  "exclusive_window_acknowledged": true,
+  "argv": [
+    "C:\\projects\\AI-Tools\\ComfyUI\\main.py",
+    "--cuda-device",
+    "GPU-c2ca4516-2c9f-e87b-3a20-f459947ddb17",
+    "--port",
+    "8191",
+    "--disable-auto-launch",
+    "--user-directory",
+    "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\worker\\user",
+    "--database-url",
+    "sqlite:///C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-strength110-20260908/worker/comfyui.db",
+    "--temp-directory",
+    "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\worker\\temp",
+    "--output-directory",
+    "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\worker\\output",
+    "--input-directory",
+    "C:\\projects\\AI-Tools\\ComfyUI\\input",
+    "--listen",
+    "127.0.0.1",
+    "--disable-dynamic-vram",
+    "--cache-none",
+    "--reserve-vram",
+    "5.2",
+    "--extra-model-paths-config",
+    "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\extra-paths-v3.yaml"
+  ],
+  "status": "launch_intent_not_a_ready_worker"
+}

@@ -1,171 +1,120 @@
-# Current workflow and model status
+# Current project status
 
-Last audited: **2026-09-03**
+Documentation audit: **September 9, 2026**; bounded boat-pose correction **September 20, 2026**. This page reconciles saved code and completed
+reports through September 8, the September 9 Group cache release and all three matched pairs,
+and the subsequent three-route [Production Speed rollout](../work/production-speed-rollout/RESULTS.md).
+The linked rollout contains fresh normal-worker runs and image reviews; this page is not a live GPU/queue snapshot. Start development at
+[START-HERE](START-HERE.md); use [HOW-TO](HOW-TO.md) for operation.
 
-This file is the canonical current-state inventory. Workflow JSON, the linked custom-node code, and the
-verification scripts are the implementation authority. Dated evaluation reports and checkpoint manifests are
-historical evidence; words such as “current,” “production,” or “selected” inside those reports describe the
-decision at that time unless their status banner says otherwise.
+## What is established
 
-Fresh shipped-default runs of Identity v1.1, Group v1.1, and native Upgrade all passed on 2026-09-03. The exact
-prompt IDs, output hashes, six-genuine-reference scores, leakage results, structure diagnostic, report invariants,
-and visual checks are recorded in `docs/flux2-klein9b-production-revalidation-2026-09-03.md`. The frozen registry
-tracks the three internal generation engines separately from the public v1.1 workflow surface.
+- Six workflow JSON files are present under [production](../workflows/production): four photo
+  routes and two dataset/training utilities. Their presence is not proof that every scene/mode passes.
+- Three separate [Production Speed](production-speed.md) workflows are now available in
+  `Mitch/production-speed`: Individual Cocktail, Upgrade Source Preserve Turbo and Group Lounge.
+  Each completed an actual normal Comfy Run on3090/8188; exact image acceptance and timing are
+  recorded in the rollout. These are bounded recipes, not general approval of every input/preset.
+- The Klein public workflows are explicitly **RTX 3090 locked** (normal endpoint 8188).
+  Port 8189 is the normal 4070 endpoint. Qualified ordinary-node experiments used separately
+  owned workers; those results do not remove production locks.
+- The full 9B suite is **not proven ready**. Solo has bounded successes and failures;
+  Group identity/bystander/source-preservation issues remain; useful stronger High is unproven.
+- Generation engines and all six production JSON files are unchanged. The September 19
+  boat gallery update replaces the Italian lake label/prompt/preview with **St. Barts yacht — Caribbean escape**;
+  its FULL BODY reference profile is unchanged. Selecting it sets appearance off; the September 20 text/preview
+  restores the original forward lean and both rail grips. [The current composite](../work/st-barts-exact-foreground-20260920/RESULT.md)
+  directly preserves original foreground pixels after the native edit remained approximate. The gallery itself remains text-only, with qualified
+  sunglasses likeness rather than full identity acceptance. Group
+  received tested default-no-op extension hooks for its separate accelerator. Experiments are
+  hidden from the curated library but preserved at their original paths; all235 original
+  production/experiment files passed the final byte-for-byte check.
 
-The subsequent reuse review kept all three workflows separate and hardened only shared, non-generative plumbing:
-manifest/path/hash validation, exact frontend/backend manifest parity, prepared-source geometry resolution, maintenance
-checks, GPU-service preflight, reporting, and the specialized verifiers. The generation recipes and shipped defaults
-were not changed. Rationale, exact conditioning roles, upstream references, and deferred v2 performance experiments
-are recorded in `docs/flux2-klein9b-reuse-hardening-2026-09-03.md`.
+## Public workflows and saved behavior
 
-The duplicate Identity and Group v1 sheets were then removed, Upgrade was promoted to a direct v1.1 public alias,
-and the old v1 node names were removed from the public node registry. Fresh default runs through all three cleaned
-v1.1 entries passed identity, leakage/duplication, structure, report, and full-size/thumbnail visual review. Identity
-was pixel-identical to its prior accepted default; Upgrade's raw, final, and guide decoded hashes were exact; Group
-kept identical inputs and guide with only `0.3196 / 255` mean CUDA/VAE variation. Exact evidence is in
-`docs/flux2-klein9b-v1.1-production-cleanup-2026-09-03.md`.
+| Workflow | Saved recipe / role | Qualification |
+| --- | --- | --- |
+| Klein 9B Mitch Identity Studio v1.1 - Visual Presets | New whole-frame generation; Base9B + V3 step1600 identity .90 + native genuine refs + Phone v13 .25; 832x1216; Turbo8/CFG1 and appearance on by default; quality fallback 50/CFG4 | Scene-specific results vary. Raw successes do not establish actual public/profile/mode parity |
+| Klein 9B Mitch Group Scene Studio v1.1 - Visual Presets | Source-matched layout using face-free Canny first reference and genuine identity second; Base9B + V3 .90 + Phone .25; 832x1216; 50/CFG4, Turbo and appearance off by default | Historical production acceptance remains historical. Later Group tests do not establish general readiness; masked refinements were rejected |
+| Klein 9B - Upgrade Photo Detail & Realism v1.1 | One-face source; four ordered native references; 50/CFG4, Low default, Phone on, no Turbo; Low v5 hair-label repair | Public source fidelity and stronger High are not established across all required sources/modes. Different from the source-preserving ordinary-node experiments |
+| FLUX.2 Dev LoRA - 9 Dating Scenes v1 | Dev V2 step1000 LoRA; saved defaults strength1.1, 28 Euler steps, guidance4; specialty restage route | Keep its own recipe/acceptance; do not generalize Klein results to Dev |
+| Dataset gen - QWEN 2511 - 3-photo | Generated dataset utility | Synthetic images cannot become genuine identity evaluation truth |
+| Train Generated Dataset - AI Toolkit | Training utility | Job completion is not photo acceptance or permission for new character training |
 
-## Visible Production workflows
+Exact filenames and node wiring are indexed in [CODE-INDEX](generated/CODE-INDEX.md).
+Model/reference paths, roles and shared code are in [ARCHITECTURE](ARCHITECTURE.md).
 
-| Workflow | Current role | Identity mechanism | Worker |
-| --- | --- | --- | --- |
-| `FLUX.2 Klein 9B Mitch Identity Studio v1.1 - Visual Presets` | **Default** new solo/full-body/lifestyle workflow; clickable scene gallery | Generation-locked internal engine: Klein Base 9B + protected V3 step-1600 identity LoRA + genuine native references + smartphone-realism LoRA at `0.25` | RTX 3090, port `8188` |
-| `FLUX.2 Klein 9B Mitch Group Scene Studio v1.1 - Visual Presets` | **Default** source-matched group workflow; clickable layout gallery | Generation-locked internal group engine: face-interior-free Canny layout + protected V3 step-1600 identity LoRA + separate genuine identity photograph + smartphone-realism LoRA at `0.25` | RTX 3090, port `8188` |
-| `FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1.1` | One-person upgrade; handsome polish and phone style on by default | Direct v1.1 alias to the unchanged generation-locked engine: four ordered native references + V3 step-1600 identity LoRA; deterministic face/iris/hair polish; accepted Smartphone v13 deep-focus default at `0.25`; optional edge-safe phone-off background finish | RTX 3090, port `8188` |
-| `FLUX.2 Dev LoRA - 9 Dating Scenes v1` | Validated specialty workflow for the nine dating-scene templates or controlled scene restaging | FLUX.2 Dev + protected Dev V2 step-1000 LoRA; optional scene image is composition conditioning, not identity | RTX 3090 |
-| `Dataset gen - QWEN 2511 - 3-photo` | Dataset-generation utility | Qwen Image Edit 2511 Lightning + multiple-angle LoRA | Local ComfyUI |
-| `Train Generated Dataset - AI Toolkit` | Training submission/monitoring utility | AI-Toolkit durable job queue | Local AI-Toolkit |
+## Latest completed evidence
 
-The first four create or edit photographs. The last two are utilities and are not evidence that a generated
-dataset or newly trained adapter is approved.
+| Area | Current conclusion | Source |
+| --- | --- | --- |
+| Solo | All 14 original named scene prompts have bounded observations with differing qualifications. Downtown/Kitchen include holdouts; cocktail/restaurant/canyon and several others have one-image passes; other cases fail or remain uncertain. The newer boat replacement is recorded separately below | [Finite coverage](../work/9b-readiness-resume-20260907/COVERAGE-MATRIX.md) |
+| Boat original pose | Repeated request required direct preservation. Current composite copies original person interior and whole frame from y760 down with zero RGB error, retaining hands, legs, rails and boat. Caribbean background only; narrow silhouette/water blending. Final .5380/.4211 near_match versus original .5443/.4310. Gallery remains illustrative; earlier native Quality50 is approximate | [Exact foreground, verification and final image](../work/st-barts-exact-foreground-20260920/RESULT.md) |
+| Actual public cocktail | Likeness diagnostics passed; exposed teeth and gaze failed visual review. The raw passing cocktail is not public-parity proof | [Completed public result](../work/9b-readiness-resume-20260907/public-cocktail-parity/ROOT-RESULT.md) |
+| Group masked pilot | Runtime completed; reduced bystander similarity but failed main likeness and partial fifth-person preservation | [0.90 result](../workflows/experiments/group-masked-pilot-resume-20260908/ROOT-RESULT.md) |
+| Group sole strength refinement | 1.10 improved centroid to .5557 but weakest genuine comparison .4005 and partial-person preservation still failed; rejected, no further strength grid | [1.10 result](../workflows/experiments/group-masked-strength110-20260908/ROOT-RESULT.md) |
+| Production Speed integration | All three normal Run-button jobs completed: Cocktail24.829s, source-preserving Upgrade18.668s and Lounge209.141s. These are single integration observations, not new matched speed gains. See the release for separate visual/likeness acceptance | [Rollout results](../work/production-speed-rollout/RESULTS.md), [operating guide](production-speed.md) |
+| Group Lounge acceleration | Three matched 3090 pairs took 24.5–26.2% less worker time, about 4m32s to 3m24s. Now also installed as a separate normal-worker Speed workflow; its new image exactly matches the accepted cached seed. Small clothing details can change versus uncached. No improved-identity or general-scene claim | [Matched results](../work/group-cache-20260909/RESULTS.md), [normal-worker rollout](../work/production-speed-rollout/RESULTS.md) |
+| Source-preserving Upgrade QUALITY50 | One genuine-photo pass; .817792 centroid versus source .825853; 322.387 seconds on isolated4070. Source excluded from the five-reference comparison | [Quality result](../work/9b-readiness-resume-20260907/upgrade-source-faithful-option/ROOT-RESULT.md) |
+| Source-preserving Upgrade TURBO8 | Qualified fast option on the same case; .804167 centroid, 54.063 seconds, visibly smoother/less detailed skin. About6x in one pair, not stable median performance | [Turbo result](../work/9b-readiness-resume-20260907/upgrade-source-faithful-turbo/ROOT-RESULT.md) |
+| Stronger High | Remains unproven. Native prompt/strength, BeautyGRPO/Kontext, PixelSmile, restoration/shape and LaTo outcomes remain limited/rejected for their tested scope | [September 7 results](upgrade-high-resume-2026-09-07.md), [explicit-feature result](upgrade-high-explicit-features-2026-09-07.md), [decision index](DECISIONS.md#upgrade) |
+| Evaluation efficiency | Within-run raw-face reuse is integrated in the existing likeness CLI: median 5.619→4.942s across three six-reference pairs; separate source-excluded pair also passed. Raw records and reports match exactly. Broader cross-tool sharing and specialized Group evaluation are unchanged | [New measurement](../work/face-likeness-cache-20260909/results.json), [scorer](../scripts/evaluate-face-likeness.py), [earlier broader replay](../work/9b-readiness-20260903/evaluation/feature-reuse-coverage/RESULTS.md) |
 
-## Installed LoRAs to keep
+The source-preserving Quality/Turbo and raw cocktail experiment files were imported/exported against
+their executed API graphs: [UI verification](<../workflows/experiments/9B Readiness - ACTIVE 2026-09-07/UI-BROWSER-VERIFIED.md>).
+This established historical file usability; the later Production Speed rollout separately
+packages and checks Cocktail and source-preserving Turbo on the normal3090 worker. It does not validate new inputs.
+Some frozen experiment READMEs predate that browser check; the linked UI verification records the
+later completion without rewriting their historical preparation notes.
 
-Ten LoRA files are currently retained:
+The available handoffs already exist: [Solo raw example](<../workflows/experiments/9B Readiness - ACTIVE 2026-09-07/Solo Raw Examples/README.md>),
+[Upgrade Quality](<../workflows/experiments/9B Readiness - ACTIVE 2026-09-07/Upgrade Preserve Genuine Source/README.md>),
+[Upgrade Turbo](<../workflows/experiments/9B Readiness - ACTIVE 2026-09-07/Upgrade Preserve Genuine Source/README_TURBO.md>),
+and [Group Lounge cache](<../workflows/experiments/Group Quality Cache - 2026-09-09/README.md>).
+Those historical handoffs keep their exact input, worker and recipe limits. For ordinary Comfy
+operation use the new [Production Speed guide](production-speed.md); the old files remain preserved.
 
-| LoRA | Current reason to keep |
-| --- | --- |
-| `m1tch-flux2-klein9b-identity-v3-r32-dop-step1600.safetensors` | Current Klein 9B Identity, Group, and Upgrade workflows |
-| `smartphone-snapshot\FLUX.2-klein-base-9B_SmartphoneSnapshotPhotoReality_v13.safetensors` | Accepted subtle realism layer for Identity and Group; visually accepted deep-focus default in Upgrade, with its automated tradeoffs documented |
-| `flux2-klein9b-turbo\Flux_Klein_9b_Turbo_lora_rank_256_bf16_standard.safetensors` | Validated default 8-step acceleration for Identity Studio and optional speed experiment in Group; rejected for Upgrade quality |
-| `flux2-dev-identity-v2-candidates\m1tch-flux2-dev-identity-v2-s1000.safetensors` | Current FLUX.2 Dev dating-scenes workflow |
-| `aitk\m1tch-flux2-klein-4b-identity-v1-best.safetensors` | Accepted One Reference/Easy Social rollback |
-| `aitk\m1tch-flux2-klein-4b-identity-v3-portrait-profile.safetensors` | Validated Klein 4B portrait/profile specialty adapter |
-| `Qwen-Image-Edit-2511-Lightning-4steps-V1.0-bf16.safetensors` | Qwen dataset utility |
-| `qwen-image-edit-2511-multiple-angles-lora.safetensors` | Qwen dataset utility |
-| `krea2_identity_edit_v1_2.safetensors` | Archived no-character-LoRA Krea2 fallback |
-| `krea-smartphone-photo-slider.safetensors` | Archived Krea2 fallback camera appearance |
+## Unresolved work and constraints
 
-Protected custom LoRA hashes:
+The September 21 [cleanup checkpoint](CLEANUP.md) retains every unresolved route and
+all model weights. Full hashes identify 61.638 GiB of duplicate download copies, but
+their path dependencies remain a separate removal gate. The next bounded development
+step is a Solo public-versus-accepted-recipe source comparison; Upgrade generalization,
+stronger High and broader Group remain unproven. The checkpoint also reconciles the
+already published St. Barts gallery pins while preserving the old baseline hashes.
+No experiment, training, upload or deletion was started by this maintenance.
 
-- Klein 9B V3 step 1600: `D24907A84B8644A70C07611016A9D2FF8FAD2D2C761A8F97B213AE1D36088EEC`
-- Smartphone Snapshot Photo Reality v13: `1E0B419B1448F77CF7AEF430625325E46B16D1515CBF6C5C7E8C14D938CF1A90`
-- Klein Base 9B rank-256 BF16 Turbo: `A3BFA40E936AF059C2D0814DE8E9E5531FA0EB135087ADD22C27510685585600`
-- FLUX.2 Dev V2 step 1000: `7C0C4F1726189C51E19C8392C12FE3E03A26BD084FFFB8D84B907C966A77CC3E`
-- Klein 4B V1 best: `8A7D1477914D0A5262BF219F71F303418130449841CF220226B4E979D7232F87`
-- Klein 4B V3 portrait/profile: `C43D7C1FCA404A8B316A9D0C8756E140033E4763532628F62FACC791F0B8A149`
+The September 9 [Group acceleration package](../work/group-cache-20260909/RESULTS.md) is complete
+for its tested Lounge scope. Its [replay instructions](../work/group-cache-20260909/README-REPLAY.md)
+use a separately started private 3090 worker on8191. They are historical replay instructions;
+the new Production Speed Lounge workflow runs through ordinary3090/8188 without that worker.
+Neither changes the original production card or adds a production toggle.
+The release records all three runtime/quality/visual checks. Do not queue its completed confirmation
+pairs again as unfinished work. New seeds remain unvalidated and other scenes/settings are unsupported
+by that handoff. Saved cleanup evidence is not current GPU/queue state.
 
-All four Mitch-trained keepers are also versioned through Git LFS under `checkpoints/loras/mitch`. The Qwen and
-Krea2 files are third-party dependencies and remain installation-only.
+The stronger-High stream's September 7 pause is preserved in its
+[pause note](<../workflows/experiments/Upgrade High - PAUSED 2026-09-07/README.md>).
+The separate readiness stream has later completed evidence. Folder names such as ACTIVE/PAUSED
+are historical labels; use latest user instructions and actual results for the specific stream.
 
-See `docs/lora-cleanup-2026-09-01.md` for the removed families and disk totals.
+The preserved constraint is **no new character LoRA training**. The
+[corrected training reassessment](../work/9b-readiness-20260903/REASSESSMENT-20260904.md)
+records that the surf and sleeveless mirror examples are not clean head-to-toe photographs.
+The older photo audit's description of the surf framing is superseded. Missing coverage is a
+future hypothesis, not a training authorization or a proven sole cause.
+The rollout used installed models and three authorized integration images; no downloads, uploads,
+purchases or training were performed. Further experiments require their own authorization.
 
-## Archived and rejected routes
+## Models, verification and historical evidence
 
-The following are not normal-use Production workflows:
+- [Protected baseline registry](../config/frozen-baselines.json): active and superseded artifact records;
+  do not rewrite old hashes to make a new implementation pass.
+- [LoRA keep/delete record](lora-cleanup-2026-09-01.md): protected identity adapters and historical cleanup.
+- [Recorded dependencies](../config/dependencies.lock.json): historical versions, not current runtime discovery.
+- [Testing map](TESTING.md): select checks appropriate to the changed component; image acceptance remains separate.
+- [Decision history](DECISIONS.md) and [optimization priorities](OPTIMIZATION.md): avoid repeating failed approaches.
+- [Previous STATUS, preserved byte-for-byte](STATUS-history-before-doc-rebuild-2026-09-09.md): detailed older updates
+  and their original relative links. Its multiple “latest”/pause/resume statements are historical.
 
-- Easy Social Photos and One Reference Photo are exact, recoverable 4B rollbacks under
-  `checkpoints/legacy-workflows/production`.
-- Krea2 Identity Edit/Identity Anchor graphs are archived fallbacks, not the current primary workflow.
-- ReActor, masked host replacement, native no-LoRA, HiDream-O1, InfiniteYou, Z-Image identity training,
-  non-selected 9B LoRA versions, and Krea2 character-LoRA experiments remain historical evidence only.
-- Retired launchers, configs, and templates are under `checkpoints/legacy-scripts` and must not be run in place.
-- Failed or superseded LoRA weights were deleted. A historical report saying a rejected weight “remains
-  preserved” is superseded by the 2026-09-01 cleanup record.
-
-## Acceptance rules that still apply
-
-- The v1.1 Identity and Group galleries are thin interfaces over unchanged generation-locked internal engines. Their labels,
-  prompts, thumbnails, recommended identity profiles, group source assets, and target geometry come from the single
-  canonical `web/assets/scene-presets/manifest.json`. Prepared Identity presets enforce their recorded reference
-  profile on the backend; custom prompts retain the user's explicit profile selection.
-- The three Klein 9B production workflows expose a `Visible flattering enhancement` prompt-conditioning toggle.
-  Identity Studio and Upgrade open with it enabled. Group Scene opens in the separately validated identity-first
-  natural-appearance mode; its optional enabled clause is short and rendering-only. The toggle never switches models
-  or references.
-- Identity Studio and Group Scene automatically load Smartphone Snapshot Photo Reality v13 after the identity LoRA at
-  strength `0.25` and prepend its trained `casual snapshot` trigger. It is third when Turbo is active. Upgrade loads it
-  by default when `Phone-camera realism` is on; its optional phone-off path uses the separate natural-lens background finish. The
-  isolated same-seed 4070 A/B improved
-  held-out identity centroid from `0.7891` to `0.8100` and weakest-view similarity from `0.6711` to `0.7029`, with
-  a subtle realism gain and no visual hair or sharpening regression. This layer is independent of the appearance toggle.
-- Identity Studio and Group Scene expose the reversible Fast Turbo control. Identity Studio opens with its validated
-  8-step / CFG `1.0` route; Group defaults it off because selected-main identity fell `0.5958 → 0.5672`. Upgrade does
-  not expose Turbo: its clean phone-style-off retest was `9.54×` faster, but polished identity fell `0.7662 → 0.6958`,
-  yaw moved `+1.6934°`, and background micro-luma detail fell `11.9536 → 4.5229`. Evidence is under
-  `work/flux2-klein9b-upgrade-safe-polish-20260902/clean-turbo-ab`.
-- The current Upgrade acceptance run uses the restored four-reference 50-step whole-frame path and deterministic v4
-  face/hair-interior polish. Sparse local-median dot removal reduced fixed-threshold dark facial dots `35.9%` versus v3,
-  while existing-luminance-guided hair highlights added only `1.32 / 255` mean active-hair lift. Final gaze-locked identity
-  is `0.7476` (`strong_match`) with a `0.5546` weakest view above the `0.5533` genuine floor. Protected pixels remain exact,
-  and the detailed siding/tree, forehead, and three-quarter direction remain intact. It has no source-latent passes,
-   generation masks, Turbo, face swap, restoration, or second model pass.
-- Upgrade's report schema is now v2. Picture 3 plus the protected LoRA are the explicit identity mechanism. Picture 1
-  is intended for scene, pose, expression, clothing, lighting, and composition, but it contains the source face and is
-  encoded as a `ReferenceLatent`; its identity influence has not been isolated and must not be described as absent.
-- Upgrade defaults to the accepted deep-focus Smartphone v13 phone rendering. Turning phone style off optionally applies
-  a deterministic natural-lens finish after the full detailed render. A hash-locked local
-  U2Net human matte excludes subject colors from normalized near/far Gaussian filters, uses a dilated safety rim, and
-  copies protected subject pixels back exactly. On the accepted `1680×1008` v4 frame, `64.4717%` of the background was
-  softened with `0 / 255` maximum protected-subject error and no visible cutout halo. Phone-on skips this stage and
-  preserves the accepted crisper Smartphone v13 rendering.
-- Upgrade's default handsome-polish path now also locks pupil direction to the source using MediaPipe refined iris
-  landmarks and a bounded iris-interior warp. The accepted prototype reduced horizontal gaze error `74.1%`, changed
-  only `0.0948%` of frame pixels, kept all eyelid/outside pixels exact, and retained `0.7508` six-photo identity with
-  negligible pitch/yaw/roll change. It copies no source pixels and does not rerun the diffusion model.
-- Separate 4070 rollout smokes passed both production Canny mechanisms. Group identity improved `0.5603 → 0.5626`
-  on the established six-photo group gate with no bystander leakage; Upgrade identity stayed `strong_match` and
-  improved `0.7575 → 0.7739`, while skin/sharpening metrics remained stable and source geometry was retained. Exact
-  graphs and reports are under `output/smartphone-snapshot-klein9b-production-rollout-4070/20260901-210410`.
-- Visual review found the first styled Group face too broad, but the attempted detailed skull/proportion lock made the
-  internal face more generic and reduced six-photo likeness to `0.5465`. A controlled same-seed 3090 diagnostic kept
-  the Canny guide, genuine reference, protected identity LoRA, Smartphone Snapshot v13 at `0.25`, and all sampling
-  settings while restoring the concise approved identity prompt. Likeness rose to `0.6007`, above the original
-  approved frame's `0.5946`; four faces remained distinct and every leakage gate passed. Group therefore defaults to
-  the concise identity-first prompt, not exact-skull or best-day feature-editing instructions. Identity and Upgrade
-  retain their separately accepted appearance behavior. The reloaded production Group node then reproduced the fix at
-  `0.5958` with maximum bystander identity `0.3026` and no gate failure; exact evidence is under
-  `output/group-identity-correction-3090/20260901-220033`.
-- The final best-day controlled solo result passed the held-out identity gate on 2026-09-01 at `0.8106` centroid
-  and `0.6156` weakest-view similarity, ranking above the enhancement-off baseline. It permits small same-person
-  improvements to bone structure, expression, pores, stubble, and apparent age in addition to tan and fine-line
-  treatment. See
-  `docs/flux2-klein9b-appearance-polish-evaluation-2026-09-01.md`. A new scene still requires review at full size
-  and thumbnail.
-- The enabled expression uses closed-lip geometry rather than the word `smile`: a slight confident corner lift, one
-  unbroken lip line, and every tooth behind the lips. The same-seed straight-on acceptance frame scored `0.7897`
-  centroid and `0.6175` weakest-view similarity with no visible teeth and natural eye catchlights.
-- Automated face similarity is a ranking and rejection diagnostic, not proof of identity.
-- Full-size and thumbnail visual review remains mandatory.
-- Use genuine photographs for identity evaluation.
-- A scene/style reference is not automatically an identity reference.
-- Do not add face swap, masks, restoration, relighting, or sharpening without a measured failure and acceptance test.
-- Inspect both GPU queues before generation and never interrupt active training or generation.
-
-## Verification
-
-Run the repository verifier before check-in:
-
-```powershell
-.\scripts\verify.ps1
-```
-
-The specialized read-only workflow verifiers are:
-
-```powershell
-.\scripts\verify-flux2-klein9b-mitch-identity-studio-v1.ps1
-.\scripts\verify-flux2-klein9b-group-scene-studio-v1.ps1
-.\scripts\verify-flux2-klein9b-upgrade-photo-detail-realism-v1.ps1
-```
-
-Do not pass `-Smoke` during routine verification; that option queues a generation.
+Evidence under ignored `work/` exists locally and requires a separate backup. A documentation link
+or Git commit does not itself preserve the underlying photos, models or reports.

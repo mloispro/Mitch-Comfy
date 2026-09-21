@@ -1,6 +1,8 @@
 import ast
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import Mock, call
 
 
 NODE_PATH = Path(__file__).with_name("flux2_klein9b_photo_realism_upgrade.py")
@@ -41,6 +43,50 @@ class UpgradePhotoReportingTests(unittest.TestCase):
         cls.fields = _report_fields()
         cls.constants = _module_constants()
 
+    def test_production_reference_encoding_keeps_order_resolution_and_both_branches(self):
+        # Execute the actual conditioning block with encoder/image-loader doubles.
+        # No Comfy/Torch import, model loading or generation is needed.
+        tree = ast.parse(NODE_PATH.read_text(encoding="utf-8"))
+        blocks = []
+        for function in ast.walk(tree):
+            if not isinstance(function, ast.FunctionDef):
+                continue
+            starts = [i for i, n in enumerate(function.body) if isinstance(n, ast.Assign)
+                      and any(isinstance(t, ast.Name) and t.id == "reference_sizes" for t in n.targets)]
+            ends = [i for i, n in enumerate(function.body) if isinstance(n, ast.Assign)
+                    and any(isinstance(t, ast.Name) and t.id == "guider" for t in n.targets)]
+            if starts and ends:
+                self.assertEqual(len(starts), 1)
+                self.assertEqual(len(ends), 1)
+                self.assertLess(starts[0], ends[0])
+                blocks.append(function.body[starts[0]:ends[0]])
+        self.assertEqual(len(blocks), 1, "Locate the actual production conditioning block")
+
+        class Image:
+            def __getitem__(self, key):
+                return self
+
+        source, guide, identity, hair = (Image() for _ in range(4))
+        loader = Mock()
+        loader.load_image.side_effect = [(identity,), (hair,)]
+        encoder = Mock(side_effect=lambda vae, frame, mp, method: (frame, [832, 1216]))
+        scope = dict(self.constants, vae=object(), source=source, guide=guide,
+                     positive=[], negative=[], _encode_reference=encoder,
+                     _append_reference=lambda conditioning, latent: conditioning + [latent],
+                     comfy_nodes=SimpleNamespace(LoadImage=lambda: loader))
+        exec(compile(ast.Module(body=blocks[0], type_ignores=[]), str(NODE_PATH), "exec"), scope)
+        self.assertEqual(encoder.call_args_list, [
+            call(scope["vae"], source, 1.0, "bicubic"),
+            call(scope["vae"], guide, 0.5, "nearest-exact"),
+            call(scope["vae"], identity, 0.5, "nearest-exact"),
+            call(scope["vae"], hair, 0.1, "bicubic"),
+        ])
+        self.assertEqual(loader.load_image.call_args_list, [
+            call(self.constants["IDENTITY_REFERENCE"]), call(self.constants["HAIR_REFERENCE"])])
+        self.assertEqual(scope["positive"], [source, guide, identity, hair])
+        self.assertEqual(scope["negative"], scope["positive"])
+        self.assertEqual(scope["reference_sizes"], [[832, 1216]] * 4)
+
     def test_full_source_identity_influence_is_reported_as_unproven(self):
         self.assertEqual(ast.literal_eval(self.fields["schema_version"]), 2)
         self.assertIsNone(ast.literal_eval(self.fields["source_used_as_identity"]))
@@ -72,6 +118,12 @@ class UpgradePhotoReportingTests(unittest.TestCase):
         self.assertIn("if appearance_polish", appearance_scope)
         self.assertIn("no face, iris, or hair-local appearance postprocess runs", appearance_scope)
 
+    def test_hair_label_repair_is_not_reported_as_unchanged_v4(self):
+        scope=ast.literal_eval(self.fields['revalidation_comparison_scope'])
+        self.assertIn('Low v5 corrects',scope)
+        self.assertIn('neck17 to hair13',scope)
+        self.assertNotIn('retains the previous v4',scope)
+
     def test_historical_milestone_sampling_is_unpreserved_for_both_modes(self):
         self.assertFalse(
             ast.literal_eval(self.fields["milestone_sampling_path_preserved"])
@@ -95,7 +147,7 @@ class UpgradePhotoReportingTests(unittest.TestCase):
             ast.literal_eval(self.fields["background_generation_prompt_changed"])
         )
 
-    def test_report_only_hardening_preserves_revalidated_sampling_path(self):
+    def test_attractiveness_levels_preserve_sampling_but_report_high_postprocess(self):
         self.assertEqual(self.constants["REVALIDATION_COMMIT"], "b32ecb9")
         self.assertEqual(
             self.constants["REVALIDATION_TAG"],
@@ -113,8 +165,10 @@ class UpgradePhotoReportingTests(unittest.TestCase):
         )
         scope = ast.unparse(self.fields["revalidation_comparison_scope"])
         self.assertIn("Compared with b32ecb9", scope)
-        self.assertIn("report-only hardening", scope)
-        self.assertIn("postprocessing are unchanged", scope)
+        self.assertIn("Low v5 corrects", scope)
+        self.assertIn("optional High adds", scope)
+        self.assertEqual(ast.unparse(self.fields["appearance_level"]), "appearance_level")
+        self.assertIn("user_visual_review_required", ast.unparse(self.fields["high_attractiveness_status"]))
 
 
 if __name__ == "__main__":

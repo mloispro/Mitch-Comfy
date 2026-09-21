@@ -1,0 +1,88 @@
+{
+  "status": "CPU_PREPARED_UNSUBMITTED_GUARDS_UNCHANGED",
+  "scope": "ONE_FRESH_OWNED_GROUP_PILOT",
+  "payload_sha256": "DFE5EDBF8205188C6DA053FE74C747A234D050DA0889D44017A610ACE8657CD1",
+  "parent_prepared_sha256": "5A9166BD335BEDB19F16FDFA5501AB8CC471DD76ADE9A9025479FA9755B4CEF4",
+  "pins": [
+    {
+      "path": "C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-strength110-20260908/amber-hook-pilot-payload.json",
+      "sha256": "DFE5EDBF8205188C6DA053FE74C747A234D050DA0889D44017A610ACE8657CD1"
+    },
+    {
+      "path": "C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-strength110-20260908/recipe.json",
+      "sha256": "67A5F1F9211BC48743698ABFC003E418B69B5B0C0D1F7F4C811E8283C8BE4C3E"
+    },
+    {
+      "path": "C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-strength110-20260908/run_recipe.ps1",
+      "sha256": "04F4E2A96CA6709F56CB139068310FD847340AFCC24A3EDC3DBBCBE85A073BE6"
+    },
+    {
+      "path": "C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-strength110-20260908/recipe_runtime.py",
+      "sha256": "B27DBC0F37BD5CC9DBA51352348EAE51381607809308E3D1E1DA6B066A7899D6"
+    },
+    {
+      "path": "C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-strength110-20260908/wddm_admission.py",
+      "sha256": "E5E675393687C13C16B7D34DA40D6C3C6DF870F31E370C94FE7A4C50783A1A99"
+    },
+    {
+      "path": "C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-strength110-20260908/wddm-lifetimes.ps1",
+      "sha256": "8295D5FC3392459C69B5C313BB04BFDE03AF994A53A14EBACA286AADF0F89180"
+    },
+    {
+      "path": "C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-strength110-20260908/extra-paths-v3.yaml",
+      "sha256": "F4C50B61804643620F047957048294DC07C933D058A23880900E84A8196CE506"
+    },
+    {
+      "path": "C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-strength110-20260908/guard_nodes/mitch_group_recipe_guard/__init__.py",
+      "sha256": "B42F54AF451350A86E822D62D8B265FB6FA594DD41BCCE336ABCA76ED0F8F88A"
+    },
+    {
+      "path": "C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-strength110-20260908/test_recipe.py",
+      "sha256": "40E0E307F156F2B31AC2C2A0C7879A84C435222F1CBC2803A1D24A40C847387C"
+    },
+    {
+      "path": "C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-strength110-20260908/test-recipe.ps1",
+      "sha256": "D25D750E940EBA860AF1B3DE3997D9646E9E5B8863A5DD6C8AEEE837ADB14271"
+    },
+    {
+      "path": "C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-strength110-20260908/test_wddm.py",
+      "sha256": "FC52D178B920DFE026E0BDBA17B7FEE81DED44D4BCEA3E652FC5F3713744B807"
+    },
+    {
+      "path": "C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-strength110-20260908/ROOT-APPROVAL-TEMPLATE.json",
+      "sha256": "788A7E4D92A77AD5DF315D7EF7EEDD21FD8968BB936CFE0DD72A73C90AB6DDC4"
+    },
+    {
+      "path": "C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-strength110-20260908/WDDM-APPROVAL-TEMPLATE.json",
+      "sha256": "AFC17B82DD631384A3E8524278789E3EAC8D937DF68D7C453E994EF6670E1EDB"
+    },
+    {
+      "path": "C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-strength110-20260908/README.md",
+      "sha256": "B7931A171ACD7A6F880D697712B4F876EA2D549FFD309E181EEC0A6046D50AE7"
+    },
+    {
+      "path": "C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-strength110-20260908/RESEARCH-AND-ACCEPTANCE.md",
+      "sha256": "186D3C355428AFE080D5753C5524FF3A1307196CD685F5DB1BCE5BE13610AC17"
+    },
+    {
+      "path": "C:/projects/AI-Tools/Mitch-Comfy/work/9b-readiness-resume-20260907/group-identity-hook-gate/test_pair_schedule.py",
+      "sha256": "D4A00F54EB8D9C931598E70A12491E7EB4B0A0BC22976DB70420A4C5C7BA4ACF"
+    },
+    {
+      "path": "C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-pilot-resume-20260908/worker/stopped.json",
+      "sha256": "BBBDB52FED8492E66DFB35F00C8F8EE5236F4800B8BCDB9C9B03F87C4B55ABD2"
+    },
+    {
+      "path": "C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-pilot-resume-20260908/ROOT-RESULT.md",
+      "sha256": "3DB8E00F400E2D8D337173D0ADDB5E57FE48E33E18510D2C5EFAEDF4BC70D9CF"
+    },
+    {
+      "path": "C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-pilot-resume-20260908/runs/ready-amber-hook-pilot/group-amber-hook-pilot-seed8675412_00001_.png",
+      "sha256": "4100246734E15B8AF7F71E58EDB9C60268BE9BE87757C7319DC86ECC5AC78BB3"
+    }
+  ],
+  "guard_thresholds_unchanged": true,
+  "validation": "33 PowerShell lifecycle/refusal/signature checks; 18 actual Comfy Python CPU checks including exact core 36-node schedule, namespace, native pre-allocation refusal, source delta and WDDM approval/lifetime. No live action.",
+  "no_worker_or_live_approval_created": true,
+  "evaluator_manifest_separate": true
+}

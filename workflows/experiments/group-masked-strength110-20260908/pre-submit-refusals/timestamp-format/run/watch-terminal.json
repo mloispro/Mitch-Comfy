@@ -1,0 +1,13 @@
+{
+  "utc": "2026-09-08T06:39:26.839671+00:00",
+  "prompt_id": null,
+  "client_id": "a712fb4a-a4a0-4905-abe0-5aee8e4046c1",
+  "status": "watch_refused",
+  "exact_node_order": false,
+  "two_native_guards_passed": false,
+  "reason": "Exact captured/reviewed lifetime changed",
+  "exception_type": "GuardRefusal",
+  "exception_repr": "GuardRefusal('Exact captured/reviewed lifetime changed')",
+  "interrupt_process_exit": 0,
+  "interrupt_result": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-strength110-20260908\\runs\\ready-amber-hook-pilot\\watch-interrupt-result.json"
+}

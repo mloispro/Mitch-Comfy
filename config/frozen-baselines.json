@@ -298,7 +298,8 @@
     },
     {
       "id": "flux2-klein9b-mitch-group-engine-v1",
-      "active": true,
+      "active": false,
+      "superseded_by": "flux2-klein9b-mitch-group-engine-speed-seam-20260909",
       "role": "internal_generation_engine",
       "accepted_on": "2026-09-03",
       "revalidated_on": "2026-09-03",
@@ -326,11 +327,11 @@
       "depends_on": [
         "flux2-klein9b-mitch-identity-engine-v1"
       ],
-      "revision": "The public Upgrade v1.1 node is a direct alias to this unchanged generation-locked engine. Sampling, reference order, prompt construction, and deterministic postprocessing remain identical to the revalidated implementation.",
+      "revision": "The public Upgrade v1.1 engine retains sampling, prompt construction, references, PhoneON/TurboOFF and default Low. Low v5 corrects CodeFormer ParseNet's hair label from neck17 to hair13; all other finish constants and Low/source-gaze/High ordering are unchanged. Actual production-code CPU replay matches the corrected mask and Low evidence on three photos. Optional High remains the existing subtle upper-lid/brow treatment, not an accepted stronger-High replacement. The live public-node house test confirms v5/class13 and unchanged raw sampling pixels; final Low differs from the quantized CPU replay and was scored separately at 0.739620. Historical v4 evidence is not rebased.",
       "artifacts": [
         {
           "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_photo_realism_upgrade.py",
-          "sha256": "3A712E7BBD53E0AF070CD5D986830C1EC7B1F87B0456032A065944E52A8C3412"
+          "sha256": "DAF621973E8B3EBBC555DADC293E1C74EDC1BA42930D6883616970E1E55DFC24"
         },
         {
           "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_photo_realism_upgrade_presets.py",
@@ -338,7 +339,7 @@
         },
         {
           "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_deterministic_polish.py",
-          "sha256": "D970934CE4CF0B640A4BD24ABD7DA3BFA16A67F23842CBC81B14B4323793977B"
+          "sha256": "3F37FD5632D4AE1236314DF795AADDBF73FA55EF74CAE2BAB62C7359A5778676"
         },
         {
           "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_source_gaze_lock.py",
@@ -347,12 +348,20 @@
         {
           "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_upgrade_masking.py",
           "sha256": "7AB8ABA5053EC73646F28C7EAF7E0195A69699246F662F070D828DA08ECD5BF3"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_attractiveness.py",
+          "sha256": "0E38B630FEF04272EBBF667EFB81C31E90FBDB8EFF6D503DBF0CE31BAA4502F9"
         }
-      ]
+      ],
+      "revised_on": "2026-09-03",
+      "revision_evidence": "docs/upgrade-parsenet-hair-label-bug-2026-09-04.md",
+      "hair_repair_on": "2026-09-04",
+      "hair_repair_live_validation": "house public node verified: 52348431-764b-407b-bc74-8da6c055ca66; v5/class13; raw exact; final Low separately reviewed/scored; not stronger-High or universal three-photo acceptance"
     },
     {
       "id": "flux2-klein9b-production-workflows-v1.1",
-      "active": true,
+      "active": false,
       "role": "public_production_surface",
       "accepted_on": "2026-09-03",
       "revalidated_on": "2026-09-03",
@@ -360,10 +369,10 @@
       "evidence": "docs/flux2-klein9b-v1.1-production-cleanup-2026-09-03.md",
       "depends_on": [
         "flux2-klein9b-mitch-identity-engine-v1",
-        "flux2-klein9b-mitch-group-engine-v1",
+        "flux2-klein9b-mitch-group-engine-speed-seam-20260909",
         "flux2-klein9b-upgrade-engine-v1"
       ],
-      "revision": "Exactly three public Klein 9B workflow sheets remain, all v1.1. Identity and Group keep their validated visual-preset wrappers; Upgrade v1.1 maps directly to the unchanged validated Upgrade engine. Legacy v1 workflow sheets and public node registrations were removed.",
+      "revision": "Exactly three public Klein 9B workflow sheets remain, all v1.1. Identity and Group retain their visual-preset wrappers. Upgrade exposes Off/Low/High attractiveness with Low retaining the previous default and phone style remaining on. Legacy boolean widgets migrate without changing phone style or seed.",
       "artifacts": [
         {
           "path": "workflows/production/FLUX.2 Klein 9B Mitch Identity Studio v1.1 - Visual Presets.json",
@@ -375,7 +384,7 @@
         },
         {
           "path": "workflows/production/FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1.1.json",
-          "sha256": "A902BE457F5E9A1BFE64A3BF4AD4C7A67F2893B77770953B535D84E55FDE8938"
+          "sha256": "91C25CFA88DA1B54AAC6FFB3AE5AB512B88D4504BF0BEEFAF7722300BFA1C7C1"
         },
         {
           "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_mitch_identity_studio_visual_presets.py",
@@ -399,11 +408,110 @@
         },
         {
           "path": "custom_nodes/ComfyUI-AIToolkit-Training/web/visual_scene_presets.js",
-          "sha256": "6CBB936511009E7674670926232CE062B33D936FCE253D934377B1472B84D690"
+          "sha256": "3AF0FCE2730FF2C34B7F0D21175DA3FAC104EB294FDB3C571C55CF6575B82E6B"
         },
         {
           "path": "custom_nodes/ComfyUI-AIToolkit-Training/nodes.py",
           "sha256": "352390B02172BE93DA2DA112E644CDA294D6F96E7076849A7F0F8E8DB4665B87"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/web/upgrade_attractiveness.js",
+          "sha256": "40BD0DAB6E02989B2CE1866E36CCA9CD3D31C1230AE1A6BF312EE0D4E785AF75"
+        }
+      ],
+      "revised_on": "2026-09-03",
+      "revision_evidence": "docs/flux2-klein9b-attractiveness-levels-2026-09-03.md",
+      "ui_repair_on": "2026-09-04",
+      "ui_repair_evidence": "docs/visual-scene-prompt-repair-2026-09-04.md",
+      "prompt_helper_on": "2026-09-05",
+      "prompt_helper_evidence": "docs/visual-scene-prompt-helper-2026-09-05.md",
+      "superseded_by": "flux2-klein9b-production-gallery-st-barts-20260920"
+    },
+    {
+      "id": "flux2-klein9b-mitch-group-engine-speed-seam-20260909",
+      "active": true,
+      "role": "internal_generation_engine",
+      "accepted_on": "2026-09-09",
+      "supersedes": "flux2-klein9b-mitch-group-engine-v1",
+      "depends_on": [
+        "flux2-klein9b-mitch-identity-engine-v1"
+      ],
+      "evidence": "work/production-speed-rollout/RESULTS.md",
+      "revision": "Additive per-call model/output/report extension seams, all no-op on the original production path. Exact engine AST equals the prior implementation after removing only these seams. Existing production recipes, output roots and workflow JSON hashes remain unchanged. 31 Group/cache CPU tests pass including concurrency/default-path checks; normal Comfy Speed Lounge Run 90b215e2-ab00-4f6c-b6d3-59cd744b5b10 reproduced the previously accepted cached output pixel-for-pixel, with six-reference diagnostics and native/thumbnail review passing. This is an implementation revision, not new all-scene or absolute identity acceptance. Old hashes and frozen experiment receipts are preserved.",
+      "artifacts": [
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_group_scene_studio.py",
+          "sha256": "A8EC4242BCFB2CFD0539F7F2188626AA1360917332ED730B0A9CE92863C0FEC3"
+        }
+      ]
+    },
+    {
+      "id": "flux2-klein9b-production-gallery-st-barts-20260920",
+      "active": true,
+      "role": "public_production_surface",
+      "accepted_on": "2026-09-20",
+      "recorded_on": "2026-09-21",
+      "supersedes": "flux2-klein9b-production-workflows-v1.1",
+      "depends_on": [
+        "flux2-klein9b-mitch-identity-engine-v1",
+        "flux2-klein9b-mitch-group-engine-speed-seam-20260909",
+        "flux2-klein9b-upgrade-engine-v1"
+      ],
+      "evidence": "docs/CLEANUP.md",
+      "revision": "Records the already published St. Barts gallery label, original-pose text, natural-appearance default and exact-foreground preview. Unchanged engine and workflow artifacts retain their prior hashes. Manifest, JavaScript, thumbnail and final PNG match the saved September 20 publication receipts. This is integrity reconciliation, not fresh browser-interaction or generated-photo acceptance; gallery text supplies no exact pose conditioning and likeness remains qualified. The superseded record and its hashes are preserved.",
+      "verification_scope": "Saved publication receipts, offline UI migration/default harness and 20 thumbnail-source mappings. Actual browser interaction and generation from the new gallery text remain unverified.",
+      "artifacts": [
+        {
+          "path": "workflows/production/FLUX.2 Klein 9B Mitch Identity Studio v1.1 - Visual Presets.json",
+          "sha256": "FDA56677696C9ECFED455DFCDA0DA2E9DD530D540293B7F6BAFBB8B7B78C7ACE"
+        },
+        {
+          "path": "workflows/production/FLUX.2 Klein 9B Mitch Group Scene Studio v1.1 - Visual Presets.json",
+          "sha256": "1878B00ADFF0AC6A8E8A8959CB1E0807651FF2D35FCC7A3BC8EA0211FDDAF2BC"
+        },
+        {
+          "path": "workflows/production/FLUX.2 Klein 9B - Upgrade Photo Detail & Realism v1.1.json",
+          "sha256": "91C25CFA88DA1B54AAC6FFB3AE5AB512B88D4504BF0BEEFAF7722300BFA1C7C1"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_mitch_identity_studio_visual_presets.py",
+          "sha256": "672A12532C9C44C8965EDC9FF2EFA7DEA0B3B1D665F19D9BFBB59A7904D12CAB"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_group_scene_studio_visual_presets.py",
+          "sha256": "E95D1C2EE020607E04B1EF1AD9A3E1FB962ADE4E329943E90BAEEE4462FC98AD"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_scene_presets.py",
+          "sha256": "2778F5A44BBD2BDD9B3B9896D3159F3B383FE2783370ACBDF98F782C5E7401ED"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_visual_preset_support.py",
+          "sha256": "B28631191B2A9531EB7A0CAB937589F7FD009CE23773C7BA47931013D567EAC0"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/web/assets/scene-presets/manifest.json",
+          "sha256": "8FC6CF64A47BE16167C1A9D33938ECEF9E2BF7C1275530BFB60DEEF00A4E4590"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/web/visual_scene_presets.js",
+          "sha256": "4D4D6B2BBB051DCC0D7924D23CF853BEE2F811C0946105296BA04A99C07FC464"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/nodes.py",
+          "sha256": "352390B02172BE93DA2DA112E644CDA294D6F96E7076849A7F0F8E8DB4665B87"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/web/upgrade_attractiveness.js",
+          "sha256": "40BD0DAB6E02989B2CE1866E36CCA9CD3D31C1230AE1A6BF312EE0D4E785AF75"
+        },
+        {
+          "path": "custom_nodes/ComfyUI-AIToolkit-Training/web/assets/scene-presets/identity-st-barts-yacht.jpg",
+          "sha256": "BD77D4BF31FF39DDF89AE9A8C657B41FA64805B842A545120B6FB465BFC1E982"
+        },
+        {
+          "path": "assets/comfy-input/klein9b-scene-presets/generated/identity-st-barts-yacht.png",
+          "sha256": "E456D2604E76580D2E1D04E40FC388A216F7F3A9E7BC2D54A1F565FDFCCD4917"
         }
       ]
     }

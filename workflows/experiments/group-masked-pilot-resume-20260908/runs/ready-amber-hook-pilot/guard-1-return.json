@@ -1,0 +1,28 @@
+{
+  "phase": "1",
+  "prompt_id": "df911670-57ed-4bc5-b982-a2bbe057b975",
+  "client_id": "2e1167a8-46f7-4542-bb3d-21a318605f8c",
+  "case": "pilot",
+  "pid": 55636,
+  "graph_sha256": "EB6AEF903DB72BE0E8CED5389EFB1C01E08E586B76C611CF3665796C05EFA76A",
+  "entry_utc": "2026-09-08T06:05:48.794551+00:00",
+  "semantics": "synchronous check before original native method; not protection during its allocations",
+  "gpu": {
+    "utc": "2026-09-08T06:05:48.794551+00:00",
+    "physical_free_bytes": 14153678848,
+    "own_inactive_allocator_bytes": 10057489330,
+    "effective_free_bytes": 24211168178,
+    "source": "native get_free_memory: CUDA physical free plus this PID reserved minus active"
+  },
+  "memory": {
+    "utc": "2026-09-08T06:05:48.794551+00:00",
+    "host_available_bytes": 44585684992,
+    "commit_headroom_bytes": 85493358592
+  },
+  "required_host_gib": 40,
+  "required_commit_gib": 40,
+  "admitted": true,
+  "return_utc": "2026-09-08T06:05:56.219371+00:00",
+  "status": "original_returned",
+  "exception_type": null
+}

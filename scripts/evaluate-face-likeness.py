@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import argparse
+import copy
+import hashlib
 import itertools
 import json
 from pathlib import Path
@@ -8,6 +10,26 @@ from pathlib import Path
 import cv2
 import numpy as np
 from insightface.app import FaceAnalysis
+
+
+class _RunFaceCache:
+    """Reuse raw detections within one run of one already-prepared analyzer.
+
+    Keys use actual decoded pixels, so changed files, EXIF orientation, shapes
+    and dtypes cannot reuse another image's records. Selection and scoring stay
+    in their existing callers. Each request receives independent Face records.
+    """
+
+    def __init__(self, analyzer):
+        self._analyzer = analyzer
+        self._records = {}
+
+    def get(self, image):
+        key = (image.shape, image.dtype.str, hashlib.sha256(image.tobytes()).digest())
+        if key not in self._records:
+            faces = self._analyzer.get(image)
+            self._records[key] = [(type(face), copy.deepcopy(dict(face))) for face in faces]
+        return [face_type(copy.deepcopy(values)) for face_type, values in self._records[key]]
 
 
 def parse_args() -> argparse.Namespace:
@@ -117,6 +139,7 @@ def main() -> None:
         allowed_modules=["detection", "recognition", "landmark_3d_68"],
     )
     analyzer.prepare(ctx_id=-1, det_size=(640, 640))
+    analyzer = _RunFaceCache(analyzer)
 
     reference_faces = [largest_face(analyzer, path) for path in references]
     reference_embeddings = [normalized_embedding(face) for face in reference_faces]

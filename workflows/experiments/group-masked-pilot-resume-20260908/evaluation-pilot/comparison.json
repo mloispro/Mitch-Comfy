@@ -1,0 +1,566 @@
+{
+  "status": "diagnostics_complete_two_manual_reviews_required_not_ready",
+  "completed_utc": "2026-09-08T06:15:18.681377+00:00",
+  "cpu_seconds": 7.187999999849126,
+  "providers": {
+    "landmark_3d_68": [
+      "CPUExecutionProvider"
+    ],
+    "recognition": [
+      "CPUExecutionProvider"
+    ],
+    "detection": [
+      "CPUExecutionProvider"
+    ]
+  },
+  "run_provenance": {
+    "run_pins": [
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\attempt.json",
+        "sha256": "22B92645BA019FD215B875DCE968D69A5A9A79D8FFA535F6C26ADB93D3B85F72"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\submission.json",
+        "sha256": "AA864AD241B10BA7D2E9835E99951363B997B12659C727AC81D3427D9AAA3996"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\history.json",
+        "sha256": "3539E4CA690EC83CD52E3F8531CE28D93ECBEBD2A2E095C5BDDC8E35FCB624EF"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\report.json",
+        "sha256": "07E1CCD73082CCEDBED8D1FDEBBBDA644DE2DD790DB6165D94CF6498614600C7"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\prompt-api.json",
+        "sha256": "75698732A9E5C0121B4D3B5C4A5155A6BD8642B5C7D2311C4318DC146C85B82B"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\preflight.json",
+        "sha256": "3D86829F316A1F2D6D6E6C3BC4969C90C4112D3C07600DB27ACBB864F94B225C"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\immediate-preflight.json",
+        "sha256": "BEA8930F6B327717D5A7538FBE0E6E28169D38A86361C73816EDD6EA509A0D24"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\final-preflight.json",
+        "sha256": "A1950A7EBF0849EDACC117C7A078A81087BD653B6FFA2F0B0C9A9FE012F59DA7"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\immediate-host-preflight.json",
+        "sha256": "578E40DB9545EB987529D67C17E7CF666820520B2DC9D8600AD68C6D60671B77"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\watched-final-preflight.json",
+        "sha256": "AD0FCD08F99FFD4F528DDE205AED5F01A0FFF060AE886CFC4CD15C26CFB64AE1"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\worker-owned.json",
+        "sha256": "E679BA96F584FE0E5F5DA4E30E8285C8CF926E59FB366FF76B59682B9D0D0517"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\watch-launched.json",
+        "sha256": "BEE308E2AB9DFA80002A541A87CF72BDC57B43C32C276B467D5A7140201D86C8"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\watch-ready.json",
+        "sha256": "1675F3A998B77B3FED7DF3F07009E64091427F8A89C53F8CA597A86F4575DA35"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\watch-terminal.json",
+        "sha256": "4678FD0B65C144BBC170465DF90168592042E652A6234BCA1C56FEBDE8FB3851"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\guard-1-entry.json",
+        "sha256": "9B44F256B8FA4D15CD1EA3D8C9425B9ED2F461D854A0925BC3CFB5AE71A54AB6"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\guard-1-return.json",
+        "sha256": "A5862B6A47488F96B5EF73717C68DA92662F91C0339AB94355258EAEC0CF1268"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\guard-35-entry.json",
+        "sha256": "50EE20172739195D73B07C5F6E296D4D6B9C7254BCEED28C1E1B582F2B34C25A"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\guard-35-return.json",
+        "sha256": "4B130186901AEDF0FB4DCDD3396006EB56F0AB4CCAFCB4BFEA9E552B1640A64C"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\watch-events.jsonl",
+        "sha256": "1302E9A75E2758F2B040140829833B836B8902E319FC47E57F027735F610369A"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\watch-samples.jsonl",
+        "sha256": "4F3AA29BC9890051EB68148732563A89133F3FC2B972B75390F3D194165B47A3"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\worker\\guard-ready.json",
+        "sha256": "696B3C719838BEC0F20A860C7DC16ABDA31BC82FFDC93776721611D89543E56D"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\group-amber-hook-pilot-seed8675412_00001_.png",
+        "sha256": "4100246734E15B8AF7F71E58EDB9C60268BE9BE87757C7319DC86ECC5AC78BB3"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\worker\\output\\9b-readiness-resume-20260907\\group-amber-hook-pilot-seed8675412_00001_.png",
+        "sha256": "4100246734E15B8AF7F71E58EDB9C60268BE9BE87757C7319DC86ECC5AC78BB3"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\work\\9b-readiness-resume-20260907\\group-identity-hook-gate\\provisional-assets\\mitch-amber-hook-person-20260907.png",
+        "sha256": "9D5C2AD6536C7B275CFCFF4D6AF7971EDEBF08D8D2382038066304B6DA7717AB"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\ComfyUI\\input\\mitch-amber-hook-person-20260907.png",
+        "sha256": "9D5C2AD6536C7B275CFCFF4D6AF7971EDEBF08D8D2382038066304B6DA7717AB"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\prior-terminal-cases.json",
+        "sha256": "A9A6CAFFB2F1C7B908ECC4DA89396918017A59305903AC112BB637B5F481EAB3"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\prior-terminal-cases-final.json",
+        "sha256": "A9A6CAFFB2F1C7B908ECC4DA89396918017A59305903AC112BB637B5F481EAB3"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\worker\\owned.json",
+        "sha256": "E679BA96F584FE0E5F5DA4E30E8285C8CF926E59FB366FF76B59682B9D0D0517"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\root-approval.json",
+        "sha256": "B289FBE53A80DF5C60E8F17F4E221D262D1B57ED76AD7317C78F286D67DAA5DE"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\wddm-approval.json",
+        "sha256": "9DB21FE1052A2B5E8E6C3FD94BB87D897F42D6B109EC7A8D00979A8320712BE3"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\wddm-observations.jsonl",
+        "sha256": "66C6FC3D2546CADB8085FB2DE36558B3526726CDBADEB8D0137B6CA9DC22B128"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\wddm-candidate-v2.json",
+        "sha256": "06A42239206499333B0547E1A4C1C78BF3AA0D1B3C5D6D6A2223A2053E04AB82"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\wddm-root-approval-v2.json",
+        "sha256": "064474D4400CF671A890325ED4E6205E801CC8D43F6463BA1749BCBFAF1015DA"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\evaluate_fresh.py",
+        "sha256": "22CB982F07BA91EE024E4DB8BF83CA61C9C72AA5D86B2A3CEAE257D6BD784DD9"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\EVALUATOR-PREPARED.json",
+        "sha256": "06E08366F04514CE7C4920AB52F01F7D7DB92377810EB825120432390D69AB77"
+      },
+      {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\prepared-v2.json",
+        "sha256": "F0223AC4A24DE150C0B3BC168FF45A394796289128EDBDA1576F544B778A6E46"
+      }
+    ],
+    "actual_image": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\group-amber-hook-pilot-seed8675412_00001_.png",
+    "native_source": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\worker\\output\\9b-readiness-resume-20260907\\group-amber-hook-pilot-seed8675412_00001_.png",
+    "prompt_id": "df911670-57ed-4bc5-b982-a2bbe057b975",
+    "photo_sha256": "4100246734E15B8AF7F71E58EDB9C60268BE9BE87757C7319DC86ECC5AC78BB3",
+    "worker_seconds": 334.218,
+    "endpoint": "http://127.0.0.1:8191",
+    "gpu_uuid": "GPU-c2ca4516-2c9f-e87b-3a20-f459947ddb17",
+    "case": "pilot",
+    "evaluator_preparation_sha256": "06E08366F04514CE7C4920AB52F01F7D7DB92377810EB825120432390D69AB77",
+    "full_graph_png_ownership_native_guards_and_watch_verified": true,
+    "fresh_worker_first_prompt": true,
+    "pilot_observation_complete": true,
+    "independent_resource_monitor": true,
+    "maximum_resource_sample_gap_seconds": 5,
+    "reviewed_runtime_routing": {
+      "watcher": {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\fresh_runtime_v2.py",
+        "sha256": "95FB5F60E34EE8A32064C64208336BAA3135A8A47AC00A8D593EAF738A87778C",
+        "bytes": 1732
+      },
+      "wddm_helper": {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\wddm_admission_v2.py",
+        "sha256": "6DCBB22035439DF71BC172367E6D73EAE9EB417A2AD134879B451BF0BF12D445",
+        "bytes": 7696
+      },
+      "runtime_supplement": {
+        "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\prepared-v2.json",
+        "sha256": "F0223AC4A24DE150C0B3BC168FF45A394796289128EDBDA1576F544B778A6E46",
+        "bytes": 3306
+      }
+    },
+    "baseline_memory_receipt_available": false,
+    "startup_memory_receipt_available": false
+  },
+  "existing_run_validation": {
+    "amber_hook_pilot_seed8675412": {
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\group-amber-hook-pilot-seed8675412_00001_.png",
+      "sha256": "4100246734E15B8AF7F71E58EDB9C60268BE9BE87757C7319DC86ECC5AC78BB3",
+      "bytes": 1485091,
+      "dimensions": [
+        832,
+        1216
+      ],
+      "prompt_id": "df911670-57ed-4bc5-b982-a2bbe057b975",
+      "worker_seconds": 334.218,
+      "observed_wall_seconds": 339.1783024,
+      "embedded_submitted_history_payload_graphs_match": true,
+      "run_pins": [
+        {
+          "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\prompt-api.json",
+          "sha256": "75698732A9E5C0121B4D3B5C4A5155A6BD8642B5C7D2311C4318DC146C85B82B",
+          "bytes": 9479
+        },
+        {
+          "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\history.json",
+          "sha256": "3539E4CA690EC83CD52E3F8531CE28D93ECBEBD2A2E095C5BDDC8E35FCB624EF",
+          "bytes": 12410
+        },
+        {
+          "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\report.json",
+          "sha256": "07E1CCD73082CCEDBED8D1FDEBBBDA644DE2DD790DB6165D94CF6498614600C7",
+          "bytes": 1405
+        },
+        {
+          "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\submission.json",
+          "sha256": "AA864AD241B10BA7D2E9835E99951363B997B12659C727AC81D3427D9AAA3996",
+          "bytes": 244
+        },
+        {
+          "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\immediate-preflight.json",
+          "sha256": "BEA8930F6B327717D5A7538FBE0E6E28169D38A86361C73816EDD6EA509A0D24",
+          "bytes": 18375
+        }
+      ],
+      "actual_text_prompts": {
+        "7": "casual snapshot. Picture 1 is a Canny edge map derived from the source photograph and supplies its camera framing, person positions, seated body poses, outer head sizes, arm positions, booth geometry, table placement, and spatial layout. The selected source person's internal eye, nose, and mouth edges were intentionally removed so Picture 1 does not supply his identity. Pictures 2 and 3 are genuine photographs of m1tch_person and exclusively supply the selected man's identity and internal facial geometry. Create one photorealistic vertical phone-flash group photograph matching Picture 1. Four adults sit on the rust-orange curved booth. The central seated man is m1tch_person, wearing a fitted navy suit and crisp white open-collar shirt, with both complete hands resting naturally near his knees. A brunette woman at image-left holds a martini glass, a blonde woman sits close at his image-right, and a dark-haired man in a denim jacket sits farther right. Every bystander has a clearly distinct unrelated face, hair, and age. Preserve the large curved amber wall light, textured wall, booth, wooden tables, glasses, plates, casual spacing, ordinary smartphone perspective, direct flash, and exactly one Mitch. His lips rest gently together, their corners rise only slightly, and his eyes engage softly with the camera.",
+        "8": "",
+        "54": "casual snapshot. Picture 1 is a Canny edge map derived from the source photograph and supplies its camera framing, person positions, seated body poses, outer head sizes, arm positions, booth geometry, table placement, and spatial layout. The selected source person's internal eye, nose, and mouth edges were intentionally removed so Picture 1 does not supply his identity. Create one photorealistic vertical phone-flash group photograph matching Picture 1. Four adults sit on the rust-orange curved booth. The central seated man is wearing a fitted navy suit and crisp white open-collar shirt, with both complete hands resting naturally near his knees. A brunette woman at image-left holds a martini glass, a blonde woman sits close at his image-right, and a dark-haired man in a denim jacket sits farther right. Every bystander has a clearly distinct unrelated face, hair, and age. Preserve the large curved amber wall light, textured wall, booth, wooden tables, glasses, plates, casual spacing, ordinary smartphone perspective, direct flash. His lips rest gently together, their corners rise only slightly, and his eyes engage softly with the camera."
+      }
+    }
+  },
+  "target": [
+    0.51,
+    0.45
+  ],
+  "reference_calibration": {
+    "pairwise": [
+      0.5533463954925537,
+      0.6118828058242798,
+      0.6013239026069641,
+      0.6112619638442993,
+      0.6143922805786133,
+      0.7137667536735535,
+      0.7377340793609619,
+      0.7009028196334839,
+      0.7572594881057739,
+      0.7742675542831421,
+      0.7254546880722046,
+      0.7447596788406372,
+      0.6973316669464111,
+      0.7780115604400635,
+      0.7748499512672424
+    ],
+    "minimum": 0.5533463954925537,
+    "mean": 0.693103039264679
+  },
+  "candidates": {
+    "amber_hook_pilot_seed8675412": {
+      "selected_main_index": 0,
+      "scene_target_distance": 0.006347068109664424,
+      "selected_main": {
+        "index": 0,
+        "bbox": [
+          383.6488342285156,
+          487.19342041015625,
+          460.0754089355469,
+          593.54443359375
+        ],
+        "native_face_dimensions": [
+          76.42657470703125,
+          106.35101318359375
+        ],
+        "normalized_face_dimensions": [
+          0.0918588638305664,
+          0.0874597147891396
+        ],
+        "normalized_face_center": [
+          0.5070458192091721,
+          0.44438234128450094
+        ],
+        "insightface_pose_raw": [
+          -7.6021552085876465,
+          13.806530952453613,
+          4.62609338760376
+        ],
+        "detector_confidence": 0.8616505265235901,
+        "centroid_similarity": 0.5225072503089905,
+        "mean_reference_similarity": 0.4507673730452855,
+        "minimum_reference_similarity": 0.35656875371932983,
+        "per_reference_similarity": {
+          "val_01_surf_full_body.jpg": 0.35656875371932983,
+          "val_02_body_mirror_sleeveless.jpg": 0.45176178216934204,
+          "val_03_navy_upper_body.jpg": 0.517468273639679,
+          "val_04_window_small_smile.jpg": 0.45188236236572266,
+          "val_05_balcony_opposite_angle.jpg": 0.4732408821582794,
+          "val_06_car_daylight.jpg": 0.45368218421936035
+        },
+        "calibrated_status": "near_match",
+        "proposed_conservative_all_reference_gate_pass": false
+      },
+      "identity_scope": {
+        "status": "rejected",
+        "detected_face_count": 4,
+        "main_face_index": 0,
+        "main_selection_method": "caller_provided_scene_role",
+        "main_identity_similarity": 0.5225,
+        "main_detection_confidence": 0.8617,
+        "maximum_secondary_identity_similarity": 0.0706,
+        "maximum_secondary_to_main_similarity": 0.1853,
+        "maximum_secondary_pair_similarity": 0.2586,
+        "secondary_identity_limit": 0.42,
+        "secondary_to_main_limit": 0.5,
+        "secondary_duplicate_limit": 0.72,
+        "faces": [
+          {
+            "index": 0,
+            "role": "main",
+            "bbox": [
+              383.6,
+              487.2,
+              460.1,
+              593.5
+            ],
+            "detection_confidence": 0.8617,
+            "similarity_to_reference_centroid": 0.5225,
+            "similarity_to_selected_main": 1.0
+          },
+          {
+            "index": 1,
+            "role": "secondary",
+            "bbox": [
+              479.8,
+              533.5,
+              544.9,
+              612.4
+            ],
+            "detection_confidence": 0.8538,
+            "similarity_to_reference_centroid": 0.0131,
+            "similarity_to_selected_main": 0.0049
+          },
+          {
+            "index": 2,
+            "role": "secondary",
+            "bbox": [
+              270.1,
+              556.8,
+              341.7,
+              648.5
+            ],
+            "detection_confidence": 0.8516,
+            "similarity_to_reference_centroid": -0.0097,
+            "similarity_to_selected_main": 0.1853
+          },
+          {
+            "index": 3,
+            "role": "secondary",
+            "bbox": [
+              614.2,
+              512.7,
+              683.2,
+              597.0
+            ],
+            "detection_confidence": 0.8473,
+            "similarity_to_reference_centroid": 0.0706,
+            "similarity_to_selected_main": 0.098
+          }
+        ],
+        "failures": [
+          "main_identity_below_threshold"
+        ]
+      },
+      "faces": [
+        {
+          "index": 0,
+          "bbox": [
+            383.6488342285156,
+            487.19342041015625,
+            460.0754089355469,
+            593.54443359375
+          ],
+          "native_face_dimensions": [
+            76.42657470703125,
+            106.35101318359375
+          ],
+          "normalized_face_dimensions": [
+            0.0918588638305664,
+            0.0874597147891396
+          ],
+          "normalized_face_center": [
+            0.5070458192091721,
+            0.44438234128450094
+          ],
+          "insightface_pose_raw": [
+            -7.6021552085876465,
+            13.806530952453613,
+            4.62609338760376
+          ],
+          "detector_confidence": 0.8616505265235901,
+          "centroid_similarity": 0.5225072503089905,
+          "mean_reference_similarity": 0.4507673730452855,
+          "minimum_reference_similarity": 0.35656875371932983,
+          "per_reference_similarity": {
+            "val_01_surf_full_body.jpg": 0.35656875371932983,
+            "val_02_body_mirror_sleeveless.jpg": 0.45176178216934204,
+            "val_03_navy_upper_body.jpg": 0.517468273639679,
+            "val_04_window_small_smile.jpg": 0.45188236236572266,
+            "val_05_balcony_opposite_angle.jpg": 0.4732408821582794,
+            "val_06_car_daylight.jpg": 0.45368218421936035
+          },
+          "calibrated_status": "near_match",
+          "proposed_conservative_all_reference_gate_pass": false
+        },
+        {
+          "index": 1,
+          "bbox": [
+            479.7633972167969,
+            533.4702758789062,
+            544.9012451171875,
+            612.357421875
+          ],
+          "native_face_dimensions": [
+            65.13784790039062,
+            78.88714599609375
+          ],
+          "normalized_face_dimensions": [
+            0.07829068257258488,
+            0.06487429769415605
+          ],
+          "normalized_face_center": [
+            0.6157840398641733,
+            0.47114625730012594
+          ],
+          "insightface_pose_raw": [
+            -4.155366897583008,
+            -5.836215496063232,
+            -21.832494735717773
+          ],
+          "detector_confidence": 0.8538181185722351,
+          "centroid_similarity": 0.013117770664393902,
+          "mean_reference_similarity": 0.011316705184678236,
+          "minimum_reference_similarity": -0.020755000412464142,
+          "per_reference_similarity": {
+            "val_01_surf_full_body.jpg": 0.046337518841028214,
+            "val_02_body_mirror_sleeveless.jpg": -0.015978608280420303,
+            "val_03_navy_upper_body.jpg": 0.03113124705851078,
+            "val_04_window_small_smile.jpg": 0.008565422147512436,
+            "val_05_balcony_opposite_angle.jpg": -0.020755000412464142,
+            "val_06_car_daylight.jpg": 0.018599651753902435
+          }
+        },
+        {
+          "index": 2,
+          "bbox": [
+            270.07525634765625,
+            556.7905883789062,
+            341.6679992675781,
+            648.5430908203125
+          ],
+          "native_face_dimensions": [
+            71.59274291992188,
+            91.75250244140625
+          ],
+          "normalized_face_dimensions": [
+            0.08604896985567533,
+            0.07545436056036699
+          ],
+          "normalized_face_center": [
+            0.3676341680380014,
+            0.49561417730231033
+          ],
+          "insightface_pose_raw": [
+            -2.9868862628936768,
+            20.333831787109375,
+            14.100146293640137
+          ],
+          "detector_confidence": 0.8516247868537903,
+          "centroid_similarity": -0.009742547757923603,
+          "mean_reference_similarity": -0.008404904045164585,
+          "minimum_reference_similarity": -0.0316171869635582,
+          "per_reference_similarity": {
+            "val_01_surf_full_body.jpg": 0.03399577736854553,
+            "val_02_body_mirror_sleeveless.jpg": -0.0316171869635582,
+            "val_03_navy_upper_body.jpg": -0.013459453359246254,
+            "val_04_window_small_smile.jpg": 0.00043204426765441895,
+            "val_05_balcony_opposite_angle.jpg": -0.013937948271632195,
+            "val_06_car_daylight.jpg": -0.025842657312750816
+          }
+        },
+        {
+          "index": 3,
+          "bbox": [
+            614.2135620117188,
+            512.6721801757812,
+            683.2084350585938,
+            597.0408325195312
+          ],
+          "native_face_dimensions": [
+            68.994873046875,
+            84.36865234375
+          ],
+          "normalized_face_dimensions": [
+            0.08292653010441707,
+            0.06938211541426809
+          ],
+          "normalized_face_center": [
+            0.7797007193932166,
+            0.45629646903590154
+          ],
+          "insightface_pose_raw": [
+            -5.416853904724121,
+            -4.64048433303833,
+            -12.569332122802734
+          ],
+          "detector_confidence": 0.8472708463668823,
+          "centroid_similarity": 0.07055000215768814,
+          "mean_reference_similarity": 0.060863527158896126,
+          "minimum_reference_similarity": 0.020293548703193665,
+          "per_reference_similarity": {
+            "val_01_surf_full_body.jpg": 0.07993295788764954,
+            "val_02_body_mirror_sleeveless.jpg": 0.020293548703193665,
+            "val_03_navy_upper_body.jpg": 0.06322319060564041,
+            "val_04_window_small_smile.jpg": 0.0719304084777832,
+            "val_05_balcony_opposite_angle.jpg": 0.048219434916973114,
+            "val_06_car_daylight.jpg": 0.08158162236213684
+          }
+        }
+      ],
+      "detected_face_count": 4,
+      "four_full_people_detection_warning": false,
+      "manual_scene_role_confirmation_required": true,
+      "selection_method": "fixed scene geometry before identity; not area",
+      "image_size": [
+        832,
+        1216
+      ]
+    }
+  },
+  "acceptance": {
+    "main_minimum": 0.55,
+    "bystander_limits_exclusive": [
+      0.42,
+      0.5,
+      0.72
+    ],
+    "six_reference_floor_reported_unchanged": 0.5533463954925537,
+    "floor_role": "diagnostic investigation guard for this new case",
+    "manual_review_required": "two independent full/native/thumbnail reviews; fixed Amber main; two separate own knee hands, brunette own glass/lap, right woman own folded lap hands, denim man table-occluded arms; four principal adults plus far-right partial fifth; no identity uncertainty, clone, halo or material failure"
+  },
+  "floor_interpretation": "Unchanged raw diagnostic for this prospectively declared scene case; no historical failed gate rewritten.",
+  "manual_contract": "four principal adults including main plus far-right partial fifth; source-specific own knee hands, brunette glass/lap, right woman folded hands, denim-man table occlusion, closed lips, natural adult identity/skin/hair, no halo or identity uncertainty",
+  "scope": "One pilot of the frozen native hook mask-treatment pair; not an old Amber resolution/runtime comparison or production promotion.",
+  "hook_pair_preparation_sha256": "32B07905670B4E541B6E8DC300A8CF5EB66DCED602C8284881184000140FA657",
+  "actual_main_bbox_visual_confirmation_required": true
+}

@@ -1,0 +1,14 @@
+{
+  "start_utc": "2026-09-08T06:05:40.8792060+00:00",
+  "argv": [
+    "-X",
+    "utf8",
+    "-B",
+    "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\fresh_runtime_v2.py",
+    "--watch",
+    "--case",
+    "pilot"
+  ],
+  "launch_pid": 25356,
+  "executable": "C:\\projects\\AI-Tools\\ComfyUI\\.venv\\Scripts\\python.exe"
+}

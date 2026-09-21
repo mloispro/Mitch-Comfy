@@ -1,0 +1,561 @@
+{
+  "forge": {
+    "active": false,
+    "online": false,
+    "listener": false,
+    "activity_verified": true,
+    "port": 7860
+  },
+  "gpus": [
+    {
+      "index": "0",
+      "name": "NVIDIA GeForce RTX 3090",
+      "uuid": "GPU-c2ca4516-2c9f-e87b-3a20-f459947ddb17",
+      "used": "1663",
+      "total": "24576",
+      "util": "0"
+    },
+    {
+      "index": "1",
+      "name": "NVIDIA GeForce RTX 4070",
+      "uuid": "GPU-de12eec8-4b3d-f2ae-791c-8423a86915fd",
+      "used": "237",
+      "total": "12282",
+      "util": "0"
+    }
+  ],
+  "process_inventory": {
+    "processes": [
+      {
+        "pid": 26744,
+        "parent_pid": 58132,
+        "start_utc": "2026-09-06T18:44:35.0143640+00:00",
+        "executable": "C:\\projects\\AI-Tools\\ComfyUI\\.venv\\Scripts\\python.exe",
+        "argv": [
+          "C:\\projects\\AI-Tools\\ComfyUI\\main.py",
+          "--cuda-device",
+          "GPU-c2ca4516-2c9f-e87b-3a20-f459947ddb17",
+          "--port",
+          "8188",
+          "--disable-auto-launch"
+        ]
+      },
+      {
+        "pid": 52720,
+        "parent_pid": 26744,
+        "start_utc": "2026-09-06T18:44:36.0500870+00:00",
+        "executable": "C:\\Users\\Mitch\\AppData\\Roaming\\uv\\python\\cpython-3.10-windows-x86_64-none\\python.exe",
+        "argv": [
+          "C:\\projects\\AI-Tools\\ComfyUI\\main.py",
+          "--cuda-device",
+          "GPU-c2ca4516-2c9f-e87b-3a20-f459947ddb17",
+          "--port",
+          "8188",
+          "--disable-auto-launch"
+        ]
+      },
+      {
+        "pid": 7452,
+        "parent_pid": 58132,
+        "start_utc": "2026-09-06T18:44:38.0361390+00:00",
+        "executable": "C:\\projects\\AI-Tools\\ComfyUI\\.venv\\Scripts\\python.exe",
+        "argv": [
+          "C:\\projects\\AI-Tools\\ComfyUI\\main.py",
+          "--cuda-device",
+          "GPU-de12eec8-4b3d-f2ae-791c-8423a86915fd",
+          "--port",
+          "8189",
+          "--disable-auto-launch",
+          "--user-directory",
+          "C:\\projects\\AI-Tools\\ComfyUI\\user-4070",
+          "--database-url",
+          "sqlite:///C:/projects/AI-Tools/ComfyUI/user-4070/comfyui.db",
+          "--temp-directory",
+          "C:\\projects\\AI-Tools\\ComfyUI\\temp\\gpu-4070",
+          "--output-directory",
+          "C:\\projects\\AI-Tools\\ComfyUI\\output\\gpu-4070"
+        ]
+      },
+      {
+        "pid": 19552,
+        "parent_pid": 7452,
+        "start_utc": "2026-09-06T18:44:38.0657130+00:00",
+        "executable": "C:\\Users\\Mitch\\AppData\\Roaming\\uv\\python\\cpython-3.10-windows-x86_64-none\\python.exe",
+        "argv": [
+          "C:\\projects\\AI-Tools\\ComfyUI\\main.py",
+          "--cuda-device",
+          "GPU-de12eec8-4b3d-f2ae-791c-8423a86915fd",
+          "--port",
+          "8189",
+          "--disable-auto-launch",
+          "--user-directory",
+          "C:\\projects\\AI-Tools\\ComfyUI\\user-4070",
+          "--database-url",
+          "sqlite:///C:/projects/AI-Tools/ComfyUI/user-4070/comfyui.db",
+          "--temp-directory",
+          "C:\\projects\\AI-Tools\\ComfyUI\\temp\\gpu-4070",
+          "--output-directory",
+          "C:\\projects\\AI-Tools\\ComfyUI\\output\\gpu-4070"
+        ]
+      },
+      {
+        "pid": 48604,
+        "parent_pid": 51536,
+        "start_utc": "2026-09-08T06:05:00.4683490+00:00",
+        "executable": "C:\\projects\\AI-Tools\\ComfyUI\\.venv\\Scripts\\python.exe",
+        "argv": [
+          "C:\\projects\\AI-Tools\\ComfyUI\\main.py",
+          "--cuda-device",
+          "GPU-c2ca4516-2c9f-e87b-3a20-f459947ddb17",
+          "--port",
+          "8191",
+          "--disable-auto-launch",
+          "--user-directory",
+          "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\worker\\user",
+          "--database-url",
+          "sqlite:///C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-pilot-resume-20260908/worker/comfyui.db",
+          "--temp-directory",
+          "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\worker\\temp",
+          "--output-directory",
+          "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\worker\\output",
+          "--input-directory",
+          "C:\\projects\\AI-Tools\\ComfyUI\\input",
+          "--listen",
+          "127.0.0.1",
+          "--disable-dynamic-vram",
+          "--cache-none",
+          "--reserve-vram",
+          "5.2",
+          "--extra-model-paths-config",
+          "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\extra-paths-v3.yaml"
+        ]
+      },
+      {
+        "pid": 55636,
+        "parent_pid": 48604,
+        "start_utc": "2026-09-08T06:05:00.5097480+00:00",
+        "executable": "C:\\Users\\Mitch\\AppData\\Roaming\\uv\\python\\cpython-3.10-windows-x86_64-none\\python.exe",
+        "argv": [
+          "C:\\projects\\AI-Tools\\ComfyUI\\main.py",
+          "--cuda-device",
+          "GPU-c2ca4516-2c9f-e87b-3a20-f459947ddb17",
+          "--port",
+          "8191",
+          "--disable-auto-launch",
+          "--user-directory",
+          "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\worker\\user",
+          "--database-url",
+          "sqlite:///C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-pilot-resume-20260908/worker/comfyui.db",
+          "--temp-directory",
+          "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\worker\\temp",
+          "--output-directory",
+          "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\worker\\output",
+          "--input-directory",
+          "C:\\projects\\AI-Tools\\ComfyUI\\input",
+          "--listen",
+          "127.0.0.1",
+          "--disable-dynamic-vram",
+          "--cache-none",
+          "--reserve-vram",
+          "5.2",
+          "--extra-model-paths-config",
+          "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\extra-paths-v3.yaml"
+        ]
+      }
+    ],
+    "listeners": [
+      {
+        "port": 65515,
+        "address": "fd7a:115c:a1e0::cb01:91b4",
+        "pid": 20680
+      },
+      {
+        "port": 49672,
+        "address": "::",
+        "pid": 2012
+      },
+      {
+        "port": 49669,
+        "address": "::",
+        "pid": 5068
+      },
+      {
+        "port": 49668,
+        "address": "::",
+        "pid": 4412
+      },
+      {
+        "port": 49667,
+        "address": "::",
+        "pid": 3492
+      },
+      {
+        "port": 49666,
+        "address": "::",
+        "pid": 2628
+      },
+      {
+        "port": 49665,
+        "address": "::",
+        "pid": 1868
+      },
+      {
+        "port": 49664,
+        "address": "::",
+        "pid": 2040
+      },
+      {
+        "port": 42050,
+        "address": "::1",
+        "pid": 59224
+      },
+      {
+        "port": 7680,
+        "address": "::",
+        "pid": 9932
+      },
+      {
+        "port": 5357,
+        "address": "::",
+        "pid": 4
+      },
+      {
+        "port": 3389,
+        "address": "::",
+        "pid": 7152
+      },
+      {
+        "port": 445,
+        "address": "::",
+        "pid": 4
+      },
+      {
+        "port": 135,
+        "address": "::",
+        "pid": 2144
+      },
+      {
+        "port": 53005,
+        "address": "127.0.0.1",
+        "pid": 9260
+      },
+      {
+        "port": 53000,
+        "address": "127.0.0.1",
+        "pid": 9260
+      },
+      {
+        "port": 49672,
+        "address": "0.0.0.0",
+        "pid": 2012
+      },
+      {
+        "port": 49669,
+        "address": "0.0.0.0",
+        "pid": 5068
+      },
+      {
+        "port": 49668,
+        "address": "0.0.0.0",
+        "pid": 4412
+      },
+      {
+        "port": 49667,
+        "address": "0.0.0.0",
+        "pid": 3492
+      },
+      {
+        "port": 49666,
+        "address": "0.0.0.0",
+        "pid": 2628
+      },
+      {
+        "port": 49665,
+        "address": "0.0.0.0",
+        "pid": 1868
+      },
+      {
+        "port": 49664,
+        "address": "0.0.0.0",
+        "pid": 2040
+      },
+      {
+        "port": 44506,
+        "address": "100.86.145.15",
+        "pid": 20680
+      },
+      {
+        "port": 8191,
+        "address": "127.0.0.1",
+        "pid": 55636
+      },
+      {
+        "port": 8189,
+        "address": "127.0.0.1",
+        "pid": 19552
+      },
+      {
+        "port": 8188,
+        "address": "127.0.0.1",
+        "pid": 52720
+      },
+      {
+        "port": 5040,
+        "address": "0.0.0.0",
+        "pid": 9664
+      },
+      {
+        "port": 3389,
+        "address": "0.0.0.0",
+        "pid": 7152
+      },
+      {
+        "port": 1236,
+        "address": "0.0.0.0",
+        "pid": 5000
+      },
+      {
+        "port": 139,
+        "address": "10.0.0.228",
+        "pid": 4
+      },
+      {
+        "port": 135,
+        "address": "0.0.0.0",
+        "pid": 2144
+      }
+    ]
+  },
+  "workers": [
+    {
+      "port": 8188,
+      "device": "cuda:0 NVIDIA GeForce RTX 3090 : cudaMallocAsync",
+      "argv": [
+        "C:\\projects\\AI-Tools\\ComfyUI\\main.py",
+        "--cuda-device",
+        "GPU-c2ca4516-2c9f-e87b-3a20-f459947ddb17",
+        "--port",
+        "8188",
+        "--disable-auto-launch"
+      ],
+      "ram_free": 45705142272,
+      "ram_total": 67805294592,
+      "running": 0,
+      "pending": 0,
+      "ids": [],
+      "owner": {
+        "pid": 52720,
+        "parent_pid": 26744,
+        "start_utc": "2026-09-06T18:44:36.0500870+00:00",
+        "executable": "C:\\Users\\Mitch\\AppData\\Roaming\\uv\\python\\cpython-3.10-windows-x86_64-none\\python.exe",
+        "argv": [
+          "C:\\projects\\AI-Tools\\ComfyUI\\main.py",
+          "--cuda-device",
+          "GPU-c2ca4516-2c9f-e87b-3a20-f459947ddb17",
+          "--port",
+          "8188",
+          "--disable-auto-launch"
+        ]
+      },
+      "trampoline": [
+        {
+          "pid": 26744,
+          "parent_pid": 58132,
+          "start_utc": "2026-09-06T18:44:35.0143640+00:00",
+          "executable": "C:\\projects\\AI-Tools\\ComfyUI\\.venv\\Scripts\\python.exe",
+          "argv": [
+            "C:\\projects\\AI-Tools\\ComfyUI\\main.py",
+            "--cuda-device",
+            "GPU-c2ca4516-2c9f-e87b-3a20-f459947ddb17",
+            "--port",
+            "8188",
+            "--disable-auto-launch"
+          ]
+        }
+      ]
+    },
+    {
+      "port": 8189,
+      "device": "cuda:0 NVIDIA GeForce RTX 4070 : cudaMallocAsync",
+      "argv": [
+        "C:\\projects\\AI-Tools\\ComfyUI\\main.py",
+        "--cuda-device",
+        "GPU-de12eec8-4b3d-f2ae-791c-8423a86915fd",
+        "--port",
+        "8189",
+        "--disable-auto-launch",
+        "--user-directory",
+        "C:\\projects\\AI-Tools\\ComfyUI\\user-4070",
+        "--database-url",
+        "sqlite:///C:/projects/AI-Tools/ComfyUI/user-4070/comfyui.db",
+        "--temp-directory",
+        "C:\\projects\\AI-Tools\\ComfyUI\\temp\\gpu-4070",
+        "--output-directory",
+        "C:\\projects\\AI-Tools\\ComfyUI\\output\\gpu-4070"
+      ],
+      "ram_free": 45704982528,
+      "ram_total": 67805294592,
+      "running": 0,
+      "pending": 0,
+      "ids": [],
+      "owner": {
+        "pid": 19552,
+        "parent_pid": 7452,
+        "start_utc": "2026-09-06T18:44:38.0657130+00:00",
+        "executable": "C:\\Users\\Mitch\\AppData\\Roaming\\uv\\python\\cpython-3.10-windows-x86_64-none\\python.exe",
+        "argv": [
+          "C:\\projects\\AI-Tools\\ComfyUI\\main.py",
+          "--cuda-device",
+          "GPU-de12eec8-4b3d-f2ae-791c-8423a86915fd",
+          "--port",
+          "8189",
+          "--disable-auto-launch",
+          "--user-directory",
+          "C:\\projects\\AI-Tools\\ComfyUI\\user-4070",
+          "--database-url",
+          "sqlite:///C:/projects/AI-Tools/ComfyUI/user-4070/comfyui.db",
+          "--temp-directory",
+          "C:\\projects\\AI-Tools\\ComfyUI\\temp\\gpu-4070",
+          "--output-directory",
+          "C:\\projects\\AI-Tools\\ComfyUI\\output\\gpu-4070"
+        ]
+      },
+      "trampoline": [
+        {
+          "pid": 7452,
+          "parent_pid": 58132,
+          "start_utc": "2026-09-06T18:44:38.0361390+00:00",
+          "executable": "C:\\projects\\AI-Tools\\ComfyUI\\.venv\\Scripts\\python.exe",
+          "argv": [
+            "C:\\projects\\AI-Tools\\ComfyUI\\main.py",
+            "--cuda-device",
+            "GPU-de12eec8-4b3d-f2ae-791c-8423a86915fd",
+            "--port",
+            "8189",
+            "--disable-auto-launch",
+            "--user-directory",
+            "C:\\projects\\AI-Tools\\ComfyUI\\user-4070",
+            "--database-url",
+            "sqlite:///C:/projects/AI-Tools/ComfyUI/user-4070/comfyui.db",
+            "--temp-directory",
+            "C:\\projects\\AI-Tools\\ComfyUI\\temp\\gpu-4070",
+            "--output-directory",
+            "C:\\projects\\AI-Tools\\ComfyUI\\output\\gpu-4070"
+          ]
+        }
+      ]
+    },
+    {
+      "port": 8190,
+      "offline": true,
+      "listener": false
+    },
+    {
+      "port": 8191,
+      "device": "cuda:0 NVIDIA GeForce RTX 3090 : cudaMallocAsync",
+      "argv": [
+        "C:\\projects\\AI-Tools\\ComfyUI\\main.py",
+        "--cuda-device",
+        "GPU-c2ca4516-2c9f-e87b-3a20-f459947ddb17",
+        "--port",
+        "8191",
+        "--disable-auto-launch",
+        "--user-directory",
+        "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\worker\\user",
+        "--database-url",
+        "sqlite:///C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-pilot-resume-20260908/worker/comfyui.db",
+        "--temp-directory",
+        "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\worker\\temp",
+        "--output-directory",
+        "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\worker\\output",
+        "--input-directory",
+        "C:\\projects\\AI-Tools\\ComfyUI\\input",
+        "--listen",
+        "127.0.0.1",
+        "--disable-dynamic-vram",
+        "--cache-none",
+        "--reserve-vram",
+        "5.2",
+        "--extra-model-paths-config",
+        "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\extra-paths-v3.yaml"
+      ],
+      "ram_free": 45704982528,
+      "ram_total": 67805294592,
+      "running": 0,
+      "pending": 0,
+      "ids": [],
+      "owner": {
+        "pid": 55636,
+        "parent_pid": 48604,
+        "start_utc": "2026-09-08T06:05:00.5097480+00:00",
+        "executable": "C:\\Users\\Mitch\\AppData\\Roaming\\uv\\python\\cpython-3.10-windows-x86_64-none\\python.exe",
+        "argv": [
+          "C:\\projects\\AI-Tools\\ComfyUI\\main.py",
+          "--cuda-device",
+          "GPU-c2ca4516-2c9f-e87b-3a20-f459947ddb17",
+          "--port",
+          "8191",
+          "--disable-auto-launch",
+          "--user-directory",
+          "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\worker\\user",
+          "--database-url",
+          "sqlite:///C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-pilot-resume-20260908/worker/comfyui.db",
+          "--temp-directory",
+          "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\worker\\temp",
+          "--output-directory",
+          "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\worker\\output",
+          "--input-directory",
+          "C:\\projects\\AI-Tools\\ComfyUI\\input",
+          "--listen",
+          "127.0.0.1",
+          "--disable-dynamic-vram",
+          "--cache-none",
+          "--reserve-vram",
+          "5.2",
+          "--extra-model-paths-config",
+          "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\extra-paths-v3.yaml"
+        ]
+      },
+      "trampoline": [
+        {
+          "pid": 48604,
+          "parent_pid": 51536,
+          "start_utc": "2026-09-08T06:05:00.4683490+00:00",
+          "executable": "C:\\projects\\AI-Tools\\ComfyUI\\.venv\\Scripts\\python.exe",
+          "argv": [
+            "C:\\projects\\AI-Tools\\ComfyUI\\main.py",
+            "--cuda-device",
+            "GPU-c2ca4516-2c9f-e87b-3a20-f459947ddb17",
+            "--port",
+            "8191",
+            "--disable-auto-launch",
+            "--user-directory",
+            "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\worker\\user",
+            "--database-url",
+            "sqlite:///C:/projects/AI-Tools/Mitch-Comfy/workflows/experiments/group-masked-pilot-resume-20260908/worker/comfyui.db",
+            "--temp-directory",
+            "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\worker\\temp",
+            "--output-directory",
+            "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\worker\\output",
+            "--input-directory",
+            "C:\\projects\\AI-Tools\\ComfyUI\\input",
+            "--listen",
+            "127.0.0.1",
+            "--disable-dynamic-vram",
+            "--cache-none",
+            "--reserve-vram",
+            "5.2",
+            "--extra-model-paths-config",
+            "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\extra-paths-v3.yaml"
+          ]
+        }
+      ]
+    }
+  ],
+  "utc": "2026-09-08T06:05:40.1292981Z",
+  "group_memory": {
+    "utc": "2026-09-08T06:05:40.242726+00:00",
+    "host_available_bytes": 45678505984,
+    "commit_headroom_bytes": 97427484672
+  }
+}

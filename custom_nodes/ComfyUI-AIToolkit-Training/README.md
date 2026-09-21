@@ -3,6 +3,11 @@
 This local custom-node package supports Mitch’s current ComfyUI photo workflows, dataset utilities, and exact
 legacy rollback graphs. Current workflow status is maintained in `../../docs/STATUS.md`.
 
+For code changes, use [the architecture map](../../docs/ARCHITECTURE.md) and
+[focused testing guide](../../docs/TESTING.md). [Development entry point](../../docs/START-HERE.md)
+links current results and failed approaches. A public node's presence does not establish image
+acceptance across every scene or mode.
+
 ## Nodes used by current photo workflows
 
 | Node | Workflow | Purpose |
@@ -60,8 +65,9 @@ dataset fingerprint prevent accidental duplicate submission.
 
 ## Development and verification
 
-The package is linked directly into the live ComfyUI custom-node folder. Restart ComfyUI after changing Python
-files, then reopen the workflow.
+The package is linked directly into the live ComfyUI custom-node folder. Python changes require an
+appropriate worker reload before live validation. Inspect both GPUs/queues and preserve active work;
+do not restart an occupied worker. Reopen the workflow after the safe reload.
 
 Run the repository verifier:
 

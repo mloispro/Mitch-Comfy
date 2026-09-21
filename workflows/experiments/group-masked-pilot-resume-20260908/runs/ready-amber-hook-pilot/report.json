@@ -1,0 +1,34 @@
+{
+  "observed_wall_seconds": 339.1783024,
+  "started_utc": "2026-09-08T06:05:40.2873841Z",
+  "worker_seconds": 334.218,
+  "name": "ready-amber-hook-pilot",
+  "note": "Worker seconds are immutable execution-event duration, including loading. Observed wall seconds preserve the first successful observation and can include polling/observation delay; retrieval time is separate.",
+  "files": [
+    {
+      "native_source": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\worker\\output\\9b-readiness-resume-20260907\\group-amber-hook-pilot-seed8675412_00001_.png",
+      "node": "37",
+      "path": "C:\\projects\\AI-Tools\\Mitch-Comfy\\workflows\\experiments\\group-masked-pilot-resume-20260908\\runs\\ready-amber-hook-pilot\\group-amber-hook-pilot-seed8675412_00001_.png",
+      "sha256": "4100246734E15B8AF7F71E58EDB9C60268BE9BE87757C7319DC86ECC5AC78BB3"
+    }
+  ],
+  "last_retrieved_utc": "2026-09-08T06:11:19.5625099Z",
+  "status": "success",
+  "prompt_id": "df911670-57ed-4bc5-b982-a2bbe057b975",
+  "events": [
+    [
+      "execution_start",
+      {
+        "prompt_id": "df911670-57ed-4bc5-b982-a2bbe057b975",
+        "timestamp": 1788847542171
+      }
+    ],
+    [
+      "execution_success",
+      {
+        "prompt_id": "df911670-57ed-4bc5-b982-a2bbe057b975",
+        "timestamp": 1788847876389
+      }
+    ]
+  ]
+}

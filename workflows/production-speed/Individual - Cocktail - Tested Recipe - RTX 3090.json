@@ -1,0 +1,1617 @@
+{
+  "id": "803c3be6-ae8c-4af3-af1a-6c5de793c047",
+  "revision": 0,
+  "last_node_id": 200,
+  "last_link_id": 37,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "Flux2Klein9BSpeedUNETLoader",
+      "pos": [
+        0,
+        0
+      ],
+      "size": [
+        330,
+        150
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            1
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Flux2Klein9BSpeedUNETLoader"
+      },
+      "widgets_values": [
+        "flux-2-klein-base-9b-bf16.safetensors",
+        "fp8_e4m3fn"
+      ],
+      "color": "#234",
+      "bgcolor": "#345",
+      "title": "3090 guarded Base 9B FP8"
+    },
+    {
+      "id": 2,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        0,
+        180
+      ],
+      "size": [
+        330,
+        150
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            2
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoraLoaderModelOnly",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "flux2-klein9b-turbo\\Flux_Klein_9b_Turbo_lora_rank_256_bf16_standard.safetensors",
+        1
+      ]
+    },
+    {
+      "id": 3,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        0,
+        360
+      ],
+      "size": [
+        330,
+        150
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 2
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            3
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoraLoaderModelOnly",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "m1tch-flux2-klein9b-identity-v3-r32-dop-step1600.safetensors",
+        0.9
+      ]
+    },
+    {
+      "id": 4,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        0,
+        540
+      ],
+      "size": [
+        330,
+        150
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 3
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            20
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoraLoaderModelOnly",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "smartphone-snapshot\\FLUX.2-klein-base-9B_SmartphoneSnapshotPhotoReality_v13.safetensors",
+        0.25
+      ]
+    },
+    {
+      "id": 5,
+      "type": "Flux2Klein9BSpeedCLIPLoader",
+      "pos": [
+        0,
+        720
+      ],
+      "size": [
+        330,
+        150
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            4,
+            5
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Flux2Klein9BSpeedCLIPLoader"
+      },
+      "widgets_values": [
+        "qwen_3_8b_fp8mixed.safetensors",
+        "flux2",
+        "default"
+      ],
+      "color": "#234",
+      "bgcolor": "#345",
+      "title": "3090 guarded Qwen FP8mixed"
+    },
+    {
+      "id": 6,
+      "type": "Flux2Klein9BSpeedVAELoader",
+      "pos": [
+        0,
+        900
+      ],
+      "size": [
+        330,
+        150
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            8,
+            15,
+            29,
+            33
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Flux2Klein9BSpeedVAELoader"
+      },
+      "widgets_values": [
+        "flux2-vae.safetensors"
+      ],
+      "color": "#234",
+      "bgcolor": "#345",
+      "title": "3090 guarded full VAE"
+    },
+    {
+      "id": 7,
+      "type": "CLIPTextEncode",
+      "pos": [
+        440,
+        0
+      ],
+      "size": [
+        730,
+        730
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 4
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            9
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "casual snapshot. A vertical candid portrait photograph of m1tch_person, the same recognizable adult man from Pictures 1 and 3. Pictures 1 and 3 supply his face and hairline from different views; Picture 2 supplies only his lean body proportions. A vertical candid rooftop cocktail portrait at night. m1tch_person is framed from head through upper thighs in a fitted black long-sleeve button-up shirt with an open collar and a completely bare neck. His arm at image-left rests naturally on a wooden railing while that hand holds a short clear tumbler; his other hand rests in his trouser pocket at image-right. He wears a simple metal wristwatch, gives a relaxed restrained closed-lip smile, and looks slightly off-camera toward image-left. Dense city lights fill the background, with warm rooftop string lights and a few distant patrons at image-right. Natural direct phone flash, realistic hands, natural skin, and seamless nighttime integration. Keep his head through upper thighs inside the frame with natural space around the visible railing hand and tumbler. Preserve the intended trouser-pocket hand placement. He gives a relaxed restrained closed-lip smile and looks slightly off-camera toward image-left. His jaw is relaxed and his lips are gently pressed together in one continuous closed line. Give him a visibly flattering best-day appearance, about three to five years younger while retaining his distinctive adult face width, eyes, nose, mouth, ears and short brown hair and hairline. Give him a slightly stronger natural jaw and chin, raise and define his cheekbones modestly, and gently balance his face and eyelids. His eyes retain their natural size, spacing and color with clear irises and small natural catchlights. Soften forehead, eye and under-eye lines by about half, reduce under-eye puffiness and shadow, and give his skin a light bronze tan with healthy tonal variation. Keep fine visible pores and tidy individual stubble hairs. One coherent, uncaptioned and unbranded photograph with natural anatomy, skin, hair and rooftop railing, glass and nighttime city detail, and the texture of an unretouched editorial photograph."
+      ],
+      "title": "EDIT PROMPT — Cocktail defaults (new scenes unvalidated)"
+    },
+    {
+      "id": 8,
+      "type": "CLIPTextEncode",
+      "pos": [
+        440,
+        820
+      ],
+      "size": [
+        330,
+        150
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 5
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            11
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 10,
+      "type": "LoadImage",
+      "pos": [
+        1220,
+        0
+      ],
+      "size": [
+        330,
+        470
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            6
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [],
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "mitch-klein9b-ref-front-neutral-v2.jpg",
+        "image"
+      ],
+      "title": "Picture 1 — genuine front identity"
+    },
+    {
+      "id": 11,
+      "type": "ImageScale",
+      "pos": [
+        1590,
+        0
+      ],
+      "size": [
+        330,
+        230
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 6
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            7
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageScale",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "lanczos",
+        448,
+        592,
+        "disabled"
+      ]
+    },
+    {
+      "id": 12,
+      "type": "VAEEncode",
+      "pos": [
+        1960,
+        0
+      ],
+      "size": [
+        330,
+        150
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "pixels",
+          "type": "IMAGE",
+          "link": 7
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 8
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            10,
+            12
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEEncode",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 13,
+      "type": "ReferenceLatent",
+      "pos": [
+        2330,
+        0
+      ],
+      "size": [
+        330,
+        150
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 9
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "link": 10
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            16
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ReferenceLatent",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 14,
+      "type": "ReferenceLatent",
+      "pos": [
+        2330,
+        220
+      ],
+      "size": [
+        330,
+        150
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 11
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "link": 12
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            18
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ReferenceLatent",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 20,
+      "type": "LoadImage",
+      "pos": [
+        1220,
+        600
+      ],
+      "size": [
+        330,
+        470
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            13
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [],
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "flux2-dev-ref-04-full-body.jpg",
+        "image"
+      ],
+      "title": "Picture 2 — genuine body proportions"
+    },
+    {
+      "id": 21,
+      "type": "ImageScale",
+      "pos": [
+        1590,
+        600
+      ],
+      "size": [
+        330,
+        230
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 13
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            14
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageScale",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "lanczos",
+        512,
+        512,
+        "disabled"
+      ]
+    },
+    {
+      "id": 22,
+      "type": "VAEEncode",
+      "pos": [
+        1960,
+        600
+      ],
+      "size": [
+        330,
+        150
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "pixels",
+          "type": "IMAGE",
+          "link": 14
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 15
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            17,
+            19
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEEncode",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 23,
+      "type": "ReferenceLatent",
+      "pos": [
+        2330,
+        600
+      ],
+      "size": [
+        330,
+        150
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 16
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "link": 17
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            34
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ReferenceLatent",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 24,
+      "type": "ReferenceLatent",
+      "pos": [
+        2330,
+        820
+      ],
+      "size": [
+        330,
+        150
+      ],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 18
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "link": 19
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            36
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ReferenceLatent",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 30,
+      "type": "CFGGuider",
+      "pos": [
+        2730,
+        370
+      ],
+      "size": [
+        330,
+        230
+      ],
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 20
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 21
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 22
+        }
+      ],
+      "outputs": [
+        {
+          "name": "GUIDER",
+          "type": "GUIDER",
+          "links": [
+            24
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CFGGuider",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        1
+      ]
+    },
+    {
+      "id": 31,
+      "type": "KSamplerSelect",
+      "pos": [
+        2730,
+        640
+      ],
+      "size": [
+        330,
+        150
+      ],
+      "flags": {},
+      "order": 19,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "SAMPLER",
+          "type": "SAMPLER",
+          "links": [
+            25
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSamplerSelect",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "euler"
+      ]
+    },
+    {
+      "id": 32,
+      "type": "Flux2Scheduler",
+      "pos": [
+        2730,
+        820
+      ],
+      "size": [
+        330,
+        150
+      ],
+      "flags": {},
+      "order": 20,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "SIGMAS",
+          "type": "SIGMAS",
+          "links": [
+            26
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Flux2Scheduler",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        8,
+        832,
+        1216
+      ]
+    },
+    {
+      "id": 33,
+      "type": "RandomNoise",
+      "pos": [
+        2730,
+        0
+      ],
+      "size": [
+        330,
+        150
+      ],
+      "flags": {},
+      "order": 21,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "NOISE",
+          "type": "NOISE",
+          "links": [
+            23
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RandomNoise",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        315982047,
+        "fixed"
+      ]
+    },
+    {
+      "id": 34,
+      "type": "EmptyFlux2LatentImage",
+      "pos": [
+        2730,
+        1050
+      ],
+      "size": [
+        330,
+        150
+      ],
+      "flags": {},
+      "order": 22,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            27
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptyFlux2LatentImage",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        832,
+        1216,
+        1
+      ]
+    },
+    {
+      "id": 35,
+      "type": "Flux2Klein9BSpeedSampler",
+      "pos": [
+        3100,
+        420
+      ],
+      "size": [
+        330,
+        150
+      ],
+      "flags": {},
+      "order": 23,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "noise",
+          "type": "NOISE",
+          "link": 23
+        },
+        {
+          "name": "guider",
+          "type": "GUIDER",
+          "link": 24
+        },
+        {
+          "name": "sampler",
+          "type": "SAMPLER",
+          "link": 25
+        },
+        {
+          "name": "sigmas",
+          "type": "SIGMAS",
+          "link": 26
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 27
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "LATENT",
+          "links": [
+            28
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "denoised_output",
+          "type": "LATENT",
+          "links": [],
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Flux2Klein9BSpeedSampler"
+      },
+      "widgets_values": [],
+      "color": "#234",
+      "bgcolor": "#345",
+      "title": "3090 guarded native sampling"
+    },
+    {
+      "id": 36,
+      "type": "VAEDecode",
+      "pos": [
+        3470,
+        420
+      ],
+      "size": [
+        330,
+        150
+      ],
+      "flags": {},
+      "order": 24,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 28
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 29
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            30
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 37,
+      "type": "SaveImage",
+      "pos": [
+        3840,
+        280
+      ],
+      "size": [
+        620,
+        930
+      ],
+      "flags": {},
+      "order": 25,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 30
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": [],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SaveImage",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "production-speed/individual-cocktail/photo"
+      ]
+    },
+    {
+      "id": 40,
+      "type": "LoadImage",
+      "pos": [
+        1220,
+        1200
+      ],
+      "size": [
+        330,
+        470
+      ],
+      "flags": {},
+      "order": 26,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            31
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [],
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "20260508_123156.jpg",
+        "image"
+      ],
+      "title": "Picture 3 — genuine angle09 identity"
+    },
+    {
+      "id": 41,
+      "type": "ImageScale",
+      "pos": [
+        1590,
+        1200
+      ],
+      "size": [
+        330,
+        230
+      ],
+      "flags": {},
+      "order": 27,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 31
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            32
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageScale",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "lanczos",
+        432,
+        576,
+        "disabled"
+      ]
+    },
+    {
+      "id": 42,
+      "type": "VAEEncode",
+      "pos": [
+        1960,
+        1200
+      ],
+      "size": [
+        330,
+        150
+      ],
+      "flags": {},
+      "order": 28,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "pixels",
+          "type": "IMAGE",
+          "link": 32
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 33
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            35,
+            37
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEEncode",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 43,
+      "type": "ReferenceLatent",
+      "pos": [
+        2330,
+        1200
+      ],
+      "size": [
+        330,
+        150
+      ],
+      "flags": {},
+      "order": 29,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 34
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "link": 35
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            21
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ReferenceLatent",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 44,
+      "type": "ReferenceLatent",
+      "pos": [
+        2330,
+        1420
+      ],
+      "size": [
+        330,
+        150
+      ],
+      "flags": {},
+      "order": 30,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 36
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "link": 37
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            22
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ReferenceLatent",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 200,
+      "type": "MarkdownNote",
+      "pos": [
+        -800,
+        0
+      ],
+      "size": [
+        740,
+        1180
+      ],
+      "flags": {},
+      "order": 31,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MarkdownNote",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "# Individual — Cocktail (tested recipe)\n\nRTX 3090 / normal ComfyUI port 8188. Press Run on that worker.\nThe Base, Qwen, VAE and sampler nodes enforce this worker server-side. The 4070 and legacy --disable-dynamic-vram workers are rejected before any model-loading branch. Existing production workflows are unchanged.\n\nThis is the accepted RAW COCKTAIL recipe, not the public Individual preset implementation and not 14-scene approval. A fresh normal-3090 runtime check is tracked separately from the historical 4070 result; do not transfer the old timing to this worker.\n\nBase 9B FP8 + Qwen FP8mixed + full Flux2 VAE. Turbo 1 → Mitch V3 step1600 .90 → Smartphone .25. 8 Euler / CFG 1, 832×1216. Genuine front 448×592 → body 512×512 → angle09 432×576, in that order, on BOTH native reference-latent branches. The body-only wording is a prompt request, not hard identity isolation. No swap, mask, restoration, upscaler or second pass.\n\nThe prompt and seed are ordinary editable controls. Default seed315982047 is fixed for reproducibility; every press of Run samples again. A new prompt/seed is an UNVALIDATED variation, not a guarantee of likeness, closed lips, hands or arbitrary scenes. Preserve the three genuine reference roles/order/sizes. Exact default-input SHA256 values and source-graph provenance are in config/production-speed-solo-upgrade.json.\n\nReview the complete new image and likeness. For this scene check closed lips, slight image-left gaze, believable tumbler grip/railing contact, pocket hand, city lights/patrons and no face halo. Images save to production-speed/individual-cocktail; SaveImage increments filenames. Historical photos remain untouched.\n"
+      ]
+    }
+  ],
+  "links": [
+    [
+      1,
+      1,
+      0,
+      2,
+      0,
+      "MODEL"
+    ],
+    [
+      2,
+      2,
+      0,
+      3,
+      0,
+      "MODEL"
+    ],
+    [
+      3,
+      3,
+      0,
+      4,
+      0,
+      "MODEL"
+    ],
+    [
+      4,
+      5,
+      0,
+      7,
+      0,
+      "CLIP"
+    ],
+    [
+      5,
+      5,
+      0,
+      8,
+      0,
+      "CLIP"
+    ],
+    [
+      6,
+      10,
+      0,
+      11,
+      0,
+      "IMAGE"
+    ],
+    [
+      7,
+      11,
+      0,
+      12,
+      0,
+      "IMAGE"
+    ],
+    [
+      8,
+      6,
+      0,
+      12,
+      1,
+      "VAE"
+    ],
+    [
+      9,
+      7,
+      0,
+      13,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      10,
+      12,
+      0,
+      13,
+      1,
+      "LATENT"
+    ],
+    [
+      11,
+      8,
+      0,
+      14,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      12,
+      12,
+      0,
+      14,
+      1,
+      "LATENT"
+    ],
+    [
+      13,
+      20,
+      0,
+      21,
+      0,
+      "IMAGE"
+    ],
+    [
+      14,
+      21,
+      0,
+      22,
+      0,
+      "IMAGE"
+    ],
+    [
+      15,
+      6,
+      0,
+      22,
+      1,
+      "VAE"
+    ],
+    [
+      16,
+      13,
+      0,
+      23,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      17,
+      22,
+      0,
+      23,
+      1,
+      "LATENT"
+    ],
+    [
+      18,
+      14,
+      0,
+      24,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      19,
+      22,
+      0,
+      24,
+      1,
+      "LATENT"
+    ],
+    [
+      20,
+      4,
+      0,
+      30,
+      0,
+      "MODEL"
+    ],
+    [
+      21,
+      43,
+      0,
+      30,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      22,
+      44,
+      0,
+      30,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      23,
+      33,
+      0,
+      35,
+      0,
+      "NOISE"
+    ],
+    [
+      24,
+      30,
+      0,
+      35,
+      1,
+      "GUIDER"
+    ],
+    [
+      25,
+      31,
+      0,
+      35,
+      2,
+      "SAMPLER"
+    ],
+    [
+      26,
+      32,
+      0,
+      35,
+      3,
+      "SIGMAS"
+    ],
+    [
+      27,
+      34,
+      0,
+      35,
+      4,
+      "LATENT"
+    ],
+    [
+      28,
+      35,
+      0,
+      36,
+      0,
+      "LATENT"
+    ],
+    [
+      29,
+      6,
+      0,
+      36,
+      1,
+      "VAE"
+    ],
+    [
+      30,
+      36,
+      0,
+      37,
+      0,
+      "IMAGE"
+    ],
+    [
+      31,
+      40,
+      0,
+      41,
+      0,
+      "IMAGE"
+    ],
+    [
+      32,
+      41,
+      0,
+      42,
+      0,
+      "IMAGE"
+    ],
+    [
+      33,
+      6,
+      0,
+      42,
+      1,
+      "VAE"
+    ],
+    [
+      34,
+      23,
+      0,
+      43,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      35,
+      42,
+      0,
+      43,
+      1,
+      "LATENT"
+    ],
+    [
+      36,
+      24,
+      0,
+      44,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      37,
+      42,
+      0,
+      44,
+      1,
+      "LATENT"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.36,
+      "offset": [
+        850,
+        70
+      ]
+    },
+    "production_speed_scope": "Individual Cocktail: one tested raw recipe",
+    "worker_policy": "RTX 3090, port 8188, default dynamic VRAM; all loading branches and sampler guarded",
+    "default_input_provenance": "config/production-speed-solo-upgrade.json",
+    "runtime_validation": "Normal3090 rollout evidence is separate; historical4070 timings do not transfer"
+  },
+  "version": 0.4
+}

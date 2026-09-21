@@ -5,6 +5,7 @@ param(
     [string]$ForgeUrl = "http://127.0.0.1:7860",
     [switch]$Smoke,
     [switch]$Native,
+    [string]$RunDirectory,
     [int]$TimeoutSeconds = 1800,
     [int]$MaxIdle3090MemoryMiB = 4096,
     [int]$MaxIdle3090Utilization = 10
@@ -17,6 +18,7 @@ $NodePath = Join-Path $ProjectRoot "custom_nodes\ComfyUI-AIToolkit-Training\flux
 $RegistryPath = Join-Path $ProjectRoot "custom_nodes\ComfyUI-AIToolkit-Training\nodes.py"
 $PresetPath = Join-Path $ProjectRoot "custom_nodes\ComfyUI-AIToolkit-Training\flux2_klein9b_photo_realism_upgrade_presets.py"
 $PolishPath = Join-Path $ProjectRoot "custom_nodes\ComfyUI-AIToolkit-Training\flux2_klein9b_deterministic_polish.py"
+$AttractivenessPath = Join-Path $ProjectRoot "custom_nodes\ComfyUI-AIToolkit-Training\flux2_klein9b_attractiveness.py"
 $GazePath = Join-Path $ProjectRoot "custom_nodes\ComfyUI-AIToolkit-Training\flux2_klein9b_source_gaze_lock.py"
 $MaskingPath = Join-Path $ProjectRoot "custom_nodes\ComfyUI-AIToolkit-Training\flux2_klein9b_upgrade_masking.py"
 $NodeName = "Flux2Klein9BPhotoRealismUpgradeV11"
@@ -161,7 +163,7 @@ foreach ($required in @("MarkdownNote", "LoadImage", $NodeName, "PreviewImage"))
 }
 $upgradeNode = @($workflow.nodes | Where-Object type -eq $NodeName)[0]
 if (@($upgradeNode.inputs).Count -ne 5) { throw "Upgrade node must expose only source_photo, detail_instructions, appearance_polish, phone_camera_style, and seed." }
-if ([bool]$upgradeNode.widgets_values[1] -ne $true) { throw "Production sheet must open with Subtle handsome polish enabled." }
+if ([string]$upgradeNode.widgets_values[1] -cne "low") { throw "Production sheet must open with Attractiveness Low." }
 if ([bool]$upgradeNode.widgets_values[2] -ne $true) { throw "Production sheet must open in the accepted phone-camera mode." }
 if ([UInt64]$upgradeNode.widgets_values[3] -ne 8675416) { throw "Production sheet no longer opens at approved seed 8675416." }
 
@@ -223,7 +225,10 @@ foreach ($requiredMechanism in @(
     'phone-on differs from d58732a through prompt drift',
     'phone-off differs from d58732a through prompt drift',
     '"revalidation_sampling_path_preserved": True',
-    'Compared with b32ecb9, this report-only hardening changes reporting semantics',
+    'Compared with b32ecb9, generation prompt, model and LoRA selection',
+    'appearance_polish = appearance_level != "off"',
+    'apply_high_attractiveness',
+    'normalize_attractiveness',
     '"source_used_as_identity": None',
     '"source_used_as_identity_scope": \(',
     '"source_intended_as_identity_reference": False',
@@ -284,7 +289,10 @@ foreach ($requiredBackgroundMechanism in @(
     if ($maskingSource -notmatch $requiredBackgroundMechanism) { throw "Natural-lens finish is missing its tested safety mechanism: $requiredBackgroundMechanism" }
 }
 foreach ($requiredPolishMechanism in @(
-    'POLISH_PROFILE = "deterministic_face_and_hair_local_v4"',
+    'POLISH_PROFILE = "deterministic_face_and_hair_local_v5"',
+    'HAIR_PARSER_HAIR_CLASS = 13',
+    'labels_512 == HAIR_PARSER_HAIR_CLASS',
+    '"parser_hair_class": HAIR_PARSER_HAIR_CLASS',
     'MOUTH_CORNER_LIFT_FACE_HEIGHT = 0.009',
     'FOREHEAD_WRINKLE_BLEND = 0.25',
     'EYE_DETAIL_GAIN = 0.18',
@@ -341,10 +349,15 @@ if (($requiredInputs -join ",") -ne "source_photo,detail_instructions,appearance
 }
 $livePhoneDefault = [bool]$nodeInfo.$NodeName.input.required.phone_camera_style[1].default
 if (-not $livePhoneDefault) { throw "Live RTX 3090 node still defaults Phone-camera realism off; reload the worker." }
+$liveAppearance = $nodeInfo.$NodeName.input.required.appearance_polish
+if ((@($liveAppearance[0]) -join ',') -cne 'off,low,high' -or $liveAppearance[1].default -cne 'low') {
+    throw "Live Upgrade node must expose Off/Low/High with Low as default."
+}
 
 $hashes = [ordered]@{
     workflow = (Get-FileHash -Algorithm SHA256 -LiteralPath $WorkflowPath).Hash.ToUpperInvariant()
-    upgrade_engine = "3A712E7BBD53E0AF070CD5D986830C1EC7B1F87B0456032A065944E52A8C3412"
+    upgrade_engine = "DAF621973E8B3EBBC555DADC293E1C74EDC1BA42930D6883616970E1E55DFC24"
+    high_attractiveness = "0E38B630FEF04272EBBF667EFB81C31E90FBDB8EFF6D503DBF0CE31BAA4502F9"
     model = "4A54FAD7F5F741B99EEE217198DAAC20B8D8E515E2A1F5B064FD51CF074F95BD"
     text_encoder = "ABAD16806E0CBABC54E0325D6565847443FE396D5F0BE38BB3CD3FE75A1201D6"
     vae = "D64F3A68E1CC4F9F4E29B6E0DA38A0204FE9A49F2D4053F0EC1FA1CA02F9C4B5"
@@ -353,7 +366,7 @@ $hashes = [ordered]@{
     hair = "3B7C223BFB6390AED6981EB3C3549CC767BDC967B887D170153EFA6BE7DDB201"
     hair_parser = "3D558D8D0E42C20224F13CF5A29C79EBA2D59913419F945545D8CF7B72920DE2"
     smartphone_style = "1E0B419B1448F77CF7AEF430625325E46B16D1515CBF6C5C7E8C14D938CF1A90"
-    deterministic_polish = "D970934CE4CF0B640A4BD24ABD7DA3BFA16A67F23842CBC81B14B4323793977B"
+    deterministic_polish = "3F37FD5632D4AE1236314DF795AADDBF73FA55EF74CAE2BAB62C7359A5778676"
     source_gaze_lock = "3C68D54C4E94DFF8A2CD4D308C282F441A98916717D6DF4DC57F81889AF50275"
     natural_lens_masking = "7AB8ABA5053EC73646F28C7EAF7E0195A69699246F662F070D828DA08ECD5BF3"
     human_segmentation = "01EB6A29A5C4D8EDB30B56ADAD9BB3A2A0535338E480724A213E0ACFD2D1C73C"
@@ -369,6 +382,7 @@ Assert-Hash (Join-Path $ComfyRoot "input\mitch-natural-hair-only-val05-isolated.
 Assert-Hash (Join-Path $ComfyRoot "models\facedetection\parsing_parsenet.pth") $hashes.hair_parser "semantic hair ParseNet model"
 Assert-Hash (Join-Path $ComfyRoot "models\loras\smartphone-snapshot\FLUX.2-klein-base-9B_SmartphoneSnapshotPhotoReality_v13.safetensors") $hashes.smartphone_style "optional Smartphone Snapshot v13 LoRA"
 Assert-Hash $PolishPath $hashes.deterministic_polish "deterministic handsome-polish implementation"
+Assert-Hash $AttractivenessPath $hashes.high_attractiveness "optional high-attractiveness implementation"
 Assert-Hash $GazePath $hashes.source_gaze_lock "source-gaze-lock implementation"
 Assert-Hash $MaskingPath $hashes.natural_lens_masking "natural-lens background implementation"
 Assert-Hash (Join-Path $ComfyRoot "models\rembg\u2net_human_seg.onnx") $hashes.human_segmentation "U2Net human segmentation model"
@@ -384,8 +398,8 @@ $validation = [ordered]@{
     nvidia_smi = $hardware
     hashes = $hashes
     milestone = [ordered]@{ commit = "d58732a"; tag = "milestone-good-identity-workflows-2026-09-01"; sampling_path_preserved = $false; phone_off_delta = "prompt drift"; phone_on_delta = "prompt drift plus Smartphone Snapshot v13 LoRA"; included_example_base_prompt_matches_approved_png = $true; current_effective_prompt_matches_milestone = $false; included_example_guide_pixels_match_approved_guide = $true }
-    revalidation = [ordered]@{ commit = "b32ecb9"; tag = "milestone-klein9b-production-revalidated-2026-09-03"; report_only_hardening = $true; sampling_path_preserved = $true; generation_prompt_changed = $false; model_or_lora_selection_changed = $false; reference_order_changed = $false; postprocessing_changed = $false }
-    appearance = [ordered]@{ default = $true; profile = "deterministic_face_and_hair_local_v4+mediapipe_refined_iris_source_lock_v1"; mechanism = "deterministic face-local, source-relative iris-interior, and eroded semantic-hair-interior postprocess after sampling; this appearance stage does not resample"; appearance_stage_changes_generation_prompt = $false; protected_pixels_exact = $true; dark_dots_and_freckles_reduced = $true; existing_hair_highlights_enhanced = $true; hairline_unchanged = $true; eyelids_unchanged = $true; source_gaze_lock = $true }
+    revalidation = [ordered]@{ commit = "b32ecb9"; tag = "milestone-klein9b-production-revalidated-2026-09-03"; report_only_hardening = $false; sampling_path_preserved = $true; generation_prompt_changed = $false; model_or_lora_selection_changed = $false; reference_order_changed = $false; low_postprocessing_changed = $true; low_postprocessing_delta = "ParseNet hair label corrected from neck17 to hair13 in v5"; optional_high_postprocessing_added = $true }
+    appearance = [ordered]@{ default = "low"; levels = @("off", "low", "high"); high_profile = "source_guided_upper_lid_and_brow_polish_v4"; high_after_gaze_lock = $true; profile = "deterministic_face_and_hair_local_v5+mediapipe_refined_iris_source_lock_v1"; parser_hair_class = 13; live_v5_validation = "pending"; mechanism = "deterministic face-local, source-relative iris-interior, source-guided upper-lid, and eroded semantic-hair-interior postprocess after sampling; this appearance stage does not resample"; appearance_stage_changes_generation_prompt = $false; protected_pixels_exact = $true; dark_dots_and_freckles_reduced = $true; existing_hair_highlights_enhanced = $true; hairline_unchanged = $true; high_source_guided_upper_lid = $true; high_eye_corners_unchanged = $true; high_pupil_position_fixed = $true; high_source_pixels_copied = $false; source_gaze_lock = $true }
     phone_camera_style = [ordered]@{ available = $true; default = $true; strength = 0.25; trigger = "casual snapshot"; rendering = "deep_focus"; background_blur_skipped = $true; decision = "visually accepted by Mitch" }
     phone_off_camera_finish = [ordered]@{ available = $true; default = $false; profile = "u2net_human_edge_safe_depth_ramp_v1"; mechanism = "local U2Net human matte plus subject-excluding normalized near/far Gaussian depth ramp"; protected_subject_pixels_exact = $true; subject_colors_excluded = $true; second_model_pass = $false }
     locked_settings = [ordered]@{ model_dtype = "fp8_e4m3fn"; lora_strength = 0.90; steps = 50; cfg = 4.0; sampler = "euler"; scheduler = "Flux2Scheduler"; references = 4 }
@@ -393,7 +407,19 @@ $validation = [ordered]@{
     appearance_postprocess = [ordered]@{ local_soft_mask = $true; face_iris_and_hair_interiors_only = $true; outside_pixels_exact_before_camera_finish = $true; local_texture_and_detail_contrast = $true }
 }
 
+$v5ReviewPath = Join-Path $ProjectRoot "work\upgrade-source-faithful-20260903\v5-live-house-native\review.json"
+if (Test-Path -LiteralPath $v5ReviewPath) {
+    Assert-Hash $v5ReviewPath "5B1AF8CAF86D697C3432FF350808281C6B188569FE29A054F18CC5DA0DEFF4D1" "historical live v5 hair-repair review"
+    $v5Review = Get-Content -LiteralPath $v5ReviewPath -Raw | ConvertFrom-Json
+    $validation.appearance.live_v5_validation = $v5Review.status
+    $validation.appearance.historical_live_prompt_id = $v5Review.prompt_id
+    $validation.appearance.historical_live_identity = $v5Review.actual_live_identity_centroid
+    $validation.appearance.cpu_live_final_pixels_exact = $false
+    $validation.appearance.stronger_high_validated = $false
+}
+
 if (-not $Smoke) {
+    if ($RunDirectory) { throw 'RunDirectory is only used for an explicitly requested smoke generation.' }
     $validation | ConvertTo-Json -Depth 20
     exit 0
 }
@@ -411,25 +437,49 @@ $validation.nvidia_smi_at_submit = $hardwareAtSubmit
 $prompt = [ordered]@{ "1" = @{ class_type = "LoadImage"; inputs = @{ image = $SourceName } } }
 if ($Native) {
     $outputNodeId = "2"
-    $prompt[$outputNodeId] = @{ class_type = $NodeName; inputs = @{ source_photo = @("1", 0); detail_instructions = $Detail; appearance_polish = $true; phone_camera_style = $true; seed = [UInt64]8675416 } }
+    $prompt[$outputNodeId] = @{ class_type = $NodeName; inputs = @{ source_photo = @("1", 0); detail_instructions = $Detail; appearance_polish = "low"; phone_camera_style = $true; seed = [UInt64]8675416 } }
     $validation.test_resolution = "source native"
 }
 else {
     $prompt["2"] = @{ class_type = "ImageScaleToTotalPixels"; inputs = @{ image = @("1", 0); upscale_method = "bicubic"; megapixels = 1.0; resolution_steps = 1 } }
     $outputNodeId = "3"
-    $prompt[$outputNodeId] = @{ class_type = $NodeName; inputs = @{ source_photo = @("2", 0); detail_instructions = $Detail; appearance_polish = $true; phone_camera_style = $true; seed = [UInt64]8675416 } }
+    $prompt[$outputNodeId] = @{ class_type = $NodeName; inputs = @{ source_photo = @("2", 0); detail_instructions = $Detail; appearance_polish = "low"; phone_camera_style = $true; seed = [UInt64]8675416 } }
     $validation.test_resolution = "approximately 1 MP preview; use -Native only for final confirmation"
 }
 $body = @{ prompt = $prompt; client_id = "verify-upgrade-photo-$([guid]::NewGuid().ToString('N'))" } | ConvertTo-Json -Depth 30
+$memoryAtSubmit = Invoke-RestMethod -Uri "$Server/system_stats" -TimeoutSec 10
+if ([int64]$memoryAtSubmit.system.ram_free -lt 32GB) {
+    throw 'Insufficient shared host RAM for this first-load smoke test; preserve other work and do not queue.'
+}
+$validation['smoke_available_host_ram_bytes'] = [int64]$memoryAtSubmit.system.ram_free
+$validation['smoke_minimum_available_host_ram_gib'] = 32
+# Persist the submission before POST. An observation timeout must never cause a
+# duplicate submission because the prompt ID was only held in process memory.
+if (-not $RunDirectory) {
+    $RunDirectory = Join-Path $ProjectRoot ('work\upgrade-live-smoke-' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '-' + [guid]::NewGuid().ToString('N').Substring(0,8))
+}
+$runPath = [IO.Path]::GetFullPath($RunDirectory)
+$workRoot = [IO.Path]::GetFullPath((Join-Path $ProjectRoot 'work')) + [IO.Path]::DirectorySeparatorChar
+if (-not $runPath.StartsWith($workRoot, [StringComparison]::OrdinalIgnoreCase) -or (Test-Path -LiteralPath $runPath)) {
+    throw 'Use a fresh project work directory for the smoke submission record.'
+}
+New-Item -ItemType Directory -Path $runPath | Out-Null
+[IO.File]::WriteAllText((Join-Path $runPath 'submission-intent.json'), $body)
+[IO.File]::WriteAllText((Join-Path $runPath 'preflight.json'), ($validation | ConvertTo-Json -Depth 30))
 $started = Get-Date
 $queued = Invoke-RestMethod -Method Post -Uri "$Server/prompt" -ContentType "application/json" -Body $body -TimeoutSec 60
+[IO.File]::WriteAllText((Join-Path $runPath 'submission.json'), ($queued | ConvertTo-Json -Depth 30))
 if (-not $queued.prompt_id) { throw "ComfyUI did not return a smoke prompt ID." }
+Write-Host "Submitted once: $($queued.prompt_id). Persistent record: $runPath"
 $deadline = (Get-Date).AddSeconds($TimeoutSeconds)
 do {
     Start-Sleep -Seconds 5
     $history = Invoke-RestMethod -Uri "$Server/history/$($queued.prompt_id)" -TimeoutSec 15
     $entry = $history.PSObject.Properties[$queued.prompt_id].Value
-    if ($entry -and $entry.status.status_str -eq "error") { throw "Smoke generation failed: $($entry.status.messages | ConvertTo-Json -Depth 30)" }
+    if ($entry -and $entry.status.status_str -eq "error") {
+        [IO.File]::WriteAllText((Join-Path $runPath 'terminal-history.json'), ($history | ConvertTo-Json -Depth 100))
+        throw "Smoke generation failed: $($entry.status.messages | ConvertTo-Json -Depth 30)"
+    }
     if ($entry -and ($entry.status.completed -or $entry.status.status_str -eq "success")) {
         $images = @($entry.outputs.$outputNodeId.images)
         if ($images.Count -eq 0) { throw "Smoke generation completed without a saved photo." }
@@ -440,6 +490,8 @@ do {
             $relative = if ($_.subfolder) { Join-Path $_.subfolder $_.filename } else { $_.filename }
             Join-Path (Join-Path $ComfyRoot "output") $relative
         })
+        [IO.File]::WriteAllText((Join-Path $runPath 'terminal-history.json'), ($history | ConvertTo-Json -Depth 100))
+        [IO.File]::WriteAllText((Join-Path $runPath 'validation.json'), ($validation | ConvertTo-Json -Depth 30))
         $validation | ConvertTo-Json -Depth 20
         exit 0
     }

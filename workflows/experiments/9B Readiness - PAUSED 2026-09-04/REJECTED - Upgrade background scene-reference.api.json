@@ -1,0 +1,384 @@
+{
+  "prompt": {
+    "1": {
+      "inputs": {
+        "weight_dtype": "default",
+        "unet_name": "flux-2-klein-base-9b-bf16.safetensors"
+      },
+      "class_type": "UNETLoader"
+    },
+    "2": {
+      "inputs": {
+        "strength_model": 0.9,
+        "lora_name": "m1tch-flux2-klein9b-identity-v3-r32-dop-step1600.safetensors",
+        "model": [
+          "1",
+          0
+        ]
+      },
+      "class_type": "LoraLoaderModelOnly"
+    },
+    "3": {
+      "inputs": {
+        "strength_model": 0.25,
+        "lora_name": "smartphone-snapshot\\FLUX.2-klein-base-9B_SmartphoneSnapshotPhotoReality_v13.safetensors",
+        "model": [
+          "2",
+          0
+        ]
+      },
+      "class_type": "LoraLoaderModelOnly"
+    },
+    "4": {
+      "inputs": {
+        "device": "default",
+        "clip_name": "qwen_3_8b_fp8mixed.safetensors",
+        "type": "flux2"
+      },
+      "class_type": "CLIPLoader"
+    },
+    "5": {
+      "inputs": {
+        "vae_name": "flux2-vae.safetensors"
+      },
+      "class_type": "VAELoader"
+    },
+    "6": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "clip": [
+          "4",
+          0
+        ],
+        "text": "casual snapshot. Picture 1 is the photograph whose person must be preserved. Picture 3 shows the exact original background of this photograph and is the authoritative reference for its scene, architecture, object layout, material detail and colors. Reconstruct only the background visible in Picture 3 around the unchanged person from Picture 1. Do not copy or regenerate the man from Picture 3; it supplies background composition and materials only. Change only its background, recovering believable photographic detail in the existing scene. Keep the entire man, his face, eyes, closed-lip expression, hair, skin, clothing, body and silhouette exactly as in Picture 1. Picture 2 is a genuine identity reference for the same m1tch_person, not a replacement pose or expression. The background must look like a real environment captured by a recent phone main camera in standard Photo mode, with deep natural depth of field, not Portrait mode. Retain the exact camera viewpoint, perspective, lighting, colors, scene arrangement, object boundaries and existing architecture or landscape. Resolve existing surfaces and objects into physically plausible detail: where present, straight siding seams and matte painted grain, tapered tree branches with bark and irregular small twigs, layered rock strata, individual vegetation and coherent water detail. Do not add new objects. Match the existing subject light and fine sensor texture. Keep realistic distance-dependent softness but make the environment structurally readable, without artificial sharpening, oversharpened noise, cutout edges or halos. The finished photograph must read as one natural casual phone capture."
+      }
+    },
+    "7": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "clip": [
+          "4",
+          0
+        ],
+        "text": ""
+      }
+    },
+    "10": {
+      "class_type": "LoadImage",
+      "inputs": {
+        "image": "mitch-upgrade-bg-edit-source-098f1a2dafaf.png"
+      }
+    },
+    "11": {
+      "class_type": "VAEEncode",
+      "inputs": {
+        "pixels": [
+          "10",
+          0
+        ],
+        "vae": [
+          "5",
+          0
+        ]
+      }
+    },
+    "12": {
+      "class_type": "ReferenceLatent",
+      "inputs": {
+        "conditioning": [
+          "6",
+          0
+        ],
+        "latent": [
+          "11",
+          0
+        ]
+      }
+    },
+    "13": {
+      "class_type": "ReferenceLatent",
+      "inputs": {
+        "conditioning": [
+          "7",
+          0
+        ],
+        "latent": [
+          "11",
+          0
+        ]
+      }
+    },
+    "14": {
+      "class_type": "LoadImage",
+      "inputs": {
+        "image": "mitch-upgrade-calm-genuine-0e9f30d5.jpg"
+      }
+    },
+    "15": {
+      "class_type": "ImageScaleToTotalPixels",
+      "inputs": {
+        "image": [
+          "14",
+          0
+        ],
+        "megapixels": 1.0,
+        "resolution_steps": 16,
+        "upscale_method": "bicubic"
+      }
+    },
+    "16": {
+      "class_type": "VAEEncode",
+      "inputs": {
+        "pixels": [
+          "15",
+          0
+        ],
+        "vae": [
+          "5",
+          0
+        ]
+      }
+    },
+    "17": {
+      "class_type": "ReferenceLatent",
+      "inputs": {
+        "conditioning": [
+          "12",
+          0
+        ],
+        "latent": [
+          "16",
+          0
+        ]
+      }
+    },
+    "18": {
+      "class_type": "ReferenceLatent",
+      "inputs": {
+        "conditioning": [
+          "13",
+          0
+        ],
+        "latent": [
+          "16",
+          0
+        ]
+      }
+    },
+    "19": {
+      "class_type": "LoadImage",
+      "inputs": {
+        "image": "mitch-upgrade-bg-edit-mask-6d86ac3a277a.png"
+      }
+    },
+    "20": {
+      "class_type": "RandomNoise",
+      "inputs": {
+        "noise_seed": 8675416
+      }
+    },
+    "21": {
+      "class_type": "CFGGuider",
+      "inputs": {
+        "model": [
+          "3",
+          0
+        ],
+        "positive": [
+          "43",
+          0
+        ],
+        "negative": [
+          "44",
+          0
+        ],
+        "cfg": 4.0
+      }
+    },
+    "22": {
+      "class_type": "KSamplerSelect",
+      "inputs": {
+        "sampler_name": "euler"
+      }
+    },
+    "23": {
+      "class_type": "Flux2Scheduler",
+      "inputs": {
+        "steps": 50,
+        "width": 1280,
+        "height": 768
+      }
+    },
+    "24": {
+      "class_type": "ImageToMask",
+      "inputs": {
+        "image": [
+          "19",
+          0
+        ],
+        "channel": "red"
+      }
+    },
+    "28": {
+      "class_type": "SetLatentNoiseMask",
+      "inputs": {
+        "samples": [
+          "11",
+          0
+        ],
+        "mask": [
+          "24",
+          0
+        ]
+      }
+    },
+    "25": {
+      "class_type": "SamplerCustomAdvanced",
+      "inputs": {
+        "noise": [
+          "20",
+          0
+        ],
+        "guider": [
+          "21",
+          0
+        ],
+        "sampler": [
+          "22",
+          0
+        ],
+        "sigmas": [
+          "23",
+          0
+        ],
+        "latent_image": [
+          "28",
+          0
+        ]
+      }
+    },
+    "26": {
+      "class_type": "VAEDecode",
+      "inputs": {
+        "samples": [
+          "25",
+          0
+        ],
+        "vae": [
+          "5",
+          0
+        ]
+      }
+    },
+    "27": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "images": [
+          "26",
+          0
+        ],
+        "filename_prefix": "upgrade-source-faithful/background-detail-house-scene-reference/raw"
+      }
+    },
+    "30": {
+      "class_type": "VAEDecode",
+      "inputs": {
+        "samples": [
+          "11",
+          0
+        ],
+        "vae": [
+          "5",
+          0
+        ]
+      }
+    },
+    "31": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "images": [
+          "30",
+          0
+        ],
+        "filename_prefix": "upgrade-source-faithful/background-detail-house-scene-reference/codec-control"
+      }
+    },
+    "40": {
+      "class_type": "LoadImage",
+      "inputs": {
+        "image": "mitch-upgrade-bg-scene-4908d5a2399b.png"
+      }
+    },
+    "41": {
+      "class_type": "ImageScaleToTotalPixels",
+      "inputs": {
+        "image": [
+          "40",
+          0
+        ],
+        "megapixels": 1.0,
+        "resolution_steps": 16,
+        "upscale_method": "bicubic"
+      }
+    },
+    "42": {
+      "class_type": "VAEEncode",
+      "inputs": {
+        "pixels": [
+          "41",
+          0
+        ],
+        "vae": [
+          "5",
+          0
+        ]
+      }
+    },
+    "43": {
+      "class_type": "ReferenceLatent",
+      "inputs": {
+        "conditioning": [
+          "17",
+          0
+        ],
+        "latent": [
+          "42",
+          0
+        ]
+      }
+    },
+    "44": {
+      "class_type": "ReferenceLatent",
+      "inputs": {
+        "conditioning": [
+          "18",
+          0
+        ],
+        "latent": [
+          "42",
+          0
+        ]
+      }
+    },
+    "32": {
+      "class_type": "SaveLatent",
+      "inputs": {
+        "samples": [
+          "11",
+          0
+        ],
+        "filename_prefix": "upgrade-source-faithful/background-detail-house-scene-reference/source-latent"
+      }
+    },
+    "33": {
+      "class_type": "SaveLatent",
+      "inputs": {
+        "samples": [
+          "25",
+          0
+        ],
+        "filename_prefix": "upgrade-source-faithful/background-detail-house-scene-reference/sampled-latent"
+      }
+    }
+  }
+}
