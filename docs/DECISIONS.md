@@ -48,13 +48,13 @@ it must not silently rewrite an old failure. Search [all evidence](generated/EVI
 ## Acceptance and development
 
 The September 21 [cleanup decision](CLEANUP.md) preserves all unique and unresolved
-model dependencies and recorded evidence. Twelve duplicate weight files (61.638 GiB)
-were verified against installed copies, but no path was removed. A tested failure
+model dependencies and recorded evidence. Twelve duplicate staging weights (61.638 GiB)
+were removed after exact-path dependency review and fresh full hashes against retained
+installed copies; the restore manifest records both sides. A tested failure
 closes that recipe; it does not prove that every unexecuted stage or alternative is
 finished. LaTo, High and general Group therefore remain explicit holds. Prioritize a
 bounded Solo source comparison, then Upgrade generalization, over reopening failed
-grids to justify cleanup. A separate dependency review is required before removing
-even a verified duplicate pathname.
+grids to justify cleanup. This completed audit authorizes no further path removal.
 
 The [acceptance clarification](../work/9b-readiness-20260903/ACCEPTANCE-CLARIFICATION-20260904.md)
 corrects confusion between a usable photo and a visibly better photo than a control. Preserve the

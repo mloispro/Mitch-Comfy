@@ -43,8 +43,8 @@ if it disagrees with code or a later result, investigate and update it.
 
 1. State the observed failure and intended improvement. Find the closest completed experiment in
    [DECISIONS](DECISIONS.md); identify what new evidence would justify revisiting a closed route.
-2. Check `git status --short` and the relevant diff. This workspace contains substantial existing
-   uncommitted research; a commit ID alone is not an exact description of the working files.
+2. Check `git status --short` and the relevant diff. The September 21 cleanup checkpoint
+   saved the accumulated source changes; later working files may differ from that commit.
 3. Read the implementation and its relevant tests. Separate a source-string assertion from actual behavior.
 4. Make one bounded change. Run the smallest relevant offline checks; expand only for shared dependencies
    or unresolved risk. Model/reference/sampling changes still require the AGENTS research and image gates.

@@ -75,13 +75,14 @@ operation use the new [Production Speed guide](production-speed.md); the old fil
 
 ## Unresolved work and constraints
 
-The September 21 [cleanup checkpoint](CLEANUP.md) retains every unresolved route and
-all model weights. Full hashes identify 61.638 GiB of duplicate download copies, but
-their path dependencies remain a separate removal gate. The next bounded development
+The September 21 [cleanup](CLEANUP.md) retains every unresolved route, installed model
+and unique candidate weight. Dependency review and fresh full hashes cleared twelve
+redundant staging copies for removal, recovering about 61.6 GiB; restoration paths
+are recorded and pinned evidence remains intact. The next bounded development
 step is a Solo public-versus-accepted-recipe source comparison; Upgrade generalization,
 stronger High and broader Group remain unproven. The checkpoint also reconciles the
 already published St. Barts gallery pins while preserving the old baseline hashes.
-No experiment, training, upload or deletion was started by this maintenance.
+No experiment, training, upload or worker restart was started by this maintenance.
 
 The September 9 [Group acceleration package](../work/group-cache-20260909/RESULTS.md) is complete
 for its tested Lounge scope. Its [replay instructions](../work/group-cache-20260909/README-REPLAY.md)

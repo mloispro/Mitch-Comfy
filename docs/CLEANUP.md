@@ -2,9 +2,11 @@
 
 Reviewed September 21, 2026. Mitch asked to finish identifying unfinished work before
 deleting its dependencies, then authorized the recommended next steps. The chosen scope
-is a recoverable local checkpoint and a dependency inventory. No new generation,
-training, worker restart, upload, model deletion or experiment retirement is part of
-this checkpoint. Current image acceptance remains in [STATUS](STATUS.md).
+is a recoverable local checkpoint followed by removal of verified redundant staging
+copies. The first checkpoint retained everything; the subsequent authorized cleanup
+removed exactly twelve duplicate weights after dependency review and fresh hashes.
+No generation, training, worker restart, upload or experiment retirement was performed.
+Current image acceptance remains in [STATUS](STATUS.md).
 
 ## Retain and finish deliberately
 
@@ -38,15 +40,35 @@ download-side path is unused.
 
 | Candidate location | Weight size | Current decision |
 | --- | ---: | --- |
-| `.downloads/models` | 30.404 GiB | 29.958 GiB verified duplicate copies; remaining USO adapter retained. Preserve all paths until direct, dynamic and frozen-runner dependencies are checked. |
-| `work/upgrade-high-20260907/models` | 31.680 GiB | All four weights have identical installed copies. The BeautyGRPO runner loads installed paths from its receipt, but that alone is not a complete historical-path audit. Retain copies for now. |
+| `.downloads/models` | 30.404 GiB before cleanup | Removed eight duplicate weights totaling 29.958 GiB; retained the unique USO adapter and all other files. |
+| `work/upgrade-high-20260907/models` | 31.680 GiB before cleanup | Removed four duplicate weights; retained download receipts/configuration and every installed copy. BeautyGRPO runners use installed paths. |
 | `work/9b-readiness-resume-20260907/lato-compat/models` | 47.715 GiB | Hold; no identical installed copy was established by this audit. |
 | `work/fast-detail-20260903/vosr-runner/assets` | 6.494 GiB | Hold; no identical installed copy was established by this audit. |
 
-These are logical file sizes, not a promise of physical space recovery. No files were
-deleted or replaced with hardlinks. Before any future removal, recheck bytes and all
-consumers of the exact path, preserve restoration information, and retain at least one
-verified copy. Do not remove an entire `work` directory based on its total size.
+The subsequent [dependency review](../work/duplicate-cleanup-20260921/DEPENDENCIES.md)
+checked active, dynamic and frozen consumers. No inference consumer of the twelve
+staging weight paths was found in the inspected project/Comfy scope. A dry run and
+the removal pass each verified full SHA256 and size on both sides. The removal pass
+held installed copies protected from writes/deletion and required staging files to
+be unused. Exact regular files were removed; no directory or hardlink replacement.
+
+The [completed result](../work/duplicate-cleanup-20260921/RESULT.md),
+[removal receipt](../work/duplicate-cleanup-20260921/removal.json) and
+[post-cleanup snapshot](../work/duplicate-cleanup-20260921/after.json) record
+**66,183,721,828 logical bytes removed (61.638 GiB)**. Observed volume free space rose
+by **61.628 GiB**, to **792.464 GiB**; other disk activity can affect that measurement.
+All 64 loader dropdown sets were unchanged. Metadata for 145 installed files and
+15 unique candidate weights was unchanged; all 31 retained files in the two staging
+roots matched their pre-cleanup hashes. The 53 pinned evidence files and 25 active
+baseline artifacts also passed. These are integrity/API checks, not new image acceptance.
+
+The versioned [restore manifest](../config/duplicate-model-cleanup-20260921.json)
+records every removed path, retained source, size, SHA256 and original timestamp.
+Copying a retained source back can restore an old staging path without a download;
+verify its hash and never overwrite an unexpected destination. The installed weights
+are the surviving copies, so Git and the evidence archive do not replace model backup.
+Any further removal requires a separate exact-path/dependency review; an entire `work`
+directory must not be removed based on its size.
 
 ## Recovery coverage
 
@@ -60,8 +82,14 @@ records the exact collection and verification method.
 Scope: project `work`, `datasets`, `comparisons`, frozen workflow experiments, the
 evaluation-case catalog, and normal ComfyUI `input` and `output`. Model tensor files,
 virtual environments, caches and filesystem links are explicitly excluded and listed
-in the archive manifest. All original files remain in place. Source/configuration and
-curated gallery assets are preserved separately by a local Git checkpoint.
+in the archive manifest. All archived original evidence remains in place. Source/configuration
+and curated gallery assets were saved by local Git checkpoint `7582713` before cleanup.
+The twelve removed weights were excluded from that archive; their installed twins remain.
+
+The new cleanup scripts, dependency search, before/after snapshots and verification
+logs are preserved separately in `local/preservation-checkpoint-20260921/duplicate-cleanup-evidence.zip`;
+its [verification receipt](../local/preservation-checkpoint-20260921/duplicate-cleanup-backup-verification.json)
+records entry-by-entry SHA256 checks. The original snapshot and its receipt are unchanged.
 
 This is a same-drive recovery snapshot, not protection against losing the computer or
 disk. No external backup destination has been selected and nothing was uploaded.
@@ -88,3 +116,7 @@ those exact bytes and the archived reference-policy snapshot. The evaluated cach
 module/test retain their existing EOF padding; only that whitespace diagnostic is
 waived for those two files. No runtime source was reformatted to make an integrity
 check pass.
+
+The duplicate-cleanup restore manifest also preserves its exact bytes in Git because
+the executed removal script and archived receipts pin its raw SHA256. Its narrow
+attribute rule prevents newline conversion from changing that audit identity.

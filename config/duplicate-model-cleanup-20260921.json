@@ -1,0 +1,93 @@
+{
+  "scope": "Twelve redundant staging weights only. Installed and unique weights retained.",
+  "source_audit": "work/cleanup-checkpoint-20260921/model-audit.json",
+  "dependency_review": "work/duplicate-cleanup-20260921/RESULT.md",
+  "restore": "For any removed path, verify the retained file against bytes/sha256, copy it back without overwriting an existing destination, then verify the restored hash. No download required while the retained copy exists.",
+  "total_bytes": 66183721828,
+  "pairs": [
+    {
+      "remove": ".downloads/models/pulid/pulid_flux2_klein_v2.safetensors",
+      "retain": "C:/projects/AI-Tools/ComfyUI/models/pulid/pulid_flux2_klein_v2.safetensors",
+      "bytes": 1364389800,
+      "sha256": "d5d291cb054eb6eceb25e3b46eff8f05f7b58f8f19a89ec76ba730a6ba8935bb",
+      "original_mtime_ns": 1787437380354626000
+    },
+    {
+      "remove": ".downloads/models/USO/checkpoints/flux1-dev-fp8.safetensors",
+      "retain": "C:/projects/AI-Tools/ComfyUI/models/checkpoints/flux1-dev-fp8.safetensors",
+      "bytes": 17246524772,
+      "sha256": "8e91b68084b53a7fc44ed2a3756d821e355ac1a7b6fe29be760c1db532f3d88a",
+      "original_mtime_ns": 1787439335939692400
+    },
+    {
+      "remove": ".downloads/models/USO/clip_visions/sigclip_vision_patch14_384.safetensors",
+      "retain": "C:/projects/AI-Tools/ComfyUI/models/clip_vision/sigclip_vision_patch14_384.safetensors",
+      "bytes": 856505640,
+      "sha256": "1fee501deabac72f0ed17610307d7131e3e9d1e838d0363aa3c2b97a6e03fb33",
+      "original_mtime_ns": 1787437978494002600
+    },
+    {
+      "remove": ".downloads/models/USO/model_patches/uso-flux1-projector-v1.safetensors",
+      "retain": "C:/projects/AI-Tools/ComfyUI/models/model_patches/uso-flux1-projector-v1.safetensors",
+      "bytes": 21548200,
+      "sha256": "9a0dfcd6644e3acaf6995625562ab0af1f9cf048bf739c7e5822ee106fb44311",
+      "original_mtime_ns": 1787437838184054900
+    },
+    {
+      "remove": ".downloads/models/WithAnyone/siglip-base-patch16-256-multilingual/model.safetensors",
+      "retain": "C:/projects/AI-Tools/ComfyUI/models/diffusers/siglip-base-patch16-256-multilingual/model.safetensors",
+      "bytes": 1482553200,
+      "sha256": "00df88d823790b34a4d2d0047803ffabd47497ae724fd6659b1533dd793255be",
+      "original_mtime_ns": 1787441013491727400
+    },
+    {
+      "remove": ".downloads/models/WithAnyone/text_encoders/clip_l_fp16.safetensors",
+      "retain": "C:/projects/AI-Tools/ComfyUI/models/text_encoders/clip_l_fp16.safetensors",
+      "bytes": 247323976,
+      "sha256": "31d749bdab27737cac2fcefc7bebe3ba5b0cdde5c7a845041796775616859d66",
+      "original_mtime_ns": 1787441578806100800
+    },
+    {
+      "remove": ".downloads/models/WithAnyone/text_encoders/t5xxl_fp8_e4m3fn.safetensors",
+      "retain": "C:/projects/AI-Tools/ComfyUI/models/text_encoders/t5xxl_fp8_e4m3fn.safetensors",
+      "bytes": 4762338616,
+      "sha256": "a5e9343a7653e12d5a7f38e4cae6050c1bcabced7e4983ecef0e0c9bf84bf902",
+      "original_mtime_ns": 1787441583994255700
+    },
+    {
+      "remove": ".downloads/models/WithAnyone/withanyone.safetensors",
+      "retain": "C:/projects/AI-Tools/ComfyUI/models/diffusion_models/withanyone.safetensors",
+      "bytes": 6186204560,
+      "sha256": "b66880610111fd83eebbb623d1aef57397e03877871819ba43cb6381ef8b2bfb",
+      "original_mtime_ns": 1787440847301763800
+    },
+    {
+      "remove": "work/upgrade-high-20260907/models/black-forest-labs--FLUX.1-Kontext-dev/flux1-kontext-dev.safetensors",
+      "retain": "C:/projects/AI-Tools/ComfyUI/models/diffusion_models/flux1-kontext-dev.safetensors",
+      "bytes": 23802947360,
+      "sha256": "843a26dc765d3105dba081c30bce7b14c65b0988f9e8d14e9fbc8856a6deebd5",
+      "original_mtime_ns": 1788796871246642000
+    },
+    {
+      "remove": "work/upgrade-high-20260907/models/comfyanonymous--flux_text_encoders/t5xxl_fp16.safetensors",
+      "retain": "C:/projects/AI-Tools/ComfyUI/models/text_encoders/t5xxl_fp16.safetensors",
+      "bytes": 9787841024,
+      "sha256": "6e480b09fae049a72d2a8c5fbccb8d3e92febeb233bbe9dfe7256958a9167635",
+      "original_mtime_ns": 1788798441030808900
+    },
+    {
+      "remove": "work/upgrade-high-20260907/models/official-clip/clip_l.safetensors",
+      "retain": "C:/projects/AI-Tools/ComfyUI/models/text_encoders/clip_l.safetensors",
+      "bytes": 246144152,
+      "sha256": "660c6f5b1abae9dc498ac2d21e1347d2abdb0cf6c0c0c8576cd796491d9a6cdd",
+      "original_mtime_ns": 1788796858625023300
+    },
+    {
+      "remove": "work/upgrade-high-20260907/models/Sehnsucht24--BeautyGRPO/fluxkontext/checkpoint/pytorch_lora_weights.safetensors",
+      "retain": "C:/projects/AI-Tools/ComfyUI/models/loras/beautygrpo/BeautyGRPO.safetensors",
+      "bytes": 179400528,
+      "sha256": "23105cbd94fcd9f7b14d224dd28ce84cb5fa0f9bd5ba077cc0de27428e46c8a1",
+      "original_mtime_ns": 1788793548303065400
+    }
+  ]
+}

@@ -13,6 +13,7 @@ workflows/experiments/** -text -whitespace
 archive/klein9b-upgrade-reference-policy/** -text -whitespace
 custom_nodes/ComfyUI-AIToolkit-Training/web/assets/scene-presets/manifest.json -text whitespace=cr-at-eol
 custom_nodes/ComfyUI-AIToolkit-Training/web/visual_scene_presets.js -text whitespace=cr-at-eol
+config/duplicate-model-cleanup-20260921.json -text whitespace=cr-at-eol
 
 # Retain the evaluated cache export bytes, including their existing EOF padding.
 custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_guarded_cache.py whitespace=-blank-at-eof

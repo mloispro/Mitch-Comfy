@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "counts": {
-    "code": 1723,
-    "configuration/workflow": 41,
-    "document": 491,
+    "code": 1725,
+    "configuration/workflow": 42,
+    "document": 493,
     "test": 200
   },
   "files": [
@@ -822,6 +822,13 @@
       "scope": "project",
       "sha256_text": "cd95792978a3b90cf92216a8b07ba5cf0b634539ae3512e88ca86e29e91c920c",
       "lines": 232
+    },
+    {
+      "path": "config/duplicate-model-cleanup-20260921.json",
+      "kind": "configuration/workflow",
+      "scope": "project",
+      "sha256_text": "c73a31f5456a65dfe8c345112411b0f9dc81eb8b774d49313d983f33db4e07a5",
+      "lines": 93
     },
     {
       "path": "config/evaluation-cases.json",
@@ -3393,15 +3400,15 @@
       "path": "docs/CLEANUP.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "6bb7ddf6e764fa6f7916a4cbbb538756117b84461d724288b645490479c617e5",
-      "lines": 90,
+      "sha256_text": "b8cbcc45c213744dcd617e6efa8eaf6c642e57650a63bcb8b472aec0d6d726f8",
+      "lines": 122,
       "title": "Preservation and cleanup decisions"
     },
     {
       "path": "docs/DECISIONS.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "6d1c74e5a22b43abf335670741c5bec475dc150e6fc643dcb6465c277cf630aa",
+      "sha256_text": "e39ae412b450fe64b854e1ecad981196cab9a49b664cdae493c4d31fa6a8b35e",
       "lines": 89,
       "title": "Results that should guide the next change"
     },
@@ -3433,7 +3440,7 @@
       "path": "docs/START-HERE.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "43549dd3637e97e51d1c37fcbafa1cb04bfdcc4b2fd3edb571099c5a84854c67",
+      "sha256_text": "a2ba0fae0c95d7d8ab512e4796df85d3d558a703d13c44931c7cc743513b658e",
       "lines": 85,
       "title": "Development entry point"
     },
@@ -3449,8 +3456,8 @@
       "path": "docs/STATUS.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "4557d99064efc9db7dd88012b4fb8026f5be13638d115f1d8c8d73f5488c8f5f",
-      "lines": 120,
+      "sha256_text": "66a83a24a9c91b8c8a166c689fe7dcb9ac95ab72ef29821d03883285c96bcf90",
+      "lines": 121,
       "title": "Current project status"
     },
     {
@@ -37325,6 +37332,52 @@
       "sha256_text": "c47f795cf71875bf0f1959a20d89f7573b8d364a32d6928599abbf3471acc1f2",
       "lines": 66,
       "title": "Mitch-Comfy development"
+    },
+    {
+      "path": "work/duplicate-cleanup-20260921/DEPENDENCIES.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "aef47986ddeaf16a23e7a104658ce6087a30660b49b1f050a91039353fd79fb8",
+      "lines": 57,
+      "title": "Duplicate staging-path dependency review"
+    },
+    {
+      "path": "work/duplicate-cleanup-20260921/RESULT.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "2d853fe68b4bf57eac4b18f373d9cdba65adbc9caf66706dc2a1013893eedd82",
+      "lines": 77,
+      "title": "Completed duplicate model cleanup — September 21, 2026"
+    },
+    {
+      "path": "work/duplicate-cleanup-20260921/remove-duplicates.ps1",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "3e4792fc6bae131a91b64cf436f7bce919db8d608fb4d376c59547ffbdc96eb7",
+      "lines": 115
+    },
+    {
+      "path": "work/duplicate-cleanup-20260921/snapshot.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "44e40db56172899ed9c0f08c818182a0ebce7c181f58b62515ea2203a6129165",
+      "lines": 109,
+      "symbols": [
+        "sha",
+        "write_new",
+        "api",
+        "snapshot"
+      ],
+      "imports": [
+        "datetime",
+        "hashlib",
+        "json",
+        "pathlib",
+        "shutil",
+        "sys",
+        "urllib.request"
+      ],
+      "test_functions": []
     },
     {
       "path": "work/exact-photo-fidelity-3090/build-restrained-detail-candidates.py",

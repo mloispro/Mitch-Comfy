@@ -31,23 +31,23 @@
     }
   },
   "docs/START-HERE.md": {
-    "reviewed_at_utc": "2026-09-21T19:41:42.291007+00:00",
-    "note": "Reviewed the September 21 retention decisions against completed route results, exact SHA256 duplicate inventory and saved September 20 gallery publication receipts; retained all model paths and unresolved routes. Baseline supersession preserves historical hashes and adds no image acceptance.",
+    "reviewed_at_utc": "2026-09-21T20:16:52.498310+00:00",
+    "note": "Reviewed the exact twelve-pair restore manifest, source/dependency inspection, two full-hash passes, completed removal receipt, before/after loader and preservation checks, pinned evidence/baselines, live non-smoke verifiers and verified supplemental archive. Current guides distinguish this removal from the earlier all-retained checkpoint; unresolved experiments remain held. Checked the CLEANUP evidence registration and retained documentation workflow.",
     "sources": {
       ".agents/skills/mitch-comfy-development/SKILL.md": "c47f795cf71875bf0f1959a20d89f7573b8d364a32d6928599abbf3471acc1f2",
       ".ignore": "b99f8dadcf8eeb0964c1d167448271b8c6529839d95166b7aca4b67bb886e2c8",
       "config/dependencies.lock.json": "cd95792978a3b90cf92216a8b07ba5cf0b634539ae3512e88ca86e29e91c920c",
       "config/evaluation-cases.json": "66b61a6059725eb5a65309facea74a0f15b4ca8b3630f842519ed9274058d087",
       "config/frozen-baselines.json": "3241642620e126efdd308428fab596b5a52388de84145df7b035e3b7971b85c9",
-      "docs/START-HERE.md": "43549dd3637e97e51d1c37fcbafa1cb04bfdcc4b2fd3edb571099c5a84854c67",
+      "docs/START-HERE.md": "a2ba0fae0c95d7d8ab512e4796df85d3d558a703d13c44931c7cc743513b658e",
       "work/9b-readiness-resume-20260907/COVERAGE-MATRIX.md": "ac8550573a84dff911095de3f3c8f64d03c87cf3ed80b3b3bad94bd235e484bb",
       "work/production-speed-rollout/RESULTS.md": "07f249aff3f393cfce279e867f010e2848f46cbcaea1ef6989a0de29b85cdd7f",
       "workflows/experiments/group-masked-strength110-20260908/ROOT-RESULT.md": "54743406d2ddd4b48e7843c41483ab3d13ce5f9584bd8978ec6475f7e844a771"
     }
   },
   "docs/STATUS.md": {
-    "reviewed_at_utc": "2026-09-21T19:41:42.316740+00:00",
-    "note": "Reviewed the September 21 retention decisions against completed route results, exact SHA256 duplicate inventory and saved September 20 gallery publication receipts; retained all model paths and unresolved routes. Baseline supersession preserves historical hashes and adds no image acceptance.",
+    "reviewed_at_utc": "2026-09-21T20:16:52.440584+00:00",
+    "note": "Reviewed the exact twelve-pair restore manifest, source/dependency inspection, two full-hash passes, completed removal receipt, before/after loader and preservation checks, pinned evidence/baselines, live non-smoke verifiers and verified supplemental archive. Current guides distinguish this removal from the earlier all-retained checkpoint; unresolved experiments remain held. Checked the CLEANUP evidence registration and retained documentation workflow.",
     "sources": {
       "config/dependencies.lock.json": "cd95792978a3b90cf92216a8b07ba5cf0b634539ae3512e88ca86e29e91c920c",
       "config/frozen-baselines.json": "3241642620e126efdd308428fab596b5a52388de84145df7b035e3b7971b85c9",
@@ -59,7 +59,7 @@
       "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_photo_realism_upgrade.py": "daf621973e8b3ebbc555dadc293e1c74edc1ba42930d6883616970e1e55dfc24",
       "docs/lora-cleanup-2026-09-01.md": "b02a50087a5d498b54a75f3ae99278ec1a1556c30ae054a45ddc95dfc0659f37",
       "docs/STATUS-history-before-doc-rebuild-2026-09-09.md": "cb76ef64f37b2418b41ad1d7fc0e23a555212bc2c89925cc2b77d1d12be2d81c",
-      "docs/STATUS.md": "4557d99064efc9db7dd88012b4fb8026f5be13638d115f1d8c8d73f5488c8f5f",
+      "docs/STATUS.md": "66a83a24a9c91b8c8a166c689fe7dcb9ac95ab72ef29821d03883285c96bcf90",
       "docs/upgrade-high-explicit-features-2026-09-07.md": "b29a8a2e4cae5a7f38ef8d9313b500b3bc1e827c6cf431d177e758b1261ec436",
       "docs/upgrade-high-resume-2026-09-07.md": "19ea78dd786f1618b3feaac74d1e09aac9a97bc06b736efe71541a809b6d8a63",
       "scripts/evaluate-face-likeness.py": "fec54ecb5af5d44c2a6396f8fcb6213da9086d69b79509ae3baf2b61e391cae9",
@@ -256,14 +256,14 @@
     }
   },
   "docs/DECISIONS.md": {
-    "reviewed_at_utc": "2026-09-21T19:41:42.353991+00:00",
-    "note": "Reviewed the September 21 retention decisions against completed route results, exact SHA256 duplicate inventory and saved September 20 gallery publication receipts; retained all model paths and unresolved routes. Baseline supersession preserves historical hashes and adds no image acceptance.",
+    "reviewed_at_utc": "2026-09-21T20:16:52.474313+00:00",
+    "note": "Reviewed the exact twelve-pair restore manifest, source/dependency inspection, two full-hash passes, completed removal receipt, before/after loader and preservation checks, pinned evidence/baselines, live non-smoke verifiers and verified supplemental archive. Current guides distinguish this removal from the earlier all-retained checkpoint; unresolved experiments remain held. Checked the CLEANUP evidence registration and retained documentation workflow.",
     "sources": {
       ".ignore": "b99f8dadcf8eeb0964c1d167448271b8c6529839d95166b7aca4b67bb886e2c8",
       "archive/klein9b-upgrade-reference-policy/flux2_klein9b_upgrade_reference_policy.py": "deda61abcbdeecc148993a707cea30b05db696317dad490f59b4be31ebe2c7dc",
       "archive/klein9b-upgrade-reference-policy/test_flux2_klein9b_upgrade_reference_policy.py": "44c9236ef82f753135020c09ed7050684d5893b6df1e9ea410137b2891835925",
       "custom_nodes/ComfyUI-AIToolkit-Training/test_flux2_klein9b_photo_realism_upgrade_reporting.py": "2b7c2d8bb0df96d2ff23730634f7838192c8e0a7b0ab952c91bd91c315a6249a",
-      "docs/DECISIONS.md": "6d1c74e5a22b43abf335670741c5bec475dc150e6fc643dcb6465c277cf630aa",
+      "docs/DECISIONS.md": "e39ae412b450fe64b854e1ecad981196cab9a49b664cdae493c4d31fa6a8b35e",
       "docs/identity-candidate-screening.md": "ca39f4d2b39a05370fadf541a2f5b5b7e489051c62f71a4e674caa863eab22d0",
       "docs/STATUS-history-before-doc-rebuild-2026-09-09.md": "cb76ef64f37b2418b41ad1d7fc0e23a555212bc2c89925cc2b77d1d12be2d81c",
       "docs/upgrade-background-detail-research-2026-09-04.md": "d4cd1d6484df4f55c58b8c5e558b6dea5d3e305ee92e42e48314c49f2e3e081d",
@@ -368,11 +368,11 @@
     }
   },
   "docs/DOCUMENTATION.md": {
-    "reviewed_at_utc": "2026-09-21T19:45:41.982343+00:00",
-    "note": "Reviewed CLEANUP guide registration and explicit .gitattributes/registry/audit dependencies in documentation-map.json. Documentation checker behavior and maintenance instructions remain unchanged.",
+    "reviewed_at_utc": "2026-09-21T20:16:52.513891+00:00",
+    "note": "Reviewed the exact twelve-pair restore manifest, source/dependency inspection, two full-hash passes, completed removal receipt, before/after loader and preservation checks, pinned evidence/baselines, live non-smoke verifiers and verified supplemental archive. Current guides distinguish this removal from the earlier all-retained checkpoint; unresolved experiments remain held. Checked the CLEANUP evidence registration and retained documentation workflow.",
     "sources": {
       ".ignore": "b99f8dadcf8eeb0964c1d167448271b8c6529839d95166b7aca4b67bb886e2c8",
-      "docs/documentation-map.json": "c86e2495dff19f8d7e4d8cc4e037275547c4fd4165255343c5bbddfc64a07e79",
+      "docs/documentation-map.json": "dc66af2c350b94936c0a788982c3bb9563a665f08d3bba4975f70af02adf436d",
       "docs/documentation-practical-check-2026-09-09.md": "4fb1e55188d8d39fcd2d7cd0050453ad47cdb09b23927f94c3f73b5e3b775da2",
       "docs/DOCUMENTATION.md": "3ea45e8b887943509fba24007cfa03404fa9fd30c66ce7c47a1a9d5330ea6882",
       "docs/STATUS-history-before-doc-rebuild-2026-09-09.md": "cb76ef64f37b2418b41ad1d7fc0e23a555212bc2c89925cc2b77d1d12be2d81c",
@@ -405,22 +405,33 @@
     }
   },
   "docs/CLEANUP.md": {
-    "reviewed_at_utc": "2026-09-21T19:46:45.579731+00:00",
-    "note": "Verified all 25 active pins and 217 frozen files against exact staged Git bytes. Narrow attributes retain the gallery CRLF bytes and treat CR as line ending, preserve frozen exports and existing evaluated cache EOF padding. Completed snapshot covers 14814 files including all 53 pinned evidence paths; no data/model deletion.",
+    "reviewed_at_utc": "2026-09-21T20:17:26.452615+00:00",
+    "note": "Rechecked completed cleanup evidence and recovery coverage; added a narrow exact-byte Git attribute for the restore manifest because the executed script and receipts pin its original CRLF SHA256. No model, runtime source or historical receipt changed.",
     "sources": {
-      ".gitattributes": "3f6d3c346a8bf9333888c566a9c5f127b03a1d4de9590323a747e93b6adc8881",
+      ".gitattributes": "08e720fd049818473de5bb96241e9825926bd63ab358128b8ed4036e910372f4",
+      "config/duplicate-model-cleanup-20260921.json": "c73a31f5456a65dfe8c345112411b0f9dc81eb8b774d49313d983f33db4e07a5",
       "config/frozen-baselines.json": "3241642620e126efdd308428fab596b5a52388de84145df7b035e3b7971b85c9",
-      "docs/CLEANUP.md": "6bb7ddf6e764fa6f7916a4cbbb538756117b84461d724288b645490479c617e5",
+      "docs/CLEANUP.md": "b8cbcc45c213744dcd617e6efa8eaf6c642e57650a63bcb8b472aec0d6d726f8",
       "docs/identity-candidate-screening.md": "ca39f4d2b39a05370fadf541a2f5b5b7e489051c62f71a4e674caa863eab22d0",
       "docs/upgrade-high-explicit-features-2026-09-07.md": "b29a8a2e4cae5a7f38ef8d9313b500b3bc1e827c6cf431d177e758b1261ec436",
       "docs/upgrade-high-resume-2026-09-07.md": "19ea78dd786f1618b3feaac74d1e09aac9a97bc06b736efe71541a809b6d8a63",
       "local/preservation-checkpoint-20260921/backup-verification.json": "b137c56341ca81296d1b936485d57825aadefbc06ecba72e0246446f3cc1c306",
+      "local/preservation-checkpoint-20260921/duplicate-cleanup-backup-verification.json": "dcfa59741fe918026011cf77f0d6a18eb1b459448800f72ee3b64b8d9ad52bbd",
       "local/preservation-checkpoint-20260921/snapshot.py": "64251191628b2e137f84e227efbcebd780c60645f81af49aed8bd414b668b185",
       "work/9b-readiness-resume-20260907/COVERAGE-MATRIX.md": "ac8550573a84dff911095de3f3c8f64d03c87cf3ed80b3b3bad94bd235e484bb",
       "work/9b-readiness-resume-20260907/lato-compat/ROOT-FINAL-PREDICTOR-RESULT.md": "baae727d35ecd4dcc35b8dbba8b0c7a58fcdfc8abb181ae20416b21ba73752ad",
       "work/9b-readiness-resume-20260907/public-cocktail-parity/ROOT-RESULT.md": "82813e27e91fe6c40b4ad6150d12293d489f503710082fced5dca0f1e2cac478",
       "work/cleanup-checkpoint-20260921/audit_models.py": "5d31de472464594bfd5ea1499d6c94c468e78aaa962e279738ae32b6986d86db",
       "work/cleanup-checkpoint-20260921/model-audit.json": "8914dfe22372758a2b3894411ffd6874c033367585d4c928eee52251b5c72a1c",
+      "work/duplicate-cleanup-20260921/after.json": "b180934fa141e5878272498915c3681ac8214a32a2d488ee51e746e3db1716e3",
+      "work/duplicate-cleanup-20260921/before.json": "bdb755988a47eab8e9a50fe9537b0076f46fd9d87a36262c4777c465f62d5d69",
+      "work/duplicate-cleanup-20260921/DEPENDENCIES.md": "aef47986ddeaf16a23e7a104658ce6087a30660b49b1f050a91039353fd79fb8",
+      "work/duplicate-cleanup-20260921/dry-run.json": "ff0731782d62e868349b7b0d7e0246d1cf276f94072e4ef4242d8e7ad8d95850",
+      "work/duplicate-cleanup-20260921/inspected-sources.json": "4fc2bf89d3912bbedc11f0a2521222f8740ee21f86f2760a5b297b0f746b4f22",
+      "work/duplicate-cleanup-20260921/removal.json": "d13fa7f2be2220cc8643552e0bad8d17186f3451cc2ff8252c35578dda7ff3ef",
+      "work/duplicate-cleanup-20260921/remove-duplicates.ps1": "3e4792fc6bae131a91b64cf436f7bce919db8d608fb4d376c59547ffbdc96eb7",
+      "work/duplicate-cleanup-20260921/RESULT.md": "2d853fe68b4bf57eac4b18f373d9cdba65adbc9caf66706dc2a1013893eedd82",
+      "work/duplicate-cleanup-20260921/snapshot.py": "44e40db56172899ed9c0f08c818182a0ebce7c181f58b62515ea2203a6129165",
       "work/fast-detail-20260903/RESULTS.md": "f7d36b491e13ab4356e5e1bf7c0ed2f3321e4bdeb1fb318965095a8c30d810d2",
       "work/production-speed-rollout/RESULTS.md": "07f249aff3f393cfce279e867f010e2848f46cbcaea1ef6989a0de29b85cdd7f",
       "work/st-barts-exact-foreground-20260920/publication.json": "b2535abd35acb20e23cb0d7e76c0968fe342d313bb68f5aaf16fae5cb070d132",
