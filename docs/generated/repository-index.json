@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "counts": {
-    "code": 1731,
+    "code": 1734,
     "configuration/workflow": 42,
-    "document": 504,
+    "document": 506,
     "test": 200
   },
   "files": [
@@ -3408,8 +3408,8 @@
       "path": "docs/DECISIONS.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "5afeb00925aa21bfb7708d53bf0896205b7e3953ae6da44af191374b0c876b2f",
-      "lines": 96,
+      "sha256_text": "837a5212dde4c5be061b66a194704b246f26f936aff160f362c8a3c6c7ce754e",
+      "lines": 97,
       "title": "Results that should guide the next change"
     },
     {
@@ -3432,8 +3432,8 @@
       "path": "docs/OPTIMIZATION.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "1d8c06967c4d0cb37f4fa8d71bbbc468a6e9b3a74511d7a5af643a6c39b58dc8",
-      "lines": 59,
+      "sha256_text": "3e144c0ad2fff4de245c16296623f252873db3fa36f9e944936cefee20594bf8",
+      "lines": 60,
       "title": "Where the next unit of work can help most"
     },
     {
@@ -3456,8 +3456,8 @@
       "path": "docs/STATUS.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "19101fcfb68338b878ec06fa14b6c50cbc498f088e2828919a0fa267410fae31",
-      "lines": 134,
+      "sha256_text": "1ee7e178ba95566e2fb73f3099a1cd454f487c6e3a4bd1f910ea01b07fa6e477",
+      "lines": 140,
       "title": "Current project status"
     },
     {
@@ -40000,6 +40000,103 @@
       "scope": "local evidence",
       "sha256_text": "fe0bfcd50b90270a76a30a70a838af7ad6a6891af71808920844aea8b9e71467",
       "lines": 182
+    },
+    {
+      "path": "work/group-lora-token-gate-20260921/PLAN.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "9c1f09eeba5ab3f49cd0a536974d70c8f89cff50dfe1d311c7f5b30d9d93b8b5",
+      "lines": 48,
+      "title": "Group token-level character LoRA: prospective compatibility gate"
+    },
+    {
+      "path": "work/group-lora-token-gate-20260921/RESULT.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "dfb29db018f31ad88db91248d5effce0ea077d397027ba01a5abb97bc4a56073",
+      "lines": 76,
+      "title": "Explicit token-delta CPU gate passed; Group photo remains unproven"
+    },
+    {
+      "path": "work/group-lora-token-gate-20260921/capture_primary_sources.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "57ee2e20e44abbe325408fa8e46f710993fd39c47dac7c91d1c4bf4ab6b5b0fd",
+      "lines": 31,
+      "symbols": [
+        "main"
+      ],
+      "imports": [
+        "hashlib",
+        "json",
+        "pathlib",
+        "urllib.request"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-lora-token-gate-20260921/check_cpu.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "db3ce0210a0552265ee597793e55b04a73d1176af894469d48e2f56c3db92774",
+      "lines": 213,
+      "symbols": [
+        "tiny",
+        "inputs",
+        "pairs_for",
+        "execute",
+        "hooks",
+        "Gate"
+      ],
+      "imports": [
+        "ast",
+        "comfy.ldm.flux.model",
+        "comfy.options",
+        "comfy.patcher_extension",
+        "copy",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "struct",
+        "sys",
+        "token_lora",
+        "torch",
+        "unittest"
+      ],
+      "test_functions": [
+        "test_exact_v3_header_matches_actual_9b_meta_architecture",
+        "test_global_matches_independent_weight_merge",
+        "test_grid_mismatch_fails",
+        "test_hooks_removed_after_forward_exception",
+        "test_pinned_upstream_assumption_is_incompatible",
+        "test_regional_direct_delta_locality",
+        "test_regional_real_forward_and_cleanup",
+        "test_unexpected_sequence_fails",
+        "test_unknown_module_rejected",
+        "test_zero_mask_is_exact_noop"
+      ]
+    },
+    {
+      "path": "work/group-lora-token-gate-20260921/token_lora.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "2f22086eee45cf1ddf0d46530b1d0198b692853d014954d3544a81c39259f762",
+      "lines": 147,
+      "symbols": [
+        "stream_for",
+        "Layout",
+        "TokenLoRA"
+      ],
+      "imports": [
+        "dataclasses",
+        "math",
+        "re",
+        "threading",
+        "torch",
+        "torch.nn.functional"
+      ],
+      "test_functions": []
     },
     {
       "path": "work/high-group-input-review-20260921/RESULT.md",

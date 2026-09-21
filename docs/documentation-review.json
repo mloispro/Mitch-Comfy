@@ -46,8 +46,8 @@
     }
   },
   "docs/STATUS.md": {
-    "reviewed_at_utc": "2026-09-21T22:12:05.523978+00:00",
-    "note": "Clarified the separate one-image validation and later read-only public-source review; neither trained, uploaded references, downloaded models or restarted workers.",
+    "reviewed_at_utc": "2026-09-21T22:22:10.308010+00:00",
+    "note": "Reviewed pinned regional-LoRA source, ten CPU checks on installed Comfy transformer classes, exact V3 header/module mapping, unchanged photograph acceptance and outstanding FP8/runtime gates; added focused experiment watches.",
     "sources": {
       "config/dependencies.lock.json": "cd95792978a3b90cf92216a8b07ba5cf0b634539ae3512e88ca86e29e91c920c",
       "config/frozen-baselines.json": "3241642620e126efdd308428fab596b5a52388de84145df7b035e3b7971b85c9",
@@ -61,7 +61,7 @@
       "docs/lora-cleanup-2026-09-01.md": "b02a50087a5d498b54a75f3ae99278ec1a1556c30ae054a45ddc95dfc0659f37",
       "docs/solo-cocktail-comparison-2026-09-21.md": "1db6f6b3445a521436cfad3c65ee5e7f30e58f36fda15e2311d765a3deeb8773",
       "docs/STATUS-history-before-doc-rebuild-2026-09-09.md": "cb76ef64f37b2418b41ad1d7fc0e23a555212bc2c89925cc2b77d1d12be2d81c",
-      "docs/STATUS.md": "19101fcfb68338b878ec06fa14b6c50cbc498f088e2828919a0fa267410fae31",
+      "docs/STATUS.md": "1ee7e178ba95566e2fb73f3099a1cd454f487c6e3a4bd1f910ea01b07fa6e477",
       "docs/upgrade-high-explicit-features-2026-09-07.md": "b29a8a2e4cae5a7f38ef8d9313b500b3bc1e827c6cf431d177e758b1261ec436",
       "docs/upgrade-high-resume-2026-09-07.md": "19ea78dd786f1618b3feaac74d1e09aac9a97bc06b736efe71541a809b6d8a63",
       "scripts/evaluate-face-likeness.py": "fec54ecb5af5d44c2a6396f8fcb6213da9086d69b79509ae3baf2b61e391cae9",
@@ -85,6 +85,11 @@
       "work/group-cache-20260909/TEST-RESULTS.md": "eb693f470f3e4776c325a0e49e0f279d33aaad57784fff752bc4f7d59ea0dbb5",
       "work/group-cache-20260909/UPSTREAM-AUDIT.md": "09790b340e6d395a092f13d9122d8f4aa146c565feb0ac5d5bb95fd80b840d81",
       "work/group-cache-20260909/VISUAL-REVIEW.md": "3cad2ab273c66ec8ebe5245c93550110bc1490d9a733f4d6ceb394b8185fe4a5",
+      "work/group-lora-token-gate-20260921/check_cpu.py": "db3ce0210a0552265ee597793e55b04a73d1176af894469d48e2f56c3db92774",
+      "work/group-lora-token-gate-20260921/cpu-gate.json": "7b98f200005f812329eb41746afe54e19c95f7a66955478e5cf94e1c171c39f2",
+      "work/group-lora-token-gate-20260921/PLAN.md": "9c1f09eeba5ab3f49cd0a536974d70c8f89cff50dfe1d311c7f5b30d9d93b8b5",
+      "work/group-lora-token-gate-20260921/RESULT.md": "dfb29db018f31ad88db91248d5effce0ea077d397027ba01a5abb97bc4a56073",
+      "work/group-lora-token-gate-20260921/token_lora.py": "2f22086eee45cf1ddf0d46530b1d0198b692853d014954d3544a81c39259f762",
       "work/high-group-input-review-20260921/input-audit.json": "f7b20a1eed4c1b0441ec801fc3c5b0ed838bd41537e5ba2c03983f5291d64303",
       "work/high-group-input-review-20260921/primary-source/receipt.json": "440f4feff18e3fd4463016e6c02224d5ff77d2e181f628bb7ca4b1d721463dd0",
       "work/high-group-input-review-20260921/RESULT.md": "a41df041e3536eaef4dd1b78941b34b46f83b6fabad0beb2637f4b76068bfdbe",
@@ -267,14 +272,14 @@
     }
   },
   "docs/DECISIONS.md": {
-    "reviewed_at_utc": "2026-09-21T22:11:33.358319+00:00",
-    "note": "Reviewed September 21 unchanged-photo hash audit, LaTo external-target limits, pinned Klein feature-transfer source and shipped example, and specific new evidence watches. No image/runtime acceptance or deletion added.",
+    "reviewed_at_utc": "2026-09-21T22:22:10.350011+00:00",
+    "note": "Reviewed pinned regional-LoRA source, ten CPU checks on installed Comfy transformer classes, exact V3 header/module mapping, unchanged photograph acceptance and outstanding FP8/runtime gates; added focused experiment watches.",
     "sources": {
       ".ignore": "b99f8dadcf8eeb0964c1d167448271b8c6529839d95166b7aca4b67bb886e2c8",
       "archive/klein9b-upgrade-reference-policy/flux2_klein9b_upgrade_reference_policy.py": "deda61abcbdeecc148993a707cea30b05db696317dad490f59b4be31ebe2c7dc",
       "archive/klein9b-upgrade-reference-policy/test_flux2_klein9b_upgrade_reference_policy.py": "44c9236ef82f753135020c09ed7050684d5893b6df1e9ea410137b2891835925",
       "custom_nodes/ComfyUI-AIToolkit-Training/test_flux2_klein9b_photo_realism_upgrade_reporting.py": "2b7c2d8bb0df96d2ff23730634f7838192c8e0a7b0ab952c91bd91c315a6249a",
-      "docs/DECISIONS.md": "5afeb00925aa21bfb7708d53bf0896205b7e3953ae6da44af191374b0c876b2f",
+      "docs/DECISIONS.md": "837a5212dde4c5be061b66a194704b246f26f936aff160f362c8a3c6c7ce754e",
       "docs/high-group-gate-2026-09-21.md": "5a7929e78444d5bd08d525d4f148ff5f30daebf57fe43ebb59247811bc3f70e8",
       "docs/identity-candidate-screening.md": "ca39f4d2b39a05370fadf541a2f5b5b7e489051c62f71a4e674caa863eab22d0",
       "docs/solo-cocktail-comparison-2026-09-21.md": "1db6f6b3445a521436cfad3c65ee5e7f30e58f36fda15e2311d765a3deeb8773",
@@ -313,6 +318,11 @@
       "work/group-cache-20260909/TEST-RESULTS.md": "eb693f470f3e4776c325a0e49e0f279d33aaad57784fff752bc4f7d59ea0dbb5",
       "work/group-cache-20260909/UPSTREAM-AUDIT.md": "09790b340e6d395a092f13d9122d8f4aa146c565feb0ac5d5bb95fd80b840d81",
       "work/group-cache-20260909/VISUAL-REVIEW.md": "3cad2ab273c66ec8ebe5245c93550110bc1490d9a733f4d6ceb394b8185fe4a5",
+      "work/group-lora-token-gate-20260921/check_cpu.py": "db3ce0210a0552265ee597793e55b04a73d1176af894469d48e2f56c3db92774",
+      "work/group-lora-token-gate-20260921/cpu-gate.json": "7b98f200005f812329eb41746afe54e19c95f7a66955478e5cf94e1c171c39f2",
+      "work/group-lora-token-gate-20260921/PLAN.md": "9c1f09eeba5ab3f49cd0a536974d70c8f89cff50dfe1d311c7f5b30d9d93b8b5",
+      "work/group-lora-token-gate-20260921/RESULT.md": "dfb29db018f31ad88db91248d5effce0ea077d397027ba01a5abb97bc4a56073",
+      "work/group-lora-token-gate-20260921/token_lora.py": "2f22086eee45cf1ddf0d46530b1d0198b692853d014954d3544a81c39259f762",
       "work/high-group-input-review-20260921/input-audit.json": "f7b20a1eed4c1b0441ec801fc3c5b0ed838bd41537e5ba2c03983f5291d64303",
       "work/high-group-input-review-20260921/primary-source/receipt.json": "440f4feff18e3fd4463016e6c02224d5ff77d2e181f628bb7ca4b1d721463dd0",
       "work/high-group-input-review-20260921/RESULT.md": "a41df041e3536eaef4dd1b78941b34b46f83b6fabad0beb2637f4b76068bfdbe",
@@ -324,11 +334,11 @@
     }
   },
   "docs/OPTIMIZATION.md": {
-    "reviewed_at_utc": "2026-09-21T22:11:33.384833+00:00",
-    "note": "Reviewed September 21 unchanged-photo hash audit, LaTo external-target limits, pinned Klein feature-transfer source and shipped example, and specific new evidence watches. No image/runtime acceptance or deletion added.",
+    "reviewed_at_utc": "2026-09-21T22:22:10.379009+00:00",
+    "note": "Reviewed pinned regional-LoRA source, ten CPU checks on installed Comfy transformer classes, exact V3 header/module mapping, unchanged photograph acceptance and outstanding FP8/runtime gates; added focused experiment watches.",
     "sources": {
       "docs/high-group-gate-2026-09-21.md": "5a7929e78444d5bd08d525d4f148ff5f30daebf57fe43ebb59247811bc3f70e8",
-      "docs/OPTIMIZATION.md": "1d8c06967c4d0cb37f4fa8d71bbbc468a6e9b3a74511d7a5af643a6c39b58dc8",
+      "docs/OPTIMIZATION.md": "3e144c0ad2fff4de245c16296623f252873db3fa36f9e944936cefee20594bf8",
       "docs/solo-cocktail-comparison-2026-09-21.md": "1db6f6b3445a521436cfad3c65ee5e7f30e58f36fda15e2311d765a3deeb8773",
       "scripts/evaluate-face-likeness.py": "fec54ecb5af5d44c2a6396f8fcb6213da9086d69b79509ae3baf2b61e391cae9",
       "work/9b-readiness-20260903/evaluation/feature-reuse-coverage/RESULTS.md": "ecaffba0eb26aa8006b2e0cdf1589c11184f821f49e9eb4473771dc9a200a23d",
@@ -347,6 +357,11 @@
       "work/group-cache-20260909/TEST-RESULTS.md": "eb693f470f3e4776c325a0e49e0f279d33aaad57784fff752bc4f7d59ea0dbb5",
       "work/group-cache-20260909/UPSTREAM-AUDIT.md": "09790b340e6d395a092f13d9122d8f4aa146c565feb0ac5d5bb95fd80b840d81",
       "work/group-cache-20260909/VISUAL-REVIEW.md": "3cad2ab273c66ec8ebe5245c93550110bc1490d9a733f4d6ceb394b8185fe4a5",
+      "work/group-lora-token-gate-20260921/check_cpu.py": "db3ce0210a0552265ee597793e55b04a73d1176af894469d48e2f56c3db92774",
+      "work/group-lora-token-gate-20260921/cpu-gate.json": "7b98f200005f812329eb41746afe54e19c95f7a66955478e5cf94e1c171c39f2",
+      "work/group-lora-token-gate-20260921/PLAN.md": "9c1f09eeba5ab3f49cd0a536974d70c8f89cff50dfe1d311c7f5b30d9d93b8b5",
+      "work/group-lora-token-gate-20260921/RESULT.md": "dfb29db018f31ad88db91248d5effce0ea077d397027ba01a5abb97bc4a56073",
+      "work/group-lora-token-gate-20260921/token_lora.py": "2f22086eee45cf1ddf0d46530b1d0198b692853d014954d3544a81c39259f762",
       "work/high-group-input-review-20260921/input-audit.json": "f7b20a1eed4c1b0441ec801fc3c5b0ed838bd41537e5ba2c03983f5291d64303",
       "work/high-group-input-review-20260921/primary-source/receipt.json": "440f4feff18e3fd4463016e6c02224d5ff77d2e181f628bb7ca4b1d721463dd0",
       "work/high-group-input-review-20260921/RESULT.md": "a41df041e3536eaef4dd1b78941b34b46f83b6fabad0beb2637f4b76068bfdbe",
@@ -390,11 +405,11 @@
     }
   },
   "docs/DOCUMENTATION.md": {
-    "reviewed_at_utc": "2026-09-21T22:11:33.399838+00:00",
-    "note": "Reviewed September 21 unchanged-photo hash audit, LaTo external-target limits, pinned Klein feature-transfer source and shipped example, and specific new evidence watches. No image/runtime acceptance or deletion added.",
+    "reviewed_at_utc": "2026-09-21T22:22:10.398009+00:00",
+    "note": "Reviewed pinned regional-LoRA source, ten CPU checks on installed Comfy transformer classes, exact V3 header/module mapping, unchanged photograph acceptance and outstanding FP8/runtime gates; added focused experiment watches.",
     "sources": {
       ".ignore": "b99f8dadcf8eeb0964c1d167448271b8c6529839d95166b7aca4b67bb886e2c8",
-      "docs/documentation-map.json": "be8565ae1e74a05f6d19c89a69548e5e73b29b3892c52a7bb17bf790b848d27b",
+      "docs/documentation-map.json": "5b4572dd07f532a0e04a68d5e4326e2f4e24f3a2561680bb76521142db98be37",
       "docs/documentation-practical-check-2026-09-09.md": "4fb1e55188d8d39fcd2d7cd0050453ad47cdb09b23927f94c3f73b5e3b775da2",
       "docs/DOCUMENTATION.md": "3ea45e8b887943509fba24007cfa03404fa9fd30c66ce7c47a1a9d5330ea6882",
       "docs/STATUS-history-before-doc-rebuild-2026-09-09.md": "cb76ef64f37b2418b41ad1d7fc0e23a555212bc2c89925cc2b77d1d12be2d81c",
