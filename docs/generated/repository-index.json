@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "counts": {
-    "code": 1729,
+    "code": 1731,
     "configuration/workflow": 42,
-    "document": 502,
+    "document": 504,
     "test": 200
   },
   "files": [
@@ -3408,8 +3408,8 @@
       "path": "docs/DECISIONS.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "c0eb0e3563e0cd1def5f4ce2dd9fa1a17111a61502d5888027e9f5dae1740c53",
-      "lines": 94,
+      "sha256_text": "5afeb00925aa21bfb7708d53bf0896205b7e3953ae6da44af191374b0c876b2f",
+      "lines": 96,
       "title": "Results that should guide the next change"
     },
     {
@@ -3432,8 +3432,8 @@
       "path": "docs/OPTIMIZATION.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "44cf968c7bedc532b678363d4ea79d404c950ca29aaea2965389c4afd6eaa5b4",
-      "lines": 58,
+      "sha256_text": "1d8c06967c4d0cb37f4fa8d71bbbc468a6e9b3a74511d7a5af643a6c39b58dc8",
+      "lines": 59,
       "title": "Where the next unit of work can help most"
     },
     {
@@ -3456,8 +3456,8 @@
       "path": "docs/STATUS.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "b2307a20b19bc897fc4390d3e1dacb9cb74f121ad1f4fac30973fe2cde762bfa",
-      "lines": 129,
+      "sha256_text": "19101fcfb68338b878ec06fa14b6c50cbc498f088e2828919a0fa267410fae31",
+      "lines": 134,
       "title": "Current project status"
     },
     {
@@ -3739,6 +3739,14 @@
       "sha256_text": "152016ad85fbb2bae6c44c6903615c9ec399ec67e9beb81114478dff797c9f11",
       "lines": 151,
       "title": "HiDream-O1 native-reference dating-photo evaluation"
+    },
+    {
+      "path": "docs/high-group-gate-2026-09-21.md",
+      "kind": "document",
+      "scope": "project",
+      "sha256_text": "5a7929e78444d5bd08d525d4f148ff5f30daebf57fe43ebb59247811bc3f70e8",
+      "lines": 28,
+      "title": "Remaining High and Group gates"
     },
     {
       "path": "docs/identity-candidate-screening.md",
@@ -39992,6 +40000,49 @@
       "scope": "local evidence",
       "sha256_text": "fe0bfcd50b90270a76a30a70a838af7ad6a6891af71808920844aea8b9e71467",
       "lines": 182
+    },
+    {
+      "path": "work/high-group-input-review-20260921/RESULT.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "a41df041e3536eaef4dd1b78941b34b46f83b6fabad0beb2637f4b76068bfdbe",
+      "lines": 86,
+      "title": "High and Group input/mechanism review — September 21"
+    },
+    {
+      "path": "work/high-group-input-review-20260921/capture_primary_sources.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "4c6f60687aaf44256c05dc4dc82dbdcf9faba8736f0caeeb997b8cf85935221e",
+      "lines": 31,
+      "symbols": [
+        "main"
+      ],
+      "imports": [
+        "hashlib",
+        "json",
+        "pathlib",
+        "urllib.request"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/high-group-input-review-20260921/check_inputs.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "ed3f34f7cb03205f9a9c486f8a266280cb9242c1c2fe2eb890e0b8f5be4fbf03",
+      "lines": 72,
+      "symbols": [
+        "sha",
+        "main"
+      ],
+      "imports": [
+        "datetime",
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "test_functions": []
     },
     {
       "path": "work/identity-puppy-right-angle-20260905/evaluation.md",

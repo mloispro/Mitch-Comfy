@@ -46,8 +46,8 @@
     }
   },
   "docs/STATUS.md": {
-    "reviewed_at_utc": "2026-09-21T22:02:18.515824+00:00",
-    "note": "Reviewed the one-run balcony Upgrade execution, pre-score native/thumbnail review and unchanged five-reference scoring; actual St Barts UI observations; High/LaTo/Group completed failures and retained dependency paths; final preservation checks and verified 37-entry supplemental archive. Added bounded future-evidence watches without changing checker semantics.",
+    "reviewed_at_utc": "2026-09-21T22:12:05.523978+00:00",
+    "note": "Clarified the separate one-image validation and later read-only public-source review; neither trained, uploaded references, downloaded models or restarted workers.",
     "sources": {
       "config/dependencies.lock.json": "cd95792978a3b90cf92216a8b07ba5cf0b634539ae3512e88ca86e29e91c920c",
       "config/frozen-baselines.json": "3241642620e126efdd308428fab596b5a52388de84145df7b035e3b7971b85c9",
@@ -57,10 +57,11 @@
       "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_mitch_identity_studio_presets.py": "62cd97dbe17a57e0a3a7b42478e80b9929d9c2e14ac8fc601ef7cf6a4c7f8e15",
       "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_mitch_identity_studio_visual_presets.py": "672a12532c9c44c8965edc9ff2efa7dea0b3b1d665f19d9bfbb59a7904d12cab",
       "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_photo_realism_upgrade.py": "daf621973e8b3ebbc555dadc293e1c74edc1ba42930d6883616970e1e55dfc24",
+      "docs/high-group-gate-2026-09-21.md": "5a7929e78444d5bd08d525d4f148ff5f30daebf57fe43ebb59247811bc3f70e8",
       "docs/lora-cleanup-2026-09-01.md": "b02a50087a5d498b54a75f3ae99278ec1a1556c30ae054a45ddc95dfc0659f37",
       "docs/solo-cocktail-comparison-2026-09-21.md": "1db6f6b3445a521436cfad3c65ee5e7f30e58f36fda15e2311d765a3deeb8773",
       "docs/STATUS-history-before-doc-rebuild-2026-09-09.md": "cb76ef64f37b2418b41ad1d7fc0e23a555212bc2c89925cc2b77d1d12be2d81c",
-      "docs/STATUS.md": "b2307a20b19bc897fc4390d3e1dacb9cb74f121ad1f4fac30973fe2cde762bfa",
+      "docs/STATUS.md": "19101fcfb68338b878ec06fa14b6c50cbc498f088e2828919a0fa267410fae31",
       "docs/upgrade-high-explicit-features-2026-09-07.md": "b29a8a2e4cae5a7f38ef8d9313b500b3bc1e827c6cf431d177e758b1261ec436",
       "docs/upgrade-high-resume-2026-09-07.md": "19ea78dd786f1618b3feaac74d1e09aac9a97bc06b736efe71541a809b6d8a63",
       "scripts/evaluate-face-likeness.py": "fec54ecb5af5d44c2a6396f8fcb6213da9086d69b79509ae3baf2b61e391cae9",
@@ -84,6 +85,9 @@
       "work/group-cache-20260909/TEST-RESULTS.md": "eb693f470f3e4776c325a0e49e0f279d33aaad57784fff752bc4f7d59ea0dbb5",
       "work/group-cache-20260909/UPSTREAM-AUDIT.md": "09790b340e6d395a092f13d9122d8f4aa146c565feb0ac5d5bb95fd80b840d81",
       "work/group-cache-20260909/VISUAL-REVIEW.md": "3cad2ab273c66ec8ebe5245c93550110bc1490d9a733f4d6ceb394b8185fe4a5",
+      "work/high-group-input-review-20260921/input-audit.json": "f7b20a1eed4c1b0441ec801fc3c5b0ed838bd41537e5ba2c03983f5291d64303",
+      "work/high-group-input-review-20260921/primary-source/receipt.json": "440f4feff18e3fd4463016e6c02224d5ff77d2e181f628bb7ca4b1d721463dd0",
+      "work/high-group-input-review-20260921/RESULT.md": "a41df041e3536eaef4dd1b78941b34b46f83b6fabad0beb2637f4b76068bfdbe",
       "work/production-speed-rollout/RESULTS.md": "07f249aff3f393cfce279e867f010e2848f46cbcaea1ef6989a0de29b85cdd7f",
       "work/st-barts-exact-foreground-20260920/RESULT.md": "a812afa4f8bec8f160966b5602436a0c7e150d4f9361ec59541ea8f14599b0b3",
       "work/st-barts-gallery-check-20260921/RESULT.md": "7832b1d98e9e622fc52771a6a54ac049a385eb07cbf0569de1a85661c2d3770c",
@@ -263,14 +267,15 @@
     }
   },
   "docs/DECISIONS.md": {
-    "reviewed_at_utc": "2026-09-21T22:02:18.572824+00:00",
-    "note": "Reviewed the one-run balcony Upgrade execution, pre-score native/thumbnail review and unchanged five-reference scoring; actual St Barts UI observations; High/LaTo/Group completed failures and retained dependency paths; final preservation checks and verified 37-entry supplemental archive. Added bounded future-evidence watches without changing checker semantics.",
+    "reviewed_at_utc": "2026-09-21T22:11:33.358319+00:00",
+    "note": "Reviewed September 21 unchanged-photo hash audit, LaTo external-target limits, pinned Klein feature-transfer source and shipped example, and specific new evidence watches. No image/runtime acceptance or deletion added.",
     "sources": {
       ".ignore": "b99f8dadcf8eeb0964c1d167448271b8c6529839d95166b7aca4b67bb886e2c8",
       "archive/klein9b-upgrade-reference-policy/flux2_klein9b_upgrade_reference_policy.py": "deda61abcbdeecc148993a707cea30b05db696317dad490f59b4be31ebe2c7dc",
       "archive/klein9b-upgrade-reference-policy/test_flux2_klein9b_upgrade_reference_policy.py": "44c9236ef82f753135020c09ed7050684d5893b6df1e9ea410137b2891835925",
       "custom_nodes/ComfyUI-AIToolkit-Training/test_flux2_klein9b_photo_realism_upgrade_reporting.py": "2b7c2d8bb0df96d2ff23730634f7838192c8e0a7b0ab952c91bd91c315a6249a",
-      "docs/DECISIONS.md": "c0eb0e3563e0cd1def5f4ce2dd9fa1a17111a61502d5888027e9f5dae1740c53",
+      "docs/DECISIONS.md": "5afeb00925aa21bfb7708d53bf0896205b7e3953ae6da44af191374b0c876b2f",
+      "docs/high-group-gate-2026-09-21.md": "5a7929e78444d5bd08d525d4f148ff5f30daebf57fe43ebb59247811bc3f70e8",
       "docs/identity-candidate-screening.md": "ca39f4d2b39a05370fadf541a2f5b5b7e489051c62f71a4e674caa863eab22d0",
       "docs/solo-cocktail-comparison-2026-09-21.md": "1db6f6b3445a521436cfad3c65ee5e7f30e58f36fda15e2311d765a3deeb8773",
       "docs/STATUS-history-before-doc-rebuild-2026-09-09.md": "cb76ef64f37b2418b41ad1d7fc0e23a555212bc2c89925cc2b77d1d12be2d81c",
@@ -308,6 +313,9 @@
       "work/group-cache-20260909/TEST-RESULTS.md": "eb693f470f3e4776c325a0e49e0f279d33aaad57784fff752bc4f7d59ea0dbb5",
       "work/group-cache-20260909/UPSTREAM-AUDIT.md": "09790b340e6d395a092f13d9122d8f4aa146c565feb0ac5d5bb95fd80b840d81",
       "work/group-cache-20260909/VISUAL-REVIEW.md": "3cad2ab273c66ec8ebe5245c93550110bc1490d9a733f4d6ceb394b8185fe4a5",
+      "work/high-group-input-review-20260921/input-audit.json": "f7b20a1eed4c1b0441ec801fc3c5b0ed838bd41537e5ba2c03983f5291d64303",
+      "work/high-group-input-review-20260921/primary-source/receipt.json": "440f4feff18e3fd4463016e6c02224d5ff77d2e181f628bb7ca4b1d721463dd0",
+      "work/high-group-input-review-20260921/RESULT.md": "a41df041e3536eaef4dd1b78941b34b46f83b6fabad0beb2637f4b76068bfdbe",
       "work/production-speed-rollout/RESULTS.md": "07f249aff3f393cfce279e867f010e2848f46cbcaea1ef6989a0de29b85cdd7f",
       "work/st-barts-exact-foreground-20260920/RESULT.md": "a812afa4f8bec8f160966b5602436a0c7e150d4f9361ec59541ea8f14599b0b3",
       "work/upgrade-generalization-20260921/RESULT.md": "c596449403889daaf376a8cbc87b154e79f421fbdd6fafdaf0ac486f448a5e60",
@@ -316,10 +324,11 @@
     }
   },
   "docs/OPTIMIZATION.md": {
-    "reviewed_at_utc": "2026-09-21T22:02:18.596826+00:00",
-    "note": "Reviewed the one-run balcony Upgrade execution, pre-score native/thumbnail review and unchanged five-reference scoring; actual St Barts UI observations; High/LaTo/Group completed failures and retained dependency paths; final preservation checks and verified 37-entry supplemental archive. Added bounded future-evidence watches without changing checker semantics.",
+    "reviewed_at_utc": "2026-09-21T22:11:33.384833+00:00",
+    "note": "Reviewed September 21 unchanged-photo hash audit, LaTo external-target limits, pinned Klein feature-transfer source and shipped example, and specific new evidence watches. No image/runtime acceptance or deletion added.",
     "sources": {
-      "docs/OPTIMIZATION.md": "44cf968c7bedc532b678363d4ea79d404c950ca29aaea2965389c4afd6eaa5b4",
+      "docs/high-group-gate-2026-09-21.md": "5a7929e78444d5bd08d525d4f148ff5f30daebf57fe43ebb59247811bc3f70e8",
+      "docs/OPTIMIZATION.md": "1d8c06967c4d0cb37f4fa8d71bbbc468a6e9b3a74511d7a5af643a6c39b58dc8",
       "docs/solo-cocktail-comparison-2026-09-21.md": "1db6f6b3445a521436cfad3c65ee5e7f30e58f36fda15e2311d765a3deeb8773",
       "scripts/evaluate-face-likeness.py": "fec54ecb5af5d44c2a6396f8fcb6213da9086d69b79509ae3baf2b61e391cae9",
       "work/9b-readiness-20260903/evaluation/feature-reuse-coverage/RESULTS.md": "ecaffba0eb26aa8006b2e0cdf1589c11184f821f49e9eb4473771dc9a200a23d",
@@ -338,6 +347,9 @@
       "work/group-cache-20260909/TEST-RESULTS.md": "eb693f470f3e4776c325a0e49e0f279d33aaad57784fff752bc4f7d59ea0dbb5",
       "work/group-cache-20260909/UPSTREAM-AUDIT.md": "09790b340e6d395a092f13d9122d8f4aa146c565feb0ac5d5bb95fd80b840d81",
       "work/group-cache-20260909/VISUAL-REVIEW.md": "3cad2ab273c66ec8ebe5245c93550110bc1490d9a733f4d6ceb394b8185fe4a5",
+      "work/high-group-input-review-20260921/input-audit.json": "f7b20a1eed4c1b0441ec801fc3c5b0ed838bd41537e5ba2c03983f5291d64303",
+      "work/high-group-input-review-20260921/primary-source/receipt.json": "440f4feff18e3fd4463016e6c02224d5ff77d2e181f628bb7ca4b1d721463dd0",
+      "work/high-group-input-review-20260921/RESULT.md": "a41df041e3536eaef4dd1b78941b34b46f83b6fabad0beb2637f4b76068bfdbe",
       "work/production-speed-rollout/RESULTS.md": "07f249aff3f393cfce279e867f010e2848f46cbcaea1ef6989a0de29b85cdd7f",
       "work/upgrade-generalization-20260921/RESULT.md": "c596449403889daaf376a8cbc87b154e79f421fbdd6fafdaf0ac486f448a5e60",
       "workflows/experiments/group-masked-strength110-20260908/ROOT-RESULT.md": "54743406d2ddd4b48e7843c41483ab3d13ce5f9584bd8978ec6475f7e844a771"
@@ -378,11 +390,11 @@
     }
   },
   "docs/DOCUMENTATION.md": {
-    "reviewed_at_utc": "2026-09-21T22:02:18.648309+00:00",
-    "note": "Reviewed the one-run balcony Upgrade execution, pre-score native/thumbnail review and unchanged five-reference scoring; actual St Barts UI observations; High/LaTo/Group completed failures and retained dependency paths; final preservation checks and verified 37-entry supplemental archive. Added bounded future-evidence watches without changing checker semantics.",
+    "reviewed_at_utc": "2026-09-21T22:11:33.399838+00:00",
+    "note": "Reviewed September 21 unchanged-photo hash audit, LaTo external-target limits, pinned Klein feature-transfer source and shipped example, and specific new evidence watches. No image/runtime acceptance or deletion added.",
     "sources": {
       ".ignore": "b99f8dadcf8eeb0964c1d167448271b8c6529839d95166b7aca4b67bb886e2c8",
-      "docs/documentation-map.json": "f5fc6b7908ba535ad6f05faf2e3da8cc3869323cc7fc3f76112e0f56fe3184e5",
+      "docs/documentation-map.json": "be8565ae1e74a05f6d19c89a69548e5e73b29b3892c52a7bb17bf790b848d27b",
       "docs/documentation-practical-check-2026-09-09.md": "4fb1e55188d8d39fcd2d7cd0050453ad47cdb09b23927f94c3f73b5e3b775da2",
       "docs/DOCUMENTATION.md": "3ea45e8b887943509fba24007cfa03404fa9fd30c66ce7c47a1a9d5330ea6882",
       "docs/STATUS-history-before-doc-rebuild-2026-09-09.md": "cb76ef64f37b2418b41ad1d7fc0e23a555212bc2c89925cc2b77d1d12be2d81c",

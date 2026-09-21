@@ -89,8 +89,13 @@ accepted Speed Cocktail without changing the original card. The subsequent
 The [remaining-route disposition](../work/final-validation-20260921/DISPOSITION.md) retains
 all 15 unique weights (54.654 GiB), installed models and frozen evidence. Stronger High
 and general Group remain unresolved; LaTo image stages remain unexecuted after failed
-geometry admission. No further blind grids or unique-asset deletion follows. This pass
-used one authorized Upgrade image; no training, upload, download or worker restart.
+geometry admission. A subsequent [input/mechanism review](high-group-gate-2026-09-21.md)
+found no new stills in the known folder and no admitted external expression target;
+the inspected Klein reference-mask node does not isolate the intended output person.
+No new image was admitted by that review. No further blind grids or unique-asset deletion follows.
+The preceding validation pass used one authorized Upgrade image; the subsequent review
+saved only public source text. Neither involved training, reference upload, model download
+or worker restart.
 
 The September 9 [Group acceleration package](../work/group-cache-20260909/RESULTS.md) is complete
 for its tested Lounge scope. Its [replay instructions](../work/group-cache-20260909/README-REPLAY.md)
