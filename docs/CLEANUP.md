@@ -101,6 +101,15 @@ New Upgrade/gallery/disposition evidence is preserved in
 `local/final-validation-20260921/evidence.zip`; its [verification receipt](../local/final-validation-20260921/verification.json)
 records SHA256 readback of every archived entry. It supplements rather than replaces the earlier archives.
 
+The subsequent [Group token-delta pilot](../work/group-token-pilot-20260921/RESULT.md)
+completed its software and image checks but failed likeness/visual acceptance. Its
+private worker is stopped and the evidence is saved in
+`local/group-token-pilot-20260921/evidence.zip`, with a
+[verified receipt](../local/group-token-pilot-20260921/verification.json).
+This closes the tested recipe, not general Group or stronger High. All15 unique
+candidate weights and installed dependencies remain retained; no additional deletion
+is justified by this result.
+
 This is a same-drive recovery snapshot, not protection against losing the computer or
 disk. No external backup destination has been selected and nothing was uploaded.
 The large installed/held models remain only where they already existed unless another

@@ -97,11 +97,12 @@ The preceding validation pass used one authorized Upgrade image; the subsequent 
 saved only public source text. Neither involved training, reference upload, model download
 or worker restart.
 
-A distinct [Group token-delta compatibility gate](../work/group-lora-token-gate-20260921/RESULT.md)
-now passes ten CPU checks: all224 V3 tensor shapes map, explicit generated/reference/text
-token routing works, and a small real Comfy transformer agrees with a merged-weight
-control. The prototype is isolated under `work/`, not installed. Next is exact-loader/FP8
-and memory admission before one prospective image; no Group image improvement is established.
+A distinct [Group token-delta pilot](../work/group-token-pilot-20260921/RESULT.md)
+completed after ten CPU checks and an actual FP8 probe. The isolated3090 image ran
+in286.142s, but main centroid fell from.613633 to.539730 and weakest genuine comparison
+from.457710 to.433664. Bystander diagnostics improved; main likeness and visual
+preservation failed. Close this exact recipe without a strength/seed sweep. The private
+worker was stopped; production is unchanged. High and general Group remain unresolved.
 
 The September 9 [Group acceleration package](../work/group-cache-20260909/RESULTS.md) is complete
 for its tested Lounge scope. Its [replay instructions](../work/group-cache-20260909/README-REPLAY.md)

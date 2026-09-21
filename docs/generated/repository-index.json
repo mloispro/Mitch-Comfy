@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "counts": {
-    "code": 1734,
+    "code": 1742,
     "configuration/workflow": 42,
-    "document": 506,
+    "document": 509,
     "test": 200
   },
   "files": [
@@ -3400,15 +3400,15 @@
       "path": "docs/CLEANUP.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "0cd78827d20df4c7ab3225b35424d99d90354998b86e782fdbb34bfcf4f8b0e1",
-      "lines": 133,
+      "sha256_text": "54c1a992d4a44bb00d72e73d73a1ba6b62f0df4bddbc4027b354b2237b1449bc",
+      "lines": 142,
       "title": "Preservation and cleanup decisions"
     },
     {
       "path": "docs/DECISIONS.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "837a5212dde4c5be061b66a194704b246f26f936aff160f362c8a3c6c7ce754e",
+      "sha256_text": "886f2dcb9c09e234f57dafe203d0ea44b6ae94704241700f0c09a99abae68c4a",
       "lines": 97,
       "title": "Results that should guide the next change"
     },
@@ -3432,7 +3432,7 @@
       "path": "docs/OPTIMIZATION.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "3e144c0ad2fff4de245c16296623f252873db3fa36f9e944936cefee20594bf8",
+      "sha256_text": "95adbd106bd08d19d3dbd0d51d7a73f66bed82459a8a59ac32b479dfc9d98453",
       "lines": 60,
       "title": "Where the next unit of work can help most"
     },
@@ -3456,8 +3456,8 @@
       "path": "docs/STATUS.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "1ee7e178ba95566e2fb73f3099a1cd454f487c6e3a4bd1f910ea01b07fa6e477",
-      "lines": 140,
+      "sha256_text": "f6236d132d2208994693a711214fc9d5af7e9ee800eb83da1605c3744258e607",
+      "lines": 141,
       "title": "Current project status"
     },
     {
@@ -40095,6 +40095,219 @@
         "threading",
         "torch",
         "torch.nn.functional"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-token-pilot-20260921/PLAN.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "e50747bca1f33e3fda48399e565bfcdf7de831f24aa6cec094a6a373a2f1fcc0",
+      "lines": 47,
+      "title": "One fixed Group token-delta pilot"
+    },
+    {
+      "path": "work/group-token-pilot-20260921/RESULT.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "6d92e5ae7f0d5216e670f479ca1144d8a11882976eca6e191f7557b026c3263f",
+      "lines": 97,
+      "title": "Group token-delta pilot completed; photo rejected"
+    },
+    {
+      "path": "work/group-token-pilot-20260921/VISUAL-REVIEW.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "25cad3b5d7f8d2a02203b714caf066c06230043ace778fc997d1bd2deb8d27a3",
+      "lines": 38,
+      "title": "Native and thumbnail review before scoring"
+    },
+    {
+      "path": "work/group-token-pilot-20260921/collect.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "1943b5c3d52e50432265fb67bc3cc4ad9ef9302ad30a7093686cbb4ca29592ae",
+      "lines": 71,
+      "symbols": [
+        "read",
+        "sha",
+        "graph",
+        "main"
+      ],
+      "imports": [
+        "PIL",
+        "control",
+        "hashlib",
+        "json",
+        "pathlib",
+        "shutil",
+        "time"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-token-pilot-20260921/control.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "bbc302bf7fee3ca5c7d7bd4a1129eaef7c3352ef48fb1e4b2717054d16e7af17",
+      "lines": 106,
+      "symbols": [
+        "api",
+        "write",
+        "memory",
+        "pin",
+        "check",
+        "wait_ready",
+        "submit",
+        "watch"
+      ],
+      "imports": [
+        "argparse",
+        "ctypes",
+        "hashlib",
+        "json",
+        "pathlib",
+        "socket",
+        "subprocess",
+        "time",
+        "urllib.request",
+        "uuid"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-token-pilot-20260921/custom_nodes/TokenExperiment/__init__.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "a1a945d08bfa8904685a6217ca537d7cdb9ea3451e185d04945833d1557f1944",
+      "lines": 190,
+      "symbols": [
+        "memory",
+        "record",
+        "guard",
+        "verified",
+        "state",
+        "GateUNET",
+        "GateCLIP",
+        "GateVAE",
+        "pairs",
+        "GuardedToken",
+        "RegionalV3",
+        "FP8Probe",
+        "GateSampler"
+      ],
+      "imports": [
+        "aiohttp",
+        "comfy.cli_args",
+        "comfy.model_management",
+        "comfy.patcher_extension",
+        "comfy_extras.nodes_custom_sampler",
+        "ctypes",
+        "hashlib",
+        "importlib.util",
+        "json",
+        "nodes",
+        "numpy",
+        "os",
+        "pathlib",
+        "psutil",
+        "safetensors.torch",
+        "server",
+        "sys",
+        "time",
+        "torch"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-token-pilot-20260921/evaluate.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "a86d080a455e138e72bf1d493d75ee64697a458f01a3745c4241865a50249ca0",
+      "lines": 69,
+      "symbols": [
+        "sha",
+        "read",
+        "load",
+        "deny",
+        "main"
+      ],
+      "imports": [
+        "PIL",
+        "ast",
+        "cv2",
+        "hashlib",
+        "importlib.util",
+        "insightface.app",
+        "itertools",
+        "json",
+        "numpy",
+        "onnxruntime",
+        "os",
+        "pathlib",
+        "socket",
+        "sys",
+        "time",
+        "types"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-token-pilot-20260921/prepare.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "5660e0e74bb6ee2fd07f7f59615cb68a91053ef0f91c46936c05f46a35bd5608",
+      "lines": 55,
+      "symbols": [
+        "pin",
+        "write"
+      ],
+      "imports": [
+        "copy",
+        "hashlib",
+        "json",
+        "pathlib",
+        "shutil"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-token-pilot-20260921/snapshot.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "43513857a9994b1de31d1fd608b130850292d19621426bb3280d87385f636b21",
+      "lines": 19,
+      "symbols": [
+        "sha"
+      ],
+      "imports": [
+        "hashlib",
+        "json",
+        "pathlib",
+        "zipfile"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-token-pilot-20260921/start.ps1",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "c58317a9d176078d86785e438ed89b0f2d5ec5a362aef977a0213122b20c0a48",
+      "lines": 11
+    },
+    {
+      "path": "work/group-token-pilot-20260921/stop.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "965c345e5bd20dcc9c41a41e5608ac26a8c806c8bcf8fab2288ddef984880984",
+      "lines": 18,
+      "symbols": [],
+      "imports": [
+        "control",
+        "json",
+        "pathlib",
+        "psutil",
+        "time"
       ],
       "test_functions": []
     },
