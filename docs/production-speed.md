@@ -65,6 +65,13 @@ empty latent; it does not upscale or copy the source pixels. Compare the entire 
 likeness, age, lips, gaze, pose, clothing and room geometry. Exclude that source from independent likeness scoring.
 Outputs save under `ComfyUI/output/production-speed/upgrade-source-preserve/`.
 
+A [second genuine-source check](../work/upgrade-generalization-20260921/RESULT.md) on September21
+used a white-shirt balcony photo with source-specific prompt nouns and864x1152 output.
+It passed native/thumbnail review and the unchanged source-excluded limits: .787830
+centroid, .022217 source loss,1.188-degree maximum pose drift and closed lips. This
+expands evidence to two sources; smoothing/regenerated details remain. The saved navy
+defaults are unchanged, and arbitrary new inputs do not inherit either pass.
+
 The [package provenance](../config/production-speed-solo-upgrade.json) records exact default-input
 SHA256 values, source graphs and declared packaging differences for Individual and Upgrade. Guarded UNET,
 CLIP and VAE nodes reject a wrong worker before each branch loads; the sampler checks again before sampling.

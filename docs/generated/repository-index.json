@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "counts": {
-    "code": 1726,
+    "code": 1729,
     "configuration/workflow": 42,
-    "document": 494,
+    "document": 502,
     "test": 200
   },
   "files": [
@@ -3400,16 +3400,16 @@
       "path": "docs/CLEANUP.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "00474e1e7dad92aea460aa3aef310f0c97d92a80ea459ff2a2bdba998aa1805e",
-      "lines": 123,
+      "sha256_text": "0cd78827d20df4c7ab3225b35424d99d90354998b86e782fdbb34bfcf4f8b0e1",
+      "lines": 133,
       "title": "Preservation and cleanup decisions"
     },
     {
       "path": "docs/DECISIONS.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "22fbfe755f0068e14b14883297b2e42ef2ccfdd7128066ec285d5c5207f1b4c1",
-      "lines": 90,
+      "sha256_text": "c0eb0e3563e0cd1def5f4ce2dd9fa1a17111a61502d5888027e9f5dae1740c53",
+      "lines": 94,
       "title": "Results that should guide the next change"
     },
     {
@@ -3432,7 +3432,7 @@
       "path": "docs/OPTIMIZATION.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "69cc25753969594defca1bf2311b4f149ff5afc5b5507fb665a3785dd3605087",
+      "sha256_text": "44cf968c7bedc532b678363d4ea79d404c950ca29aaea2965389c4afd6eaa5b4",
       "lines": 58,
       "title": "Where the next unit of work can help most"
     },
@@ -3456,16 +3456,16 @@
       "path": "docs/STATUS.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "520238f0fa8515cf6b4842901318d81ad16c40db3320080465e49e8e7d31c393",
-      "lines": 122,
+      "sha256_text": "b2307a20b19bc897fc4390d3e1dacb9cb74f121ad1f4fac30973fe2cde762bfa",
+      "lines": 129,
       "title": "Current project status"
     },
     {
       "path": "docs/TESTING.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "604bcbb9c986b04edffc786b5667c414663d232316fc965055aef14521220fef",
-      "lines": 231,
+      "sha256_text": "0786ce7cee3aa3ebd2a760383a8485b3ace120b3794858cb346a04f05dedd9eb",
+      "lines": 236,
       "title": "Choose checks by what changed"
     },
     {
@@ -3864,8 +3864,8 @@
       "path": "docs/production-speed.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "f996358a1cad3dbf56befb3b74667a199eea34a8d12108479ba068bd4b9d90b1",
-      "lines": 121,
+      "sha256_text": "c6111b3220adac9150049f67cd39a70c09610e412386fcd0442637bbcc66480f",
+      "lines": 128,
       "title": "Production Speed — bounded RTX 3090 alternatives"
     },
     {
@@ -4123,6 +4123,14 @@
       "sha256_text": "b656d24a80df8693c46d58d5f3619baaae4179f969b6af3035ac239fdcc200ab",
       "lines": 104,
       "title": "Whole-face source-shape probe — not production"
+    },
+    {
+      "path": "docs/validation-closeout-2026-09-21.md",
+      "kind": "document",
+      "scope": "project",
+      "sha256_text": "bfa14fa8048bc29ac55cc70dbe2a2b1651691d9571e48dbd7a297a2034129469",
+      "lines": 72,
+      "title": "Validation and cleanup readiness, September 21"
     },
     {
       "path": "docs/visual-scene-prompt-helper-2026-09-05.md",
@@ -38502,6 +38510,48 @@
       "referenced_by_main_verifier": false
     },
     {
+      "path": "work/final-validation-20260921/DISPOSITION.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "13091c5bd96f8a240ac2d68f5773b788922fa8fe6d93d2230489c43bae7b372f",
+      "lines": 99,
+      "title": "Remaining routes and assets: concrete cleanup disposition"
+    },
+    {
+      "path": "work/final-validation-20260921/PLAN.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "2a906099f7d2bb911734ba55832e917a2284c09f8138a8a3ba6d01b9d1721d3d",
+      "lines": 24,
+      "title": "Finish validation and establish cleanup readiness"
+    },
+    {
+      "path": "work/final-validation-20260921/RESULT.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "d34303f0645505e304f057826d870fd33e2e3340ab46d8e5811e1c8e1260f904",
+      "lines": 22,
+      "title": "Finite validation and cleanup disposition complete"
+    },
+    {
+      "path": "work/final-validation-20260921/audit_dependencies.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "859592fdee693eb11cfe9ac679aee4bbbca391796cc641dd36e6567ac2a3b88a",
+      "lines": 52,
+      "symbols": [
+        "main"
+      ],
+      "imports": [
+        "datetime",
+        "hashlib",
+        "json",
+        "pathlib",
+        "subprocess"
+      ],
+      "test_functions": []
+    },
+    {
       "path": "work/flux2-dev-identity-v1/native-s900-test/RESULT.md",
       "kind": "document",
       "scope": "local evidence",
@@ -41520,6 +41570,14 @@
       "test_functions": []
     },
     {
+      "path": "work/st-barts-gallery-check-20260921/RESULT.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "7832b1d98e9e622fc52771a6a54ac049a385eb07cbf0569de1a85661c2d3770c",
+      "lines": 32,
+      "title": "St. Barts live gallery interaction"
+    },
+    {
       "path": "work/st-barts-original-pose-20260920/PLAN.md",
       "kind": "document",
       "scope": "local evidence",
@@ -41672,6 +41730,82 @@
       "sha256_text": "890d4256171cfb0b5e1f6e73b2f6874989f2116b07fd53afadd123e039c604c5",
       "lines": 52,
       "referenced_by_main_verifier": false
+    },
+    {
+      "path": "work/upgrade-generalization-20260921/PLAN.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "f7baa7cc4ff026b6e408572a25d2c342a7eef08e81010b39dbceff88b05fe3b7",
+      "lines": 68,
+      "title": "Prospective genuine-source Upgrade check"
+    },
+    {
+      "path": "work/upgrade-generalization-20260921/RESULT.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "c596449403889daaf376a8cbc87b154e79f421fbdd6fafdaf0ac486f448a5e60",
+      "lines": 70,
+      "title": "Second genuine-source Turbo Upgrade: qualified pass"
+    },
+    {
+      "path": "work/upgrade-generalization-20260921/VISUAL-REVIEW.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "f2e21d3e4cc9a0c1e1b6ec140534b7df11a2480c21429d5ec964985409ee37c0",
+      "lines": 23,
+      "title": "Visual review before numerical scoring"
+    },
+    {
+      "path": "work/upgrade-generalization-20260921/evaluate.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "466ca5752bbb7aa9cd41505fd26484c4913e38efb4ec2d02d6681c9b324f4ee1",
+      "lines": 89,
+      "symbols": [
+        "write",
+        "main"
+      ],
+      "imports": [
+        "PIL",
+        "importlib.util",
+        "json",
+        "pathlib",
+        "sys",
+        "time"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/upgrade-generalization-20260921/run.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "6a63803bfaedcf1c5a078d7f5fc9c9c950e7bdc4f8a032e5ec3bf164110f896e",
+      "lines": 172,
+      "symbols": [
+        "read",
+        "sha",
+        "save",
+        "get",
+        "canonical",
+        "prepare",
+        "submit",
+        "collect"
+      ],
+      "imports": [
+        "PIL",
+        "argparse",
+        "copy",
+        "ctypes",
+        "datetime",
+        "hashlib",
+        "json",
+        "pathlib",
+        "subprocess",
+        "urllib.error",
+        "urllib.request",
+        "uuid"
+      ],
+      "test_functions": []
     },
     {
       "path": "work/upgrade-high-20260907/beautygrpo-canyon-fixed-recipe/VISUAL-REVIEW.md",

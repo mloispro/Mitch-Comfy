@@ -46,8 +46,8 @@
     }
   },
   "docs/STATUS.md": {
-    "reviewed_at_utc": "2026-09-21T21:11:54.871424+00:00",
-    "note": "Completed Cocktail source comparison: seven public sources retain execution pins; current preset and composed prompt reproduce the failed case; accepted Speed package/API/history/PNG and genuine references verified; all 31 nodes/choices exposed on current 3090. Recorded three changed variable groups and unresolved causality, closed the source-comparison task, retained existing Speed handoff and original production. No generation or new image acceptance.",
+    "reviewed_at_utc": "2026-09-21T22:02:18.515824+00:00",
+    "note": "Reviewed the one-run balcony Upgrade execution, pre-score native/thumbnail review and unchanged five-reference scoring; actual St Barts UI observations; High/LaTo/Group completed failures and retained dependency paths; final preservation checks and verified 37-entry supplemental archive. Added bounded future-evidence watches without changing checker semantics.",
     "sources": {
       "config/dependencies.lock.json": "cd95792978a3b90cf92216a8b07ba5cf0b634539ae3512e88ca86e29e91c920c",
       "config/frozen-baselines.json": "3241642620e126efdd308428fab596b5a52388de84145df7b035e3b7971b85c9",
@@ -60,7 +60,7 @@
       "docs/lora-cleanup-2026-09-01.md": "b02a50087a5d498b54a75f3ae99278ec1a1556c30ae054a45ddc95dfc0659f37",
       "docs/solo-cocktail-comparison-2026-09-21.md": "1db6f6b3445a521436cfad3c65ee5e7f30e58f36fda15e2311d765a3deeb8773",
       "docs/STATUS-history-before-doc-rebuild-2026-09-09.md": "cb76ef64f37b2418b41ad1d7fc0e23a555212bc2c89925cc2b77d1d12be2d81c",
-      "docs/STATUS.md": "520238f0fa8515cf6b4842901318d81ad16c40db3320080465e49e8e7d31c393",
+      "docs/STATUS.md": "b2307a20b19bc897fc4390d3e1dacb9cb74f121ad1f4fac30973fe2cde762bfa",
       "docs/upgrade-high-explicit-features-2026-09-07.md": "b29a8a2e4cae5a7f38ef8d9313b500b3bc1e827c6cf431d177e758b1261ec436",
       "docs/upgrade-high-resume-2026-09-07.md": "19ea78dd786f1618b3feaac74d1e09aac9a97bc06b736efe71541a809b6d8a63",
       "scripts/evaluate-face-likeness.py": "fec54ecb5af5d44c2a6396f8fcb6213da9086d69b79509ae3baf2b61e391cae9",
@@ -71,6 +71,8 @@
       "work/9b-readiness-resume-20260907/upgrade-source-faithful-option/ROOT-RESULT.md": "6dbd92b1db0204eee4bac3ea2b4d1539fa3a4752172d51ea57dc17ed4f93d735",
       "work/9b-readiness-resume-20260907/upgrade-source-faithful-turbo/ROOT-RESULT.md": "311cd6641b1690d8f2c5a96bd2c64f01f903844c9a9ae1e5f806699ddfd0f240",
       "work/face-likeness-cache-20260909/results.json": "7815e2065968db53d5047811068fbc7616ecf5e85b7436100abc1530e55a211b",
+      "work/final-validation-20260921/DISPOSITION.md": "13091c5bd96f8a240ac2d68f5773b788922fa8fe6d93d2230489c43bae7b372f",
+      "work/final-validation-20260921/RESULT.md": "d34303f0645505e304f057826d870fd33e2e3340ab46d8e5811e1c8e1260f904",
       "work/group-cache-20260909/CONFIRMATION-PLAN.md": "af40efe5117d6e06bf9b0a4475f46340cdbc81b55d0de885e23a706b1a45bebc",
       "work/group-cache-20260909/evaluation-candidate/comparison.json": "c706e757a4f855adf36cd04febc84e9e2a97d1aed2e2f7bab72a1bfdac4c9f73",
       "work/group-cache-20260909/evaluation-confirm-candidate-1/comparison.json": "94d67575ccf9a2a9fc3d4a4a37056f4e6b4ec7b35482a8f3288c0c4c9d31f33c",
@@ -84,6 +86,9 @@
       "work/group-cache-20260909/VISUAL-REVIEW.md": "3cad2ab273c66ec8ebe5245c93550110bc1490d9a733f4d6ceb394b8185fe4a5",
       "work/production-speed-rollout/RESULTS.md": "07f249aff3f393cfce279e867f010e2848f46cbcaea1ef6989a0de29b85cdd7f",
       "work/st-barts-exact-foreground-20260920/RESULT.md": "a812afa4f8bec8f160966b5602436a0c7e150d4f9361ec59541ea8f14599b0b3",
+      "work/st-barts-gallery-check-20260921/RESULT.md": "7832b1d98e9e622fc52771a6a54ac049a385eb07cbf0569de1a85661c2d3770c",
+      "work/upgrade-generalization-20260921/evaluation/audit.json": "3b300154ce62fdb7eb21b4272afc2152d0d121039b3ed57cba05417b8354ade6",
+      "work/upgrade-generalization-20260921/RESULT.md": "c596449403889daaf376a8cbc87b154e79f421fbdd6fafdaf0ac486f448a5e60",
       "workflows/experiments/9B Readiness - ACTIVE 2026-09-07/Solo Raw Examples/README.md": "f00cb542af08487be2bc551fbe6bf51da5d6e6a861b632317874025b2fb0d1cd",
       "workflows/experiments/9B Readiness - ACTIVE 2026-09-07/UI-BROWSER-VERIFIED.md": "77bf57f4c53646286a35e81a25b606e8b1e0a00a6e98e2a3c9c807035b22ea6c",
       "workflows/experiments/9B Readiness - ACTIVE 2026-09-07/Upgrade Preserve Genuine Source/README.md": "2e764ae1c396c30cc063d749ea608d01129cc7d96c678d9e7090223805543e21",
@@ -154,8 +159,8 @@
     }
   },
   "docs/TESTING.md": {
-    "reviewed_at_utc": "2026-09-21T19:41:42.645913+00:00",
-    "note": "Reviewed the two verifier baseline-ID substitutions against the separate current gallery baseline; all hash checks, model checks, queue behavior and no-Smoke execution paths remain unchanged.",
+    "reviewed_at_utc": "2026-09-21T22:02:18.622303+00:00",
+    "note": "Reviewed the one-run balcony Upgrade execution, pre-score native/thumbnail review and unchanged five-reference scoring; actual St Barts UI observations; High/LaTo/Group completed failures and retained dependency paths; final preservation checks and verified 37-entry supplemental archive. Added bounded future-evidence watches without changing checker semantics.",
     "sources": {
       "config/evaluation-cases.json": "66b61a6059725eb5a65309facea74a0f15b4ca8b3630f842519ed9274058d087",
       "custom_nodes/ComfyUI-AIToolkit-Training/test_camera_finish.py": "62c38e9c47ff0d8fbc861bbc2b40a5f3b7911da51ba04ff68f4e2eaffa717476",
@@ -192,7 +197,7 @@
       "custom_nodes/ComfyUI-AIToolkit-Training/test_social_photo_core.py": "6fcabee9cba6aeadcc9bbf176ba7196646882be1c757c0f500b1f165f209d356",
       "custom_nodes/ComfyUI-AIToolkit-Training/test_whole_frame_phone_finish.py": "bb1d4929f17eccd203ff4c3e48e89807f9659179ad855c5045a0a48e61170b61",
       "custom_nodes/ComfyUI-AIToolkit-Training/web/assets/scene-presets/manifest.json": "397915c487864fb6ab0f98af8af0bb8ee29e8aa3a28911e968b669c57e10f201",
-      "docs/TESTING.md": "604bcbb9c986b04edffc786b5667c414663d232316fc965055aef14521220fef",
+      "docs/TESTING.md": "0786ce7cee3aa3ebd2a760383a8485b3ace120b3794858cb346a04f05dedd9eb",
       "scripts/deploy-production-speed.py": "e930ae1ca96328fef5988303c610245585b1971c7f4e698a1f2e0e2dee3e1c31",
       "scripts/evaluate-face-likeness.py": "fec54ecb5af5d44c2a6396f8fcb6213da9086d69b79509ae3baf2b61e391cae9",
       "scripts/evaluation-cases.py": "aa57bbe5d56def5ed1c2956dc0a2b501bc44063fd4bac12dc7b29139d5aac836",
@@ -253,18 +258,19 @@
       "work/production-speed-rollout/EVALUATION-ROUTING.md": "7b27ad6f5f6dc9c852417dd670d806b7f4bacc7c3445565c98324a1d70b5b996",
       "work/production-speed-rollout/PLAN.md": "2a58f8b111d7e64a9098e98f48c0414709f832d0418b91cdcfb7d4e805633726",
       "work/production-speed-rollout/RESULTS.md": "07f249aff3f393cfce279e867f010e2848f46cbcaea1ef6989a0de29b85cdd7f",
-      "work/st-barts-exact-foreground-20260920/RESULT.md": "a812afa4f8bec8f160966b5602436a0c7e150d4f9361ec59541ea8f14599b0b3"
+      "work/st-barts-exact-foreground-20260920/RESULT.md": "a812afa4f8bec8f160966b5602436a0c7e150d4f9361ec59541ea8f14599b0b3",
+      "work/st-barts-gallery-check-20260921/RESULT.md": "7832b1d98e9e622fc52771a6a54ac049a385eb07cbf0569de1a85661c2d3770c"
     }
   },
   "docs/DECISIONS.md": {
-    "reviewed_at_utc": "2026-09-21T21:11:54.900090+00:00",
-    "note": "Completed Cocktail source comparison: seven public sources retain execution pins; current preset and composed prompt reproduce the failed case; accepted Speed package/API/history/PNG and genuine references verified; all 31 nodes/choices exposed on current 3090. Recorded three changed variable groups and unresolved causality, closed the source-comparison task, retained existing Speed handoff and original production. No generation or new image acceptance.",
+    "reviewed_at_utc": "2026-09-21T22:02:18.572824+00:00",
+    "note": "Reviewed the one-run balcony Upgrade execution, pre-score native/thumbnail review and unchanged five-reference scoring; actual St Barts UI observations; High/LaTo/Group completed failures and retained dependency paths; final preservation checks and verified 37-entry supplemental archive. Added bounded future-evidence watches without changing checker semantics.",
     "sources": {
       ".ignore": "b99f8dadcf8eeb0964c1d167448271b8c6529839d95166b7aca4b67bb886e2c8",
       "archive/klein9b-upgrade-reference-policy/flux2_klein9b_upgrade_reference_policy.py": "deda61abcbdeecc148993a707cea30b05db696317dad490f59b4be31ebe2c7dc",
       "archive/klein9b-upgrade-reference-policy/test_flux2_klein9b_upgrade_reference_policy.py": "44c9236ef82f753135020c09ed7050684d5893b6df1e9ea410137b2891835925",
       "custom_nodes/ComfyUI-AIToolkit-Training/test_flux2_klein9b_photo_realism_upgrade_reporting.py": "2b7c2d8bb0df96d2ff23730634f7838192c8e0a7b0ab952c91bd91c315a6249a",
-      "docs/DECISIONS.md": "22fbfe755f0068e14b14883297b2e42ef2ccfdd7128066ec285d5c5207f1b4c1",
+      "docs/DECISIONS.md": "c0eb0e3563e0cd1def5f4ce2dd9fa1a17111a61502d5888027e9f5dae1740c53",
       "docs/identity-candidate-screening.md": "ca39f4d2b39a05370fadf541a2f5b5b7e489051c62f71a4e674caa863eab22d0",
       "docs/solo-cocktail-comparison-2026-09-21.md": "1db6f6b3445a521436cfad3c65ee5e7f30e58f36fda15e2311d765a3deeb8773",
       "docs/STATUS-history-before-doc-rebuild-2026-09-09.md": "cb76ef64f37b2418b41ad1d7fc0e23a555212bc2c89925cc2b77d1d12be2d81c",
@@ -290,6 +296,7 @@
       "work/9b-readiness-resume-20260907/upgrade-source-faithful-turbo/ROOT-RESULT.md": "311cd6641b1690d8f2c5a96bd2c64f01f903844c9a9ae1e5f806699ddfd0f240",
       "work/face-likeness-cache-20260909/plan.json": "f85e6033d7136ceb435c4c24607f1ff58b9f14956b1df1c06fbb5c6e9e45a236",
       "work/face-likeness-cache-20260909/results.json": "7815e2065968db53d5047811068fbc7616ecf5e85b7436100abc1530e55a211b",
+      "work/final-validation-20260921/DISPOSITION.md": "13091c5bd96f8a240ac2d68f5773b788922fa8fe6d93d2230489c43bae7b372f",
       "work/group-cache-20260909/CONFIRMATION-PLAN.md": "af40efe5117d6e06bf9b0a4475f46340cdbc81b55d0de885e23a706b1a45bebc",
       "work/group-cache-20260909/evaluation-candidate/comparison.json": "c706e757a4f855adf36cd04febc84e9e2a97d1aed2e2f7bab72a1bfdac4c9f73",
       "work/group-cache-20260909/evaluation-confirm-candidate-1/comparison.json": "94d67575ccf9a2a9fc3d4a4a37056f4e6b4ec7b35482a8f3288c0c4c9d31f33c",
@@ -303,22 +310,22 @@
       "work/group-cache-20260909/VISUAL-REVIEW.md": "3cad2ab273c66ec8ebe5245c93550110bc1490d9a733f4d6ceb394b8185fe4a5",
       "work/production-speed-rollout/RESULTS.md": "07f249aff3f393cfce279e867f010e2848f46cbcaea1ef6989a0de29b85cdd7f",
       "work/st-barts-exact-foreground-20260920/RESULT.md": "a812afa4f8bec8f160966b5602436a0c7e150d4f9361ec59541ea8f14599b0b3",
+      "work/upgrade-generalization-20260921/RESULT.md": "c596449403889daaf376a8cbc87b154e79f421fbdd6fafdaf0ac486f448a5e60",
       "workflows/experiments/group-masked-pilot-resume-20260908/ROOT-RESULT.md": "3db8e00f400e2d8d337173d0addb5e57fe48e33e18510d2c5efaedf4bc70d9cf",
       "workflows/experiments/group-masked-strength110-20260908/ROOT-RESULT.md": "54743406d2ddd4b48e7843c41483ab3d13ce5f9584bd8978ec6475f7e844a771"
     }
   },
   "docs/OPTIMIZATION.md": {
-    "reviewed_at_utc": "2026-09-21T21:11:54.922602+00:00",
-    "note": "Completed Cocktail source comparison: seven public sources retain execution pins; current preset and composed prompt reproduce the failed case; accepted Speed package/API/history/PNG and genuine references verified; all 31 nodes/choices exposed on current 3090. Recorded three changed variable groups and unresolved causality, closed the source-comparison task, retained existing Speed handoff and original production. No generation or new image acceptance.",
+    "reviewed_at_utc": "2026-09-21T22:02:18.596826+00:00",
+    "note": "Reviewed the one-run balcony Upgrade execution, pre-score native/thumbnail review and unchanged five-reference scoring; actual St Barts UI observations; High/LaTo/Group completed failures and retained dependency paths; final preservation checks and verified 37-entry supplemental archive. Added bounded future-evidence watches without changing checker semantics.",
     "sources": {
-      "docs/OPTIMIZATION.md": "69cc25753969594defca1bf2311b4f149ff5afc5b5507fb665a3785dd3605087",
+      "docs/OPTIMIZATION.md": "44cf968c7bedc532b678363d4ea79d404c950ca29aaea2965389c4afd6eaa5b4",
       "docs/solo-cocktail-comparison-2026-09-21.md": "1db6f6b3445a521436cfad3c65ee5e7f30e58f36fda15e2311d765a3deeb8773",
       "scripts/evaluate-face-likeness.py": "fec54ecb5af5d44c2a6396f8fcb6213da9086d69b79509ae3baf2b61e391cae9",
       "work/9b-readiness-20260903/evaluation/feature-reuse-coverage/RESULTS.md": "ecaffba0eb26aa8006b2e0cdf1589c11184f821f49e9eb4473771dc9a200a23d",
       "work/9b-readiness-20260903/evaluation/feature-reuse-pilot/RESULTS.md": "94161ede072eda55b25f3a79357efa6e4ca847c5699daf2b34614002734c9102",
       "work/9b-readiness-20260903/evaluation/READINESS-MATRIX.md": "a44c6280ce758240f805b2b44ae21246d232ea8eacb0e60f193e5352062f89ae",
       "work/9b-readiness-20260903/REASSESSMENT-20260904.md": "6858d676fd3cc0b89cab164cb3e659e33fa03c12cba4cee0045cbc8b2ade5e58",
-      "work/9b-readiness-resume-20260907/upgrade-source-faithful-turbo/ROOT-RESULT.md": "311cd6641b1690d8f2c5a96bd2c64f01f903844c9a9ae1e5f806699ddfd0f240",
       "work/face-likeness-cache-20260909/results.json": "7815e2065968db53d5047811068fbc7616ecf5e85b7436100abc1530e55a211b",
       "work/group-cache-20260909/CONFIRMATION-PLAN.md": "af40efe5117d6e06bf9b0a4475f46340cdbc81b55d0de885e23a706b1a45bebc",
       "work/group-cache-20260909/evaluation-candidate/comparison.json": "c706e757a4f855adf36cd04febc84e9e2a97d1aed2e2f7bab72a1bfdac4c9f73",
@@ -332,6 +339,7 @@
       "work/group-cache-20260909/UPSTREAM-AUDIT.md": "09790b340e6d395a092f13d9122d8f4aa146c565feb0ac5d5bb95fd80b840d81",
       "work/group-cache-20260909/VISUAL-REVIEW.md": "3cad2ab273c66ec8ebe5245c93550110bc1490d9a733f4d6ceb394b8185fe4a5",
       "work/production-speed-rollout/RESULTS.md": "07f249aff3f393cfce279e867f010e2848f46cbcaea1ef6989a0de29b85cdd7f",
+      "work/upgrade-generalization-20260921/RESULT.md": "c596449403889daaf376a8cbc87b154e79f421fbdd6fafdaf0ac486f448a5e60",
       "workflows/experiments/group-masked-strength110-20260908/ROOT-RESULT.md": "54743406d2ddd4b48e7843c41483ab3d13ce5f9584bd8978ec6475f7e844a771"
     }
   },
@@ -370,11 +378,11 @@
     }
   },
   "docs/DOCUMENTATION.md": {
-    "reviewed_at_utc": "2026-09-21T20:16:52.513891+00:00",
-    "note": "Reviewed the exact twelve-pair restore manifest, source/dependency inspection, two full-hash passes, completed removal receipt, before/after loader and preservation checks, pinned evidence/baselines, live non-smoke verifiers and verified supplemental archive. Current guides distinguish this removal from the earlier all-retained checkpoint; unresolved experiments remain held. Checked the CLEANUP evidence registration and retained documentation workflow.",
+    "reviewed_at_utc": "2026-09-21T22:02:18.648309+00:00",
+    "note": "Reviewed the one-run balcony Upgrade execution, pre-score native/thumbnail review and unchanged five-reference scoring; actual St Barts UI observations; High/LaTo/Group completed failures and retained dependency paths; final preservation checks and verified 37-entry supplemental archive. Added bounded future-evidence watches without changing checker semantics.",
     "sources": {
       ".ignore": "b99f8dadcf8eeb0964c1d167448271b8c6529839d95166b7aca4b67bb886e2c8",
-      "docs/documentation-map.json": "dc66af2c350b94936c0a788982c3bb9563a665f08d3bba4975f70af02adf436d",
+      "docs/documentation-map.json": "f5fc6b7908ba535ad6f05faf2e3da8cc3869323cc7fc3f76112e0f56fe3184e5",
       "docs/documentation-practical-check-2026-09-09.md": "4fb1e55188d8d39fcd2d7cd0050453ad47cdb09b23927f94c3f73b5e3b775da2",
       "docs/DOCUMENTATION.md": "3ea45e8b887943509fba24007cfa03404fa9fd30c66ce7c47a1a9d5330ea6882",
       "docs/STATUS-history-before-doc-rebuild-2026-09-09.md": "cb76ef64f37b2418b41ad1d7fc0e23a555212bc2c89925cc2b77d1d12be2d81c",
@@ -383,14 +391,14 @@
     }
   },
   "docs/production-speed.md": {
-    "reviewed_at_utc": "2026-09-21T21:11:54.954227+00:00",
-    "note": "Completed Cocktail source comparison: seven public sources retain execution pins; current preset and composed prompt reproduce the failed case; accepted Speed package/API/history/PNG and genuine references verified; all 31 nodes/choices exposed on current 3090. Recorded three changed variable groups and unresolved causality, closed the source-comparison task, retained existing Speed handoff and original production. No generation or new image acceptance.",
+    "reviewed_at_utc": "2026-09-21T22:02:18.606826+00:00",
+    "note": "Reviewed the one-run balcony Upgrade execution, pre-score native/thumbnail review and unchanged five-reference scoring; actual St Barts UI observations; High/LaTo/Group completed failures and retained dependency paths; final preservation checks and verified 37-entry supplemental archive. Added bounded future-evidence watches without changing checker semantics.",
     "sources": {
       "config/production-speed-solo-upgrade.json": "e42bc6378ee9456453a80af4263ceadc2eb32706fead0fcb4bc2e15ae8455825",
       "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_group_speed.py": "633fabca1f8d7abe8d47eee48bcef763a001df64aea0c70b108a14b9f83d1df1",
       "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_guarded_cache.py": "09f889a247e649a41efc0b8cbca1401a1f6147209b651404b4018eb6b4ec6b36",
       "custom_nodes/ComfyUI-AIToolkit-Training/flux2_klein9b_speed_guard.py": "c9ba04dcd40ae2ff580d11ae32c8e981ddb20672572ace9ca5d067c52f4e82b6",
-      "docs/production-speed.md": "f996358a1cad3dbf56befb3b74667a199eea34a8d12108479ba068bd4b9d90b1",
+      "docs/production-speed.md": "c6111b3220adac9150049f67cd39a70c09610e412386fcd0442637bbcc66480f",
       "docs/solo-cocktail-comparison-2026-09-21.md": "1db6f6b3445a521436cfad3c65ee5e7f30e58f36fda15e2311d765a3deeb8773",
       "scripts/comfy-workflow-library.ps1": "390bce5a4bb8df3f8c60d4e43bc5390cf3528bcb4d906941d2b8658f4731897d",
       "scripts/set-comfy-workflow-visibility.ps1": "da723a84a688a85203fe96f7c3c806ab3f08d81235aaab4da4fc749c6632861a",
@@ -402,23 +410,26 @@
       "work/production-speed-rollout/RELEASE.json": "fc2a86dbdd736c3ac1091d555776be6a1b7b97e7fc0facf30276e3a47d78d26b",
       "work/production-speed-rollout/RESULTS.md": "07f249aff3f393cfce279e867f010e2848f46cbcaea1ef6989a0de29b85cdd7f",
       "work/production-speed-rollout/upgrade-run/runtime.json": "ef35c26ff93dbf2ca0c2e4696bd794a7145363e0301d6a8cfecdd81f560d8260",
+      "work/upgrade-generalization-20260921/RESULT.md": "c596449403889daaf376a8cbc87b154e79f421fbdd6fafdaf0ac486f448a5e60",
       "workflows/production-speed/Group - Lounge Faster Quality - RTX 3090.json": "80f29e19a127fc6149893163d011ad39204f9cf92118fbf075a0c480bc936168",
       "workflows/production-speed/Individual - Cocktail - Tested Recipe - RTX 3090.json": "bf5ec01cfa6353af44b7c3600a49253a34cd9e57258585cd9b802c68dfdbe659",
       "workflows/production-speed/Upgrade - Source Preserve Turbo - Tested Example - RTX 3090.json": "89df115ba24c370826d60c934f992be187ec4b936ec860098a42976a8ad978c7"
     }
   },
   "docs/CLEANUP.md": {
-    "reviewed_at_utc": "2026-09-21T21:11:54.933412+00:00",
-    "note": "Completed Cocktail source comparison: seven public sources retain execution pins; current preset and composed prompt reproduce the failed case; accepted Speed package/API/history/PNG and genuine references verified; all 31 nodes/choices exposed on current 3090. Recorded three changed variable groups and unresolved causality, closed the source-comparison task, retained existing Speed handoff and original production. No generation or new image acceptance.",
+    "reviewed_at_utc": "2026-09-21T22:02:18.550825+00:00",
+    "note": "Reviewed the one-run balcony Upgrade execution, pre-score native/thumbnail review and unchanged five-reference scoring; actual St Barts UI observations; High/LaTo/Group completed failures and retained dependency paths; final preservation checks and verified 37-entry supplemental archive. Added bounded future-evidence watches without changing checker semantics.",
     "sources": {
       ".gitattributes": "08e720fd049818473de5bb96241e9825926bd63ab358128b8ed4036e910372f4",
       "config/duplicate-model-cleanup-20260921.json": "c73a31f5456a65dfe8c345112411b0f9dc81eb8b774d49313d983f33db4e07a5",
       "config/frozen-baselines.json": "3241642620e126efdd308428fab596b5a52388de84145df7b035e3b7971b85c9",
-      "docs/CLEANUP.md": "00474e1e7dad92aea460aa3aef310f0c97d92a80ea459ff2a2bdba998aa1805e",
+      "docs/CLEANUP.md": "0cd78827d20df4c7ab3225b35424d99d90354998b86e782fdbb34bfcf4f8b0e1",
       "docs/identity-candidate-screening.md": "ca39f4d2b39a05370fadf541a2f5b5b7e489051c62f71a4e674caa863eab22d0",
       "docs/solo-cocktail-comparison-2026-09-21.md": "1db6f6b3445a521436cfad3c65ee5e7f30e58f36fda15e2311d765a3deeb8773",
       "docs/upgrade-high-explicit-features-2026-09-07.md": "b29a8a2e4cae5a7f38ef8d9313b500b3bc1e827c6cf431d177e758b1261ec436",
       "docs/upgrade-high-resume-2026-09-07.md": "19ea78dd786f1618b3feaac74d1e09aac9a97bc06b736efe71541a809b6d8a63",
+      "docs/validation-closeout-2026-09-21.md": "bfa14fa8048bc29ac55cc70dbe2a2b1651691d9571e48dbd7a297a2034129469",
+      "local/final-validation-20260921/verification.json": "b2aa05c2182a7d86536845494ab85bbf5d0c66458992fcd5de9a377c25bc38dd",
       "local/preservation-checkpoint-20260921/backup-verification.json": "b137c56341ca81296d1b936485d57825aadefbc06ecba72e0246446f3cc1c306",
       "local/preservation-checkpoint-20260921/duplicate-cleanup-backup-verification.json": "dcfa59741fe918026011cf77f0d6a18eb1b459448800f72ee3b64b8d9ad52bbd",
       "local/preservation-checkpoint-20260921/snapshot.py": "64251191628b2e137f84e227efbcebd780c60645f81af49aed8bd414b668b185",
@@ -436,10 +447,13 @@
       "work/duplicate-cleanup-20260921/RESULT.md": "2d853fe68b4bf57eac4b18f373d9cdba65adbc9caf66706dc2a1013893eedd82",
       "work/duplicate-cleanup-20260921/snapshot.py": "44e40db56172899ed9c0f08c818182a0ebce7c181f58b62515ea2203a6129165",
       "work/fast-detail-20260903/RESULTS.md": "f7d36b491e13ab4356e5e1bf7c0ed2f3321e4bdeb1fb318965095a8c30d810d2",
+      "work/final-validation-20260921/DISPOSITION.md": "13091c5bd96f8a240ac2d68f5773b788922fa8fe6d93d2230489c43bae7b372f",
       "work/production-speed-rollout/RESULTS.md": "07f249aff3f393cfce279e867f010e2848f46cbcaea1ef6989a0de29b85cdd7f",
       "work/st-barts-exact-foreground-20260920/publication.json": "b2535abd35acb20e23cb0d7e76c0968fe342d313bb68f5aaf16fae5cb070d132",
       "work/st-barts-exact-foreground-20260920/RESULT.md": "a812afa4f8bec8f160966b5602436a0c7e150d4f9361ec59541ea8f14599b0b3",
+      "work/st-barts-gallery-check-20260921/RESULT.md": "7832b1d98e9e622fc52771a6a54ac049a385eb07cbf0569de1a85661c2d3770c",
       "work/st-barts-original-pose-20260920/live-verification.json": "a1983aacc2633b0f42820744874602369ad129d22952c7157cda26a4be312dfc",
+      "work/upgrade-generalization-20260921/RESULT.md": "c596449403889daaf376a8cbc87b154e79f421fbdd6fafdaf0ac486f448a5e60",
       "workflows/experiments/group-masked-strength110-20260908/ROOT-RESULT.md": "54743406d2ddd4b48e7843c41483ab3d13ce5f9584bd8978ec6475f7e844a771"
     }
   }

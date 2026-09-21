@@ -28,6 +28,7 @@ it must not silently rewrite an old failure. Search [all evidence](generated/EVI
 | Observation | Consequence for future work | Evidence |
 | --- | --- | --- |
 | Source-preserving QUALITY50 reproduced one genuine-photo case: .817792 centroid versus source .825853; Turbo8 .804167 with smoother skin | Useful qualified source-preservation controls. Neither is stronger High, LoRA-free, a universal enhancer or equivalent to public four-reference Upgrade | [Quality](../work/9b-readiness-resume-20260907/upgrade-source-faithful-option/ROOT-RESULT.md), [Turbo](../work/9b-readiness-resume-20260907/upgrade-source-faithful-turbo/ROOT-RESULT.md) |
+| Second genuine-source Turbo test passes: balcony val05 .787830 centroid, source loss .022217, pose drift1.188 degrees; native/thumbnail review retains source with smoothing/detail regeneration | Two genuine-source observations now support bounded preservation. No universal enhancement, improved identity or stronger High claim; all five source-excluded comparisons remain | [September 21 result](../work/upgrade-generalization-20260921/RESULT.md) |
 | Native stronger beauty prompt hurt identity; corrected character fallback/midpoint did not produce compelling High. BeautyGRPO/T5 correction and explicit-feature Kontext refinement also failed their High goals | Do not restart the same strength/prompt/adapter grids without a new causal reason | [September 7 investigation](upgrade-high-resume-2026-09-07.md), [explicit features](upgrade-high-explicit-features-2026-09-07.md) |
 | PixelSmile candidate and neutral-expression control failed identity/visual review | This tested configuration is rejected; a zero expression score did not restore the source face | [PixelSmile evidence](upgrade-pixelsmile-research-2026-09-04.md) |
 | CodeFormer softened/changed face without fixing the target expression; shape/CodeFormer composition folded on other sources | Do not add restoration or geometry stages to hide a failed generation mechanism | [CodeFormer](upgrade-codeformer-feasibility-2026-09-04.md), [composition](upgrade-shape-restoration-composition-2026-09-04.md) |
@@ -53,8 +54,11 @@ were removed after exact-path dependency review and fresh full hashes against re
 installed copies; the restore manifest records both sides. A tested failure
 closes that recipe; it does not prove that every unexecuted stage or alternative is
 finished. LaTo, High and general Group therefore remain explicit holds. The bounded
-Solo source comparison is now complete; retain its accepted Speed handoff and consider
-Upgrade generalization separately. Do not reopen failed grids to justify cleanup.
+Solo source comparison and second-source Upgrade validation are now complete; retain
+their accepted bounded handoffs. Actual St. Barts gallery interaction also passes.
+The [final disposition](../work/final-validation-20260921/DISPOSITION.md) confirms
+LaTo image stages are unexecuted and all 15 unique weights stay. Do not reopen failed
+grids or describe unresolved High/Group features as achieved to justify cleanup.
 This completed audit authorizes no further path removal.
 
 The [acceptance clarification](../work/9b-readiness-20260903/ACCEPTANCE-CLARIFICATION-20260904.md)

@@ -60,6 +60,11 @@ The canonical data is [manifest.json](../custom_nodes/ComfyUI-AIToolkit-Training
 Thumbnail changes also use `scripts/build-flux2-klein9b-preset-thumbnails.py --check` with Comfy Python;
 this verifies thumbnail provenance, not generated-photo acceptance.
 
+The [September 21 actual gallery check](../work/st-barts-gallery-check-20260921/RESULT.md)
+separately verifies St. Barts card selection, loaded thumbnail, Full Body profile,
+appearance off and Edit full preset scene in a discarded unsaved copy. It submitted
+no generation and does not add pose/identity acceptance.
+
 ## Upgrade and image finishing
 
 | Changed area | Focused tests in custom-node directory | Limit of those checks |

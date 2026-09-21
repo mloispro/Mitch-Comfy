@@ -1,6 +1,6 @@
 # Current project status
 
-Documentation audit: **September 9, 2026**; bounded boat-pose correction **September 20, 2026**. This page reconciles saved code and completed
+Documentation audit: **September 9, 2026**; bounded validation/cleanup review **September 21, 2026**. This page reconciles saved code and completed
 reports through September 8, the September 9 Group cache release and all three matched pairs,
 and the subsequent three-route [Production Speed rollout](../work/production-speed-rollout/RESULTS.md).
 The linked rollout contains fresh normal-worker runs and image reviews; this page is not a live GPU/queue snapshot. Start development at
@@ -24,7 +24,9 @@ The linked rollout contains fresh normal-worker runs and image reviews; this pag
   its FULL BODY reference profile is unchanged. Selecting it sets appearance off; the September 20 text/preview
   restores the original forward lean and both rail grips. [The current composite](../work/st-barts-exact-foreground-20260920/RESULT.md)
   directly preserves original foreground pixels after the native edit remained approximate. The gallery itself remains text-only, with qualified
-  sunglasses likeness rather than full identity acceptance. Group
+  sunglasses likeness rather than full identity acceptance. The September 21
+  [actual browser check](../work/st-barts-gallery-check-20260921/RESULT.md) passes card selection,
+  preview loading, Full Body profile, appearance-off and editable prompt behavior. Group
   received tested default-no-op extension hooks for its separate accelerator. Experiments are
   hidden from the curated library but preserved at their original paths; all235 original
   production/experiment files passed the final byte-for-byte check.
@@ -52,6 +54,7 @@ Model/reference paths, roles and shared code are in [ARCHITECTURE](ARCHITECTURE.
 | Actual public cocktail | Likeness diagnostics passed; teeth/gaze failed. September 21 source comparison confirms the public recipe is unchanged and differs from accepted Speed in references, surrounding prompt and diffusion precision. Use the existing Speed Cocktail for its bounded case; no isolated cause or public fix is established | [Public result](../work/9b-readiness-resume-20260907/public-cocktail-parity/ROOT-RESULT.md), [completed comparison](solo-cocktail-comparison-2026-09-21.md) |
 | Group masked pilot | Runtime completed; reduced bystander similarity but failed main likeness and partial fifth-person preservation | [0.90 result](../workflows/experiments/group-masked-pilot-resume-20260908/ROOT-RESULT.md) |
 | Group sole strength refinement | 1.10 improved centroid to .5557 but weakest genuine comparison .4005 and partial-person preservation still failed; rejected, no further strength grid | [1.10 result](../workflows/experiments/group-masked-strength110-20260908/ROOT-RESULT.md) |
+| Upgrade second genuine source | Balcony/white-shirt val05 qualified pass: .787830 centroid, .022217 source loss, 1.188 degrees pose drift, closed lips; source excluded from five genuine comparisons. Some smoothing/regenerated detail remains; no universal enhancement or stronger High | [September 21 result](../work/upgrade-generalization-20260921/RESULT.md) |
 | Production Speed integration | All three normal Run-button jobs completed: Cocktail24.829s, source-preserving Upgrade18.668s and Lounge209.141s. These are single integration observations, not new matched speed gains. See the release for separate visual/likeness acceptance | [Rollout results](../work/production-speed-rollout/RESULTS.md), [operating guide](production-speed.md) |
 | Group Lounge acceleration | Three matched 3090 pairs took 24.5–26.2% less worker time, about 4m32s to 3m24s. Now also installed as a separate normal-worker Speed workflow; its new image exactly matches the accepted cached seed. Small clothing details can change versus uncached. No improved-identity or general-scene claim | [Matched results](../work/group-cache-20260909/RESULTS.md), [normal-worker rollout](../work/production-speed-rollout/RESULTS.md) |
 | Source-preserving Upgrade QUALITY50 | One genuine-photo pass; .817792 centroid versus source .825853; 322.387 seconds on isolated4070. Source excluded from the five-reference comparison | [Quality result](../work/9b-readiness-resume-20260907/upgrade-source-faithful-option/ROOT-RESULT.md) |
@@ -80,10 +83,14 @@ and unique candidate weight. Dependency review and fresh full hashes cleared twe
 redundant staging copies for removal, recovering about 61.6 GiB; restoration paths
 are recorded and pinned evidence remains intact. The subsequent
 [Solo comparison](solo-cocktail-comparison-2026-09-21.md) is complete: use the already
-accepted Speed Cocktail without changing the original card. Upgrade generalization
-is the next separate candidate; stronger High and broader Group remain unproven. The checkpoint also reconciles the
-already published St. Barts gallery pins while preserving the old baseline hashes.
-No experiment, training, upload or worker restart was started by this maintenance.
+accepted Speed Cocktail without changing the original card. The subsequent
+[second-source Upgrade test](../work/upgrade-generalization-20260921/RESULT.md) and
+[actual St. Barts interaction](../work/st-barts-gallery-check-20260921/RESULT.md) are complete.
+The [remaining-route disposition](../work/final-validation-20260921/DISPOSITION.md) retains
+all 15 unique weights (54.654 GiB), installed models and frozen evidence. Stronger High
+and general Group remain unresolved; LaTo image stages remain unexecuted after failed
+geometry admission. No further blind grids or unique-asset deletion follows. This pass
+used one authorized Upgrade image; no training, upload, download or worker restart.
 
 The September 9 [Group acceleration package](../work/group-cache-20260909/RESULTS.md) is complete
 for its tested Lounge scope. Its [replay instructions](../work/group-cache-20260909/README-REPLAY.md)

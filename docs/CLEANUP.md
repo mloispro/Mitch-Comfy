@@ -5,8 +5,11 @@ deleting its dependencies, then authorized the recommended next steps. The chose
 is a recoverable local checkpoint followed by removal of verified redundant staging
 copies. The first checkpoint retained everything; the subsequent authorized cleanup
 removed exactly twelve duplicate weights after dependency review and fresh hashes.
-No generation, training, worker restart, upload or experiment retirement was performed.
-Current image acceptance remains in [STATUS](STATUS.md).
+That duplicate-removal stage performed no generation, training, worker restart, upload
+or experiment retirement. A later validation pass ran one authorized Upgrade image
+and completed the actual gallery check; see the updated dispositions below.
+Current image acceptance remains in [STATUS](STATUS.md). The [September 21 closeout](validation-closeout-2026-09-21.md)
+records the completed validation/disposition pass and its remaining feature limits.
 
 ## Retain and finish deliberately
 
@@ -14,19 +17,21 @@ Current image acceptance remains in [STATUS](STATUS.md).
 | --- | --- | --- |
 | Original production and the three Production Speed workflows | Keep all dependencies and saved fallbacks | The [Speed release](../work/production-speed-rollout/RESULTS.md) is complete for its three recipes. Do not rerun its confirmation pairs as unfinished work. |
 | Solo public presets | Source comparison complete; retain controls and use accepted Speed Cocktail for its exact case | [Comparison](solo-cocktail-comparison-2026-09-21.md) found differences in references, surrounding prompt and diffusion precision, without isolating the cause. No blanket original-card fix follows. Other scenes retain their [coverage qualifications](../work/9b-readiness-resume-20260907/COVERAGE-MATRIX.md). |
-| Source-preserving Upgrade | Retain Quality50 and Turbo8 controls; wider use remains open | A later bounded check on additional genuine sources must preserve source fidelity and use a source-excluded likeness cohort. The one-source Speed pass is not general approval. |
+| Source-preserving Upgrade | Second genuine-source check complete; retain both controls and new result | [Balcony test](../work/upgrade-generalization-20260921/RESULT.md) passes the fixed visual/source-excluded gates. Coverage is now two genuine photos, not universal enhancement or stronger High. |
 | Stronger High | Hold all unique weights and evidence; no repeat grids | The [native/BeautyGRPO work](upgrade-high-resume-2026-09-07.md) and [explicit-feature refinement](upgrade-high-explicit-features-2026-09-07.md) did not achieve the requested improvement. Require a changed, supported mechanism before another experiment; do not declare High complete. |
-| LaTo | Hold the full 47.715 GiB of candidate weights | The [predictor failure](../work/9b-readiness-resume-20260907/lato-compat/ROOT-FINAL-PREDICTOR-RESULT.md) closes its tested source/recipe. Later image stages are unexecuted. Decide whether a separately justified author-supported alternative is worth pursuing before retiring unique assets. |
+| LaTo | Hold the full 47.715 GiB of candidate weights | The [predictor failure](../work/9b-readiness-resume-20260907/lato-compat/ROOT-FINAL-PREDICTOR-RESULT.md) closes its tested source/recipe. Later image stages are unexecuted. [Disposition review](../work/final-validation-20260921/DISPOSITION.md) confirms external-landmark driving is a distinct supported possibility, but has no admitted geometry for this case. Retain assets; do not advance failed predictor points. |
 | General Group likeness | Hold identity models, genuine references and failed/accepted controls | The [masked refinement](../workflows/experiments/group-masked-strength110-20260908/ROOT-RESULT.md) is closed. A future mechanism must address main likeness and preservation of all other people. No further strength sweep or new character training follows from this cleanup. |
-| VOSR | Hold unique weights pending an explicit retirement decision | The [completed enhancement study](../work/fast-detail-20260903/RESULTS.md) did not justify promotion. Preserve results; do not repeat the same enhancement recipe. |
-| USO / WithAnyone 1.0 / PuLID | Tested routes closed; installed assets retained | [Screening results](identity-candidate-screening.md) establish bounded rejection, not failure of every future model/version. Audit shared encoders and installed optional nodes before removing a unique installed dependency. |
-| St. Barts final image | Keep final PNG, original, masks, background and composition code | [Exact-foreground correction](../work/st-barts-exact-foreground-20260920/RESULT.md) is complete for pose preservation with qualified likeness. Actual gallery interaction remains unchecked; text-only generation does not inherit exact pose preservation. |
+| VOSR | Completed study; retain 6.494 GiB for local reproducibility | The [completed enhancement study](../work/fast-detail-20260903/RESULTS.md) did not justify promotion. Preserve results; do not repeat the same enhancement recipe. |
+| USO / WithAnyone 1.0 / PuLID | Tested routes closed; installed assets retained | [Screening results](identity-candidate-screening.md) establish bounded rejection, not failure of every future model/version. [Dependency audit](../work/final-validation-20260921/DISPOSITION.md) found installed optional PuLID/core USO consumers and historical runners. Retain unique assets/shared encoders; dormant does not mean redundant. |
+| St. Barts final image | Keep final PNG, original, masks, background and composition code | [Exact-foreground correction](../work/st-barts-exact-foreground-20260920/RESULT.md) is complete for pose preservation with qualified likeness. [Actual gallery interaction passed](../work/st-barts-gallery-check-20260921/RESULT.md); text-conditioned generation does not inherit exact pose preservation. |
 
 No unresolved route is silently marked complete or retired to obtain disk savings.
 The Solo public-versus-accepted-recipe source comparison is complete; use the
-existing accepted Cocktail handoff. Bounded Upgrade generalization is the next
-separate development candidate. High and broader Group
-remain explicit research holds until a supported next mechanism is identified.
+existing accepted Cocktail handoff. The bounded second-source Upgrade test and
+actual gallery check are now complete. [Final dependency/disposition review](../work/final-validation-20260921/DISPOSITION.md)
+retains 54.654 GiB of unique weights; no further redundant weight was established.
+High and broader Group remain unresolved features, with their dependencies retained.
+This is cleanup readiness with explicit keep decisions, not full-suite image acceptance.
 
 ## What the disk audit actually established
 
@@ -92,6 +97,10 @@ logs are preserved separately in `local/preservation-checkpoint-20260921/duplica
 its [verification receipt](../local/preservation-checkpoint-20260921/duplicate-cleanup-backup-verification.json)
 records entry-by-entry SHA256 checks. The original snapshot and its receipt are unchanged.
 
+New Upgrade/gallery/disposition evidence is preserved in
+`local/final-validation-20260921/evidence.zip`; its [verification receipt](../local/final-validation-20260921/verification.json)
+records SHA256 readback of every archived entry. It supplements rather than replaces the earlier archives.
+
 This is a same-drive recovery snapshot, not protection against losing the computer or
 disk. No external backup destination has been selected and nothing was uploaded.
 The large installed/held models remain only where they already existed unless another
@@ -107,7 +116,8 @@ The final PNG and thumbnail are also covered by that saved publication evidence.
 The [baseline registry](../config/frozen-baselines.json) preserves the old public-surface
 record and its hashes as superseded, and records the current surface separately. This
 reconciles already implemented gallery behavior; it does not certify new generation,
-all-preset photo acceptance or the unperformed browser-interaction check. Engine files
+all-preset photo acceptance. The later September 21 browser check separately passes
+the card/profile/appearance/prompt interaction. Engine files
 and production workflow JSON are unchanged by this cleanup.
 
 The checkpoint also checks Git's staged bytes, not only the working files. Default
