@@ -20,6 +20,7 @@ records the completed validation/disposition pass and its remaining feature limi
 | Source-preserving Upgrade | Second genuine-source check complete; retain both controls and new result | [Balcony test](../work/upgrade-generalization-20260921/RESULT.md) passes the fixed visual/source-excluded gates. Coverage is now two genuine photos, not universal enhancement or stronger High. |
 | Stronger High | Hold all unique weights and evidence; no repeat grids | The [native/BeautyGRPO work](upgrade-high-resume-2026-09-07.md) and [explicit-feature refinement](upgrade-high-explicit-features-2026-09-07.md) did not achieve the requested improvement. Require a changed, supported mechanism before another experiment; do not declare High complete. |
 | LaTo | Hold the full 47.715 GiB of candidate weights | The [predictor failure](../work/9b-readiness-resume-20260907/lato-compat/ROOT-FINAL-PREDICTOR-RESULT.md) closes its tested source/recipe. Later image stages are unexecuted. [Disposition review](../work/final-validation-20260921/DISPOSITION.md) confirms external-landmark driving is a distinct supported possibility, but has no admitted geometry for this case. Retain assets; do not advance failed predictor points. |
+| PerformRecast | Hold five new isolated checkpoints, 0.941GiB | [Zero-motion test](../work/high-performrecast-gate-20260921/RESULT.md) passes runtime/likeness but fails native detail. No expression trial or production installation. Preserve this bounded failure; it does not finish stronger High or authorize deleting unique weights. |
 | General Group likeness | Hold identity models, genuine references and failed/accepted controls | The [masked refinement](../workflows/experiments/group-masked-strength110-20260908/ROOT-RESULT.md) is closed. A future mechanism must address main likeness and preservation of all other people. No further strength sweep or new character training follows from this cleanup. |
 | VOSR | Completed study; retain 6.494 GiB for local reproducibility | The [completed enhancement study](../work/fast-detail-20260903/RESULTS.md) did not justify promotion. Preserve results; do not repeat the same enhancement recipe. |
 | USO / WithAnyone 1.0 / PuLID | Tested routes closed; installed assets retained | [Screening results](identity-candidate-screening.md) establish bounded rejection, not failure of every future model/version. [Dependency audit](../work/final-validation-20260921/DISPOSITION.md) found installed optional PuLID/core USO consumers and historical runners. Retain unique assets/shared encoders; dormant does not mean redundant. |
@@ -114,6 +115,15 @@ This is a same-drive recovery snapshot, not protection against losing the comput
 disk. No external backup destination has been selected and nothing was uploaded.
 The large installed/held models remain only where they already existed unless another
 backup exists independently; this archive does not claim to back them up.
+
+The subsequent PerformRecast evaluation adds **1,010,234,841bytes (0.941GiB)** in five
+isolated model files under `work/high-performrecast-gate-20260921/models`. These are
+additional to the15 older unique candidate weights (54.654GiB), not a change to the
+completed duplicate-removal inventory. All are retained. Its non-model evidence is
+saved in `local/high-performrecast-gate-20260921/evidence.zip`, with a
+[per-entry verification receipt](../local/high-performrecast-gate-20260921/verification.json).
+The snapshot excludes these models explicitly. This pass deletes nothing and leaves
+the public Comfy worker running; useful stronger High and general Group remain unresolved.
 
 ## Gallery baseline reconciliation
 

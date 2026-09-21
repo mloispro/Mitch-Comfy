@@ -104,6 +104,14 @@ from.457710 to.433664. Bystander diagnostics improved; main likeness and visual
 preservation failed. Close this exact recipe without a strength/seed sweep. The private
 worker was stopped; production is unchanged. High and general Group remain unresolved.
 
+A subsequent [PerformRecast zero-motion check](../work/high-performrecast-gate-20260921/RESULT.md)
+completed on the idle3090 using the released203-point alignment and512px appearance
+input. Runtime and six-reference diagnostics pass (.747549 centroid, .004246 source
+loss), but native skin/hair detail softens; this recipe is rejected before expression
+transfer. Original raw/LivePortrait diagnostics replay exactly. Five isolated checkpoints
+add0.941GiB; retain them alongside the15 older unique weights. No Comfy installation,
+training, worker restart, upload or additional deletion occurred. Stronger High is still unproven.
+
 The September 9 [Group acceleration package](../work/group-cache-20260909/RESULTS.md) is complete
 for its tested Lounge scope. Its [replay instructions](../work/group-cache-20260909/README-REPLAY.md)
 use a separately started private 3090 worker on8191. They are historical replay instructions;

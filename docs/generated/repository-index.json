@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "counts": {
-    "code": 1742,
+    "code": 1755,
     "configuration/workflow": 42,
-    "document": 509,
+    "document": 512,
     "test": 200
   },
   "files": [
@@ -3400,16 +3400,16 @@
       "path": "docs/CLEANUP.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "54c1a992d4a44bb00d72e73d73a1ba6b62f0df4bddbc4027b354b2237b1449bc",
-      "lines": 142,
+      "sha256_text": "f1826a4929365e6c368dc76c2dbe3c94df45e73e05c9ba1512f03d3732c2e1e2",
+      "lines": 152,
       "title": "Preservation and cleanup decisions"
     },
     {
       "path": "docs/DECISIONS.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "886f2dcb9c09e234f57dafe203d0ea44b6ae94704241700f0c09a99abae68c4a",
-      "lines": 97,
+      "sha256_text": "30d9ef5e3ab31e689b1ce7bbc0d2b603e2c87279c6800ad69f28a8ae1db099f3",
+      "lines": 98,
       "title": "Results that should guide the next change"
     },
     {
@@ -3432,8 +3432,8 @@
       "path": "docs/OPTIMIZATION.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "95adbd106bd08d19d3dbd0d51d7a73f66bed82459a8a59ac32b479dfc9d98453",
-      "lines": 60,
+      "sha256_text": "b2c98c21e7dbe59740ed113cc87032a5b07d2f3f18769bb65833c92ac81aa801",
+      "lines": 61,
       "title": "Where the next unit of work can help most"
     },
     {
@@ -3456,8 +3456,8 @@
       "path": "docs/STATUS.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "f6236d132d2208994693a711214fc9d5af7e9ee800eb83da1605c3744258e607",
-      "lines": 141,
+      "sha256_text": "9d43c51c5573d29c00d0fd12df93c9de3ce6e36f62bcd5d84f681d09feefe720",
+      "lines": 149,
       "title": "Current project status"
     },
     {
@@ -40351,6 +40351,299 @@
         "hashlib",
         "json",
         "pathlib"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/high-performrecast-gate-20260921/PLAN.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "24ef5b22829c668f2e9afc55ff11072bbf8a3a157b0fdc25bb55a5a70e7d322f",
+      "lines": 58,
+      "title": "PerformRecast detail-preservation gate — September 21"
+    },
+    {
+      "path": "work/high-performrecast-gate-20260921/RESULT.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "9125b333abb4a570b27e7211f50b6479458c6c03e7f86d988a5972ab99c87b33",
+      "lines": 99,
+      "title": "PerformRecast zero-motion reconstruction — September 21"
+    },
+    {
+      "path": "work/high-performrecast-gate-20260921/VISUAL-REVIEW.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "c1cd4bc66281d2bebd863176a0cda39149d4df5f60105087e1e802841b32ec42",
+      "lines": 33,
+      "title": "Visual review before identity scoring"
+    },
+    {
+      "path": "work/high-performrecast-gate-20260921/check_weight_access.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "e6111f4228299b24ad03bd8142e9c13774db8a0f02f55bb64740d7b463811999",
+      "lines": 26,
+      "symbols": [],
+      "imports": [
+        "json",
+        "pathlib",
+        "re",
+        "urllib.error",
+        "urllib.request"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/high-performrecast-gate-20260921/core.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "14a78f87d0ecfd4c82a422f0daf77a60affba1a1caeae7986e760787d8d51088",
+      "lines": 138,
+      "symbols": [
+        "digest",
+        "source",
+        "forbid_external_network",
+        "author_module",
+        "load_core",
+        "author_math"
+      ],
+      "imports": [
+        "ast",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "socket",
+        "sys",
+        "torch",
+        "torch.nn.functional",
+        "types",
+        "yaml"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/high-performrecast-gate-20260921/download_weights.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "01cd8c49c49893692499d78d03aa7c79167b4209b9c889e99a16957ef0c73eb6",
+      "lines": 34,
+      "symbols": [],
+      "imports": [
+        "hashlib",
+        "json",
+        "pathlib",
+        "shutil",
+        "time",
+        "urllib.parse",
+        "urllib.request"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/high-performrecast-gate-20260921/evaluate.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "fc5d58cbe1b06f254efbe72418ddf6b707113cc3b6b8efeaaa61a0d44cb62f12",
+      "lines": 53,
+      "symbols": [
+        "read",
+        "face"
+      ],
+      "imports": [
+        "PIL",
+        "core",
+        "cv2",
+        "insightface.app",
+        "json",
+        "numpy",
+        "os",
+        "pathlib",
+        "skimage.metrics",
+        "time",
+        "torch"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/high-performrecast-gate-20260921/fetch_alignment.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "18175e6d4d58646937812dcebbf24ce0f4abdac2516eab09b504c3f4e2dc77b7",
+      "lines": 31,
+      "symbols": [],
+      "imports": [
+        "hashlib",
+        "json",
+        "pathlib",
+        "time",
+        "urllib.parse",
+        "urllib.request"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/high-performrecast-gate-20260921/fetch_runtime_source.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "e0b1cda3660b0e3b2a6a8d48945178c8769689a888f732dd1ed4634bb158dd1f",
+      "lines": 21,
+      "symbols": [],
+      "imports": [
+        "hashlib",
+        "json",
+        "pathlib",
+        "urllib.request"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/high-performrecast-gate-20260921/fetch_source.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "49eb19d959fc15c52fde7fa6ddbd6aca00bfda9bb66d4e2a79dbdeb16e23d81b",
+      "lines": 26,
+      "symbols": [
+        "get"
+      ],
+      "imports": [
+        "hashlib",
+        "json",
+        "pathlib",
+        "urllib.request"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/high-performrecast-gate-20260921/final_checks.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "63b5e5cd940a24155a7ef28d60f73c963a0b7a36915d6e8fd043de80a2c2bc02",
+      "lines": 33,
+      "symbols": [
+        "read"
+      ],
+      "imports": [
+        "PIL",
+        "core",
+        "json",
+        "numpy",
+        "os",
+        "pathlib",
+        "psutil",
+        "socket",
+        "subprocess",
+        "time",
+        "urllib.request"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/high-performrecast-gate-20260921/inspect_weight_headers.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "dc7c60c8d2aa8ad1b61ae947804a00300dbd296db620d330f1feda59e69b21f4",
+      "lines": 22,
+      "symbols": [],
+      "imports": [
+        "html",
+        "json",
+        "pathlib",
+        "urllib.parse",
+        "urllib.request"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/high-performrecast-gate-20260921/probe_math.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "48ca3afd02f08a0564a513208c056cc017a1d2de80ba8935db9bb29c789f01fd",
+      "lines": 54,
+      "symbols": [
+        "compose"
+      ],
+      "imports": [
+        "ast",
+        "hashlib",
+        "importlib.metadata",
+        "json",
+        "os",
+        "pathlib",
+        "sys",
+        "torch",
+        "torch.nn.functional",
+        "types"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/high-performrecast-gate-20260921/reconstruct.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "4ad11babe21df452e41c88fedbfd9b7b2583dc38f5260b31f906311e6433440d",
+      "lines": 162,
+      "symbols": [
+        "save_json",
+        "read",
+        "utility",
+        "prepare",
+        "admission",
+        "run"
+      ],
+      "imports": [
+        "PIL",
+        "ast",
+        "core",
+        "cv2",
+        "importlib.util",
+        "insightface.app",
+        "json",
+        "math",
+        "numpy",
+        "os",
+        "pathlib",
+        "psutil",
+        "socket",
+        "subprocess",
+        "sys",
+        "time",
+        "torch",
+        "types",
+        "urllib.request"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/high-performrecast-gate-20260921/review_sheets.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "40da0fdcc34c7056f18588f006d5e43149bde90d432d96e14cc3ab0bf6b651d0",
+      "lines": 20,
+      "symbols": [
+        "sheet"
+      ],
+      "imports": [
+        "PIL",
+        "pathlib"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/high-performrecast-gate-20260921/snapshot.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "a2381c2800b1eb5aa6969b90937b86ae54d21c376565b4abc3a95daca70bbdf9",
+      "lines": 26,
+      "symbols": [
+        "sha"
+      ],
+      "imports": [
+        "hashlib",
+        "json",
+        "pathlib",
+        "zipfile"
       ],
       "test_functions": []
     },
