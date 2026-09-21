@@ -21,6 +21,7 @@ records the completed validation/disposition pass and its remaining feature limi
 | Stronger High | Hold all unique weights and evidence; no repeat grids | The [native/BeautyGRPO work](upgrade-high-resume-2026-09-07.md) and [explicit-feature refinement](upgrade-high-explicit-features-2026-09-07.md) did not achieve the requested improvement. Require a changed, supported mechanism before another experiment; do not declare High complete. |
 | LaTo | Hold the full 47.715 GiB of candidate weights | The [predictor failure](../work/9b-readiness-resume-20260907/lato-compat/ROOT-FINAL-PREDICTOR-RESULT.md) closes its tested source/recipe. Later image stages are unexecuted. [Disposition review](../work/final-validation-20260921/DISPOSITION.md) confirms external-landmark driving is a distinct supported possibility, but has no admitted geometry for this case. Retain assets; do not advance failed predictor points. |
 | PerformRecast | Hold five new isolated checkpoints, 0.941GiB | [Zero-motion test](../work/high-performrecast-gate-20260921/RESULT.md) passes runtime/likeness but fails native detail. No expression trial or production installation. Preserve this bounded failure; it does not finish stronger High or authorize deleting unique weights. |
+| MirrorPPR | Conditional research candidate; no model assets downloaded | [Source/release gate](../work/high-mirrorppr-gate-20260921/RESULT.md) does not establish full High capability in the inspected public Face release. Await author-supported full-task evidence and compatibility admission; this source-only finding neither fails an image nor finishes High. |
 | General Group likeness | Hold identity models, genuine references and failed/accepted controls | The [dual-context pilot](../work/group-dual-context-pilot-20260921/RESULT.md) and [sole scene-text refinement](../work/group-region-text-pilot-20260921/RESULT.md) are closed. The latter removes the extra head but breaks legs/table geometry and weakens likeness. Another proposal needs a distinct supported mechanism; no further sweep or new character training follows from this cleanup. |
 | VOSR | Completed study; retain 6.494 GiB for local reproducibility | The [completed enhancement study](../work/fast-detail-20260903/RESULTS.md) did not justify promotion. Preserve results; do not repeat the same enhancement recipe. |
 | USO / WithAnyone 1.0 / PuLID | Tested routes closed; installed assets retained | [Screening results](identity-candidate-screening.md) establish bounded rejection, not failure of every future model/version. [Dependency audit](../work/final-validation-20260921/DISPOSITION.md) found installed optional PuLID/core USO consumers and historical runners. Retain unique assets/shared encoders; dormant does not mean redundant. |
@@ -142,6 +143,13 @@ in `local/group-region-text-pilot-20260921/evidence.zip`; the
 confirms60 entries (19,647,417source bytes), all SHA256 read back, in a19,183,882-byte
 archive. This supplements the earlier snapshots. The failed photograph and all
 unique assets remain; stronger High and general Group are not marked complete.
+
+The MirrorPPR source/release gate adds no model weights. Its 34 public-source/audit
+files (1,112,517 bytes) are saved in `local/high-mirrorppr-gate-20260921/evidence.zip`;
+the [verification receipt](../local/high-mirrorppr-gate-20260921/verification.json)
+records SHA256 readback of every entry in the 209,263-byte archive. Original evidence,
+all 20 unique candidate weights (about 55.595 GiB) and installed dependencies remain.
+There was no generation, installation or deletion. This is same-drive recovery only.
 
 ## Gallery baseline reconciliation
 

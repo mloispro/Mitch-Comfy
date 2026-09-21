@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "counts": {
-    "code": 1782,
+    "code": 1785,
     "configuration/workflow": 42,
-    "document": 522,
+    "document": 523,
     "test": 200
   },
   "files": [
@@ -3400,16 +3400,16 @@
       "path": "docs/CLEANUP.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "3ba99258aec6e8031f3b6dac28239e8a392ec53df9ba796418c627e64629e776",
-      "lines": 170,
+      "sha256_text": "0551242af077883d3ebcf409644243fe85405f83a33acc93d1951b85178f7b2d",
+      "lines": 178,
       "title": "Preservation and cleanup decisions"
     },
     {
       "path": "docs/DECISIONS.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "e0735d9783671b594b029d5e650be1bc8e28a67e85cecd76ab5349782b5224a8",
-      "lines": 100,
+      "sha256_text": "fb306ed8734cc74b9464738f6aea4650d795a68f372b32343c0c161627ea2384",
+      "lines": 101,
       "title": "Results that should guide the next change"
     },
     {
@@ -3432,8 +3432,8 @@
       "path": "docs/OPTIMIZATION.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "4895c46342da0a39d37640e8632bec573026bc2d8a701dc301cd01710ec4035e",
-      "lines": 62,
+      "sha256_text": "1db0406dc9a8b78f454159ba76affc1e7abbf502f5179a2f1389803ce04757b7",
+      "lines": 63,
       "title": "Where the next unit of work can help most"
     },
     {
@@ -3456,8 +3456,8 @@
       "path": "docs/STATUS.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "031529a5eae7e7a4084600ba5aba8d567f5d952b02817b729cd107fd99d16c9a",
-      "lines": 164,
+      "sha256_text": "313bdf53eb7b342e7d552f47b027bb662e2f667c753f151cbc6853bd637cd131",
+      "lines": 174,
       "title": "Current project status"
     },
     {
@@ -41063,6 +41063,68 @@
         "hashlib",
         "json",
         "pathlib"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/high-mirrorppr-gate-20260921/RESULT.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "767f14ea7e21a61fa8638fed2f80412f552888a8057d83b2b66b5430d2590710",
+      "lines": 100,
+      "title": "MirrorPPR release gate: relevant mechanism, full High not admitted"
+    },
+    {
+      "path": "work/high-mirrorppr-gate-20260921/fetch_sources.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "8cca0abb189d6b1707c991d5d30476b5a0a80f4e33a4943138319a233bd51d0d",
+      "lines": 37,
+      "symbols": [
+        "get",
+        "save",
+        "record_error"
+      ],
+      "imports": [
+        "hashlib",
+        "json",
+        "pathlib",
+        "time",
+        "urllib.error",
+        "urllib.request"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/high-mirrorppr-gate-20260921/snapshot.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "5eb08bb44d845a64afaa5fea22f887d55afe53a07596483679ed5f9caecd469f",
+      "lines": 24,
+      "symbols": [
+        "sha"
+      ],
+      "imports": [
+        "hashlib",
+        "json",
+        "pathlib",
+        "zipfile"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/high-mirrorppr-gate-20260921/supplement_sources.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "cd83b19113d08f3ffd70451edfb1194bc1935a1ba39cde0016f454acfc6ec662",
+      "lines": 18,
+      "symbols": [],
+      "imports": [
+        "hashlib",
+        "json",
+        "pathlib",
+        "urllib.error",
+        "urllib.request"
       ],
       "test_functions": []
     },

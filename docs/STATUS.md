@@ -60,7 +60,7 @@ Model/reference paths, roles and shared code are in [ARCHITECTURE](ARCHITECTURE.
 | Group Lounge acceleration | Three matched 3090 pairs took 24.5–26.2% less worker time, about 4m32s to 3m24s. Now also installed as a separate normal-worker Speed workflow; its new image exactly matches the accepted cached seed. Small clothing details can change versus uncached. No improved-identity or general-scene claim | [Matched results](../work/group-cache-20260909/RESULTS.md), [normal-worker rollout](../work/production-speed-rollout/RESULTS.md) |
 | Source-preserving Upgrade QUALITY50 | One genuine-photo pass; .817792 centroid versus source .825853; 322.387 seconds on isolated4070. Source excluded from the five-reference comparison | [Quality result](../work/9b-readiness-resume-20260907/upgrade-source-faithful-option/ROOT-RESULT.md) |
 | Source-preserving Upgrade TURBO8 | Qualified fast option on the same case; .804167 centroid, 54.063 seconds, visibly smoother/less detailed skin. About6x in one pair, not stable median performance | [Turbo result](../work/9b-readiness-resume-20260907/upgrade-source-faithful-turbo/ROOT-RESULT.md) |
-| Stronger High | Remains unproven. Native prompt/strength, BeautyGRPO/Kontext, PixelSmile, restoration/shape and LaTo outcomes remain limited/rejected for their tested scope | [September 7 results](upgrade-high-resume-2026-09-07.md), [explicit-feature result](upgrade-high-explicit-features-2026-09-07.md), [decision index](DECISIONS.md#upgrade) |
+| Stronger High | Remains unproven. Tested native/edit/reconstruction recipes remain limited or rejected. MirrorPPR's inspected Face release does not establish the full jaw/cheek/smile task; no image or download admitted | [Explicit-feature result](upgrade-high-explicit-features-2026-09-07.md), [PerformRecast result](../work/high-performrecast-gate-20260921/RESULT.md), [MirrorPPR release gate](../work/high-mirrorppr-gate-20260921/RESULT.md), [decision index](DECISIONS.md#upgrade) |
 | Evaluation efficiency | Within-run raw-face reuse is integrated in the existing likeness CLI: median 5.619→4.942s across three six-reference pairs; separate source-excluded pair also passed. Raw records and reports match exactly. Broader cross-tool sharing and specialized Group evaluation are unchanged | [New measurement](../work/face-likeness-cache-20260909/results.json), [scorer](../scripts/evaluate-face-likeness.py), [earlier broader replay](../work/9b-readiness-20260903/evaluation/feature-reuse-coverage/RESULTS.md) |
 
 The source-preserving Quality/Turbo and raw cocktail experiment files were imported/exported against
@@ -126,6 +126,16 @@ loss), but native skin/hair detail softens; this recipe is rejected before expre
 transfer. Original raw/LivePortrait diagnostics replay exactly. Five isolated checkpoints
 add0.941GiB; retain them alongside the15 older unique weights. No Comfy installation,
 training, worker restart, upload or additional deletion occurred. Stronger High is still unproven.
+
+The [MirrorPPR source/release gate](../work/high-mirrorppr-gate-20260921/RESULT.md)
+identifies trained before/after operation conditioning plus query-photo conditioning,
+but the inspected public Face release covers eight simulated eye/nose/mouth operations.
+The professional taxonomy includes the required jaw/face-shape and smile controls;
+no accessible Pro checkpoint was established in the inspected author listings.
+The guessed endpoint's HTTP401 does not prove absence. This is a release/scope limit,
+not an image failure. No model download or generation was admitted, and all 20 unique
+candidate weights remain. Reopen only with an author-supported release or evidence
+for the full requested operations, then verify runtime and a suitable operation pair.
 
 The September 9 [Group acceleration package](../work/group-cache-20260909/RESULTS.md) is complete
 for its tested Lounge scope. Its [replay instructions](../work/group-cache-20260909/README-REPLAY.md)
