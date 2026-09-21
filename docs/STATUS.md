@@ -49,7 +49,7 @@ Model/reference paths, roles and shared code are in [ARCHITECTURE](ARCHITECTURE.
 | --- | --- | --- |
 | Solo | All 14 original named scene prompts have bounded observations with differing qualifications. Downtown/Kitchen include holdouts; cocktail/restaurant/canyon and several others have one-image passes; other cases fail or remain uncertain. The newer boat replacement is recorded separately below | [Finite coverage](../work/9b-readiness-resume-20260907/COVERAGE-MATRIX.md) |
 | Boat original pose | Repeated request required direct preservation. Current composite copies original person interior and whole frame from y760 down with zero RGB error, retaining hands, legs, rails and boat. Caribbean background only; narrow silhouette/water blending. Final .5380/.4211 near_match versus original .5443/.4310. Gallery remains illustrative; earlier native Quality50 is approximate | [Exact foreground, verification and final image](../work/st-barts-exact-foreground-20260920/RESULT.md) |
-| Actual public cocktail | Likeness diagnostics passed; exposed teeth and gaze failed visual review. The raw passing cocktail is not public-parity proof | [Completed public result](../work/9b-readiness-resume-20260907/public-cocktail-parity/ROOT-RESULT.md) |
+| Actual public cocktail | Likeness diagnostics passed; teeth/gaze failed. September 21 source comparison confirms the public recipe is unchanged and differs from accepted Speed in references, surrounding prompt and diffusion precision. Use the existing Speed Cocktail for its bounded case; no isolated cause or public fix is established | [Public result](../work/9b-readiness-resume-20260907/public-cocktail-parity/ROOT-RESULT.md), [completed comparison](solo-cocktail-comparison-2026-09-21.md) |
 | Group masked pilot | Runtime completed; reduced bystander similarity but failed main likeness and partial fifth-person preservation | [0.90 result](../workflows/experiments/group-masked-pilot-resume-20260908/ROOT-RESULT.md) |
 | Group sole strength refinement | 1.10 improved centroid to .5557 but weakest genuine comparison .4005 and partial-person preservation still failed; rejected, no further strength grid | [1.10 result](../workflows/experiments/group-masked-strength110-20260908/ROOT-RESULT.md) |
 | Production Speed integration | All three normal Run-button jobs completed: Cocktail24.829s, source-preserving Upgrade18.668s and Lounge209.141s. These are single integration observations, not new matched speed gains. See the release for separate visual/likeness acceptance | [Rollout results](../work/production-speed-rollout/RESULTS.md), [operating guide](production-speed.md) |
@@ -78,9 +78,10 @@ operation use the new [Production Speed guide](production-speed.md); the old fil
 The September 21 [cleanup](CLEANUP.md) retains every unresolved route, installed model
 and unique candidate weight. Dependency review and fresh full hashes cleared twelve
 redundant staging copies for removal, recovering about 61.6 GiB; restoration paths
-are recorded and pinned evidence remains intact. The next bounded development
-step is a Solo public-versus-accepted-recipe source comparison; Upgrade generalization,
-stronger High and broader Group remain unproven. The checkpoint also reconciles the
+are recorded and pinned evidence remains intact. The subsequent
+[Solo comparison](solo-cocktail-comparison-2026-09-21.md) is complete: use the already
+accepted Speed Cocktail without changing the original card. Upgrade generalization
+is the next separate candidate; stronger High and broader Group remain unproven. The checkpoint also reconciles the
 already published St. Barts gallery pins while preserving the old baseline hashes.
 No experiment, training, upload or worker restart was started by this maintenance.
 

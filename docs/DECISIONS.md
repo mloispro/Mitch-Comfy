@@ -10,7 +10,7 @@ it must not silently rewrite an old failure. Search [all evidence](generated/EVI
 | --- | --- | --- |
 | St. Barts original pose: user repeated the request after approximate native edits. Direct foreground composition now preserves person interior and entire hands/legs/rails/boat region with zero RGB error. Final .5380/.4211 near_match inherits the original's qualified likeness | Preserve original foreground pixels when this exact pose is required. Saved final PNG/deterministic composition provide it; gallery text and earlier native source-edit workflow do not guarantee exact preservation. Empty-background generation fixed a local-inpaint halo; retain failures and avoid more pose-generation grids | [September 20 exact foreground result](../work/st-barts-exact-foreground-20260920/RESULT.md) |
 | Downtown and Kitchen have qualified holdouts; several other named scenes have one-image passes; other scenes fail or remain uncertain | Reuse a proven scene-specific recipe as the control. Avoid calling all scenes ready or globally swapping references | [Coverage matrix](../work/9b-readiness-resume-20260907/COVERAGE-MATRIX.md) |
-| Actual public cocktail passed six likeness diagnostics but showed teeth and weaker gaze adherence; raw cocktail passed its own recipe | Public wrapper/profile/mode parity needs explicit comparison. A raw graph pass does not validate the public card | [Public cocktail result](../work/9b-readiness-resume-20260907/public-cocktail-parity/ROOT-RESULT.md) |
+| Public Cocktail passed likeness diagnostics but failed teeth/gaze. Completed source comparison finds unchanged public resolution/engine, with three differing variable groups versus accepted Speed: references, surrounding prompt and diffusion precision | Use the completed Speed handoff for this exact case. No isolated cause or wrapper defect is established; pasting the three-reference prompt into the two-reference preset cannot reproduce it | [Public result](../work/9b-readiness-resume-20260907/public-cocktail-parity/ROOT-RESULT.md), [comparison](solo-cocktail-comparison-2026-09-21.md) |
 | Removing the lake appearance block decreased five of six comparisons and supplied no clear visual gain | No evidence for globally disabling appearance to fix skin/identity | [Lake refinement](../work/9b-readiness-resume-20260907/solo-lake-natural/ROOT-RESULT.md) |
 | Cat crop refinement added a paw; night square diagnostic added an arm and still clipped hands | Better likeness or wider framing cannot waive anatomy failures; no further blind prompt/seed sweep of these recipes | [Coverage and exact result links](../work/9b-readiness-resume-20260907/COVERAGE-MATRIX.md) |
 
@@ -52,9 +52,10 @@ model dependencies and recorded evidence. Twelve duplicate staging weights (61.6
 were removed after exact-path dependency review and fresh full hashes against retained
 installed copies; the restore manifest records both sides. A tested failure
 closes that recipe; it does not prove that every unexecuted stage or alternative is
-finished. LaTo, High and general Group therefore remain explicit holds. Prioritize a
-bounded Solo source comparison, then Upgrade generalization, over reopening failed
-grids to justify cleanup. This completed audit authorizes no further path removal.
+finished. LaTo, High and general Group therefore remain explicit holds. The bounded
+Solo source comparison is now complete; retain its accepted Speed handoff and consider
+Upgrade generalization separately. Do not reopen failed grids to justify cleanup.
+This completed audit authorizes no further path removal.
 
 The [acceptance clarification](../work/9b-readiness-20260903/ACCEPTANCE-CLARIFICATION-20260904.md)
 corrects confusion between a usable photo and a visibly better photo than a control. Preserve the

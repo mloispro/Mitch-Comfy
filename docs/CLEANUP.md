@@ -13,7 +13,7 @@ Current image acceptance remains in [STATUS](STATUS.md).
 | Route | Disposition | Next useful action / stopping point |
 | --- | --- | --- |
 | Original production and the three Production Speed workflows | Keep all dependencies and saved fallbacks | The [Speed release](../work/production-speed-rollout/RESULTS.md) is complete for its three recipes. Do not rerun its confirmation pairs as unfinished work. |
-| Solo public presets | Pursue a bounded source comparison first; retain controls | Compare the [failed public Cocktail](../work/9b-readiness-resume-20260907/public-cocktail-parity/ROOT-RESULT.md) with the accepted Speed graph. Select one explained difference before any future image test. Other scenes retain their [coverage qualifications](../work/9b-readiness-resume-20260907/COVERAGE-MATRIX.md). |
+| Solo public presets | Source comparison complete; retain controls and use accepted Speed Cocktail for its exact case | [Comparison](solo-cocktail-comparison-2026-09-21.md) found differences in references, surrounding prompt and diffusion precision, without isolating the cause. No blanket original-card fix follows. Other scenes retain their [coverage qualifications](../work/9b-readiness-resume-20260907/COVERAGE-MATRIX.md). |
 | Source-preserving Upgrade | Retain Quality50 and Turbo8 controls; wider use remains open | A later bounded check on additional genuine sources must preserve source fidelity and use a source-excluded likeness cohort. The one-source Speed pass is not general approval. |
 | Stronger High | Hold all unique weights and evidence; no repeat grids | The [native/BeautyGRPO work](upgrade-high-resume-2026-09-07.md) and [explicit-feature refinement](upgrade-high-explicit-features-2026-09-07.md) did not achieve the requested improvement. Require a changed, supported mechanism before another experiment; do not declare High complete. |
 | LaTo | Hold the full 47.715 GiB of candidate weights | The [predictor failure](../work/9b-readiness-resume-20260907/lato-compat/ROOT-FINAL-PREDICTOR-RESULT.md) closes its tested source/recipe. Later image stages are unexecuted. Decide whether a separately justified author-supported alternative is worth pursuing before retiring unique assets. |
@@ -23,8 +23,9 @@ Current image acceptance remains in [STATUS](STATUS.md).
 | St. Barts final image | Keep final PNG, original, masks, background and composition code | [Exact-foreground correction](../work/st-barts-exact-foreground-20260920/RESULT.md) is complete for pose preservation with qualified likeness. Actual gallery interaction remains unchecked; text-only generation does not inherit exact pose preservation. |
 
 No unresolved route is silently marked complete or retired to obtain disk savings.
-The next development priority is the Solo public-versus-accepted-recipe source
-comparison, followed by bounded Upgrade generalization. High and broader Group
+The Solo public-versus-accepted-recipe source comparison is complete; use the
+existing accepted Cocktail handoff. Bounded Upgrade generalization is the next
+separate development candidate. High and broader Group
 remain explicit research holds until a supported next mechanism is identified.
 
 ## What the disk audit actually established

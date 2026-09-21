@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "counts": {
-    "code": 1725,
+    "code": 1726,
     "configuration/workflow": 42,
-    "document": 493,
+    "document": 494,
     "test": 200
   },
   "files": [
@@ -3400,16 +3400,16 @@
       "path": "docs/CLEANUP.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "b8cbcc45c213744dcd617e6efa8eaf6c642e57650a63bcb8b472aec0d6d726f8",
-      "lines": 122,
+      "sha256_text": "00474e1e7dad92aea460aa3aef310f0c97d92a80ea459ff2a2bdba998aa1805e",
+      "lines": 123,
       "title": "Preservation and cleanup decisions"
     },
     {
       "path": "docs/DECISIONS.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "e39ae412b450fe64b854e1ecad981196cab9a49b664cdae493c4d31fa6a8b35e",
-      "lines": 89,
+      "sha256_text": "22fbfe755f0068e14b14883297b2e42ef2ccfdd7128066ec285d5c5207f1b4c1",
+      "lines": 90,
       "title": "Results that should guide the next change"
     },
     {
@@ -3432,7 +3432,7 @@
       "path": "docs/OPTIMIZATION.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "a8a1d00099708d4cd643ef14c842985f94d9d2d055578760563f1633452b8090",
+      "sha256_text": "69cc25753969594defca1bf2311b4f149ff5afc5b5507fb665a3785dd3605087",
       "lines": 58,
       "title": "Where the next unit of work can help most"
     },
@@ -3456,8 +3456,8 @@
       "path": "docs/STATUS.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "66a83a24a9c91b8c8a166c689fe7dcb9ac95ab72ef29821d03883285c96bcf90",
-      "lines": 121,
+      "sha256_text": "520238f0fa8515cf6b4842901318d81ad16c40db3320080465e49e8e7d31c393",
+      "lines": 122,
       "title": "Current project status"
     },
     {
@@ -3864,8 +3864,8 @@
       "path": "docs/production-speed.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "4b67051c02b7edf055c55c562e0e11ed66ae2814f0646217b1d3a0a38158fda8",
-      "lines": 115,
+      "sha256_text": "f996358a1cad3dbf56befb3b74667a199eea34a8d12108479ba068bd4b9d90b1",
+      "lines": 121,
       "title": "Production Speed — bounded RTX 3090 alternatives"
     },
     {
@@ -3883,6 +3883,14 @@
       "sha256_text": "8e56924f5b939728be9be77bf26619c6f00f3c67289ef9cb8a4a897e98a981b0",
       "lines": 38,
       "title": "Easy Social Photos v1.0.1 realism evaluation"
+    },
+    {
+      "path": "docs/solo-cocktail-comparison-2026-09-21.md",
+      "kind": "document",
+      "scope": "project",
+      "sha256_text": "1db6f6b3445a521436cfad3c65ee5e7f30e58f36fda15e2311d765a3deeb8773",
+      "lines": 84,
+      "title": "Solo Cocktail comparison — use the completed Speed handoff"
     },
     {
       "path": "docs/upgrade-background-detail-research-2026-09-04.md",
@@ -41146,6 +41154,32 @@
       "scope": "local evidence",
       "sha256_text": "39a05301604482a08c33bfa2459a9aed46834f09a92eaeac51380834d96bda9c",
       "lines": 36
+    },
+    {
+      "path": "work/solo-cocktail-comparison-20260921/compare.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "e6caf5c12fb35d65ec51b40f9c21f79dbea260bd93bf259442a269c6dbdbd24c",
+      "lines": 158,
+      "symbols": [
+        "read",
+        "sha",
+        "canonical",
+        "main"
+      ],
+      "imports": [
+        "PIL",
+        "ast",
+        "flux2_klein9b_mitch_identity_studio_presets",
+        "flux2_klein9b_scene_presets",
+        "hashlib",
+        "json",
+        "math",
+        "pathlib",
+        "sys",
+        "urllib.request"
+      ],
+      "test_functions": []
     },
     {
       "path": "work/st-barts-boat-20260919/PLAN.md",

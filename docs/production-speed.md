@@ -47,6 +47,12 @@ Changing the prompt, seed or reference profile creates an unvalidated variation.
 image-left gaze, plausible glass grip/railing contact and pocket hand, distinct patrons and whole-frame integration.
 Outputs save under `ComfyUI/output/production-speed/individual-cocktail/`.
 
+The [September 21 comparison](solo-cocktail-comparison-2026-09-21.md) confirms this
+package still matches its accepted execution. The original public Cocktail uses
+different references, surrounding prompt and diffusion precision; it does not inherit
+this pass. Use this saved workflow for the tested case instead of reconstructing it
+through the public preset's profile or extra-prompt controls.
+
 ### Upgrade — Source Preserve Turbo
 
 The default genuine source is `mitch-upgrade-third-genuine-fef084d6.png`. Its ordinary text prompt explicitly
