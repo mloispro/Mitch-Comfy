@@ -54,7 +54,7 @@ Model/reference paths, roles and shared code are in [ARCHITECTURE](ARCHITECTURE.
 | Actual public cocktail | Likeness diagnostics passed; teeth/gaze failed. September 21 source comparison confirms the public recipe is unchanged and differs from accepted Speed in references, surrounding prompt and diffusion precision. Use the existing Speed Cocktail for its bounded case; no isolated cause or public fix is established | [Public result](../work/9b-readiness-resume-20260907/public-cocktail-parity/ROOT-RESULT.md), [completed comparison](solo-cocktail-comparison-2026-09-21.md) |
 | Group masked pilot | Runtime completed; reduced bystander similarity but failed main likeness and partial fifth-person preservation | [0.90 result](../workflows/experiments/group-masked-pilot-resume-20260908/ROOT-RESULT.md) |
 | Group sole strength refinement | 1.10 improved centroid to .5557 but weakest genuine comparison .4005 and partial-person preservation still failed; rejected, no further strength grid | [1.10 result](../workflows/experiments/group-masked-strength110-20260908/ROOT-RESULT.md) |
-| Group dual-context routing | CPU/CUDA/actual FP8 isolation checks and one338.134s image completed. Main centroid .636146 improves, but minimum .509190 misses the fixed .553346 floor; an extra head fails composition. Exact recipe rejected; no production change | [Routing, image, unchanged diagnostics and visual failure](../work/group-dual-context-pilot-20260921/RESULT.md) |
+| Group dual-context routing | First image improves main centroid .636146 but adds a head and misses the fixed reference floor. The sole separate-scene-text refinement removes the head, but breaks leg/table geometry and lowers minimum to.452120. Both rejected; no production change | [Original routing/image proof](../work/group-dual-context-pilot-20260921/RESULT.md), [completed text refinement](../work/group-region-text-pilot-20260921/RESULT.md) |
 | Upgrade second genuine source | Balcony/white-shirt val05 qualified pass: .787830 centroid, .022217 source loss, 1.188 degrees pose drift, closed lips; source excluded from five genuine comparisons. Some smoothing/regenerated detail remains; no universal enhancement or stronger High | [September 21 result](../work/upgrade-generalization-20260921/RESULT.md) |
 | Production Speed integration | All three normal Run-button jobs completed: Cocktail24.829s, source-preserving Upgrade18.668s and Lounge209.141s. These are single integration observations, not new matched speed gains. See the release for separate visual/likeness acceptance | [Rollout results](../work/production-speed-rollout/RESULTS.md), [operating guide](production-speed.md) |
 | Group Lounge acceleration | Three matched 3090 pairs took 24.5–26.2% less worker time, about 4m32s to 3m24s. Now also installed as a separate normal-worker Speed workflow; its new image exactly matches the accepted cached seed. Small clothing details can change versus uncached. No improved-identity or general-scene claim | [Matched results](../work/group-cache-20260909/RESULTS.md), [normal-worker rollout](../work/production-speed-rollout/RESULTS.md) |
@@ -111,8 +111,13 @@ twelve CPU tests, a fused-attention capacity check and actual9B FP8 admission.
 Main centroid improves to.636146, but three of six genuine comparisons miss the fixed
 floor; an additional central head independently fails visual acceptance. Both earlier
 controls replay exactly. Its private worker is stopped and both routing packages have
-verified local evidence recovery. No new models, training or deletion. A cause diagnosis
-is needed before another Group image; a seed/strength sweep does not follow this result.
+verified local evidence recovery. The [sole scene-text refinement](../work/group-region-text-pilot-20260921/RESULT.md)
+then completed after19 CPU checks and actual9B FP8 admission. Its extra head is gone,
+but the main legs/table merge and all six references fail: centroid.553841, minimum.452120.
+All three prior diagnostic records replay exactly; the owned worker is stopped and
+new evidence archived. No new models, training or deletion. This closes the tested
+asymmetric-routing/text recipe; another proposal needs a distinct supported mechanism
+for coherent body/scene geometry and likeness, not another prompt/strength/seed sweep.
 
 A subsequent [PerformRecast zero-motion check](../work/high-performrecast-gate-20260921/RESULT.md)
 completed on the idle3090 using the released203-point alignment and512px appearance

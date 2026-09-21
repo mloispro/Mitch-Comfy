@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "counts": {
-    "code": 1769,
+    "code": 1782,
     "configuration/workflow": 42,
-    "document": 517,
+    "document": 522,
     "test": 200
   },
   "files": [
@@ -3400,16 +3400,16 @@
       "path": "docs/CLEANUP.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "f6e5cd7d4a0b2526c829c595818ddcb1cb91539396fa83b5f946a88a18285000",
-      "lines": 162,
+      "sha256_text": "3ba99258aec6e8031f3b6dac28239e8a392ec53df9ba796418c627e64629e776",
+      "lines": 170,
       "title": "Preservation and cleanup decisions"
     },
     {
       "path": "docs/DECISIONS.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "f13599a981517cc3bb6401a99e3222d4ee171f187cfa9511a568aa6618c5e958",
-      "lines": 99,
+      "sha256_text": "e0735d9783671b594b029d5e650be1bc8e28a67e85cecd76ab5349782b5224a8",
+      "lines": 100,
       "title": "Results that should guide the next change"
     },
     {
@@ -3432,7 +3432,7 @@
       "path": "docs/OPTIMIZATION.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "5ebf70f169c5b051fbbba9343fba8174e21dae913b43903683c0252db3def5a1",
+      "sha256_text": "4895c46342da0a39d37640e8632bec573026bc2d8a701dc301cd01710ec4035e",
       "lines": 62,
       "title": "Where the next unit of work can help most"
     },
@@ -3456,8 +3456,8 @@
       "path": "docs/STATUS.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "2e6837bd9178bb212720ede6543d04fc318dd200ca7283d5942be209ea7d32b5",
-      "lines": 159,
+      "sha256_text": "031529a5eae7e7a4084600ba5aba8d567f5d952b02817b729cd107fd99d16c9a",
+      "lines": 164,
       "title": "Current project status"
     },
     {
@@ -40469,6 +40469,344 @@
         "threading",
         "torch",
         "torch.nn.functional"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-region-text-gate-20260921/PLAN.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "34526f7f5ed746d51c8492fe5a67df9d7ec42416a1f31d1b77dbdb14a9c4790d",
+      "lines": 49,
+      "title": "Diagnose duplicated Group person, then gate one regional-text refinement"
+    },
+    {
+      "path": "work/group-region-text-gate-20260921/RESULT.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "b1cf522dd154ae490fd273fd1c0de5ff9d9cd65d1d8561e9387775527c4b35c6",
+      "lines": 63,
+      "title": "Saved-image diagnosis and scene-text software gate"
+    },
+    {
+      "path": "work/group-region-text-gate-20260921/check_cpu.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "ecfd64c6a27b80c003b61b0a7540e7a5ee032bf4a0d8465b7e71e181aac6db5b",
+      "lines": 95,
+      "symbols": [
+        "load",
+        "invoke",
+        "Gate"
+      ],
+      "imports": [
+        "hashlib",
+        "importlib.util",
+        "json",
+        "os",
+        "pathlib",
+        "sys",
+        "unittest"
+      ],
+      "test_functions": [
+        "test_alternate_context_keeps_identity_isolation",
+        "test_cfg_reversed_order_and_multiple_images",
+        "test_identical_context_matches_previous_kernel",
+        "test_override_rejects_ambiguous_or_invalid_inputs",
+        "test_personal_prompt_cannot_reach_outside",
+        "test_scene_text_controls_outside",
+        "test_zero_region_matches_native_alternate_scene"
+      ]
+    },
+    {
+      "path": "work/group-region-text-gate-20260921/diagnose.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "c6746a81fbeeb2675d21bd9485d5a31857ccb85eacfad3b8307ecff5d6deae40",
+      "lines": 35,
+      "symbols": [
+        "read",
+        "sha"
+      ],
+      "imports": [
+        "hashlib",
+        "json",
+        "math",
+        "numpy",
+        "os",
+        "pathlib"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-region-text-gate-20260921/prepare_pilot.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "380039e35c26be639b4c55b5234d1fea09c05f40161cc344002fac0aa79bf307",
+      "lines": 86,
+      "symbols": [],
+      "imports": [
+        "ast",
+        "json",
+        "pathlib",
+        "subprocess",
+        "sys"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-region-text-gate-20260921/routed_lora.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "43d30c95689be569682589d97f0ce05104b64b0b773e108a3580c15c69e1d0f1",
+      "lines": 148,
+      "symbols": [
+        "partitions",
+        "RoutedLoRA"
+      ],
+      "imports": [
+        "hashlib",
+        "importlib.util",
+        "math",
+        "pathlib",
+        "sys",
+        "threading",
+        "torch",
+        "torch.nn.functional"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-region-text-pilot-20260921/PLAN.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "6bd6631d3f3f3e14371f0ae794928c8ef2cdfa2cfe85e7aeb278c8401db60493",
+      "lines": 37,
+      "title": "Sole controlled scene-text refinement"
+    },
+    {
+      "path": "work/group-region-text-pilot-20260921/RESULT.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "eb31eaaefee3416f8bff50af997715fe72cbb4a1e24288491f3b179565af84e3",
+      "lines": 108,
+      "title": "Scene-text refinement: duplication removed, photograph rejected"
+    },
+    {
+      "path": "work/group-region-text-pilot-20260921/VISUAL-REVIEW.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "026a9c6d0fdff7f54d01a1f22ad246e26e604c7b1e64e55af2bb543eb1689b93",
+      "lines": 35,
+      "title": "Native and thumbnail review before scoring"
+    },
+    {
+      "path": "work/group-region-text-pilot-20260921/check_routing_receipt.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "72b011119cb632019638637ab08d1926f46f175894101e62c0991fafc9bbb3c0",
+      "lines": 38,
+      "symbols": [
+        "read",
+        "sha"
+      ],
+      "imports": [
+        "hashlib",
+        "json",
+        "pathlib"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-region-text-pilot-20260921/collect.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "0931c609d8d4516b3925f283aa17b0b966ea786783ebc5a7f12e2023f499f9e2",
+      "lines": 71,
+      "symbols": [
+        "read",
+        "sha",
+        "graph",
+        "main"
+      ],
+      "imports": [
+        "PIL",
+        "control",
+        "hashlib",
+        "json",
+        "pathlib",
+        "shutil",
+        "time"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-region-text-pilot-20260921/control.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "c5c337609594e96fbf513f5b5a837c983715cee20966811c08bae274f88dd06d",
+      "lines": 113,
+      "symbols": [
+        "api",
+        "write",
+        "memory",
+        "pin",
+        "check",
+        "wait_ready",
+        "submit",
+        "watch"
+      ],
+      "imports": [
+        "argparse",
+        "ctypes",
+        "hashlib",
+        "json",
+        "pathlib",
+        "socket",
+        "subprocess",
+        "time",
+        "urllib.request",
+        "uuid"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-region-text-pilot-20260921/custom_nodes/TokenExperiment/__init__.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "e69954d154c390988ed5dc15c645240bfd286ade83d4cad147cf60a651b0cdc8",
+      "lines": 263,
+      "symbols": [
+        "memory",
+        "record",
+        "guard",
+        "verified",
+        "state",
+        "GateUNET",
+        "GateCLIP",
+        "GateVAE",
+        "pairs",
+        "GuardedToken",
+        "RegionalV3",
+        "FP8Probe",
+        "GateSampler",
+        "SceneContexts"
+      ],
+      "imports": [
+        "aiohttp",
+        "comfy.cli_args",
+        "comfy.model_management",
+        "comfy.patcher_extension",
+        "comfy_extras.nodes_custom_sampler",
+        "ctypes",
+        "hashlib",
+        "importlib.util",
+        "json",
+        "nodes",
+        "numpy",
+        "os",
+        "pathlib",
+        "psutil",
+        "safetensors.torch",
+        "server",
+        "sys",
+        "time",
+        "torch",
+        "torch.nn.attention"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-region-text-pilot-20260921/evaluate.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "3f03ec96fc271d8e14a955a6713fbf4d78118b065bbee659985cf93e7e3f4458",
+      "lines": 75,
+      "symbols": [
+        "sha",
+        "read",
+        "load",
+        "deny",
+        "main"
+      ],
+      "imports": [
+        "PIL",
+        "ast",
+        "cv2",
+        "hashlib",
+        "importlib.util",
+        "insightface.app",
+        "itertools",
+        "json",
+        "numpy",
+        "onnxruntime",
+        "os",
+        "pathlib",
+        "socket",
+        "sys",
+        "time",
+        "types"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-region-text-pilot-20260921/prepare.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "e8aee07798b9350007807faeba11ae8969927492b628dbb8e3ffc217f55dbbb7",
+      "lines": 66,
+      "symbols": [
+        "pin",
+        "write"
+      ],
+      "imports": [
+        "copy",
+        "hashlib",
+        "json",
+        "pathlib",
+        "shutil"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-region-text-pilot-20260921/snapshot.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "5a97637b3dfe62b344e045f50852d4cf1ca1991863a8f44c3db6ee75d586f2a4",
+      "lines": 39,
+      "symbols": [
+        "sha",
+        "walk"
+      ],
+      "imports": [
+        "hashlib",
+        "json",
+        "pathlib",
+        "stat",
+        "zipfile"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-region-text-pilot-20260921/start.ps1",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "c58317a9d176078d86785e438ed89b0f2d5ec5a362aef977a0213122b20c0a48",
+      "lines": 11
+    },
+    {
+      "path": "work/group-region-text-pilot-20260921/stop.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "965c345e5bd20dcc9c41a41e5608ac26a8c806c8bcf8fab2288ddef984880984",
+      "lines": 18,
+      "symbols": [],
+      "imports": [
+        "control",
+        "json",
+        "pathlib",
+        "psutil",
+        "time"
       ],
       "test_functions": []
     },
