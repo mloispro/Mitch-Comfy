@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "counts": {
-    "code": 1785,
+    "code": 1802,
     "configuration/workflow": 42,
-    "document": 523,
+    "document": 531,
     "test": 200
   },
   "files": [
@@ -3400,16 +3400,16 @@
       "path": "docs/CLEANUP.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "0551242af077883d3ebcf409644243fe85405f83a33acc93d1951b85178f7b2d",
-      "lines": 178,
+      "sha256_text": "49982148f62daf971234b8c414b0628b3bf1418cd2dc4beb88f617c1fd9486c4",
+      "lines": 195,
       "title": "Preservation and cleanup decisions"
     },
     {
       "path": "docs/DECISIONS.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "fb306ed8734cc74b9464738f6aea4650d795a68f372b32343c0c161627ea2384",
-      "lines": 101,
+      "sha256_text": "713602914fde0fa5ad1126851b1582965726ffe3fc24e45fc0e186a605074fd8",
+      "lines": 102,
       "title": "Results that should guide the next change"
     },
     {
@@ -3432,8 +3432,8 @@
       "path": "docs/OPTIMIZATION.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "1db0406dc9a8b78f454159ba76affc1e7abbf502f5179a2f1389803ce04757b7",
-      "lines": 63,
+      "sha256_text": "438d4e25c9fa2882599ab962c4f3fd5708c7872f8f745e624f7c5f01524a0d65",
+      "lines": 64,
       "title": "Where the next unit of work can help most"
     },
     {
@@ -3456,8 +3456,8 @@
       "path": "docs/STATUS.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "313bdf53eb7b342e7d552f47b027bb662e2f667c753f151cbc6853bd637cd131",
-      "lines": 174,
+      "sha256_text": "b2091868b63a00ae998c35583ddf1abf9b93c3af9e9c0a87422d5afd362c2d77",
+      "lines": 187,
       "title": "Current project status"
     },
     {
@@ -3707,6 +3707,14 @@
       "sha256_text": "80d41f42bc63da1c12eac3c7288daf05eff412bb0f3c12ca58d33755e3813b74",
       "lines": 115,
       "title": "FLUX.2 no-LoRA strong-identity street v1 — 2026-08-24"
+    },
+    {
+      "path": "docs/group-umo-visual-rejection-2026-09-21.md",
+      "kind": "document",
+      "scope": "project",
+      "sha256_text": "44f9a888df2daa37d15c43c58bac01eef21e2e5d5e5559618f8a824bf2f2f37c",
+      "lines": 48,
+      "title": "UMO Group: user rejection and correction of visual judgment"
     },
     {
       "path": "docs/head-body-proportion-v1.0.4-evaluation.md",
@@ -41022,6 +41030,403 @@
         "time"
       ],
       "test_functions": []
+    },
+    {
+      "path": "work/group-umo-gate-20260921/PLAN.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "ba9d9192ab7a71f3140505a85287ae1a26401dfa65bf22046c5c1a99ba19b428",
+      "lines": 73,
+      "title": "UMO Group gate and one prospective whole-image trial"
+    },
+    {
+      "path": "work/group-umo-gate-20260921/RESULT.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "5b587eb469cd9d34c9cd7d59e32c820e971dd2839049826061275424f4d46b6e",
+      "lines": 60,
+      "title": "UMO research and adapter gate passed; image acceptance separate"
+    },
+    {
+      "path": "work/group-umo-gate-20260921/check_headers.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "accc32249a62343e19d5c426feebfc411513850f367a5d263c6e049e297e2e74",
+      "lines": 57,
+      "symbols": [
+        "bounded_range"
+      ],
+      "imports": [
+        "hashlib",
+        "json",
+        "pathlib",
+        "struct",
+        "urllib.request"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-umo-gate-20260921/convert_check.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "55008f59a082509c8dbdfa934af8aeea94b64ed82b2f75e040051b3f251ba41d",
+      "lines": 39,
+      "symbols": [],
+      "imports": [
+        "comfy.lora",
+        "comfy.options",
+        "hashlib",
+        "json",
+        "os",
+        "pathlib",
+        "safetensors.torch",
+        "struct",
+        "sys",
+        "torch"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-umo-gate-20260921/download_adapter.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "478a5e381324d11c0ee1c016fdd5c4d22d081cf811780d20d057ea6f3affa49c",
+      "lines": 27,
+      "symbols": [],
+      "imports": [
+        "hashlib",
+        "json",
+        "pathlib",
+        "time",
+        "urllib.request"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-umo-gate-20260921/fetch_detail.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "20d80149dd8c8be7cd1bbb3440ddb5b7a1d2f7137639550a2a712c200eb19fa5",
+      "lines": 14,
+      "symbols": [],
+      "imports": [
+        "fetch_sources",
+        "json"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-umo-gate-20260921/fetch_sources.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "87e0d2e7bf224e345ea8e3bfe45c70e3aa9e40a360f603a9b60950fec4363b1d",
+      "lines": 33,
+      "symbols": [
+        "fetch"
+      ],
+      "imports": [
+        "hashlib",
+        "json",
+        "pathlib",
+        "urllib.request"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-umo-guidance3-20260921/PLAN.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "0a60b0e4268e3b14991fba7884f02e8fa300bdc2d75c806282ba1a852deed631",
+      "lines": 26,
+      "title": "Sole UMO image-guidance refinement"
+    },
+    {
+      "path": "work/group-umo-guidance3-20260921/RESULT.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "a951bada9b3fe3d87a532a9df8acdff3d79227b2f9648e30eed78bf8e8444ba9",
+      "lines": 76,
+      "title": "UMO sole refinement: glass restored, identity floor and realism still fail"
+    },
+    {
+      "path": "work/group-umo-guidance3-20260921/VISUAL-REVIEW.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "e56ce4e644923c0558f36aa813079aad7a717a5397c7bc6b5ce72736c8139b3f",
+      "lines": 27,
+      "title": "Image-guidance3 visual review before scores"
+    },
+    {
+      "path": "work/group-umo-guidance3-20260921/collect.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "fe054d485e82d71d773fcc2d53ecc32e78498f5f9ae612bc2b5fd01137941e7b",
+      "lines": 43,
+      "symbols": [
+        "sha",
+        "read"
+      ],
+      "imports": [
+        "PIL",
+        "control",
+        "hashlib",
+        "json",
+        "pathlib",
+        "shutil"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-umo-guidance3-20260921/control.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "39e782b9c313f7844938c5f479183a701fb34d27ee817d934f1a9eaf6bfbdc9e",
+      "lines": 91,
+      "symbols": [
+        "read",
+        "write",
+        "api",
+        "pincheck",
+        "check",
+        "owned",
+        "ready",
+        "submit",
+        "watch",
+        "stop"
+      ],
+      "imports": [
+        "argparse",
+        "hashlib",
+        "json",
+        "pathlib",
+        "psutil",
+        "socket",
+        "subprocess",
+        "time",
+        "urllib.request",
+        "uuid"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-umo-guidance3-20260921/evaluate.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "30b0963d41c55998335fea9daf5faae257a9a0b2560acd14e2f74df970b9117e",
+      "lines": 79,
+      "symbols": [
+        "sha",
+        "read",
+        "load",
+        "deny",
+        "main"
+      ],
+      "imports": [
+        "PIL",
+        "ast",
+        "cv2",
+        "hashlib",
+        "importlib.util",
+        "insightface.app",
+        "itertools",
+        "json",
+        "numpy",
+        "onnxruntime",
+        "os",
+        "pathlib",
+        "socket",
+        "sys",
+        "time",
+        "types"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-umo-guidance3-20260921/prepare.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "6c69284aef2c070de6655b8d2bafd549652230f527180c71144a284ffc927564",
+      "lines": 34,
+      "symbols": [
+        "read",
+        "pin"
+      ],
+      "imports": [
+        "copy",
+        "hashlib",
+        "json",
+        "pathlib",
+        "shutil"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-umo-guidance3-20260921/snapshot.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "c86f031e0a42a77871f03c01b13721ef9119b5caba2b63f6def31ddbe0b636f5",
+      "lines": 37,
+      "symbols": [
+        "sha"
+      ],
+      "imports": [
+        "hashlib",
+        "json",
+        "pathlib",
+        "zipfile"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-umo-guidance3-20260921/start.ps1",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "e41984a4a778fe9c583ac40caa8a8b38c9093d234a7e3126160a957b566e6c2a",
+      "lines": 11
+    },
+    {
+      "path": "work/group-umo-pilot-20260921/RESULT.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "32b75fe973b4963aeebe1bd44b501f908e3c4ea23bd3cb19a86cb85c7a1a1a7b",
+      "lines": 58,
+      "title": "UMO Group pilot: stronger identity, incomplete acceptance"
+    },
+    {
+      "path": "work/group-umo-pilot-20260921/VISUAL-REVIEW.md",
+      "kind": "document",
+      "scope": "local evidence",
+      "sha256_text": "5ab2691425c9ebad07d0a2a762d520d2f1e8800b2cf3669e41a843cfd44f7841",
+      "lines": 28,
+      "title": "UMO pilot visual review before numerical evaluation"
+    },
+    {
+      "path": "work/group-umo-pilot-20260921/collect.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "fe054d485e82d71d773fcc2d53ecc32e78498f5f9ae612bc2b5fd01137941e7b",
+      "lines": 43,
+      "symbols": [
+        "sha",
+        "read"
+      ],
+      "imports": [
+        "PIL",
+        "control",
+        "hashlib",
+        "json",
+        "pathlib",
+        "shutil"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-umo-pilot-20260921/control.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "39e782b9c313f7844938c5f479183a701fb34d27ee817d934f1a9eaf6bfbdc9e",
+      "lines": 91,
+      "symbols": [
+        "read",
+        "write",
+        "api",
+        "pincheck",
+        "check",
+        "owned",
+        "ready",
+        "submit",
+        "watch",
+        "stop"
+      ],
+      "imports": [
+        "argparse",
+        "hashlib",
+        "json",
+        "pathlib",
+        "psutil",
+        "socket",
+        "subprocess",
+        "time",
+        "urllib.request",
+        "uuid"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-umo-pilot-20260921/evaluate.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "a800d477378bd515ea891e8ed6c91bbed757f2268250e267c7e923223e49ee49",
+      "lines": 77,
+      "symbols": [
+        "sha",
+        "read",
+        "load",
+        "deny",
+        "main"
+      ],
+      "imports": [
+        "PIL",
+        "ast",
+        "cv2",
+        "hashlib",
+        "importlib.util",
+        "insightface.app",
+        "itertools",
+        "json",
+        "numpy",
+        "onnxruntime",
+        "os",
+        "pathlib",
+        "socket",
+        "sys",
+        "time",
+        "types"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-umo-pilot-20260921/prepare.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "ca4002d3a23ec49896fab7ff4a7c342f7aac0914b6be318e3c5205a20f0ff5df",
+      "lines": 48,
+      "symbols": [
+        "pin",
+        "write"
+      ],
+      "imports": [
+        "copy",
+        "hashlib",
+        "json",
+        "pathlib",
+        "shutil"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-umo-pilot-20260921/snapshot.py",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "811746f2e4f43d62b8edf507b57154d78abb699afa2e1f71efb1775b23e408ec",
+      "lines": 32,
+      "symbols": [
+        "sha"
+      ],
+      "imports": [
+        "hashlib",
+        "json",
+        "pathlib",
+        "zipfile"
+      ],
+      "test_functions": []
+    },
+    {
+      "path": "work/group-umo-pilot-20260921/start.ps1",
+      "kind": "code",
+      "scope": "local evidence",
+      "sha256_text": "e41984a4a778fe9c583ac40caa8a8b38c9093d234a7e3126160a957b566e6c2a",
+      "lines": 11
     },
     {
       "path": "work/high-group-input-review-20260921/RESULT.md",

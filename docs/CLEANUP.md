@@ -22,7 +22,8 @@ records the completed validation/disposition pass and its remaining feature limi
 | LaTo | Hold the full 47.715 GiB of candidate weights | The [predictor failure](../work/9b-readiness-resume-20260907/lato-compat/ROOT-FINAL-PREDICTOR-RESULT.md) closes its tested source/recipe. Later image stages are unexecuted. [Disposition review](../work/final-validation-20260921/DISPOSITION.md) confirms external-landmark driving is a distinct supported possibility, but has no admitted geometry for this case. Retain assets; do not advance failed predictor points. |
 | PerformRecast | Hold five new isolated checkpoints, 0.941GiB | [Zero-motion test](../work/high-performrecast-gate-20260921/RESULT.md) passes runtime/likeness but fails native detail. No expression trial or production installation. Preserve this bounded failure; it does not finish stronger High or authorize deleting unique weights. |
 | MirrorPPR | Conditional research candidate; no model assets downloaded | [Source/release gate](../work/high-mirrorppr-gate-20260921/RESULT.md) does not establish full High capability in the inspected public Face release. Await author-supported full-task evidence and compatibility admission; this source-only finding neither fails an image nor finishes High. |
-| General Group likeness | Hold identity models, genuine references and failed/accepted controls | The [dual-context pilot](../work/group-dual-context-pilot-20260921/RESULT.md) and [sole scene-text refinement](../work/group-region-text-pilot-20260921/RESULT.md) are closed. The latter removes the extra head but breaks legs/table geometry and weakens likeness. Another proposal needs a distinct supported mechanism; no further sweep or new character training follows from this cleanup. |
+| UMO Group | Keep one new released adapter and its exact-value Comfy conversion; close the tested recipe | Both serializations total 1,307,517,672 bytes (1.218GiB); existing base assets are reused. [Mitch rejects the pair](group-umo-visual-rejection-2026-09-21.md) for oversized-looking head proportions and an unnatural, pasted-on face. Earlier favorable geometry wording is superseded. Preserve this failure; no unique model deletion follows. |
+| General Group likeness | Hold identity models, genuine references and failed/accepted controls | Regional routing/text and the newer [visually rejected UMO pair](group-umo-visual-rejection-2026-09-21.md) are closed for their tested recipes. Higher likeness diagnostics do not repair proportions or integration. No further sweep, model download or new character training follows from this correction or cleanup. |
 | VOSR | Completed study; retain 6.494 GiB for local reproducibility | The [completed enhancement study](../work/fast-detail-20260903/RESULTS.md) did not justify promotion. Preserve results; do not repeat the same enhancement recipe. |
 | USO / WithAnyone 1.0 / PuLID | Tested routes closed; installed assets retained | [Screening results](identity-candidate-screening.md) establish bounded rejection, not failure of every future model/version. [Dependency audit](../work/final-validation-20260921/DISPOSITION.md) found installed optional PuLID/core USO consumers and historical runners. Retain unique assets/shared encoders; dormant does not mean redundant. |
 | St. Barts final image | Keep final PNG, original, masks, background and composition code | [Exact-foreground correction](../work/st-barts-exact-foreground-20260920/RESULT.md) is complete for pose preservation with qualified likeness. [Actual gallery interaction passed](../work/st-barts-gallery-check-20260921/RESULT.md); text-conditioned generation does not inherit exact pose preservation. |
@@ -150,6 +151,22 @@ the [verification receipt](../local/high-mirrorppr-gate-20260921/verification.js
 records SHA256 readback of every entry in the 209,263-byte archive. Original evidence,
 all 20 unique candidate weights (about 55.595 GiB) and installed dependencies remain.
 There was no generation, installation or deletion. This is same-drive recovery only.
+
+The UMO trial adds one pretrained adapter, kept in raw and author-equivalent converted
+forms under `work/group-umo-gate-20260921/models`. All20 earlier unique weights remain;
+the two new serializations add1.218GiB. The source/load gate and first image are preserved
+in `local/group-umo-pilot-20260921/evidence.zip`; its
+[receipt](../local/group-umo-pilot-20260921/verification.json) verifies66 entries,
+10,451,362source bytes in a9,884,912-byte archive. Model tensors are explicitly excluded
+and retained at their source paths. Originals remain, with no production installation,
+new training, upload or deletion. This remains same-drive evidence recovery only.
+
+The sole UMO image-guidance refinement is preserved separately in
+`local/group-umo-guidance3-20260921/evidence.zip`; its
+[receipt](../local/group-umo-guidance3-20260921/verification.json) verifies35 entries,
+9,452,728 source bytes in a9,340,508-byte archive, and verifies the parent archive hash.
+Both private4070 workers are stopped. This supplement adds no model weights and deletes
+nothing; neither image is promoted and neither unresolved feature is marked complete.
 
 ## Gallery baseline reconciliation
 

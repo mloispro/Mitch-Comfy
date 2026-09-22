@@ -55,6 +55,7 @@ Model/reference paths, roles and shared code are in [ARCHITECTURE](ARCHITECTURE.
 | Group masked pilot | Runtime completed; reduced bystander similarity but failed main likeness and partial fifth-person preservation | [0.90 result](../workflows/experiments/group-masked-pilot-resume-20260908/ROOT-RESULT.md) |
 | Group sole strength refinement | 1.10 improved centroid to .5557 but weakest genuine comparison .4005 and partial-person preservation still failed; rejected, no further strength grid | [1.10 result](../workflows/experiments/group-masked-strength110-20260908/ROOT-RESULT.md) |
 | Group dual-context routing | First image improves main centroid .636146 but adds a head and misses the fixed reference floor. The sole separate-scene-text refinement removes the head, but breaks leg/table geometry and lowers minimum to.452120. Both rejected; no production change | [Original routing/image proof](../work/group-dual-context-pilot-20260921/RESULT.md), [completed text refinement](../work/group-region-text-pilot-20260921/RESULT.md) |
+| Group trained UMO edit | User rejects the oversized-looking head and unnatural, pasted-on face. Both images fail proportion/integration independently of their scores; the initial image should have stopped the trial. Earlier favorable geometry wording is superseded; this pair is closed | [Authoritative visual correction](group-umo-visual-rejection-2026-09-21.md), [initial trial](../work/group-umo-pilot-20260921/RESULT.md), [sole refinement and exact replay](../work/group-umo-guidance3-20260921/RESULT.md) |
 | Upgrade second genuine source | Balcony/white-shirt val05 qualified pass: .787830 centroid, .022217 source loss, 1.188 degrees pose drift, closed lips; source excluded from five genuine comparisons. Some smoothing/regenerated detail remains; no universal enhancement or stronger High | [September 21 result](../work/upgrade-generalization-20260921/RESULT.md) |
 | Production Speed integration | All three normal Run-button jobs completed: Cocktail24.829s, source-preserving Upgrade18.668s and Lounge209.141s. These are single integration observations, not new matched speed gains. See the release for separate visual/likeness acceptance | [Rollout results](../work/production-speed-rollout/RESULTS.md), [operating guide](production-speed.md) |
 | Group Lounge acceleration | Three matched 3090 pairs took 24.5–26.2% less worker time, about 4m32s to 3m24s. Now also installed as a separate normal-worker Speed workflow; its new image exactly matches the accepted cached seed. Small clothing details can change versus uncached. No improved-identity or general-scene claim | [Matched results](../work/group-cache-20260909/RESULTS.md), [normal-worker rollout](../work/production-speed-rollout/RESULTS.md) |
@@ -118,6 +119,18 @@ All three prior diagnostic records replay exactly; the owned worker is stopped a
 new evidence archived. No new models, training or deletion. This closes the tested
 asymmetric-routing/text recipe; another proposal needs a distinct supported mechanism
 for coherent body/scene geometry and likeness, not another prompt/strength/seed sweep.
+
+The trained [UMO whole-image route](../work/group-umo-guidance3-20260921/RESULT.md)
+completed two ordinary-node4070 images. Mitch's [visual rejection](group-umo-visual-rejection-2026-09-21.md)
+is decisive: the head looks oversized and the face looks unnatural and pasted onto
+the scene. The assistant's earlier reviews understated these failures and should
+have stopped after the first image. Improved likeness diagnostics, continuous legs
+and a restored glass do not make either photograph usable. Both also fail the same
+held-out reference floor. Runtime and exact scoring replays remain recorded evidence,
+not photo acceptance. Both private workers are stopped, evidence is archived, and
+production is unchanged. Keep the20 earlier unique weights plus the UMO adapter's
+two serializations (1.218GiB); no deletion or further sweep follows. General Group
+and High remain unresolved.
 
 A subsequent [PerformRecast zero-motion check](../work/high-performrecast-gate-20260921/RESULT.md)
 completed on the idle3090 using the released203-point alignment and512px appearance
