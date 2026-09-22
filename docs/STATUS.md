@@ -56,7 +56,7 @@ Model/reference paths, roles and shared code are in [ARCHITECTURE](ARCHITECTURE.
 | Group sole strength refinement | 1.10 improved centroid to .5557 but weakest genuine comparison .4005 and partial-person preservation still failed; rejected, no further strength grid | [1.10 result](../workflows/experiments/group-masked-strength110-20260908/ROOT-RESULT.md) |
 | Group dual-context routing | First image improves main centroid .636146 but adds a head and misses the fixed reference floor. The sole separate-scene-text refinement removes the head, but breaks leg/table geometry and lowers minimum to.452120. Both rejected; no production change | [Original routing/image proof](../work/group-dual-context-pilot-20260921/RESULT.md), [completed text refinement](../work/group-region-text-pilot-20260921/RESULT.md) |
 | Group trained UMO edit | User rejects the oversized-looking head and unnatural, pasted-on face. Both images fail proportion/integration independently of their scores; the initial image should have stopped the trial. Earlier favorable geometry wording is superseded; this pair is closed | [Authoritative visual correction](group-umo-visual-rejection-2026-09-21.md), [initial trial](../work/group-umo-pilot-20260921/RESULT.md), [sole refinement and exact replay](../work/group-umo-guidance3-20260921/RESULT.md) |
-| Qwen 2.1 investigation | New source/conditioning path traced; isolated CPU API exposes required nodes. No weights, GPU inference or image. This does not establish a fix for proportions or face integration; private worker stopped | [Compatibility evidence and limits](qwen21-compatibility-gate-2026-09-21.md) |
+| Qwen 2.1 Group pilot | One isolated3090 image completes in35.921s but fails native/thumbnail face integration: flat, muted facial lighting remains separate from the group. Rejected before scoring; no refinement. Worker stopped, three verified weights retained | [Completed result](../work/group-qwen21-pilot-20260921/RESULT.md), [visual rejection](../work/group-qwen21-pilot-20260921/VISUAL-REVIEW.md), [earlier compatibility gate](qwen21-compatibility-gate-2026-09-21.md) |
 | Upgrade second genuine source | Balcony/white-shirt val05 qualified pass: .787830 centroid, .022217 source loss, 1.188 degrees pose drift, closed lips; source excluded from five genuine comparisons. Some smoothing/regenerated detail remains; no universal enhancement or stronger High | [September 21 result](../work/upgrade-generalization-20260921/RESULT.md) |
 | Production Speed integration | All three normal Run-button jobs completed: Cocktail24.829s, source-preserving Upgrade18.668s and Lounge209.141s. These are single integration observations, not new matched speed gains. See the release for separate visual/likeness acceptance | [Rollout results](../work/production-speed-rollout/RESULTS.md), [operating guide](production-speed.md) |
 | Group Lounge acceleration | Three matched 3090 pairs took 24.5–26.2% less worker time, about 4m32s to 3m24s. Now also installed as a separate normal-worker Speed workflow; its new image exactly matches the accepted cached seed. Small clothing details can change versus uncached. No improved-identity or general-scene claim | [Matched results](../work/group-cache-20260909/RESULTS.md), [normal-worker rollout](../work/production-speed-rollout/RESULTS.md) |
@@ -135,6 +135,15 @@ aspect-ratio stretch in the inspected input path, and identifies no admitted rep
 Keep the20 earlier unique weights plus the UMO adapter's
 two serializations (1.218GiB); no deletion or further sweep follows. General Group
 and High remain unresolved.
+
+The subsequent [Qwen2.1 first-image pilot](../work/group-qwen21-pilot-20260921/RESULT.md)
+uses a different grounded-vision/latent architecture and completes runtime, but its
+raw main face still fails lighting/integration at native and thumbnail sizes.
+Better retained scene texture does not accept the photograph. The trial stops
+before scoring or a second image. Three isolated full-hash-verified weights add
+16.10GiB; keep them and the completed evidence. The generation worker and narrow
+local review server are stopped. No public update, training, upload or deletion;
+neither general Group nor stronger High is completed by this result.
 
 A subsequent [PerformRecast zero-motion check](../work/high-performrecast-gate-20260921/RESULT.md)
 completed on the idle3090 using the released203-point alignment and512px appearance
