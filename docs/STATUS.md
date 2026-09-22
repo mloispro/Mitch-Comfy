@@ -128,7 +128,10 @@ have stopped after the first image. Improved likeness diagnostics, continuous le
 and a restored glass do not make either photograph usable. Both also fail the same
 held-out reference floor. Runtime and exact scoring replays remain recorded evidence,
 not photo acceptance. Both private workers are stopped, evidence is archived, and
-production is unchanged. Keep the20 earlier unique weights plus the UMO adapter's
+production is unchanged. An [offline diagnosis](group-umo-failure-diagnosis-2026-09-21.md)
+locates enlargement and rendering failure in the raw images, confirms no direct
+aspect-ratio stretch in the inspected input path, and identifies no admitted repair.
+Keep the20 earlier unique weights plus the UMO adapter's
 two serializations (1.218GiB); no deletion or further sweep follows. General Group
 and High remain unresolved.
 

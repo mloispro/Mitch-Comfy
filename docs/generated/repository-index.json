@@ -3,7 +3,7 @@
   "counts": {
     "code": 1802,
     "configuration/workflow": 42,
-    "document": 531,
+    "document": 532,
     "test": 200
   },
   "files": [
@@ -3408,7 +3408,7 @@
       "path": "docs/DECISIONS.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "713602914fde0fa5ad1126851b1582965726ffe3fc24e45fc0e186a605074fd8",
+      "sha256_text": "b45af09b1370d9f2ac5c7406d512f77bdea129664e2c8ccc8721e1af82a76c9c",
       "lines": 102,
       "title": "Results that should guide the next change"
     },
@@ -3432,7 +3432,7 @@
       "path": "docs/OPTIMIZATION.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "438d4e25c9fa2882599ab962c4f3fd5708c7872f8f745e624f7c5f01524a0d65",
+      "sha256_text": "bdc7424741a1558890de0384e252fb8ca2b26ce0a2802beb38bb948d55bcdfcd",
       "lines": 64,
       "title": "Where the next unit of work can help most"
     },
@@ -3456,8 +3456,8 @@
       "path": "docs/STATUS.md",
       "kind": "document",
       "scope": "project",
-      "sha256_text": "b2091868b63a00ae998c35583ddf1abf9b93c3af9e9c0a87422d5afd362c2d77",
-      "lines": 187,
+      "sha256_text": "6e29a3ca9caf142771807931681b20b3f2894155e7231aaa83b2b93be8eff0b1",
+      "lines": 190,
       "title": "Current project status"
     },
     {
@@ -3707,6 +3707,14 @@
       "sha256_text": "80d41f42bc63da1c12eac3c7288daf05eff412bb0f3c12ca58d33755e3813b74",
       "lines": 115,
       "title": "FLUX.2 no-LoRA strong-identity street v1 — 2026-08-24"
+    },
+    {
+      "path": "docs/group-umo-failure-diagnosis-2026-09-21.md",
+      "kind": "document",
+      "scope": "project",
+      "sha256_text": "422ac90d9aa667a570db89cfbc8f031c18df0eedff64cb9581b7a554b1a187e9",
+      "lines": 111,
+      "title": "UMO Group: locate the proportion and rendering failure"
     },
     {
       "path": "docs/group-umo-visual-rejection-2026-09-21.md",
