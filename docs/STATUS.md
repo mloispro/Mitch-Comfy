@@ -81,6 +81,14 @@ operation use the new [Production Speed guide](production-speed.md); the old fil
 
 ## Unresolved work and constraints
 
+The [remaining quality gate](remaining-quality-gate-2026-09-21.md) identifies no
+qualified next image among the reviewed routes. High needs an admitted driving
+target or a supported full-task editor; Group needs new evidence addressing
+identity, proportions and photographic integration together. A newer genuine-photo
+folder has been requested for review, without claiming it will fix either feature.
+The old Krea retouch preparation label is superseded by its completed rejection.
+No experiment is waiting for GPU capacity; the full goal remains unfinished.
+
 The September 21 [cleanup](CLEANUP.md) retains every unresolved route, installed model
 and unique candidate weight. Dependency review and fresh full hashes cleared twelve
 redundant staging copies for removal, recovering about 61.6 GiB; restoration paths

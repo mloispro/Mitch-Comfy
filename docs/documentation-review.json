@@ -46,8 +46,8 @@
     }
   },
   "docs/STATUS.md": {
-    "reviewed_at_utc": "2026-09-22T01:20:05.932950+00:00",
-    "note": "Reviewed Qwen native PNG periodic measurements and VAE-only 4070 source reconstruction. Same saved BF16-encoded latent, actual BF16 and FP32 decoder parameters, pre-save and PNG results, no diffusion/filter, terminal process verification and 18-entry archive readback. Precision hypothesis closed; identity/integration failures remain unresolved.",
+    "reviewed_at_utc": "2026-09-22T01:23:19.405535+00:00",
+    "note": "Resolved stale Krea not-queued preparation against completed evaluation, visually reopened comparison and verified candidate plus five execution hashes. Checked current author v1.2 card/nodes and consolidated remaining High/Group input or mechanism gates without admitting a new image or claiming completion.",
     "sources": {
       "config/dependencies.lock.json": "cd95792978a3b90cf92216a8b07ba5cf0b634539ae3512e88ca86e29e91c920c",
       "config/frozen-baselines.json": "3241642620e126efdd308428fab596b5a52388de84145df7b035e3b7971b85c9",
@@ -62,9 +62,10 @@
       "docs/high-group-gate-2026-09-21.md": "5a7929e78444d5bd08d525d4f148ff5f30daebf57fe43ebb59247811bc3f70e8",
       "docs/lora-cleanup-2026-09-01.md": "b02a50087a5d498b54a75f3ae99278ec1a1556c30ae054a45ddc95dfc0659f37",
       "docs/qwen21-compatibility-gate-2026-09-21.md": "e51ee2a91e50b22d9f7d5f3e5d9a13435cf64ee3d97b2b613cd83275fb470764",
+      "docs/remaining-quality-gate-2026-09-21.md": "5c8579c6b097f9d002a79b902b00b2d0116e15b7db2879836fc0f177e9fea18f",
       "docs/solo-cocktail-comparison-2026-09-21.md": "1db6f6b3445a521436cfad3c65ee5e7f30e58f36fda15e2311d765a3deeb8773",
       "docs/STATUS-history-before-doc-rebuild-2026-09-09.md": "cb76ef64f37b2418b41ad1d7fc0e23a555212bc2c89925cc2b77d1d12be2d81c",
-      "docs/STATUS.md": "c447585fd1e1a59f4eb4dbc3bf5b69bd61947e2c04ecdffae0f47142585b5a72",
+      "docs/STATUS.md": "b542c79a2774577d94ae4d6baedbae536147d1af6d6ce559195c6ed12e62d1d2",
       "local/group-qwen21-pilot-20260921/verification.json": "92a78a52b992d3a52ebf72dd3c4549e86749b63518808bb19b523cb59bfe32ad",
       "local/group-umo-guidance3-20260921/verification.json": "f65267385e275267512e05b892c70a081c888f53b57b1baffefe4ac94b12ff15",
       "local/group-umo-pilot-20260921/verification.json": "b50ff8c2247ee306c713843ba96912039e5559652d4d9bc9b9faebb5b610756a",
@@ -504,19 +505,20 @@
     }
   },
   "docs/DECISIONS.md": {
-    "reviewed_at_utc": "2026-09-22T01:20:06.066457+00:00",
-    "note": "Reviewed Qwen native PNG periodic measurements and VAE-only 4070 source reconstruction. Same saved BF16-encoded latent, actual BF16 and FP32 decoder parameters, pre-save and PNG results, no diffusion/filter, terminal process verification and 18-entry archive readback. Precision hypothesis closed; identity/integration failures remain unresolved.",
+    "reviewed_at_utc": "2026-09-22T01:23:19.536854+00:00",
+    "note": "Resolved stale Krea not-queued preparation against completed evaluation, visually reopened comparison and verified candidate plus five execution hashes. Checked current author v1.2 card/nodes and consolidated remaining High/Group input or mechanism gates without admitting a new image or claiming completion.",
     "sources": {
       ".ignore": "b99f8dadcf8eeb0964c1d167448271b8c6529839d95166b7aca4b67bb886e2c8",
       "archive/klein9b-upgrade-reference-policy/flux2_klein9b_upgrade_reference_policy.py": "deda61abcbdeecc148993a707cea30b05db696317dad490f59b4be31ebe2c7dc",
       "archive/klein9b-upgrade-reference-policy/test_flux2_klein9b_upgrade_reference_policy.py": "44c9236ef82f753135020c09ed7050684d5893b6df1e9ea410137b2891835925",
       "custom_nodes/ComfyUI-AIToolkit-Training/test_flux2_klein9b_photo_realism_upgrade_reporting.py": "2b7c2d8bb0df96d2ff23730634f7838192c8e0a7b0ab952c91bd91c315a6249a",
-      "docs/DECISIONS.md": "44dc424f24ed688a7c01947e65462814854383749d4504b4f3772f0e54871ee5",
+      "docs/DECISIONS.md": "9fcc5b01c6fb92966794c23304ba65291324f662360db847ce3e9265ee85b8bf",
       "docs/group-umo-failure-diagnosis-2026-09-21.md": "422ac90d9aa667a570db89cfbc8f031c18df0eedff64cb9581b7a554b1a187e9",
       "docs/group-umo-visual-rejection-2026-09-21.md": "44f9a888df2daa37d15c43c58bac01eef21e2e5d5e5559618f8a824bf2f2f37c",
       "docs/high-group-gate-2026-09-21.md": "5a7929e78444d5bd08d525d4f148ff5f30daebf57fe43ebb59247811bc3f70e8",
       "docs/identity-candidate-screening.md": "ca39f4d2b39a05370fadf541a2f5b5b7e489051c62f71a4e674caa863eab22d0",
       "docs/qwen21-compatibility-gate-2026-09-21.md": "e51ee2a91e50b22d9f7d5f3e5d9a13435cf64ee3d97b2b613cd83275fb470764",
+      "docs/remaining-quality-gate-2026-09-21.md": "5c8579c6b097f9d002a79b902b00b2d0116e15b7db2879836fc0f177e9fea18f",
       "docs/solo-cocktail-comparison-2026-09-21.md": "1db6f6b3445a521436cfad3c65ee5e7f30e58f36fda15e2311d765a3deeb8773",
       "docs/STATUS-history-before-doc-rebuild-2026-09-09.md": "cb76ef64f37b2418b41ad1d7fc0e23a555212bc2c89925cc2b77d1d12be2d81c",
       "docs/upgrade-background-detail-research-2026-09-04.md": "d4cd1d6484df4f55c58b8c5e558b6dea5d3e305ee92e42e48314c49f2e3e081d",
@@ -540,6 +542,7 @@
       "work/9b-readiness-20260903/evaluation/feature-reuse-coverage/RESULTS.md": "ecaffba0eb26aa8006b2e0cdf1589c11184f821f49e9eb4473771dc9a200a23d",
       "work/9b-readiness-20260903/evaluation/feature-reuse-pilot/RESULTS.md": "94161ede072eda55b25f3a79357efa6e4ca847c5699daf2b34614002734c9102",
       "work/9b-readiness-20260903/REASSESSMENT-20260904.md": "6858d676fd3cc0b89cab164cb3e659e33fa03c12cba4cee0045cbc8b2ade5e58",
+      "work/9b-readiness-20260903/upgrade-research/evaluation/README.md": "b951cc674d6de07bd7e0496ae5fd37634cbe08a5b310287ac56c87dbc9bac1d5",
       "work/9b-readiness-resume-20260907/COVERAGE-MATRIX.md": "ac8550573a84dff911095de3f3c8f64d03c87cf3ed80b3b3bad94bd235e484bb",
       "work/9b-readiness-resume-20260907/lato-compat/ROOT-FINAL-PREDICTOR-RESULT.md": "baae727d35ecd4dcc35b8dbba8b0c7a58fcdfc8abb181ae20416b21ba73752ad",
       "work/9b-readiness-resume-20260907/public-cocktail-parity/ROOT-RESULT.md": "82813e27e91fe6c40b4ad6150d12293d489f503710082fced5dca0f1e2cac478",
@@ -800,13 +803,14 @@
     }
   },
   "docs/OPTIMIZATION.md": {
-    "reviewed_at_utc": "2026-09-22T01:20:06.179456+00:00",
-    "note": "Reviewed Qwen native PNG periodic measurements and VAE-only 4070 source reconstruction. Same saved BF16-encoded latent, actual BF16 and FP32 decoder parameters, pre-save and PNG results, no diffusion/filter, terminal process verification and 18-entry archive readback. Precision hypothesis closed; identity/integration failures remain unresolved.",
+    "reviewed_at_utc": "2026-09-22T01:23:19.653899+00:00",
+    "note": "Resolved stale Krea not-queued preparation against completed evaluation, visually reopened comparison and verified candidate plus five execution hashes. Checked current author v1.2 card/nodes and consolidated remaining High/Group input or mechanism gates without admitting a new image or claiming completion.",
     "sources": {
       "docs/group-umo-failure-diagnosis-2026-09-21.md": "422ac90d9aa667a570db89cfbc8f031c18df0eedff64cb9581b7a554b1a187e9",
       "docs/group-umo-visual-rejection-2026-09-21.md": "44f9a888df2daa37d15c43c58bac01eef21e2e5d5e5559618f8a824bf2f2f37c",
       "docs/high-group-gate-2026-09-21.md": "5a7929e78444d5bd08d525d4f148ff5f30daebf57fe43ebb59247811bc3f70e8",
-      "docs/OPTIMIZATION.md": "1b93d76c3821efdace552e668ef56ee9af4b625949dc8fe12cc6e17bcfdb1d90",
+      "docs/OPTIMIZATION.md": "412d8f31113d2359b4c9fca33d1b524f88915d398bfa592d6a772aa0772b6476",
+      "docs/remaining-quality-gate-2026-09-21.md": "5c8579c6b097f9d002a79b902b00b2d0116e15b7db2879836fc0f177e9fea18f",
       "docs/solo-cocktail-comparison-2026-09-21.md": "1db6f6b3445a521436cfad3c65ee5e7f30e58f36fda15e2311d765a3deeb8773",
       "local/group-qwen21-pilot-20260921/verification.json": "92a78a52b992d3a52ebf72dd3c4549e86749b63518808bb19b523cb59bfe32ad",
       "local/group-umo-guidance3-20260921/verification.json": "f65267385e275267512e05b892c70a081c888f53b57b1baffefe4ac94b12ff15",

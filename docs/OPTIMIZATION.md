@@ -3,6 +3,11 @@
 Priorities inferred from the local code and completed evidence. They are proposals, not new benchmark
 results or permission to restart experiments. [STATUS](STATUS.md) records unresolved work.
 
+The [current admission review](remaining-quality-gate-2026-09-21.md) found no
+qualified next image in the inspected routes. Resolve a concrete input/release
+gate before building another experiment; do not rerun the already-completed Krea
+retouch because its frozen preparation README predates the rejection.
+
 | Priority | Candidate | Why it deserves attention | Smallest useful acceptance check |
 | --- | --- | --- | --- |
 | First image rejected; decoder precision hypothesis closed | Qwen2.1 single-source High | [Completed test](../work/high-qwen21-pilot-20260921/RESULT.md) fails native texture and facial character. [VAE-only diagnosis](../work/qwen21-codec-diagnosis-20260921/RESULT.md) reproduces the lattice without diffusion and finds no meaningful reduction from FP32 decoding of the same latent | Do not rerun generation for an FP32-VAE or save-node switch. A future approach must retain natural identity as well as address rendering; filtering alone cannot repair the separate facial-character/Group-integration failures. No prompt/seed/guidance/repair sweep |
