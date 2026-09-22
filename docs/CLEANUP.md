@@ -15,6 +15,7 @@ records the completed validation/disposition pass and its remaining feature limi
 
 | Route | Disposition | Next useful action / stopping point |
 | --- | --- | --- |
+| Qwen 2.1 compatibility investigation | Keep source/schema evidence and isolated reproducible runtime; no new model weights | [Source and CPU API check](qwen21-compatibility-gate-2026-09-21.md) is complete and its worker stopped. No image acceptance or dependency deletion follows. The proposed 16.10 GiB of weights has not been downloaded. |
 | Original production and the three Production Speed workflows | Keep all dependencies and saved fallbacks | The [Speed release](../work/production-speed-rollout/RESULTS.md) is complete for its three recipes. Do not rerun its confirmation pairs as unfinished work. |
 | Solo public presets | Source comparison complete; retain controls and use accepted Speed Cocktail for its exact case | [Comparison](solo-cocktail-comparison-2026-09-21.md) found differences in references, surrounding prompt and diffusion precision, without isolating the cause. No blanket original-card fix follows. Other scenes retain their [coverage qualifications](../work/9b-readiness-resume-20260907/COVERAGE-MATRIX.md). |
 | Source-preserving Upgrade | Second genuine-source check complete; retain both controls and new result | [Balcony test](../work/upgrade-generalization-20260921/RESULT.md) passes the fixed visual/source-excluded gates. Coverage is now two genuine photos, not universal enhancement or stronger High. |
