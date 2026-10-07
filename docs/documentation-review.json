@@ -505,14 +505,14 @@
     }
   },
   "docs/DECISIONS.md": {
-    "reviewed_at_utc": "2026-09-22T01:23:19.536854+00:00",
-    "note": "Resolved stale Krea not-queued preparation against completed evaluation, visually reopened comparison and verified candidate plus five execution hashes. Checked current author v1.2 card/nodes and consolidated remaining High/Group input or mechanism gates without admitting a new image or claiming completion.",
+    "reviewed_at_utc": "2026-09-27T18:55:07.682074+00:00",
+    "note": "Reviewed the September 27 LLaDA prospective mechanism, exact native edit graph, full checkpoint hash, 19 author compatibility checks, completed one-image worker timing, raw/native and thumbnail visual rejection, five-reference source-excluded diagnostics, and owned-worker shutdown. Added the bounded rejection without changing earlier recipe conclusions.",
     "sources": {
       ".ignore": "b99f8dadcf8eeb0964c1d167448271b8c6529839d95166b7aca4b67bb886e2c8",
       "archive/klein9b-upgrade-reference-policy/flux2_klein9b_upgrade_reference_policy.py": "deda61abcbdeecc148993a707cea30b05db696317dad490f59b4be31ebe2c7dc",
       "archive/klein9b-upgrade-reference-policy/test_flux2_klein9b_upgrade_reference_policy.py": "44c9236ef82f753135020c09ed7050684d5893b6df1e9ea410137b2891835925",
       "custom_nodes/ComfyUI-AIToolkit-Training/test_flux2_klein9b_photo_realism_upgrade_reporting.py": "2b7c2d8bb0df96d2ff23730634f7838192c8e0a7b0ab952c91bd91c315a6249a",
-      "docs/DECISIONS.md": "9fcc5b01c6fb92966794c23304ba65291324f662360db847ce3e9265ee85b8bf",
+      "docs/DECISIONS.md": "a62539d101c61e162c33d22a5d44a60edccd5c8715de3a608460323878c12f16",
       "docs/group-umo-failure-diagnosis-2026-09-21.md": "422ac90d9aa667a570db89cfbc8f031c18df0eedff64cb9581b7a554b1a187e9",
       "docs/group-umo-visual-rejection-2026-09-21.md": "44f9a888df2daa37d15c43c58bac01eef21e2e5d5e5559618f8a824bf2f2f37c",
       "docs/high-group-gate-2026-09-21.md": "5a7929e78444d5bd08d525d4f148ff5f30daebf57fe43ebb59247811bc3f70e8",
@@ -758,6 +758,9 @@
       "work/high-qwen21-pilot-20260921/submission.json": "3fb21c8f6f2266c6fe0b67ae6a92e22fa80b860bc008ec4710d0729794ad2011",
       "work/high-qwen21-pilot-20260921/validate_cpu.py": "4dc17def7a3711a3077bb44b4855d586a0b2540216717fb17db292c107bda23d",
       "work/high-qwen21-pilot-20260921/VISUAL-REVIEW.md": "305b0db5a519f05082efbcaf05d4ce7d379ec247601e5e6f1b993754ed572f2b",
+      "work/llada-pilot-20260927/PLAN.md": "b4668acd61401318a013e468df956e33eeceec810c30517a32049f9ef0d5342d",
+      "work/llada-pilot-20260927/RESULT.md": "7fe933da1a8977134727a521ba6334a67d167f76b7cbb3144701f7d4762b7765",
+      "work/llada-pilot-20260927/VISUAL-REVIEW.md": "9e77fed98f8921f0de9f4262e52ecd82b3264e91ff8ffbedc90ab296507f5742",
       "work/production-speed-rollout/RESULTS.md": "07f249aff3f393cfce279e867f010e2848f46cbcaea1ef6989a0de29b85cdd7f",
       "work/qwen21-codec-diagnosis-20260921/bf16-result.json": "68d8ac5cdba11a7878f81dee51fd183443b7375939c0d5d05b15985bf1559578",
       "work/qwen21-codec-diagnosis-20260921/codec-admission.json": "44fd8f0bbd6ac3eab26c434c18e613b02afebb3bb4cf5aba285a37b5225a55a7",
